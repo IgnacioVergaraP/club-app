@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Observable, Subject, throwError } from 'rxjs';
-import { finalize, switchMap, takeUntil } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { CartItem, CartSelectionService } from '../../../../services/cart-selection.service';
 import { OrdersService } from '../../../../services/orders/orders.service';
-import { FintocPaymentsService } from '../../../../services/payments/fintoc-payments.service';
 import { FintocRedirectService } from '../../../../services/payments/fintoc-redirect.service';
 
 @Component({
@@ -26,7 +26,6 @@ export class CartSummaryComponent implements OnDestroy {
   constructor(
     private cart: CartSelectionService,
     private orders: OrdersService,
-    private payments: FintocPaymentsService,
     private redirect: FintocRedirectService
   ) {
     this.totalUnits$ = cart.totalUnits$;
@@ -55,22 +54,7 @@ export class CartSummaryComponent implements OnDestroy {
       .sort((a, b) => a.product_id.localeCompare(b.product_id));
     this.busy = true;
     this.error = '';
-    this.orders.prepareOrder(payload).pipe(
-      switchMap(order => {
-        if (order.status !== 'pending_payment' || order.currency !== 'CLP' ||
-            !Number.isSafeInteger(order.total_clp) || order.total_clp <= 0) {
-          return throwError(() => new Error('invalid-order'));
-        }
-        if (!(Date.parse(order.expires_at) - Date.now() >= 10 * 60 * 1000 + 5000)) {
-          this.orders.renewQuote();
-          return throwError(() => new Error('expired-order'));
-        }
-        if (order.total_clp !== estimatedTotal) {
-          this.error = `El total del servidor es ${this.formatPrice(order.total_clp)} y difiere del mostrado. Revisa el pedido en el carrito antes de pagar.`;
-          return throwError(() => new Error('price-changed'));
-        }
-        return this.payments.createHostedSession(order.order_id);
-      }),
+    this.orders.startHostedCheckout(payload, estimatedTotal).pipe(
       takeUntil(this.cancelPayment$),
       takeUntil(this.destroy$),
       finalize(() => { this.busy = this.redirecting; })
@@ -84,10 +68,12 @@ export class CartSummaryComponent implements OnDestroy {
           this.error = 'No se pudo abrir una dirección válida de Fintoc Sandbox. Puedes reintentar.';
         }
       },
-      error: () => {
-        if (!this.error) {
-          this.error = 'No se pudo iniciar el pago con Fintoc. Tu selección se conserva; vuelve a intentarlo.';
-        }
+      error: (error: unknown) => {
+        const code = error instanceof HttpErrorResponse ? error.error?.error : '';
+        if (code === 'quote_expiring' || code === 'order_not_payable') { this.orders.renewQuote(); }
+        this.error = code === 'price_changed'
+          ? 'El total del servidor difiere del mostrado. Revisa el carrito antes de pagar.'
+          : 'No se pudo iniciar el pago con Fintoc. Tu selección se conserva; vuelve a intentarlo.';
       }
     });
   }

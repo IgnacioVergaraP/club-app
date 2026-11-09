@@ -28,132 +28,74 @@ describe('Pago directo desde Tragos', () => {
     fixture = TestBed.createComponent(CartSummaryComponent);
     fixture.detectChanges();
   });
-
   afterEach(() => { fixture.destroy(); http.verify(); });
+  function pending() {
+    return http.expectOne(request => request.url.endsWith('/orders/hosted-checkout'));
+  }
+  function success() { return { mode: 'test', redirect_url: url }; }
 
-  function pendingOrder() {
-    return http.expectOne(request => request.url.endsWith('/orders'));
-  }
-  function pendingSession() {
-    return http.expectOne(request => request.url.endsWith('/hosted-checkout-session'));
-  }
-  function order(overrides = {}) {
-    return { order_id: 'demo-order', status: 'pending_payment', currency: 'CLP',
-      total_clp: product.priceClp, expires_at: new Date(Date.now() + 15 * 60000).toISOString(),
-      ...overrides };
-  }
-
-  it('un clic prepara el pedido y abre Fintoc sin pasar por carrito ni checkout', () => {
+  it('un clic abre Fintoc mediante una única solicitud con IDs, cantidades y total mostrado', () => {
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
-    expect(button.textContent).toContain('Pagar con Fintoc');
-    button.click();
-    fixture.detectChanges();
-    expect(button.disabled).toBeTrue();
-    fixture.componentInstance.pay();
-    const request = pendingOrder();
-    expect(request.request.body).toEqual({ items: [{ product_id: product.id, quantity: 1 }] });
-    request.flush(order());
-    fixture.componentInstance.pay();
-    const session = pendingSession();
-    expect(session.request.body).toEqual({ order_id: 'demo-order' });
-    expect(redirect.open).not.toHaveBeenCalled();
-    session.flush({ mode: 'test', redirect_url: url });
+    button.click(); fixture.detectChanges();
+    expect(button.disabled).toBeTrue(); fixture.componentInstance.pay();
+    const request = pending();
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({ items: [{ product_id: product.id, quantity: 1 }], expected_total_clp: product.priceClp });
+    expect(request.request.headers.has('Idempotency-Key')).toBeTrue();
+    request.flush(success());
     expect(redirect.open).toHaveBeenCalledOnceWith(url);
-    expect(fixture.componentInstance.busy).toBeTrue();
-    fixture.componentInstance.pay();
+    expect(fixture.componentInstance.busy).toBeTrue(); fixture.componentInstance.pay();
     expect(cart.getQuantity(product.id)).toBe(1);
+    http.expectNone(request => request.method === 'POST');
   });
-
-  it('no crea pedidos con selección vacía', () => {
+  it('no solicita pagos con selección vacía', () => {
     cart.clear(); fixture.detectChanges(); fixture.componentInstance.pay();
     expect(fixture.nativeElement.querySelector('button')).toBeNull();
     http.expectNone(request => request.method === 'POST');
   });
-
-  it('conserva la clave y selección al reintentar un fallo del pedido', () => {
-    fixture.componentInstance.pay();
-    const first = pendingOrder();
+  it('conserva clave y selección al reintentar un fallo', () => {
+    fixture.componentInstance.pay(); const first = pending();
     const key = first.request.headers.get('Idempotency-Key');
-    first.flush({}, { status: 503, statusText: 'Unavailable' });
-    fixture.detectChanges();
+    first.flush({}, { status: 503, statusText: 'Unavailable' }); fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('[role=alert]').textContent).toContain('selección se conserva');
-    expect(fixture.componentInstance.busy).toBeFalse();
-    fixture.componentInstance.pay();
-    const retry = pendingOrder();
+    fixture.componentInstance.pay(); const retry = pending();
     expect(retry.request.headers.get('Idempotency-Key')).toBe(key);
-    retry.flush(order()); pendingSession().flush({ mode: 'test', redirect_url: url });
+    retry.flush(success());
   });
-
-  it('reintenta la misma orden si falla la sesión Fintoc', () => {
-    fixture.componentInstance.pay(); const first = pendingOrder();
-    const key = first.request.headers.get('Idempotency-Key');
-    first.flush(order());
-    pendingSession().flush({}, { status: 503, statusText: 'Unavailable' });
-    expect(fixture.componentInstance.busy).toBeFalse();
-    fixture.componentInstance.pay(); const retry = pendingOrder();
-    expect(retry.request.headers.get('Idempotency-Key')).toBe(key);
-    retry.flush(order()); pendingSession().flush({ mode: 'test', redirect_url: url });
-    expect(redirect.open).toHaveBeenCalledOnceWith(url);
-  });
-
-  it('detiene el pago si el total del servidor difiere del mostrado', () => {
-    fixture.componentInstance.pay(); pendingOrder().flush(order({ total_clp: product.priceClp + 500 }));
-    http.expectNone(request => request.url.endsWith('/hosted-checkout-session'));
-    expect(redirect.open).not.toHaveBeenCalled();
-    fixture.detectChanges();
+  it('muestra diferencia de precio sin redirigir y permite revisar carrito', () => {
+    fixture.componentInstance.pay(); pending().flush({ error: 'price_changed' }, { status: 409, statusText: 'Conflict' });
+    fixture.detectChanges(); expect(redirect.open).not.toHaveBeenCalled();
     expect(fixture.nativeElement.querySelector('[role=alert]').textContent).toContain('difiere');
     expect(fixture.nativeElement.querySelector('a').getAttribute('href')).toBe('/carrito');
   });
-
-  it('renueva la clave en el siguiente intento si la cotización está por vencer', () => {
-    fixture.componentInstance.pay(); const first = pendingOrder();
-    const key = first.request.headers.get('Idempotency-Key');
-    first.flush(order({ expires_at: new Date(Date.now() + 60000).toISOString() }));
-    http.expectNone(request => request.url.endsWith('/hosted-checkout-session'));
-    fixture.componentInstance.pay(); const retry = pendingOrder();
-    expect(retry.request.headers.get('Idempotency-Key')).not.toBe(key);
-    retry.flush(order()); pendingSession().flush({ mode: 'test', redirect_url: url });
-  });
-
-  it('rechaza pedidos cancelados, importes inválidos y vencimientos inválidos', () => {
-    for (const invalid of [{ status: 'cancelled' }, { currency: 'USD' }, { total_clp: 0 },
-      { total_clp: 1.5 }, { expires_at: 'invalid' }]) {
-      fixture.componentInstance.pay(); pendingOrder().flush(order(invalid));
-      expect(fixture.componentInstance.busy).toBeFalse();
+  it('renueva clave tras cotización vencida o por vencer', () => {
+    for (const code of ['quote_expiring', 'order_not_payable']) {
+      fixture.componentInstance.pay(); const first = pending();
+      const key = first.request.headers.get('Idempotency-Key');
+      first.flush({ error: code }, { status: 409, statusText: 'Conflict' });
+      fixture.componentInstance.pay(); const retry = pending();
+      expect(retry.request.headers.get('Idempotency-Key')).not.toBe(key);
+      retry.flush({}, { status: 503, statusText: 'Unavailable' });
     }
-    http.expectNone(request => request.url.endsWith('/hosted-checkout-session'));
-    expect(redirect.open).not.toHaveBeenCalled();
   });
-
-  it('cancela pedidos o sesiones en curso si cambia la selección', () => {
-    fixture.componentInstance.pay(); const first = pendingOrder();
-    cart.increment(product);
-    expect(first.cancelled).toBeTrue();
-    fixture.componentInstance.pay(); pendingOrder().flush(order({ total_clp: 2 * product.priceClp }));
-    const session = pendingSession(); cart.decrement(product.id);
-    expect(session.cancelled).toBeTrue();
-    expect(fixture.componentInstance.busy).toBeFalse();
-    expect(redirect.open).not.toHaveBeenCalled();
+  it('cancela la solicitud si cambia la selección', () => {
+    fixture.componentInstance.pay(); const first = pending(); cart.increment(product);
+    expect(first.cancelled).toBeTrue(); expect(fixture.componentInstance.busy).toBeFalse();
+    fixture.componentInstance.pay(); const changed = pending();
+    expect(changed.request.body.items[0].quantity).toBe(2);
+    changed.flush(success()); expect(redirect.open).toHaveBeenCalledOnceWith(url);
   });
-
-  it('no redirige a otro modo y maneja destinos rechazados por el servicio', () => {
-    fixture.componentInstance.pay(); pendingOrder().flush(order());
-    pendingSession().flush({ mode: 'live', redirect_url: url });
+  it('rechaza modo live y maneja destinos rechazados', () => {
+    fixture.componentInstance.pay(); pending().flush({ mode: 'live', redirect_url: url });
     expect(redirect.open).not.toHaveBeenCalled();
-    redirect.open.and.throwError('Destino inválido');
-    fixture.componentInstance.pay(); pendingOrder().flush(order());
-    pendingSession().flush({ mode: 'test', redirect_url: 'https://example.com' });
-    expect(fixture.componentInstance.error).toContain('dirección válida');
+    redirect.open.and.throwError('invalid'); fixture.componentInstance.pay();
+    pending().flush(success()); expect(fixture.componentInstance.error).toContain('dirección válida');
     expect(fixture.componentInstance.busy).toBeFalse();
   });
-
-  it('libera el botón tras timeout y cancela solicitudes al salir de Tragos', fakeAsync(() => {
-    fixture.componentInstance.pay(); const request = pendingOrder(); tick(15001);
-    expect(request.cancelled).toBeTrue();
-    expect(fixture.componentInstance.busy).toBeFalse();
-    fixture.componentInstance.pay(); pendingOrder().flush(order());
-    const session = pendingSession(); fixture.destroy();
-    expect(session.cancelled).toBeTrue();
-    expect(redirect.open).not.toHaveBeenCalled();
+  it('libera botón tras timeout y cancela al salir', fakeAsync(() => {
+    fixture.componentInstance.pay(); const first = pending(); tick(20001);
+    expect(first.cancelled).toBeTrue(); expect(fixture.componentInstance.busy).toBeFalse();
+    fixture.componentInstance.pay(); const second = pending(); fixture.destroy();
+    expect(second.cancelled).toBeTrue(); expect(redirect.open).not.toHaveBeenCalled();
   }));
 });

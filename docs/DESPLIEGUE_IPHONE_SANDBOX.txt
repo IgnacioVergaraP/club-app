@@ -2,7 +2,9 @@ CLUB VOID — Prueba HTTPS desde iPhone
 Fecha: 09-11-2026
 
 DESTINO
-Angular en Vercel. Flask en Render como alternativa preparada (sin publicar aún).
+Angular y Flask en DOS proyectos Vercel del mismo repositorio.
+Alcance actual: observar Apple Pay dentro del checkout alojado de Fintoc.
+Sin base de datos, sin validar pagos completos ni funcionamiento comercial.
 Flujo: Tragos -> Pagar con Fintoc -> checkout alojado de Fintoc -> resultado.
 Apple Pay se elige dentro de Fintoc si está disponible para esa cuenta,
 modalidad, entorno y dispositivo. El despliegue no acredita su habilitación.
@@ -11,28 +13,47 @@ botón insertado en nuestra web; este flujo usa la página alojada por Fintoc.
 
 CONFIGURACIÓN
 1. Subir este proyecto completo a un repositorio privado. No subir .env ni claves.
-2. Crear el proyecto Vercel con Root Directory en la raíz del repositorio,
-   usando vercel.json. Reservar un dominio estable para el frontend.
-3. Crear el backend con render.yaml. En sus variables configurar:
+2. Crear el proyecto frontend con Root Directory=frontend, usando su vercel.json.
+   Reservar el dominio estable que asigna Vercel, aunque el primer build falle
+   mientras falta configurar API_URL. No usar el vercel.json de la raíz para
+   estos dos proyectos separados.
+3. Crear OTRO proyecto Vercel con el mismo repositorio, Root Directory=backend.
+   Framework Flask; usa backend/vercel.json y requirements.txt, sin Gunicorn,
+   sin comando de inicio ni directorio de salida manual. En sus variables:
    FINTOC_SECRET_KEY: clave sk_test_... (solo en el servidor).
    FINTOC_PUBLIC_KEY: clave pk_test_... para conservar Express Checkout existente.
    FINTOC_CHECKOUT_BASE_URL: https://DOMINIO-ESTABLE-DEL-FRONTEND (sin ruta).
    CORS_ORIGINS: ese mismo origen exacto, sin barra final.
-   SECRET_KEY se genera en Render; FLASK_ENV=production desactiva debug.
+   SECRET_KEY: generar un valor aleatorio nuevo (por ejemplo con
+     python3 -c 'import secrets; print(secrets.token_hex(32))').
+   FLASK_ENV=production desactiva debug.
+   FINTOC_SANDBOX_ENABLED=true mantiene las pruebas sin dinero real.
+   Configurar para el entorno Production de Vercel. No copiar comillas ni
+   espacios iniciales de los ejemplos en los valores del panel.
 4. Comprobar https://BACKEND/api/health y /api/products.
-5. En Vercel configurar API_URL=https://BACKEND/api y desplegar.
+5. En el proyecto FRONTEND configurar API_URL=https://BACKEND.vercel.app/api
+   y volver a desplegar. Esa es la única variable necesaria de la API en Angular;
+   no poner claves Fintoc ni SECRET_KEY en el frontend.
    El build falla si falta esta URL o no es HTTPS. No usa localhost en iPhone.
    La compilación genera environment.deploy.ts; no modifica la configuración local.
 6. Si cambia el dominio, actualizar CORS_ORIGINS y FINTOC_CHECKOUT_BASE_URL
-   y reiniciar el backend antes de preparar nuevos pedidos.
+   y volver a desplegar el backend antes de preparar nuevos pedidos.
+7. La API debe poder recibir las llamadas del iPhone. Si Vercel muestra una
+   pantalla de acceso/protección al abrir /api/health, resolver la protección de
+   ese despliegue de prueba antes de probar desde el frontend.
 
 LÍMITES DE ESTA PRUEBA
-Pedidos, intentos y claves de idempotencia viven en memoria: un único worker,
-una única instancia, sin escalado. Un reinicio, redeploy o suspensión del servicio
-puede perder el pedido y su verificación al volver de Fintoc. El plan gratuito
-puede suspender el servicio; hacer la prueba seguida, sin desplegar durante ella.
-El arranque en frío puede superar el timeout del cliente: esperar al health y
-reintentar. Esto no prepara el backend para cobros reales o uso comercial.
+Pedidos, intentos y claves de idempotencia viven en memoria y no se comparten
+entre funciones. Para llegar al checkout, Tragos usa una única solicitud
+POST /api/orders/hosted-checkout que prepara pedido y sesión en la misma
+invocación. El total lo calcula Flask; expected_total_clp solo sirve para
+rechazar una diferencia respecto del importe mostrado por Angular.
+Al regresar de Fintoc, otra instancia puede no encontrar el pedido. No se promete
+verificación ni idempotencia entre instancias o reinicios. Los reintentos siguen
+conservando la clave del cliente, pero otra instancia puede crear otro pedido
+Sandbox. No autorizar un pago para esta prueba visual ni interpretar el retorno
+como éxito. La futura implementación completa requiere almacenamiento compartido.
+Esto no prepara el backend para cobros reales o uso comercial.
 Las claves live siguen rechazadas. No se emiten entradas ni consumos por pagar.
 
 VERIFICACIÓN EN SAFARI / IPHONE
@@ -43,16 +64,28 @@ una tarjeta real en Wallet; seguir los requisitos de prueba de Fintoc/Apple.
 Si no aparece, consultar a Fintoc si la cuenta y el checkout alojado de esta
 versión de API tienen Apple Pay habilitado en Sandbox. No enviar claves secretas.
 La oferta general de Smart Checkout no confirma disponibilidad de esta sesión.
-Al regresar, /checkout/resultado debe abrir sin 404 y consultar el estado al backend.
+Al regresar, /checkout/resultado debe abrir sin 404 de página. La consulta al
+backend puede devolver pedido no encontrado por la memoria efímera de Vercel.
 La URL de retorno por sí sola no confirma el pago.
 
 PENDIENTE EXTERNO
-Conectar Vercel y el proveedor del backend para publicar; definir URLs estables.
+Publicar ambos proyectos en Vercel y definir sus URLs estables.
 Validar Apple Pay dentro de la sesión real en iPhone. Sin esa prueba, no aprobado
 como Apple Pay integral. No se ha realizado ningún pago desde esta preparación.
 
+VERIFICACIÓN LOCAL DE ESTA PREPARACIÓN
+- npm run build:deploy con API_URL HTTPS de ejemplo: aprobado, con advertencias
+  existentes de tamaño. Se comprobó que el bundle usa esa URL y no localhost ni
+  el placeholder de producción. La URL usada no es un backend publicado.
+- build:deploy sin API_URL: rechazado con mensaje de configuración, como se espera.
+- Suite backend tras agregar el endpoint de una invocación: 82/82 aprobadas.
+- Suite frontend con Chrome Headless: 106/106 aprobadas.
+- Build de despliegue actualizado: aprobado con advertencias existentes de tamaño.
+- Proveedor simulado en tests; no se efectuaron autorizaciones reales ni Sandbox.
+- No se verificaron aún DNS, HTTPS público, CORS entre dominios desplegados,
+  disponibilidad de Apple Pay ni retorno desde Fintoc en el teléfono.
+
 FUENTES
 https://vercel.com/docs/routing/rewrites
-https://render.com/docs/deploy-flask
-https://render.com/docs/blueprint-spec
+https://vercel.com/docs/frameworks/backend/flask
 https://www.fintoc.com/cl/producto/payments/apple-pay

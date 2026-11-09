@@ -54,13 +54,23 @@ export class OrdersService {
   }
 
   prepareOrder(items: OrderRequestItem[]): Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}/orders`, { items }, {
+      headers: this.requestHeaders(items)
+    }).pipe(timeout(15000));
+  }
+
+  startHostedCheckout(items: OrderRequestItem[], expectedTotal: number): Observable<{ redirect_url: string; mode: 'test' }> {
+    return this.http.post<{ redirect_url: string; mode: 'test' }>(`${this.baseUrl}/orders/hosted-checkout`,
+      { items, expected_total_clp: expectedTotal }, { headers: this.requestHeaders(items) }
+    ).pipe(timeout(20000));
+  }
+
+  private requestHeaders(items: OrderRequestItem[]): HttpHeaders {
     this.syncCart(items);
     if (!this.idempotencyKey) {
       this.idempotencyKey = crypto.randomUUID();
     }
-    return this.http.post<Order>(`${this.baseUrl}/orders`, { items }, {
-      headers: new HttpHeaders({ 'Idempotency-Key': this.idempotencyKey })
-    }).pipe(timeout(15000));
+    return new HttpHeaders({ 'Idempotency-Key': this.idempotencyKey });
   }
 
   getOrder(orderId: string): Observable<Order> {
