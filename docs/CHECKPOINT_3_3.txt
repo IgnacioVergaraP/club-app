@@ -1,0 +1,169 @@
+CLUB VOID — CHECKPOINT 3.3: SELECCIÓN Y RESUMEN DE ENTRADAS
+Fecha: 2 de noviembre de 2026 (America/Santiago).
+
+Objetivo:
+Permitir seleccionar entradas General y VIP de demostración por evento, ver
+subtotales y totales estimados y continuar a un resumen con pagos deshabilitados.
+
+Estado:
+Completada. Suite frontend, compilaciones y recorrido real en Chrome aprobados.
+Pendiente de aprobación visual del Product Owner y revisión del arquitecto.
+
+Archivos creados:
+/Users/nacho/Desktop/club-app/frontend/src/app/models/ticket.model.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/data/mock-ticket-types.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/ticket-selection.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/ticket-selection.service.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/guards/ticket-selection.guard.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/guards/ticket-selection.guard.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/ticket-summary/ticket-summary.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/ticket-summary/ticket-summary.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/ticket-summary/ticket-summary.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/ticket-summary/ticket-summary.component.spec.ts
+/Users/nacho/Desktop/club-app/docs/CHECKPOINT_3_3.txt
+
+Archivos modificados:
+/Users/nacho/Desktop/club-app/frontend/src/app/services/events.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/app-routing.module.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/app.module.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.spec.ts
+
+Componentes implementados:
+- EventDetailComponent existente: se reemplazó el listado informativo de categorías
+  por tarjetas General y VIP con descripción, precio ilustrativo, disponibilidad
+  demostrativa, controles +/−, cantidad y subtotal. Se añadió total estimado y
+  enlace Continuar al resumen solo con selección válida.
+- Nuevo TicketSummaryComponent, standalone: false, registrado en AppModule:
+  evento, fecha/hora, cantidades, precio unitario ilustrativo y subtotal por tipo,
+  total de unidades, subtotal general, comisión al comprador $0 y total estimado.
+  Volver al evento y Modificar entradas apuntan al ID correcto y conservan selección.
+  Apple Pay y Google Pay aparecen como Próximamente, sin botones oficiales ni SDK.
+
+Modelos y servicios:
+TicketType: id, eventId, name, description, priceClp, available, maxQuantity.
+TicketSelectionItem: ticket, quantity, subtotalClp.
+TicketSelectionView: evento, tipos, cantidades, subtotales, líneas, unidades,
+subtotal, comisión, total, canSelect y valid.
+MOCK_TICKET_TYPES: dos tipos por evento existente, derivados de sus IDs estables
+con sufijos -general y -vip. General 12000 CLP y VIP 25000 CLP; máximo 10.
+Precios y disponibilidad son únicamente ilustrativos, no inventario real.
+EventsService.getTicketTypes(eventId) devuelve Observable<TicketType[]> con copias
+locales. No se agregaron llamadas HTTP ni una API de entradas.
+
+TicketSelectionService:
+- BehaviorSubject con evento activo y cantidades separadas por eventId.
+- Cada evento conserva su selección en memoria. Cambiar de evento muestra sus
+  propias cantidades, inicialmente cero si no se había seleccionado nada allí.
+- El resumen toma únicamente el evento activo; nunca suma entradas de otro evento.
+- La selección se pierde al recargar o cerrar la aplicación. Sin localStorage,
+  persistencia, base de datos ni mezcla con CartSelectionService de bebidas.
+- setQuantity vuelve a consultar la fuente local de evento y tipo de entrada.
+- Valida existencia del evento, ID y pertenencia del tipo, disponibilidad,
+  precio entero no negativo, máximo válido, cantidad entera entre 0 y 10 y el
+  máximo del tipo. Rechaza negativos, decimales, booleanos, strings, NaN e Infinity.
+- Solo acepta cambios para eventos futuros. Eventos en curso o finalizados no
+  permiten nuevas selecciones; las cantidades previas no habilitan un resumen válido.
+- Cálculos monetarios centralizados: enteros CLP, subtotales por tipo y suma general,
+  comisión adicional al comprador 0. Formato CLP compartido entre detalle y resumen.
+- Actualización inmediata al cambiar cantidades y revisión temporal cada segundo,
+  sin llamadas de red. El async pipe libera la suscripción al salir de la vista.
+
+Ruta nueva:
+/entradas/resumen, hija de MainLayoutComponent y protegida por ticketSelectionGuard.
+El guard devuelve UrlTree a /noches si la selección no existe o no es válida.
+TicketSummaryComponent también redirige si se invalida mientras está abierto,
+por ejemplo cuando el evento comienza. No se sustituye un evento por otro.
+
+Avisos visibles:
+Compra de demostración. Los pagos y las reservas de entradas todavía no están habilitados
+Se aclara que no se reservan cupos, no se generan entradas válidas y no hay cobros.
+Los importes son estimaciones frontend: una futura API deberá volver a validar
+precios, pertenencia, disponibilidad, fechas y cantidades antes de una venta real.
+
+Pruebas ejecutadas:
+1. npm test -- --watch=false --browsers=ChromeHeadless
+   Resultado final: 46 pruebas aprobadas. 32 previas adaptadas donde cambió el
+   comportamiento y 14 nuevas (8 selección, 3 detalle, 2 resumen y 1 guard).
+   Verificaciones:
+   - General/VIP, subtotales, total, comisión cero y formato CLP.
+   - Cantidades 0 y 10; rechazo de valores negativos, superiores, decimales o tipos
+     inválidos; máximo específico del tipo.
+   - Eventos inexistentes, tipos desconocidos y tipos pertenecientes a otro evento.
+   - Tipo no disponible y cambio de disponibilidad antes de acceder al resumen.
+   - Bloqueo en curso/finalizado e invalidación de una selección previa.
+   - Separación entre eventos, conservación en memoria y protección de cantidades
+     frente a mutaciones externas de las vistas.
+   - Incremento/decremento en el DOM, resumen habilitado solo con selección válida,
+     precios ilustrativos y controles bloqueados cuando corresponde.
+   - Resumen con evento, líneas y enlaces correctos; wallets no interactivas.
+   - Redirección por vacío o evento iniciado mientras se consulta el resumen.
+   - Guard para selección válida, inválida y vacía.
+2. npm run build -- --configuration development: correcto, bundle inicial 1,90 MB.
+3. npm run build: correcto, bundle inicial 630,40 kB, con advertencias descritas abajo.
+4. Navegador real: Chrome Headless con perfil temporal aislado, sobre los servidores
+   locales existentes. Sin interceptar respuestas ni simular APIs.
+   - Acceso inicial directo a /entradas/resumen sin selección -> /noches.
+   - Noches -> detalle VOID Sessions -> 2 General + 1 VIP = 49000 CLP.
+   - Resumen muestra cantidades, total y comisión 0.
+   - Volver al evento y Modificar entradas funcionan y conservan 2 General + 1 VIP.
+   - Decremento cambia el total a 37000; incremento lo devuelve a 49000.
+   - General alcanza 10 y bloquea +; baja a 0 y bloquea −.
+   - Al pasar a After Hours, sus cantidades son cero; elegir 2 VIP da 50000 CLP
+     y una única línea en el resumen. Volver a VOID Sessions restaura 2 General
+     y 1 VIP sin mezclar eventos.
+   - Evento inexistente muestra el estado correspondiente sin controles de entradas.
+   - Navegar nuevamente por URL completa a resumen pierde el estado, por ser memoria,
+     y el guard regresa a /noches.
+   - Eventos en curso y finalizados: bloqueo comprobado con Date.now controlado
+     dentro del navegador de prueba en 2026-11-08T03:00:00Z y 2026-11-09T18:00:00Z.
+     No se modificaron fechas del catálogo ni el reloj del sistema.
+   - Detalle y resumen comprobados a 320, 390 y 1280 px, sin scroll horizontal.
+     Capturas de 390 px revisadas visualmente. Layout existente conserva ancho
+     máximo 720 px y padding inferior con safe-area-inset-bottom.
+   - No existen controles de pago funcionales en las opciones Apple Pay/Google Pay.
+   - Cero llamadas a /api/orders durante el recorrido exclusivo de entradas.
+   - Cero excepciones JS, console.error o recursos HTTP >= 400 en el recorrido.
+5. Regresión real de bebidas, realizada después del recorrido de entradas:
+   /tragos -> una Piscola y un Gin Tonic -> /carrito -> /checkout -> Preparar pedido.
+   POST /api/orders: HTTP 201.
+   order_id: fc971410-ba6a-4044-842f-17ce832ea0be
+   status: pending_payment; total_units: 2; total_clp: 14000.
+   Precios y subtotales contrastados con GET /api/products de Flask.
+   Este es un pedido temporal de BEBIDAS para comprobar regresión; el flujo de
+   entradas no creó pedidos. No se realizaron cobros.
+
+Problemas pendientes / limitaciones:
+- Aprobación visual y revisión del arquitecto pendientes.
+- No se probó en dispositivos físicos, Safari/iOS ni otros navegadores.
+- El tipo no disponible y los cambios de disponibilidad se probaron mediante
+  fuentes controladas en tests. Los seis tipos de los mocks reales están disponibles.
+- No se repitió la suite Python: no se modificaron archivos backend. Sí se ejecutó
+  la regresión real de Angular con Flask y las pruebas frontend de bebidas.
+- Compilación de producción con aviso de bundle 630,40 kB frente a 500 kB.
+- Avisos de estilos: detalle 3,03 kB, Inicio 3,97 kB, Noches 2,23 kB, carrito 3,45 kB
+  y checkout 3,16 kB frente a umbral de aviso de 2 kB; todos bajo error de 4 kB.
+- Persisten dos selectores Bootstrap .form-floating>~label omitidos por el procesador.
+  No se aumentaron presupuestos ni se cambiaron versiones para ocultar avisos.
+- Todos los importes y validaciones de entradas son estimaciones locales. No
+  representan precios autoritativos, autorización de compra ni disponibilidad real.
+
+Decisiones técnicas:
+- Servicio de selección independiente del carrito de bebidas y estado por evento.
+- Una sola fuente de eventos, y mocks de entradas derivados de sus IDs estables.
+- Reutilización de eventStatus para fechas; se mantienen fechas ISO y presentación
+  explícita UTC-3 de los eventos existentes.
+- Observable para comandos y consultas; BehaviorSubject privado para cantidades.
+- Guard y validación reactiva dentro de resumen para prevenir vistas inválidas
+  tanto al entrar como al cambiar el tiempo mientras está abierto.
+- Componentes NgModules, standalone: false, estilos encapsulados, controles táctiles
+  de 44 px, foco visible, etiquetas accesibles y cantidades anunciadas con aria-live.
+- Sin nuevas dependencias, cambios al backend o modificaciones al flujo de bebidas.
+- Sin pagos, reservas, emisión de entradas, QR, autenticación, Supabase o carrito mixto.
+
+Próximo paso sugerido:
+Revisar y aprobar la subetapa 3.3. Después solicitar las instrucciones del arquitecto
+para la siguiente subetapa; no anticipar su alcance ni implementar una API o pagos.
+Detenerse y esperar autorización.

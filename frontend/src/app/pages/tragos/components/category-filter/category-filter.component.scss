@@ -1,0 +1,39 @@
+.filter-scroll {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.filter-chip {
+  flex: 0 0 auto;
+  border: 1px solid var(--void-border);
+  background-color: var(--void-surface);
+  color: var(--void-text-muted);
+  border-radius: 999px;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    color: var(--void-text);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--void-primary);
+    outline-offset: 2px;
+  }
+
+  &.is-active {
+    background-color: var(--void-primary);
+    border-color: var(--void-primary);
+    color: #FFFFFF;
+  }
+}

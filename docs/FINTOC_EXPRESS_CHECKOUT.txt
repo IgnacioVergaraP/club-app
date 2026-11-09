@@ -1,0 +1,243 @@
+Aceptar un pago
+Acepta pagos con un solo clic con Apple Pay.
+Utilice Fintoc Express Checkout para aceptar pagos con Apple Pay con un solo clic en la web, con confirmación del lado del servidor y compatibilidad con métodos de pago guardados.
+
+Utiliza una única integración para aceptar pagos mediante botones de pago con un solo clic. El componente Express Checkout es una función del SDK de Fintoc que permite a tus clientes pagar con botones de monedero sin necesidad de abrir el widget completo. El método de pago compatible actualmente es Apple Pay .
+Los clientes ven el botón de Apple Pay según el dispositivo y el navegador que utilicen. Si Apple Pay no está disponible en el dispositivo, el botón permanece oculto.
+Antes de comenzar: tu dominio debe estar habilitado para Apple Pay. Apple Pay no se cargará hasta que Fintoc registre tu dominio con Apple, por lo que el botón permanecerá oculto en un dominio no registrado. Consulta la sección «Habilitar Apple Pay» para iniciar el proceso antes de la integración.
+Aceptar pagos con Apple Pay mediante Express Checkout requiere seis pasos:
+Configura tu servidor para crear unCheckout Session
+Configura el SDK de Fintoc en tu interfaz de usuario.
+Cree y monte el componente de pago exprés.
+Gestionar la onPaymentRequestdevolución de llamada
+Envíe el pago a Fintoc.
+Prueba la integración
+​
+Paso 1: Configura tu servidor
+Lado del servidor
+Express Checkout invoca la onPaymentRequestfunción de devolución de llamada después de que el cliente autoriza el formulario de Apple Pay. En dicha función, debes crear una sesión de pago desde tu servidor y devolverla session_tokenal navegador.
+Expón un punto final en tu servidor que cree una sesión de pago con la API de Fintoc:
+Nodo
+// server.js (Node example)
+const { Fintoc } = require("fintoc");
+
+const fintoc = new Fintoc(process.env.FINTOC_SECRET_KEY);
+
+app.post("/api/create-checkout", async (req, res) => {
+  const session = await fintoc.v2.checkoutSessions.create({
+    amount: 1000,
+    currency: "CLP",
+    payment_method_types: ["card"],
+    // ...any other fields your flow requires
+  });
+
+  res.json({ session_token: session.session_token });
+});
+Nunca expongas tu clave secreta en el navegador. Mantén siempre la llamada para crear la sesión de pago en tu servidor.
+​
+Paso 2: Configurar el SDK de Fintoc
+Lado del cliente
+El pago exprés está disponible automáticamente como una función del SDK de Fintoc. Incluya el script de Fintoc en su página de pago agregándolo a la sección <head> <head>de su archivo HTML. Cargue siempre el SDK directamente desde el repositorio js.fintoc.compara recibir actualizaciones de seguridad. No incluya el script en un paquete ni aloje una copia del mismo.
+<head>
+  <title>Checkout</title>
+  <script src="https://js.fintoc.com/v1/"></script>
+</head>
+​
+Paso 3: Crear y montar el pago exprés
+Lado del cliente
+El componente Express Checkout muestra el botón de la billetera dentro de un iframe que envía de forma segura la información de pago a Fintoc a través de una conexión HTTPS. La dirección de la página de pago también debe comenzar con https://, en lugar de http://, para que su integración funcione.
+Primero, crea un nodo DOM vacío (contenedor) con un ID único en tu formulario de pago:
+<div id="apple-pay-container">
+  <!-- Express Checkout will be inserted here -->
+</div>
+<div id="error-message">
+  <!-- Display an error message to your customers here -->
+</div>
+Cuando el formulario se haya cargado, cree una instancia del widget y monte Express Checkout en el nodo DOM del contenedor:
+const widget = window.Fintoc.create({
+  product: "payments",
+  publicKey: "pk_test_...",
+  country: "cl",
+
+  expressCheckout: {
+    container: "apple-pay-container",
+    amount: 1000,
+    currency: "CLP",
+  },
+
+  onPaymentRequest: async ({ payment_method_type, wallet }) => {
+    const res = await fetch("/api/create-checkout", { method: "POST" });
+    const { session_token } = await res.json();
+    return { sessionToken: session_token };
+  },
+
+  onSuccess: (data) => console.log("Payment succeeded", data),
+  onExit: (reason) => console.log("Widget closed", reason),
+  onEvent: (eventName, metadata) => console.log(eventName, metadata),
+});
+Los botones de Apple Pay pueden tener los siguientes estilos:
+
+Estilos de botones: negro, blanco y blanco con contorno.
+
+​
+Paso 4: Gestionar la devolución de llamada onPaymentRequest
+Lado del cliente
+onPaymentRequestSe ejecuta cuando el SDK necesita un sessionTokenpara continuar el flujo. Para Apple Pay, el SDK lo llama después de que el cliente autoriza la hoja de Apple Pay. Cuando se llama widget.open()para una transferencia bancaria, el SDK llama a la misma función de devolución de llamada antes de abrir el widget. En esa función de devolución de llamada, debe llamar a su servidor, obtener un session_tokeny devolverlo al SDK.
+La función de devolución de llamada recibe un único argumento con información sobre el método solicitado:
+Campo	Tipo	Descripción
+payment_method_type	string	"card"para pagos con billetera. "bank_transfer"cuando widget.open()se llama.
+wallet	string(opcional)	La billetera específica seleccionada, por ejemplo "apple_pay", undefinedpara transferencia bancaria.
+Su devolución de llamada debe resolverse en { sessionToken: string }un plazo de 30 segundos , o el SDK emitirá un error payment_error.
+Puedes usar los campos payment_method_typey walletpara reutilizar un único punto final para monederos y transferencias bancarias, o para redirigir a diferentes puntos finales si tu lógica de backend es diferente.
+​
+Paso 5: Envíe el pago a Fintoc.
+Lado del cliente
+Una vez que el cliente autoriza el pago con la billetera, el SDK completa automáticamente el proceso. No es necesario que llames a ningún confirmPaymentmétodo manualmente.
+La secuencia es:
+El SDK abre la hoja de Apple Pay y solicita un token de pago a Apple Pay.
+Una vez que el cliente autoriza, el SDK emite processing_express_checkout_payment.
+El SDK llama a tu onPaymentRequestfunción de devolución de llamada para obtener una nueva instancia sessionToken.
+El SDK envía ambos tokens al backend de Fintoc, que crea el recurso de pago y carga el importe en la billetera.
+Cuando el pago llega status === 'succeeded', el SDK llama onSuccess(data)con el recurso resultante.
+Si el estado del pago es distinto de succeeded, o si falla algún paso del flujo, el SDK emite payment_erroren lugar de llamar a onSuccess.
+​
+Manejo del estado de carga durante el procesamiento del pago
+Mientras Express Checkout procesa un pago, debe mostrar un estado de carga para brindar información clara a su cliente y evitar interacciones duplicadas. Gestione esto desde las devoluciones onEventde onSuccessllamada que ya pasa a Fintoc.create:
+processing_express_checkout_paymentSe activa una vez que el cliente autoriza el pago. Úselo para mostrar su indicador de carga mientras el SDK obtiene una nueva solicitud sessionTokende su servidor y procesa el pago.
+El pago se resuelve onSuccesscuando se realiza correctamente o mediante un payment_errorevento cuando falla. Utilice ambos métodos para borrar el indicador de carga.
+Una implementación típica se ve así:
+window.Fintoc.create({
+  // ...
+  onEvent: (eventName) => {
+    if (eventName === "processing_express_checkout_payment") {
+      // Show loading state (e.g. spinner, disable buttons)
+      setLoading(true);
+    }
+    if (eventName === "payment_error") {
+      // Hide loading state after a failed attempt
+      setLoading(false);
+    }
+  },
+  onSuccess: () => {
+    // Hide loading state after a successful payment
+    setLoading(false);
+  },
+});
+Borra siempre el estado de carga en ambos dispositivos onSuccesspara payment_errorque la interfaz de usuario nunca se bloquee después de un intento de pago.
+​
+Paso 6: Probar la integración
+Antes de lanzar la aplicación, prueba la integración en un dispositivo compatible con Apple Pay.
+Requisitos para las pruebas:
+Utilice su clave pública de prueba y una cuenta de destinatario de prueba.
+Abre tu página de pago en iOS o macOS.
+Asegúrate de que tu dominio de prueba esté habilitado para Apple Pay. Si aún no lo has hecho, sigue primero las instrucciones para habilitar Apple Pay .
+Lista de verificación de integración:
+El botón de Apple Pay se muestra al cargar la página en un dispositivo compatible.
+express_checkout_readyincendios con wallets.applePay === true.
+La autorización de la hoja de Apple Pay se activa onPaymentRequestcon payment_method_type: 'card', wallet: 'apple_pay'.
+processing_express_checkout_paymentincendios mientras el pago está en curso.
+onSuccessSe activa con el recurso de pago después de una autorización exitosa.
+Cancelar la hoja de Apple Pay no emite payment_error.
+Llamar a widget.open()(transferencia bancaria alternativa) invoca onPaymentRequesty payment_method_type: 'bank_transfer'abre el widget.
+​
+Configuraciones opcionales
+​
+Escucha el evento express_checkout_ready
+Tras el montaje, Express Checkout no mostrará los botones hasta que el SDK se inicialice y compruebe la disponibilidad de la cartera. Para animar el elemento cuando aparezca el botón, escuche el express_checkout_readyevento. Inspeccione el walletsvalor para determinar qué botones, si los hay, mostrar:
+// Optional: hide the element until we know if a button will show
+const container = document.getElementById("apple-pay-container");
+container.style.visibility = "hidden";
+
+window.Fintoc.create({
+  // ...
+  onEvent: (eventName, metadata) => {
+    if (eventName === "express_checkout_ready") {
+      if (metadata.wallets.applePay) {
+        container.style.visibility = "initial";
+      } else {
+        // No buttons will show; fall back to bank transfer only
+      }
+    }
+  },
+});
+​
+Dale estilo al botón
+Puedes personalizar el aspecto del botón de Apple Pay a través de los campos opcionales de expressCheckout.
+expressCheckout: {
+  container: "apple-pay-container",
+  amount: 1000,
+  currency: "CLP",
+
+  // Height in pixels. Defaults to 44. Range [40, 100].
+  buttonHeight: 52,
+  // Border radius in pixels. Defaults to 4. Range [0, 100].
+  buttonBorderRadius: 12,
+  // Specify the label shown inside the button.
+  // Defaults to "plain" for Apple Pay.
+  buttonType: { applePay: "buy" },
+  // Specify the color scheme of the button.
+  // Defaults to "black".
+  buttonStyle: { applePay: "white" },
+  // Specify the language for the Apple Pay label.
+  // Defaults to "es-ES".
+  locale: { applePay: "es-MX" },
+}
+Opción	Tipo	Por defecto	Descripción
+buttonHeight	number(px)	44	Altura del botón. Sujeto a [40, 100].
+buttonBorderRadius	number(px)	4	Radio del borde del botón. Ajustado a [0, 100].
+buttonType.applePay	"buy", "pay", o"plain"	"plain"	Etiqueta que se muestra dentro del botón de Apple Pay.
+buttonStyle.applePay	"black"o"white"	"black"	Combinación de colores del botón de Apple Pay.
+locale.applePay	"es-ES"o"es-MX"	"es-ES"	Idioma de la etiqueta del botón de Apple Pay.
+Los valores fuera del rango permitido se limitan en lugar de rechazarse. Por ejemplo, buttonHeight: 200se trata como 100.
+
+El mismo widgetobjeto devuelto por Fintoc.createexpone los métodos habituales del widget. Cuando expressCheckoutestá configurado, la llamada widget.open()invoca automáticamente onPaymentRequestcon payment_method_type: 'bank_transfer'antes de abrir el widget, por lo que no necesita una segunda inicialización.
+document
+  .getElementById("bank-transfer-button")
+  .addEventListener("click", () => widget.open());
+​
+Referencia del evento
+Express Checkout utiliza la misma onEventfunción de devolución de llamada que el resto del widget ( referencia de eventos del widget ), además de los eventos específicos de este componente:
+Evento	Carga útil	Cuando dispara
+express_checkout_ready	{ wallets: { applePay?: boolean } }	Una vez que el SDK finaliza la inicialización, el walletsobjeto enumera las carteras que se han renderizado correctamente. Si está vacío, significa que no hay ninguna disponible, por ejemplo, en un navegador no compatible o en un dominio no verificado.
+processing_express_checkout_payment	Ninguno	Una vez que el cliente confirma el pago con la billetera, el SDK intercambia tokens con su servidor y el backend de Fintoc.
+payment_error	Ninguno	El pago de la billetera falló en algún paso: onPaymentRequestfue rechazado o expiró, el proveedor de la billetera devolvió un error o el estado de pago resultante no es succeeded.
+express_checkout_error	Ninguno	Un error interno impidió que el botón se mostrara correctamente, por ejemplo, cuando el SDK no se carga o no se encuentra el contenedor.
+​
+Referencia de opciones completas
+​
+Fintoc.create(opciones)
+Parámetro	Tipo	Requerido	Descripción
+product	"payments"	Sí	Valor literal "payments"para el pago exprés.
+publicKey	string	Sí	Tu clave publicable.
+country	"cl"o"mx"	No	País de destino. Por defecto es "cl".
+expressCheckout	ExpressCheckoutConfig	Sí	Configuración del botón de la cartera.
+onPaymentRequest	(data) => Promise<{ sessionToken }>	Sí	Función de devolución de llamada que devuelve un valor sessionTokencuando el SDK lo necesita para continuar el flujo.
+onSuccess	(data) => void	No	Función de devolución de llamada que recibe el recurso de pago una vez que el pago llega a succeeded.
+onExit	(reason?: string) => void	No	Función de devolución de llamada que se ejecuta cuando se cierra el widget.
+onEvent	(eventName, metadata?) => void	No	Función de devolución de llamada que recibe cada evento del widget.
+​
+Configuración de ExpressCheckout
+Parámetro	Tipo	Requerido	Descripción
+container	string	Sí	iddel elemento DOM donde el SDK renderiza el botón de la billetera.
+amount	number	Sí	Importe a cobrar, expresado en la unidad monetaria menor de la divisa. Por ejemplo, el CLP no tiene decimales y el MXN utiliza centavos.
+currency	string	Sí	Código de moneda ISO 4217 de tres letras, por ejemplo "CLP"o "MXN".
+buttonHeight	number	No	Altura del botón en px. Rango [40, 100]. Predeterminado 44.
+buttonBorderRadius	number	No	Radio del borde del botón en px. Rango [0, 100]. Predeterminado 4.
+buttonType.applePay	"buy", "pay", o"plain"	No	Etiqueta del botón de Apple Pay. Predeterminado "plain".
+buttonStyle.applePay	"black"o"white"	No	Esquema de colores de Apple Pay. Predeterminado "black".
+locale.applePay	"es-ES"o"es-MX"	No	Idioma del botón de Apple Pay. Predeterminado "es-ES".
+​
+Habilitar Apple Pay
+Apple Pay no se cargará en un dominio hasta que Fintoc lo haya registrado con Apple. El registro es un requisito previo tanto para las pruebas como para la puesta en marcha. Complete el registro para cada dominio que mostrará el botón, tanto en el entorno de pruebas como en el de producción. Cada dominio registrado debe usar HTTPS.
+El proceso funciona así:
+Comunícale a Fintoc que deseas usar Apple Pay. Ponte en contacto con tu gerente de cuenta, tu contacto de éxito del cliente o tu contacto de ventas, e indícales los dominios que planeas integrar.
+Aloje el archivo de verificación que le envía Fintoc. Fintoc le envía un archivo de asociación de dominio. Alójelo en cada dominio bajo la ruta /.well-known/apple-developer-merchantid-domain-association, de modo que sea accesible en https://your-domain.com/.well-known/apple-developer-merchantid-domain-association. El archivo debe devolver 200 OKy ser descargable.
+Confirma que el archivo esté disponible. Avisa a Fintoc cuando el archivo esté alojado en todos los dominios. Fintoc registrará entonces cada dominio con Apple.
+Prueba tu integración. Una vez que tus dominios estén registrados, el botón de Apple Pay se cargará y podrás seguir los pasos de prueba en un dispositivo compatible.
+Si un dominio no está registrado, el botón de Apple Pay permanece oculto e express_checkout_readyindica que no hay ninguna cartera de Apple Pay disponible ( wallets.applePayno es true). Confirme que el dominio esté habilitado antes de depurar la integración.
+​
+Véase también
+Aceptar un pago : guía de integración de la sesión de pago estándar.
+Integración web : guía completa de integración de widgets.
+Escucha los eventos de Widget : catálogo completo de eventos.
+Integración con WebView : integración del widget dentro de una aplicación nativa.

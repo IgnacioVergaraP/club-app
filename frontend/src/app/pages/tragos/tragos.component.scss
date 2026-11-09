@@ -1,0 +1,98 @@
+.page {
+  display: block;
+  padding-bottom: 4.5rem;
+}
+
+.page-header {
+  margin-bottom: 1rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--void-text);
+  margin: 0 0 0.25rem;
+}
+
+.page-subtitle {
+  color: var(--void-text-muted);
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.search-wrapper {
+  position: relative;
+  margin-bottom: 0.75rem;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--void-surface);
+  border: 1px solid var(--void-border);
+  border-radius: 0.5rem;
+  padding: 0.625rem 2.25rem 0.625rem 0.875rem;
+  color: var(--void-text);
+  font-size: 0.9375rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    border-color: var(--void-primary);
+  }
+
+  &::placeholder {
+    color: var(--void-text-muted);
+  }
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--void-text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+
+  &:hover {
+    color: var(--void-text);
+  }
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border: 1px dashed var(--void-border);
+  border-radius: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.empty-title {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--void-text);
+}
+
+.empty-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--void-text-muted);
+}
+
+@media (max-width: 576px) {
+  .page-title {
+    font-size: 1.25rem;
+  }
+}

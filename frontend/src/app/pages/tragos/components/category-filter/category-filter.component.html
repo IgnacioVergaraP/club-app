@@ -1,0 +1,12 @@
+<div class="filter-scroll" role="tablist" aria-label="Filtrar por categoría">
+  <button
+    *ngFor="let c of categories"
+    type="button"
+    class="filter-chip"
+    [class.is-active]="selected === c.key"
+    role="tab"
+    [attr.aria-selected]="selected === c.key"
+    (click)="onSelect(c.key)">
+    {{ c.label }}
+  </button>
+</div>

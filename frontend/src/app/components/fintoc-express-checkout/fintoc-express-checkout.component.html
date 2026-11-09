@@ -1,0 +1,12 @@
+<section class="sandbox-payment" aria-label="Apple Pay Sandbox">
+  <h3>Apple Pay · Sandbox</h3>
+  <p [attr.role]="state === 'error' ? 'alert' : 'status'" aria-live="polite">{{ message }}</p>
+  <p *ngIf="usesHttp" class="connection-note">Esta página usa HTTP. Apple Pay requiere HTTPS y un dominio registrado mediante Fintoc.</p>
+  <div [id]="containerId" class="apple-container"
+       [style.visibility]="available && !sdkSucceeded ? 'visible' : 'hidden'"
+       [style.pointer-events]="busy ? 'none' : 'auto'" [attr.inert]="busy ? '' : null"
+       [attr.aria-hidden]="!available || sdkSucceeded"></div>
+  <p *ngIf="busy" role="status">Espera a que termine la operación. No vuelvas a preparar el pedido.</p>
+  <button *ngIf="canVerify && !verified" type="button" class="void-btn-primary" [disabled]="busy" (click)="verify()">Verificar estado Sandbox</button>
+  <button *ngIf="state === 'error' && !available && !sdkSucceeded" type="button" class="retry-sdk" [disabled]="busy" (click)="restart()">Reintentar integración</button>
+</section>

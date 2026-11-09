@@ -1,0 +1,76 @@
+// ============================================================
+// Club VOID — Estilos globales
+// ============================================================
+
+// 1. Variables de Bootstrap con overrides de Club VOID
+$primary: #7C3AED;
+$body-bg: #0B0B0F;
+$body-color: #F5F5F7;
+$border-color: #303039;
+
+// 2. Importar Bootstrap (SCSS)
+@import "bootstrap/scss/bootstrap";
+
+// 3. Variables propias de Club VOID
+:root {
+  color-scheme: dark;
+  --void-bg: #0B0B0F;
+  --void-surface: #17171D;
+  --void-surface-alt: #22222B;
+  --void-primary: #7C3AED;
+  --void-text: #F5F5F7;
+  --void-text-muted: #A1A1AA;
+  --void-border: #303039;
+  --void-success: #22C55E;
+  --void-danger: #EF4444;
+}
+
+// 4. Reset y base
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--void-bg);
+  color: var(--void-text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 5. Utilidades reutilizables
+.void-card {
+  background-color: var(--void-surface);
+  border: 1px solid var(--void-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.void-btn-primary {
+  background-color: var(--void-primary);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  transition: opacity 0.15s ease;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// 6. Ajustes responsivos
+@media (max-width: 576px) {
+  .void-card {
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+}

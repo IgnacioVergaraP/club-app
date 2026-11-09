@@ -1,0 +1,19 @@
+<article class="product-card" [class.is-unavailable]="!product.available">
+  <img *ngIf="product.imageUrl" class="product-image" [src]="product.imageUrl"
+       alt="" width="52" height="64" loading="lazy">
+  <div class="product-card-body">
+    <h3 class="product-name" [title]="product.name">{{ product.name }}</h3>
+    <p class="product-description" [title]="product.description">{{ product.description }}</p>
+    <span class="product-price">{{ priceLabel }}</span>
+    <span *ngIf="!product.available" class="product-unavailable">No disponible</span>
+  </div>
+  <div class="product-card-controls" *ngIf="product.available">
+    <ng-container *ngIf="quantity > 0">
+      <button type="button" class="qty-btn minus-btn" aria-label="Disminuir cantidad"
+              (click)="onDecrement()">−</button>
+      <span class="qty-value" aria-live="polite" aria-label="Cantidad seleccionada">{{ quantity }}</span>
+    </ng-container>
+    <button type="button" class="qty-btn plus-btn" aria-label="Aumentar cantidad"
+            (click)="onIncrement()">+</button>
+  </div>
+</article>

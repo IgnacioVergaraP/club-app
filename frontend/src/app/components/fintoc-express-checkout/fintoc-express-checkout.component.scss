@@ -1,0 +1,8 @@
+.sandbox-payment { color: var(--void-text); padding: 1rem 0; }
+h3 { font-size: .9375rem; margin: 0 0 .75rem; }
+p { font-size: .8rem; line-height: 1.6; }
+.connection-note { color: var(--void-text-muted); font-size: .75rem; }
+.apple-container { min-height: 52px; width: 100%; margin: .75rem 0; }
+button { min-height: 44px; font-size: .8rem; }
+.retry-sdk { background: transparent; color: var(--void-text); border: 1px solid var(--void-border); border-radius: .5rem; padding: .5rem .75rem; }
+button:focus-visible { outline: 2px solid var(--void-primary); outline-offset: 3px; }

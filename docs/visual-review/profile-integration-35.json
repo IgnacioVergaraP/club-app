@@ -1,0 +1,209 @@
+{
+  "result": "PASS",
+  "browser": "Chrome Headless, isolated temporary profile",
+  "steps": [
+    "/tragos",
+    "select Piscola and Gin Tonic, one each",
+    "/carrito",
+    "/checkout",
+    "Preparar pedido"
+  ],
+  "http_status": 201,
+  "order_id": "6d917661-12eb-4fab-8177-7d216c22d0f7",
+  "status": "pending_payment",
+  "total_units": 2,
+  "total_clp": 14000,
+  "expected_from_backend_catalog": 14000,
+  "response_source": "http://127.0.0.1:5000/api/orders",
+  "mocked": false,
+  "profile": {
+    "result": "PASS",
+    "identity": "fictional example.com",
+    "validation": "PASS",
+    "navigationRetainsEdits": true,
+    "preferencesRetained": true,
+    "reloadResets": true,
+    "noStorageWrites": true,
+    "walletLink": true,
+    "informationDetails": 4,
+    "responsive": [
+      {
+        "mode": "read",
+        "width": 320,
+        "scrollWidth": 305
+      },
+      {
+        "mode": "edit",
+        "width": 320,
+        "scrollWidth": 305
+      },
+      {
+        "mode": "read",
+        "width": 390,
+        "scrollWidth": 375
+      },
+      {
+        "mode": "edit",
+        "width": 390,
+        "scrollWidth": 375
+      },
+      {
+        "mode": "read",
+        "width": 768,
+        "scrollWidth": 753
+      },
+      {
+        "mode": "edit",
+        "width": 768,
+        "scrollWidth": 753
+      },
+      {
+        "mode": "read",
+        "width": 1280,
+        "scrollWidth": 1265
+      },
+      {
+        "mode": "edit",
+        "width": 1280,
+        "scrollWidth": 1265
+      }
+    ]
+  },
+  "wallet": {
+    "result": "PASS",
+    "tickets": 3,
+    "drinkUnits": 4,
+    "activities": 5,
+    "responsive": [
+      {
+        "tab": "tickets",
+        "width": 320,
+        "scrollWidth": 305
+      },
+      {
+        "tab": "drinks",
+        "width": 320,
+        "scrollWidth": 305
+      },
+      {
+        "tab": "history",
+        "width": 320,
+        "scrollWidth": 305
+      },
+      {
+        "tab": "tickets",
+        "width": 390,
+        "scrollWidth": 375
+      },
+      {
+        "tab": "drinks",
+        "width": 390,
+        "scrollWidth": 375
+      },
+      {
+        "tab": "history",
+        "width": 390,
+        "scrollWidth": 375
+      },
+      {
+        "tab": "tickets",
+        "width": 768,
+        "scrollWidth": 753
+      },
+      {
+        "tab": "drinks",
+        "width": 768,
+        "scrollWidth": 753
+      },
+      {
+        "tab": "history",
+        "width": 768,
+        "scrollWidth": 753
+      },
+      {
+        "tab": "tickets",
+        "width": 1280,
+        "scrollWidth": 1265
+      },
+      {
+        "tab": "drinks",
+        "width": 1280,
+        "scrollWidth": 1265
+      },
+      {
+        "tab": "history",
+        "width": 1280,
+        "scrollWidth": 1265
+      }
+    ],
+    "details": "PASS",
+    "keyboard": "PASS",
+    "sticky": "PASS",
+    "bottomTabs": 5,
+    "pendingOrderDoesNotChangeWallet": true
+  },
+  "tickets": {
+    "result": "PASS",
+    "generalPrice": 12000,
+    "vipPrice": 25000,
+    "example": "2 General + 1 VIP = 49000 CLP",
+    "fee": 0,
+    "quantityBounds": [
+      0,
+      10
+    ],
+    "emptyGuard": "PASS",
+    "backAndModify": "PASS",
+    "crossEventIsolation": "PASS",
+    "inMemorySelections": "PASS",
+    "nonexistentEvent": "PASS",
+    "wallets": "informative, no payment controls",
+    "ordersCreatedByTicketFlow": 0,
+    "closedClocks": [
+      {
+        "status": "ongoing",
+        "clock": "2026-11-08T03:00:00Z",
+        "selectionBlocked": true
+      },
+      {
+        "status": "ended",
+        "clock": "2026-11-09T18:00:00Z",
+        "selectionBlocked": true
+      }
+    ],
+    "responsive": [
+      {
+        "view": "detail",
+        "width": 320,
+        "scrollWidth": 305
+      },
+      {
+        "view": "summary",
+        "width": 320,
+        "scrollWidth": 305
+      },
+      {
+        "view": "detail",
+        "width": 390,
+        "scrollWidth": 375
+      },
+      {
+        "view": "summary",
+        "width": 390,
+        "scrollWidth": 375
+      },
+      {
+        "view": "detail",
+        "width": 1280,
+        "scrollWidth": 1265
+      },
+      {
+        "view": "summary",
+        "width": 1280,
+        "scrollWidth": 1265
+      }
+    ]
+  },
+  "consoleErrors": [],
+  "brokenResources": []
+}

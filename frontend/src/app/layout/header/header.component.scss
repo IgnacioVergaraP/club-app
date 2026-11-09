@@ -1,0 +1,7 @@
+:host { display: block; position: sticky; top: 0; z-index: 40; flex-shrink: 0; }
+.header { background: rgba(6, 7, 9, .25); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.header-inner { position: relative; max-width: 720px; margin: auto; padding: .75rem 1rem .625rem; display: flex; justify-content: center; }
+.header-brand { display: grid; justify-items: center; gap: .25rem; color: #f1dfff; text-decoration: none; }
+.header-name { font-size: .4rem; letter-spacing: .5em; padding-left: .5em; color: #c8b2df; }
+.header-demo { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-size: .55rem; letter-spacing: .12em; color: var(--void-text-muted); }
+.header-brand:focus-visible { outline: 2px solid var(--void-primary); outline-offset: 4px; border-radius: .25rem; }

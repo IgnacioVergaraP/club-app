@@ -1,0 +1,20 @@
+<ng-container *ngIf="(totalUnits$ | async) as units">
+  <div class="cart-summary" *ngIf="units > 0">
+    <div class="cart-summary-info">
+      <span class="cart-summary-units">{{ units }} unidad{{ units === 1 ? '' : 'es' }}</span>
+      <span class="cart-summary-price">{{ formatPrice((totalPriceClp$ | async) ?? 0) }}</span>
+    </div>
+    <button
+      type="button"
+      class="void-btn-primary cart-summary-btn"
+      [disabled]="busy"
+      [attr.aria-busy]="busy"
+      (click)="pay()">
+      {{ busy ? 'Abriendo Fintoc…' : 'Pagar con Fintoc' }}
+    </button>
+    <p class="cart-summary-note">Sandbox · Prueba sin dinero real</p>
+    <p *ngIf="error" class="cart-summary-note" role="alert">
+      {{ error }} <a routerLink="/carrito">Revisar carrito</a>
+    </p>
+  </div>
+</ng-container>

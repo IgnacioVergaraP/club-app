@@ -1,0 +1,1 @@
+"""Utilidades del backend de Club VOID: validación, dinero, respuestas."""

@@ -1,0 +1,244 @@
+CLUB VOID — CHECKPOINT ACTUALIZADO
+Selección de entradas 3.3 + ajustes visuales posteriores
+Fecha de consolidación: 3 de noviembre de 2026 (America/Santiago)
+
+OBJETIVO
+Consolidar la implementación de la subetapa 3.3 y los ajustes visuales que el
+Product Owner autorizó posteriormente tomando como referencia el mockup original.
+Esta consolidación no asigna un número de nueva subetapa ni amplía funciones de pago.
+
+ESTADO
+3.3 implementada y verificada. Ajustes visuales aplicados y revisados en Chrome.
+El Product Owner expresó una valoración visual favorable y solicitó este checkpoint.
+Pendiente de revisión formal del arquitecto y definición de la siguiente subetapa.
+No se avanzó automáticamente a otra etapa.
+
+ALCANCE FUNCIONAL 3.3
+- General y VIP en el detalle de cada evento, con precios ilustrativos 12000 y
+  25000 CLP. Disponibilidad demostrativa y máximo 10 por tipo.
+- Controles de cantidad, subtotales y total estimado; comisión al comprador 0.
+- TicketSelectionService separado del carrito de bebidas, con BehaviorSubject,
+  selección por eventId y evento activo para determinar el resumen.
+- Se conserva la selección de cada evento al navegar; no se mezclan sus entradas.
+- Validación de evento existente, pertenencia de entrada, disponibilidad y cantidades
+  enteras 0..10, respetando el máximo del tipo. Rechazo de negativos, decimales y
+  tipos inválidos. Bloqueo de eventos en curso o finalizados.
+- Resumen /entradas/resumen con evento, fecha, líneas, unidades y total.
+- Volver al evento y Modificar entradas conservan cantidades y apuntan al ID correcto.
+- Guard para selección vacía/inválida y redirección reactiva si el evento comienza.
+- Apple Pay y Google Pay informativos como Próximamente.
+- Aviso visible: Compra de demostración. Los pagos y las reservas de entradas
+  todavía no están habilitados.
+- Estado exclusivamente en memoria: recargar pierde la selección.
+- Todos los importes de entradas son estimaciones frontend; una futura API deberá
+  revalidar precios, disponibilidad, cantidades, pertenencia y estado temporal.
+
+AJUSTES VISUALES AUTORIZADOS DIRECTAMENTE POR EL PRODUCT OWNER
+El usuario compartió el mockup original y autorizó ajustarlo sin esperar un nuevo
+prompt del coordinador, indicando que después le informaría. Las modificaciones
+posteriores fueron visuales; las funcionalidades autorizadas se conservaron.
+
+Inicio:
+- Fotografía de pista protagonista, bienvenida compacta y tarjeta principal.
+- Destacados con fotografías en tres columnas y accesos rápidos conservados.
+- Se conservan enlaces por ID hacia el detalle y avisos de demostración.
+
+Noches:
+- Carteles compactos con fotografías, fecha en bloque claro y botón morado.
+- Se conservan Todos, Próximos, Anteriores, categoría y estados de carga/error/vacío.
+
+Detalle de noche:
+- Imagen del evento y metadatos más compactos.
+- Entradas en filas con precio y controles de cantidad juntos.
+- Continuar al resumen fijo sobre la navegación inferior cuando la selección es válida.
+- Reacomodo de controles en 320 px y consideración de safe-area-inset-bottom.
+
+Identidad compartida:
+- Marca VOID vectorial centrada, subtítulo NIGHT CLUB y distintivo DEMO.
+- Fondo más negro, espacios reducidos y navegación inferior compacta.
+- Cinco pestañas conservadas; controles nativos y scrollbar con color-scheme: dark.
+- Acentos morados sólidos, sin degradados CSS ni nuevas librerías visuales.
+
+HEADER ACTUAL
+Revisado directamente en el archivo al consolidar este checkpoint:
+:host con display:block, position:sticky, top:0, z-index:40 y flex-shrink:0.
+La posición sticky está en el host Angular para que se mantenga durante el scroll.
+Fondo rgba(6,7,9,.25), backdrop-filter blur(12px) y equivalente -webkit.
+El estilo actual no incluye borde inferior. Conserva ancho máximo 720 px.
+El header se usa en rutas del layout; carrito y checkout de bebidas siguen teniendo
+sus páginas existentes fuera de ese layout.
+
+IMÁGENES DE DEMOSTRACIÓN
+11 fotografías generadas con image_gen integrado y aplicando la habilidad imagegen:
+- Eventos: void-dancefloor.jpg, void-dj.jpg, void-urban.jpg.
+- Bebidas: piscola.jpg, ron-cola.jpg, gin-tonic.jpg, vodka-tonica.jpg,
+  mojito.jpg, pisco-sour.jpg, cuba-libre.jpg, agua-mineral.jpg.
+JPEG locales optimizados; no se necesitan imágenes externas para mostrarlas.
+Las bebidas tienen fondo oscuro e iluminación violeta coherente; sin textos ni marcas.
+No son fotografías de productos o eventos reales identificados.
+Los prompts exactos y las rutas se registran en AJUSTE_VISUAL_MOCKUP.txt e
+IMAGENES_TRAGOS.txt. Los originales PNG se conservaron en generated_images de Codex.
+
+TARJETAS ACTUALES DE TRAGOS
+Reajustadas siguiendo la segunda referencia visual del usuario:
+- Lista de una columna, filas compactas de aproximadamente 80 px.
+- Imagen izquierda, nombre/descripción/precio en el centro, botón + morado a la derecha.
+- Cantidad cero: solo aparece +. Con selección: aparecen −, cantidad y +.
+- Área táctil 44 px aunque la superficie visible del botón es más pequeña.
+- Descripción de una línea con elipsis; categoría retirada de la tarjeta, filtros conservados.
+- Precios, disponibilidad, IDs, búsqueda y lógica de carrito/checkout conservados.
+
+MODELOS Y SERVICIOS
+Se conservan ClubEvent, EventsService y la fuente de eventos existente.
+TicketType: id, eventId, name, description, priceClp, available, maxQuantity.
+TicketSelectionItem y TicketSelectionView tipan líneas, cantidades y totales.
+MOCK_TICKET_TYPES deriva IDs estables de los eventos con sufijos -general y -vip.
+EventsService.getTicketTypes(eventId) sirve copias de los mocks mediante Observable.
+La lógica de fechas se reutiliza desde event-time.ts y las fechas originales con
+sus offsets se conservan. No se crearon llamadas HTTP para eventos o entradas.
+
+ARCHIVOS CREADOS DESDE EL INICIO DE 3.3, INCLUIDOS RECURSOS Y DOCUMENTACIÓN
+/Users/nacho/Desktop/club-app/docs/AJUSTE_VISUAL_MOCKUP.txt
+/Users/nacho/Desktop/club-app/docs/CHECKPOINT_3_3.txt
+/Users/nacho/Desktop/club-app/docs/CHECKPOINT_ACTUALIZADO_3_3_Y_DISENO.txt
+/Users/nacho/Desktop/club-app/docs/visual-review/detalle-mobile.png
+/Users/nacho/Desktop/club-app/docs/visual-review/inicio-mobile.png
+/Users/nacho/Desktop/club-app/docs/visual-review/noches-mobile.png
+/Users/nacho/Desktop/club-app/frontend/src/app/data/mock-ticket-types.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/guards/ticket-selection.guard.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/guards/ticket-selection.guard.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/models/ticket.model.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/ticket-summary/ticket-summary.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/ticket-summary/ticket-summary.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/ticket-summary/ticket-summary.component.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/ticket-summary/ticket-summary.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/ticket-selection.service.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/ticket-selection.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/agua-mineral.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/cuba-libre.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/gin-tonic.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/mojito.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/pisco-sour.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/piscola.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/ron-cola.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/vodka-tonica.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/events/void-dancefloor.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/events/void-dj.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/events/void-urban.jpg
+
+ARCHIVOS MODIFICADOS DESDE EL INICIO DE 3.3
+/Users/nacho/Desktop/club-app/frontend/src/app/app-routing.module.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/app.module.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/data/mock-events.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/data/mock-products.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/layout/bottom-nav/bottom-nav.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/layout/header/header.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/layout/header/header.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/layout/main-layout/main-layout.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/noches/noches.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/noches/noches.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/tragos/components/product-card/product-card.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/tragos/components/product-card/product-card.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/tragos/tragos.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/services/events.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/styles.scss
+
+RUTAS
+/ — Inicio.
+/noches — Catálogo de eventos.
+/noches/:eventId — Detalle y selección de entradas.
+/entradas/resumen — Resumen de entradas protegido.
+/tragos — Catálogo de bebidas.
+/carrito — Carrito de bebidas.
+/checkout — Checkout de demostración de bebidas.
+/wallet y /perfil — Pantallas provisionales existentes.
+/dev/health — Diagnóstico de conexión.
+Backend existente: GET /api/health, GET /api/products, POST /api/orders,
+GET /api/orders/<order_id>. No se agregaron endpoints en este tramo.
+
+PRUEBAS EJECUTADAS Y EVIDENCIA ACUMULADA
+Este documento consolida verificaciones anteriores realizadas durante la
+implementación. No se volvieron a ejecutar las suites al redactarlo el 3 de noviembre.
+
+Suite frontend:
+- Última ejecución registrada después de compactar las tarjetas de bebidas:
+  46 pruebas aprobadas en ChromeHeadless.
+- Incluyen selección, importes, límites, eventos inválidos/no disponibles,
+  separación entre eventos, guards, resumen y pruebas anteriores de la aplicación.
+- La suite completa no se repitió después del último cambio CSS del header.
+
+Compilaciones:
+- Desarrollo: última ejecución registrada después del ajuste general al mockup,
+  correcta, bundle inicial aproximado 1,90 MB.
+- Producción: última ejecución registrada al ajustar sticky/transparencia,
+  correcta, bundle inicial 632,21 kB, con advertencias.
+- Estos tamaños corresponden a esos momentos; no se afirma una compilación nueva hoy.
+
+Integración real de entradas, contra la app local en Chrome:
+- 2 General + 1 VIP = 49000 CLP, con comisión 0.
+- Incremento/decremento y límites 0/10 correctos.
+- Volver y Modificar conservan selección.
+- After Hours mantiene cantidades propias y no hereda las de VOID Sessions.
+- Resumen vacío redirige a /noches; evento inexistente muestra su estado.
+- Eventos en curso/finalizados bloqueados con reloj controlado exclusivamente
+  dentro del navegador de prueba. No se cambiaron las fechas de los mocks.
+- El flujo exclusivo de entradas no llamó a /api/orders.
+
+Responsive e imágenes:
+- Inicio, Noches, Detalle y tarjetas de bebidas revisados a 320, 390 y 1280 px
+  en sus respectivos recorridos, sin scroll horizontal.
+- Se verificó carga de las ocho imágenes de bebidas y correspondencia por producto.
+- Capturas disponibles en docs/visual-review/. Son anteriores al último cambio
+  sticky/translúcido del header; no deben presentarse como capturas de ese cambio.
+- El recorrido general de ajuste visual registró cero excepciones JS, console.error
+  y recursos HTTP >=400. No se extiende esa afirmación a todos los dispositivos.
+
+Header sticky/translúcido:
+- Prueba real de scroll en Tragos, Noches y Detalle, viewport 390x700.
+- Desplazamientos de 430, 411 y 450 px respectivamente; top del host permaneció 0.
+- Estilo calculado comprobado: rgba(6,7,9,0.25), blur(12px).
+- El archivo actual fue leído al consolidar este checkpoint; no se repitió hoy
+  la prueba de navegador ni se revisaron nuevas modificaciones con pruebas completas.
+
+Regresión real de bebidas:
+- Tras compactar las tarjetas: seleccionar Piscola + Gin Tonic -> carrito -> checkout.
+- POST /api/orders real: HTTP 201, UUID f7d2449f-d21c-4249-adeb-01baf490957a,
+  pending_payment, 2 unidades y total 14000 CLP, contrastado con catálogo de Flask.
+- No se simularon respuestas del backend; no se hicieron cobros.
+
+Backend:
+- Última referencia de suite backend: 48 pruebas aprobadas en 2.3.1.
+- No se repitió durante estos ajustes porque no se modificaron archivos Python.
+
+PROBLEMAS Y PENDIENTES
+- Revisión formal del arquitecto. La valoración positiva del usuario no se presenta
+  como aprobación técnica del coordinador.
+- Validación en dispositivos físicos, Safari/iOS y navegadores distintos de Chrome.
+- Compilación con aviso de bundle inicial frente a 500 kB y avisos de estilos
+  de Inicio, Noches, Detalle, carrito y checkout; debajo de límites de error.
+- Se conservan dos avisos Bootstrap de selectores .form-floating>~label omitidos.
+- No se elevaron presupuestos para ocultar avisos.
+- Pedidos de bebidas en memoria: pérdida por reinicio, sin coordinación multiproceso;
+  consulta por UUID insuficiente como autorización de producción.
+- Entradas en memoria y precios estimativos: no hay validación autoritativa backend,
+  inventario real, reserva ni emisión de entradas.
+- La URL de producción conserva el pendiente de configuración antes de despliegue.
+
+RESTRICCIONES Y DECISIONES
+Se conservaron Angular 17, NgModules, standalone:false, RxJS, Flask y las rutas.
+Los ajustes posteriores se limitaron a presentación y recursos locales; no alteraron
+precios, fechas, límites, reglas de selección ni backend de pedidos.
+No se integraron Fintoc, wallets SDK, pagos, split, reservas, QR, autenticación,
+Supabase, administración, emisión de entradas ni carrito mixto.
+No se cambiaron versiones ni se instalaron nuevas dependencias.
+
+PRÓXIMO PASO SUGERIDO
+Entregar este checkpoint al coordinador para revisión de 3.3 y de los ajustes
+visuales autorizados por el Product Owner. Después recibir instrucciones de la
+siguiente subetapa; no anticipar su alcance ni avanzar automáticamente.

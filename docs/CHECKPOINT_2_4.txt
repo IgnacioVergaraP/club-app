@@ -1,0 +1,221 @@
+CLUB VOID — CHECKPOINT 2.4
+Fintoc Express Checkout / Apple Pay — exclusivamente Sandbox
+Fecha: 3 de noviembre de 2026 (America/Santiago)
+
+Objetivo
+Integrar Express Checkout en el checkout de bebidas, crear sesiones desde Flask con
+el importe autoritativo y verificar el resultado mediante la API oficial.
+
+Estado: PARCIAL
+Implementación y pruebas locales completadas. Creación y consulta REAL de sesión
+Sandbox comprobadas con las claves de prueba del usuario. La validación completa
+de Apple Pay queda pendiente por habilitación externa de dominio HTTPS y pruebas
+en dispositivo/navegador compatible. No se abrió ni autorizó una hoja Apple Pay.
+Se detiene el trabajo para revisión del arquitecto, sin avanzar a otras subetapas.
+
+Archivos creados
+/Users/nacho/Desktop/club-app/backend/.env.example
+/Users/nacho/Desktop/club-app/backend/.gitignore
+/Users/nacho/Desktop/club-app/backend/routes/payments.py
+/Users/nacho/Desktop/club-app/backend/services/fintoc_client.py
+/Users/nacho/Desktop/club-app/backend/services/fintoc_payment_service.py
+/Users/nacho/Desktop/club-app/backend/tests/test_fintoc_payments.py
+/Users/nacho/Desktop/club-app/frontend/src/app/services/payments/fintoc-payments.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/payments/fintoc-payments.service.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/payments/fintoc-sdk.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/payments/fintoc-sdk.service.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/components/fintoc-express-checkout/fintoc-express-checkout.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/components/fintoc-express-checkout/fintoc-express-checkout.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/components/fintoc-express-checkout/fintoc-express-checkout.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/components/fintoc-express-checkout/fintoc-express-checkout.component.spec.ts
+/Users/nacho/Desktop/club-app/docs/FINTOC_SANDBOX_SETUP.txt
+/Users/nacho/Desktop/club-app/docs/CHECKPOINT_2_4.txt
+/Users/nacho/Desktop/club-app/docs/visual-review/fintoc-sandbox-result.json
+
+Archivos modificados
+/Users/nacho/Desktop/club-app/backend/app.py
+/Users/nacho/Desktop/club-app/backend/.env
+/Users/nacho/Desktop/club-app/frontend/src/app/app.module.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/orders/orders.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.spec.ts
+
+Configuración
+El usuario configuró FINTOC_SECRET_KEY y FINTOC_PUBLIC_KEY en backend/.env.
+Se habilitó FINTOC_SANDBOX_ENABLED=true únicamente en ese archivo local.
+No se imprimieron claves ni tokens. .env.example contiene valores vacíos y flag
+false; backend/.gitignore excluye .env y sus variantes, salvo el ejemplo.
+No se añadieron secretos a Angular ni se modificaron environment.ts/development.ts.
+No se instalaron dependencias; backend/requirements.txt permanece igual.
+
+Endpoints internos implementados
+GET /api/payments/fintoc/config
+- Configuración publicable: enabled, public_key (solo pk_test) y mode=test.
+- Configuración inválida/deshabilitada -> enabled=false, public_key=null.
+POST /api/payments/fintoc/checkout-session
+- Recibe únicamente {order_id}. No acepta amount, currency, estados ni referencias
+  de pago proporcionadas por el cliente.
+- UUID existente, pedido pending_payment no vencido, importe de su snapshot backend.
+- 201 al crear sesión; 200 al recuperar el token de la misma sesión.
+- Devuelve únicamente {session_token}; errores JSON consistentes y sin detalles sensibles.
+GET /api/payments/fintoc/orders/<order_id>/status
+- Consulta la referencia de sesión que Flask tiene asociada, nunca un payment ID
+  elegido por el navegador. Devuelve verified, mode, status y order_id.
+Los tres endpoints usan Cache-Control: no-store.
+
+API oficial e implementación Python
+La documentación del usuario se contrastó con referencias oficiales vigentes.
+Existe SDK Python oficial; se eligió HTTPS mediante http.client de la biblioteca
+estándar para implementar estas dos operaciones sin agregar una dependencia.
+Host fijo api.fintoc.com y TLS por defecto; no se aceptan URLs externas del cliente.
+POST /v2/checkout_sessions y GET /v2/checkout_sessions/{id}.
+Authorization contiene exclusivamente la clave secreta en el backend.
+Se fija Fintoc-Version: 2026-02-01 según la referencia actual.
+Creación: flow=payment, ui_mode=embedded, amount=order.total_clp, currency=CLP,
+payment_method_types=['card'], metadata.order_id y expires_at del pedido.
+No se envían split, business_profile, datos de tarjetas o un destinatario inventado.
+Para card no se añadió recipient_account de transferencia bancaria.
+
+Idempotencia y expiración
+Un intento/sesión por UUID de pedido, protegido por lock por intento.
+Clave remota estable derivada del UUID del pedido y payload almacenado antes de
+llamar a Fintoc. Un timeout conserva ambos para el siguiente reintento.
+Solicitudes concurrentes no crean varias sesiones; una operación en curso devuelve 409.
+Una sesión ya verificada no permite otra creación para ese pedido.
+No se rota una clave automáticamente ante errores ambiguos o timeouts.
+Fintoc exige expiración al menos 10 minutos en el futuro: la primera sesión se
+rechaza si la cotización de 15 minutos tiene menos de 10 minutos y 5 segundos.
+Antes de iniciar un intento, Preparar pedido puede renovar esa cotización. Una vez
+iniciado un intento se bloquea preparar otro hasta resolverlo o comprobar un fallo.
+Las sesiones quedan limitadas por el vencimiento del pedido.
+
+Verificación confiable
+GET autenticado de sesión desde Flask; se contrastan id, metadata.order_id,
+importe entero, moneda CLP, flow=payment, método card y mode=test.
+Se valida payment_resource.payment_intent, su importe, moneda, método y modo.
+verified=true solo con sesión finished y payment_intent succeeded coincidente.
+Respuesta de navegador/SDK no se acepta como prueba de pago.
+No se implementan webhooks en esta fase: se usa la consulta documentada de Fintoc.
+La verificación puede recuperar un pago legítimo aun si la cotización ya venció.
+
+Estados de pedido
+Se conservan pending_payment, expired y cancelled. El resultado del pago Sandbox
+es un estado separado del intento. No se agregó una ruta para marcar pedidos paid.
+La UI muestra Pago Sandbox verificado solo tras la respuesta de verificación
+coincidente del backend. No se emiten entradas, consumos, QR o autorizaciones reales.
+Esta separación es intencional para la prueba sin persistencia ni entrega comercial.
+
+SDK Angular
+Nuevo FintocExpressCheckoutComponent, standalone:false, declarado en AppModule.
+FintocSdkService carga una única vez https://js.fintoc.com/v1/ directamente en head;
+no se descarga, empaqueta ni aloja una copia local. Admite reintento de carga.
+Contenedor único por componente, creado antes de Fintoc.create, con monto del pedido.
+product=payments, country=cl, currency=CLP, botón Apple Pay buy/white, 52 px,
+borde 12 px y locale es-MX, siguiendo las opciones documentadas.
+El botón oficial solo es visible tras wallets.applePay=true; no se dibuja un botón falso.
+Al destruir/cambiar el componente se cancela el ciclo, se limpia el reloj y se llama
+widget.destroy(); callbacks de generaciones anteriores se descartan.
+Bloqueo de callbacks duplicados durante obtención de sesión y espera de resultado;
+se desactivan interacciones del contenedor durante el procesamiento.
+Se monta solo con pedido y sin diferencia entre importe estimado y backend.
+Google Pay sigue Próximamente. No se modifica Wallet ni el flujo de entradas.
+
+Callbacks y eventos
+onPaymentRequest: solo card/apple_pay; POST a Flask solo order_id; retorna
+{sessionToken}. Timeout frontend 15 s, bajo el límite SDK de 30 s; HTTPS backend
+con timeout de socket de 10 s. Los errores no incluyen tokens ni mensajes internos.
+express_checkout_ready: interpreta metadata.wallets.applePay.
+processing_express_checkout_payment: carga y bloqueo de preparación duplicada.
+payment_error: mensaje de error, libera carga y permite reintento de la misma operación.
+express_checkout_error: informa fallo de inicialización/disponibilidad.
+onExit: informa cierre o cancelación; no lo clasifica como rechazo de pago.
+onSuccess: ignora datos como prueba, consulta Flask y espera verificación.
+Verificar estado Sandbox permite repetir la consulta sin iniciar otro pago.
+Preparar otro pedido permanece bloqueado con un intento sin resolver.
+El carrito de bebidas se conserva.
+
+Pruebas automatizadas ejecutadas
+Backend: 64 aprobadas = 48 anteriores + 16 nuevas.
+Incluyen credenciales live bloqueadas, config pública sin secret, importe autoritativo,
+payload manipulado, pedidos inexistentes/expirados/cancelados, quote_expiring,
+idempotencia, timeout con misma clave, concurrencia de 8 solicitudes con una creación,
+rechazo de respuestas provider inconsistentes y verificación de pago server-to-server.
+Incluyen pruebas de transporte HTTPS/version/auth/timeouts sin API real.
+Frontend: 63 aprobadas = 46 anteriores + 17 nuevas.
+Incluyen montaje sobre contenedor existente, instancia única, disponibilidad,
+callbacks, método Apple Pay, sesión, duplicados antes/después de entregar token,
+fallos, cancelación, verificación pendiente/positiva, expiración, limpieza y callbacks
+antiguos, cargador oficial, timeout, bloqueo de preparar otro pedido y renovación.
+En estas pruebas el proveedor/SDK se simulan; no equivalen a autorizar Apple Pay real.
+Compilación desarrollo: correcta, bundle inicial aproximado 1,92 MB.
+Compilación producción: correcta, bundle inicial 643,42 kB.
+
+Integración real ejecutada
+Chrome Headless, app Angular local y Flask local, con claves Sandbox del usuario:
+1. Seleccionar Piscola y Gin Tonic, continuar a carrito y checkout, preparar pedido.
+2. Config de pago HTTP 200, enabled=true, mode=test, clave pública con prefijo correcto.
+3. Cargar SDK real desde js.fintoc.com y observar su inicialización con payments/cl,
+   14000 CLP y contenedor DOM existente.
+4. Observar eventos reales: express_checkout_error y después express_checkout_ready,
+   sin disponibilidad Apple Pay (wallets.applePay no es true).
+5. Solicitar directamente al endpoint interno una sesión de ese pedido:
+   HTTP 201, session_token recibido sin imprimirlo; la validación del backend confirmó
+   el modo test, el importe 14000 CLP y la referencia del pedido.
+6. Consultar estado por Flask/Fintoc real: HTTP 200, status=created, verified=false.
+Pedido de la prueba observada: 48074a30-6e73-430f-9bbc-7a82af1be842.
+Evidencia sin claves/tokens: docs/visual-review/fintoc-sandbox-result.json.
+La solicitud real de sesión se hizo directamente al endpoint para probar la API;
+NO fue disparada por una autorización Apple Pay. onPaymentRequest y el resultado
+succeeded se comprobaron solo mediante pruebas automatizadas simuladas.
+No se autorizó ningún pago y no se efectuaron cobros reales.
+
+Comprobación de secretos
+Se buscaron coincidencias de la clave secreta real en 159 archivos de frontend/src,
+frontend/dist y docs: ninguna encontrada. El comando no imprimió valores secretos.
+No se registran tokens ni payloads del proveedor en consola o logs de la aplicación.
+Los tests usan credenciales ficticias propias y no reproducen claves reales.
+
+Bloqueos externos y pruebas pendientes
+- Registro del dominio con Apple mediante Fintoc, pendiente según el usuario.
+- Checkout local usa HTTP: comprobado. Se requiere entorno HTTPS para Apple Pay.
+- Archivo real de asociación pendiente de entrega de Fintoc; no se inventó ni creó.
+- Prueba en dispositivo/navegador compatible, botón oficial visible y hoja Apple Pay.
+- Autorización real Sandbox, onPaymentRequest real, procesamiento, cancelación real,
+  onSuccess real y verificación real de un pago succeeded.
+No se atribuye el botón oculto a una única causa: el navegador de prueba es Chrome
+Headless, se usa HTTP y no se confirmó registro del dominio. La observación del SDK
+solo acredita que Apple Pay no estuvo disponible en esa sesión.
+
+Problemas y riesgos técnicos
+- Almacenamiento temporal de pedidos/intentos: no resiste reinicios ni coordina
+  múltiples workers o réplicas. El reinicio pierde la referencia para consultar
+  sesiones ya creadas; no es una solución transaccional para producción.
+- API de demostración anónima: un UUID no sustituye autenticación/autorización de
+  producción. No se habilitan claves live ni entrega de bienes.
+- Algunos errores 5xx pueden quedar guardados por la idempotencia del proveedor;
+  no se cambia la clave automáticamente. Pueden requerir conciliación con Fintoc.
+- El backend verifica por consulta; no hay persistencia, conciliación automática,
+  recuperación tras reinicios ni webhooks de producción.
+- Continúan avisos de bundle >500 kB y estilos existentes; sin errores de build.
+  Dos selectores Bootstrap .form-floating>~label siguen omitidos por CSS.
+- API URL de producción todavía es un marcador: configurar API HTTPS y CORS al
+  preparar el dominio de pruebas, según FINTOC_SANDBOX_SETUP.txt.
+- No se instalaron dependencias ni se agregaron SDKs de Google Pay, split o pagos live.
+
+Fuentes oficiales
+https://docs.fintoc.com/guides/payments/accept-a-payment/accept-a-one-click-payment-with-apple-pay
+https://docs.fintoc.com/api/payments-api/checkout-sessions/checkout-sessions-create
+https://docs.fintoc.com/api/payments-api/checkout-sessions/checkout-sessions-get
+https://docs.fintoc.com/api/payments-api/checkout-sessions/checkout-session-object
+https://docs.fintoc.com/api/payments-api/payment-intents/payment-intents-object
+https://docs.fintoc.com/api/fintoc-api/idempotent-requests
+https://docs.fintoc.com/guides/resources/widget/web-integration
+https://docs.fintoc.com/guides/home/upgrade-api-version
+Documentación aportada: docs/FINTOC_EXPRESS_CHECKOUT.txt, conservada sin cambios.
+
+Próximo paso recomendado
+Revisar este checkpoint con el arquitecto. Obtener dominio HTTPS, archivo real y
+confirmación de registro de Fintoc; ejecutar entonces la autorización Sandbox completa.
+No aprobar como pago Apple Pay integral hasta contar con esa evidencia.
+No avanzar a Split Payment, producción, Wallet u otra subetapa sin autorización.

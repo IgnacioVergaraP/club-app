@@ -1,0 +1,183 @@
+CLUB VOID — CHECKPOINT 3.2: CATÁLOGO Y DETALLE DE NOCHES
+Fecha de cierre: 2 de noviembre de 2026 (America/Santiago).
+
+Objetivo:
+Convertir Noches en un catálogo local de eventos con filtros y páginas de detalle,
+conectado con Inicio y con entradas exclusivamente informativas.
+
+Estado:
+Completada. Compilaciones, suite frontend y recorrido real en Chrome aprobados.
+Pendiente de aprobación visual del Product Owner y revisión del arquitecto.
+No se avanzó a 3.3.
+
+Archivos creados:
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/noches/noches.component.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/utils/event-time.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/utils/event-time.spec.ts
+/Users/nacho/Desktop/club-app/docs/CHECKPOINT_3_2.txt
+
+Archivos modificados:
+/Users/nacho/Desktop/club-app/frontend/src/app/models/event.model.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/data/mock-events.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/events.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/events.service.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/app-routing.module.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/app.module.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/noches/noches.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/noches/noches.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/noches/noches.component.scss
+
+Componentes implementados:
+NochesComponent existente:
+- Encabezado, aviso de programación ficticia, tarjetas con imagen SVG local,
+  nombre, fecha, hora, categoría, descripción resumida y enlace por ID real.
+- Filtros Todos, Próximos y Anteriores, combinados con categoría.
+- Contador de resultados, reset de filtros y estado visual del evento.
+- Estados de carga, catálogo vacío, filtros sin coincidencias y error con reintento.
+
+Nuevo EventDetailComponent, standalone: false:
+- Imagen local, nombre, categoría, fechas, horas de inicio y término,
+  descripción completa, distintivo Demo y estado temporal.
+- Botón/enlace para volver a /noches.
+- Carga, error con reintento y evento no encontrado con regreso al catálogo.
+- El ID se obtiene de ActivatedRoute.paramMap; switchMap cancela la consulta
+  anterior si cambia el parámetro en la misma instancia del componente.
+- Evento desconocido muestra el estado correspondiente, sin redirigir a otro.
+
+Modelos, servicios y datos:
+Se conserva ClubEvent y se añade endsAt?: string. Se agregaron horas de término
+ficticias a los tres mocks para distinguir En curso de Evento finalizado.
+No se cambiaron IDs, nombres ni fechas de inicio originales:
+- demo-void-sessions: 7 noviembre 23:00 -> 8 noviembre 05:00, UTC-3.
+- demo-after-hours: 14 noviembre 23:00 -> 15 noviembre 05:00, UTC-3.
+- demo-ritmo-local: 21 noviembre 22:00 -> 22 noviembre 04:00, UTC-3.
+Todas las fechas son datos de demostración; no representan eventos reales.
+
+EventsService.getEvents() se conserva.
+Se añade getEventById(id): Observable<ClubEvent | null>, derivado de getEvents().
+Una sola fuente MOCK_EVENTS: no se duplicó el catálogo y no se añadieron llamadas
+HTTP, endpoints, persistencia, librerías ni nuevas dependencias.
+
+Entradas de demostración:
+Se muestran Entrada General y Entrada VIP con textos ilustrativos. No hay precios,
+selectores, reservas, botones de compra ni creación de pedidos de entradas.
+Se indica que la compra aún no está habilitada y que las categorías no representan
+disponibilidad real. No se creó un modelo de negocio de entradas en esta etapa;
+el pequeño listado de presentación queda tipado por inferencia TypeScript.
+
+Integración con Inicio:
+Ver evento y Ver detalles ahora usan ['/noches', event.id].
+Los accesos rápidos siguen apuntando a /noches, /tragos y /wallet.
+Se actualizaron las pruebas de Inicio al nuevo destino por evento.
+No se modificó el diseño de Inicio ni su lógica de selección de destacados.
+
+Rutas disponibles:
+/ — Inicio.
+/noches — Catálogo de eventos.
+/noches/:eventId — Nuevo detalle de evento dentro de MainLayoutComponent.
+/tragos — Catálogo de bebidas existente.
+/wallet — Pantalla existente.
+/perfil — Pantalla existente.
+/carrito — Carrito existente.
+/checkout — Checkout existente con guard.
+/dev/health — Diagnóstico existente.
+Ejemplos válidos: /noches/demo-void-sessions, /noches/demo-after-hours,
+/noches/demo-ritmo-local. /noches/no-existe muestra Evento no encontrado.
+
+Fechas y decisiones técnicas:
+- event-time.ts centraliza estado temporal y etiquetas para catálogo y detalle.
+- Comparaciones por Date.parse de ISO con offset y Date.now del sistema; no se
+  comparan textos de fecha ni se reinterpretan timestamps UTC como hora local.
+- Próximo: ahora < inicio. En curso: inicio <= ahora < término.
+  Finalizado: ahora >= término. Todos incluye los tres estados; Próximos muestra
+  los que aún no empiezan; Anteriores muestra los finalizados.
+- Si falta endsAt en un futuro registro, se utiliza startsAt como límite para
+  clasificarlo como anterior, ya que no se dispone de una duración.
+- Las vistas recalculan su estado cada 30 segundos sin consultas HTTP adicionales.
+  Los temporizadores se liberan con la suscripción del async pipe al salir.
+- La presentación mantiene explícitamente UTC-3, convención de los mocks de noviembre
+  de 2026. No se añadió una política general de cambios horarios para otras fechas.
+- RxJS combina fuente, período, categoría y reloj. Los filtros no se persisten;
+  al recrear el catálogo se vuelve a Todos y todas las categorías.
+- Carga y error se encapsulan en streams con reintento; se prueban con fuentes
+  controladas, aunque el mock local responde sin latencia de red.
+- Se conserva NgModules. Se registra el nuevo componente en AppModule y la nueva
+  ruta como hija del layout, manteniendo las cinco pestañas y Noches activa.
+- SVG local compartido y fallback local para eventos sin imageUrl, sin imágenes
+  externas, degradados ni sombras exageradas. Filtros con objetivo táctil de 44 px,
+  foco visible, aria-pressed y etiquetas asociadas al selector de categoría.
+
+Pruebas ejecutadas:
+1. npm run build -- --configuration development: correcto.
+   Bundle inicial de desarrollo: 1,88 MB.
+2. npm run build: correcto con advertencias. Bundle inicial: 617,75 kB.
+3. npm test -- --watch=false --browsers=ChromeHeadless: 32 pruebas aprobadas.
+   Son las 17 anteriores (adaptadas donde cambió el destino) y 15 nuevas:
+   7 catálogo, 5 detalle, 2 fechas y 1 consulta por ID del servicio.
+   Cobertura nueva:
+   - Catálogo renderizado, rutas por ID, estado finalizado, todos/próximos/anteriores.
+   - Combinación de categoría y período, sin coincidencias y restablecimiento.
+   - Catálogo vacío, carga, error y reintento.
+   - Recálculo con el paso del tiempo usando reloj controlado.
+   - Detalle por ID, cambio de parámetro en la misma instancia, no encontrado,
+     carga/error/reintento y ausencia de controles de compra en entradas.
+   - Límites temporales de inicio y fin con offset y compatibilidad sin endsAt.
+4. Recorrido real en Chrome Headless contra Angular/Flask locales existentes:
+   - /noches muestra tres eventos. Al 2 de noviembre de 2026 hay tres próximos y
+     cero anteriores: se comprobó ese resultado sin alterar fechas ni el reloj real.
+   - Filtro Tech house muestra únicamente After Hours.
+   - Ver detalles abre /noches/demo-after-hours y muestra su nombre correcto.
+   - Volver al listado funciona.
+   - Acceso directo a las tres URLs válidas muestra el evento correspondiente.
+   - Recargar /noches/demo-ritmo-local conserva el detalle correcto.
+   - /noches/no-existe conserva esa URL y muestra Evento no encontrado.
+   - Inicio Ver evento abre demo-void-sessions; el segundo destacado abre
+     demo-after-hours, ambos por ID real.
+   - Se comprobó el aviso de compra no habilitada y que la sección Entradas no
+     tiene botones, enlaces de compra, inputs ni selects.
+   - Catálogo y detalle a 320, 390 y 1280 px: sin scroll horizontal y con cinco
+     enlaces en la navegación inferior. Se inspeccionaron capturas de móvil y
+     una captura de detalle de escritorio.
+   - Cero excepciones JS, console.error o recursos HTTP >= 400 en el recorrido.
+   Los casos de eventos pasados y cambios de reloj se verificaron en las pruebas
+   automatizadas controladas, no moviendo fechas para aparentar resultados reales.
+5. Regresión real de carrito y checkout:
+   /tragos -> seleccionar una Piscola y un Gin Tonic -> /carrito -> /checkout.
+   Preparar pedido -> POST /api/orders HTTP 201.
+   order_id: 39248029-0c80-439d-85d2-a218caf4b737
+   status: pending_payment; total_units: 2; total_clp: 14000.
+   Se contrastaron precios y subtotales con GET /api/products de Flask.
+   No se interceptaron respuestas ni se simuló el backend en este recorrido.
+   No hubo cobros. No se modificó código backend, carrito, tragos ni checkout.
+
+Pruebas pendientes:
+- Aprobación visual del Product Owner y revisión del arquitecto.
+- Dispositivos físicos, Safari/iOS y navegadores distintos del Chrome comprobado.
+- No se volvió a ejecutar la suite Python en esta subetapa: no hubo cambios backend.
+  Se verificó la conservación del flujo existente con las pruebas frontend y la
+  integración real Angular-Flask descrita.
+
+Problemas detectados / limitaciones:
+No quedan pruebas fallidas ni errores de compilación.
+Durante la construcción de tests se ajustaron la destrucción de fixtures dentro
+ de fakeAsync y el manejo del reloj simulado; la ejecución final pasó 32/32.
+Advertencias de producción:
+- Bundle inicial 617,75 kB supera aviso de 500 kB, debajo del límite de error de 1 MB.
+- Estilos: detalle 2,10 kB y Noches 2,23 kB superan aviso de 2 kB, debajo de 4 kB.
+- Se mantienen avisos previos de Inicio 3,97 kB, carrito 3,45 kB y checkout 3,16 kB.
+- Se mantienen dos selectores Bootstrap .form-floating>~label omitidos por CSS.
+No se aumentaron presupuestos ni se cambiaron versiones para ocultar avisos.
+El servicio sigue siendo local y no puede producir una caída de red real; carga y
+error están preparados y verificados con fuentes de prueba.
+
+Próximo paso sugerido:
+Revisar y aprobar 3.2; después solicitar al arquitecto el alcance autorizado de 3.3
+para selección o compra de entradas. No se implementaron reservas, carrito de
+entradas, pedidos de entradas, pagos, autenticación, Supabase, split, QR o admin.
+Detenerse y esperar aprobación antes de continuar.

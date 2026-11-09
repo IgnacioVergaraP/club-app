@@ -1,0 +1,84 @@
+<section class="page">
+  <button type="button" class="back-btn" (click)="goToTragos()" aria-label="Volver a tragos">
+    ← Volver a tragos
+  </button>
+
+  <header class="page-header">
+    <h1 class="page-title">Carrito</h1>
+    <p class="page-subtitle">Revisa tus tragos antes de continuar.</p>
+  </header>
+
+  <ng-container *ngIf="isEmpty$ | async; else cartContent">
+    <div class="empty-state">
+      <p class="empty-title">Tu carrito está vacío</p>
+      <p class="empty-text">Agrega tragos desde el catálogo para comenzar.</p>
+      <button type="button" class="void-btn-primary" (click)="goToTragos()">
+        Explorar tragos
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #cartContent>
+    <ng-container *ngIf="items$ | async as items">
+      <ul class="cart-list" *ngIf="items.length > 0">
+        <li class="cart-item" *ngFor="let item of items; trackBy: trackByProductId">
+          <div class="cart-item-main">
+            <div class="cart-item-info">
+              <h2 class="cart-item-name">{{ item.product.name }}</h2>
+              <span class="cart-item-unit">
+                {{ formatClp(item.product.priceClp) }} c/u
+              </span>
+            </div>
+            <div class="cart-item-qty">
+              <button
+                type="button"
+                class="qty-btn"
+                aria-label="Disminuir cantidad"
+                (click)="decrement(item)">
+                −
+              </button>
+              <span class="qty-value" aria-live="polite">{{ item.quantity }}</span>
+              <button
+                type="button"
+                class="qty-btn"
+                aria-label="Aumentar cantidad"
+                [disabled]="!item.product.available"
+                (click)="increment(item)">
+                +
+              </button>
+            </div>
+            <div class="cart-item-subtotal">
+              {{ formatClp(item.subtotalClp) }}
+            </div>
+            <button
+              type="button"
+              class="cart-item-remove"
+              aria-label="Eliminar producto"
+              (click)="remove(item)">
+              ✕
+            </button>
+          </div>
+        </li>
+      </ul>
+
+      <section class="cart-totals" *ngIf="items.length > 0">
+        <div class="totals-row">
+          <span class="totals-label">Unidades</span>
+          <span class="totals-value">{{ (totalUnits$ | async) ?? 0 }}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">Subtotal</span>
+          <span class="totals-value">{{ formatClp((subtotal$ | async) ?? 0) }}</span>
+        </div>
+        <div class="totals-row totals-grand">
+          <span class="totals-label">Total estimado</span>
+          <span class="totals-value">{{ formatClp((subtotal$ | async) ?? 0) }}</span>
+        </div>
+
+        <button type="button" class="void-btn-primary checkout-btn" (click)="goToCheckout()">
+          Continuar al checkout
+        </button>
+      </section>
+    </ng-container>
+  </ng-template>
+</section>

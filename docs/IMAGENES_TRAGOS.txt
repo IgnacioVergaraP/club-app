@@ -1,0 +1,78 @@
+CLUB VOID — IMÁGENES DE TRAGOS
+Fecha: 2 de noviembre de 2026 (America/Santiago)
+
+Se generaron y revisaron ocho fotografías de demostración mediante la herramienta
+integrada image_gen, aplicando la habilidad imagegen. Una llamada por producto.
+Estilo: fondo oscuro, iluminación violeta sutil y producto completo sin textos ni marcas.
+PNG originales conservados en la carpeta de generación de Codex. Copias JPEG
+locales optimizadas a 640 px de ancho mediante sips, calidad 84.
+
+Archivos finales:
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/piscola.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/ron-cola.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/gin-tonic.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/vodka-tonica.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/mojito.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/pisco-sour.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/cuba-libre.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/drinks/agua-mineral.jpg
+
+Integración:
+- frontend/src/app/data/mock-products.ts: imageUrl por cada ID existente.
+- product-card.component.html: imagen local decorativa con lazy loading.
+- product-card.component.scss: miniatura junto al nombre y descripción; object-fit contain.
+- Captura: docs/visual-review/tragos-mobile.png.
+Precios, IDs, disponibilidad, selección, carrito, checkout y backend conservados.
+No se instalaron dependencias ni se agregaron servicios externos.
+
+Verificación efectivamente ejecutada:
+- npm run build: correcto con advertencias previas de tamaño/CSS; bundle 632,81 kB.
+- Suite frontend: 46 pruebas aprobadas en ChromeHeadless.
+- Navegador real: ocho imágenes cargadas correctamente, con archivo correspondiente
+  al producto. Sin scroll horizontal en anchos 320, 390 y 1280 px.
+- Captura móvil revisada visualmente.
+- Regresión real de bebidas: Piscola + Gin Tonic, carrito y checkout, HTTP 201,
+  pending_payment y 14000 CLP, contrastado con el catálogo de Flask.
+  order_id: 1ab2de75-7225-493a-a734-f7efbb45b936. Sin cobros.
+No se ejecutó de nuevo la suite backend porque no hubo cambios Python.
+Pendiente: aprobación visual del usuario y dispositivos físicos/otros navegadores.
+
+Prompts finales exactos:
+
+piscola:
+Square 1:1 premium photorealistic beverage product photography for Club VOID's fictional demonstration menu. One single drink centered, entire glass or bottle visible including base, generous 18 percent padding around subject for thumbnail cropping, straight-on three-quarter camera angle. Plain almost-black matte background and dark bar surface, subtle violet rim lighting, neutral soft key light preserving true drink colors, crisp ice and realistic condensation, coherent professional studio catalogue series. No people, no hands, no text, no lettering, no branding, no logos, no prices, no watermark, no UI. The product is: Chilean piscola: pisco mixed with dark cola and large ice cubes in a clear tall highball glass. Rich dark brown translucent cola, no fruit garnish, no mint.
+
+ron-cola:
+Square 1:1 premium photorealistic beverage product photography for Club VOID's fictional demonstration menu. One single drink centered, entire glass or bottle visible including base, generous 18 percent padding around subject for thumbnail cropping, straight-on three-quarter camera angle. Plain almost-black matte background and dark bar surface, subtle violet rim lighting, neutral soft key light preserving true drink colors, crisp ice and realistic condensation, coherent professional studio catalogue series. No people, no hands, no text, no lettering, no branding, no logos, no prices, no watermark, no UI. The product is: Rum and cola over ice in a clear short heavy-bottom rocks glass. Deep amber-brown cola with a few visible tiny carbonation bubbles. No lime or other garnish.
+
+gin-tonic:
+Square 1:1 premium photorealistic beverage product photography for Club VOID's fictional demonstration menu. One single drink centered, entire glass or bottle visible including base, generous 18 percent padding around subject for thumbnail cropping, straight-on three-quarter camera angle. Plain almost-black matte background and dark bar surface, subtle violet rim lighting, neutral soft key light preserving true drink colors, crisp ice and realistic condensation, coherent professional studio catalogue series. No people, no hands, no text, no lettering, no branding, no logos, no prices, no watermark, no UI. The product is: Gin and tonic in a clear balloon copa glass with a short elegant stem, transparent lightly bubbling tonic, large ice cubes and one thin lemon wheel. No other fruit or herbs.
+
+vodka-tonica:
+Square 1:1 premium photorealistic beverage product photography for Club VOID's fictional demonstration menu. One single drink centered, entire glass or bottle visible including base, generous 18 percent padding around subject for thumbnail cropping, straight-on three-quarter camera angle. Plain almost-black matte background and dark bar surface, subtle violet rim lighting, neutral soft key light preserving true drink colors, crisp ice and realistic condensation, coherent professional studio catalogue series. No people, no hands, no text, no lettering, no branding, no logos, no prices, no watermark, no UI. The product is: Vodka and tonic in a clear straight tall cylindrical highball glass, transparent carbonated liquid and ice cubes, minimal clean appearance, no garnish or herbs.
+
+mojito:
+Square 1:1 premium photorealistic beverage product photography for Club VOID's fictional demonstration menu. One single drink centered, entire glass or bottle visible including base, generous 18 percent padding around subject for thumbnail cropping, straight-on three-quarter camera angle. Plain almost-black matte background and dark bar surface, subtle violet rim lighting, neutral soft key light preserving true drink colors, crisp ice and realistic condensation, coherent professional studio catalogue series. No people, no hands, no text, no lettering, no branding, no logos, no prices, no watermark, no UI. The product is: Classic mojito in a clear tall highball glass: translucent lime and soda drink, crushed ice, visible fresh green mint leaves and fresh lime wedges. Natural green accents, not neon colored.
+
+pisco-sour:
+Square 1:1 premium photorealistic beverage product photography for Club VOID's fictional demonstration menu. One single drink centered, entire glass or bottle visible including base, generous 18 percent padding around subject for thumbnail cropping, straight-on three-quarter camera angle. Plain almost-black matte background and dark bar surface, subtle violet rim lighting, neutral soft key light preserving true drink colors, crisp ice and realistic condensation, coherent professional studio catalogue series. No people, no hands, no text, no lettering, no branding, no logos, no prices, no watermark, no UI. The product is: Chilean pisco sour in a small elegant stemmed coupe glass: pale lemon-yellow opaque drink topped with a smooth thick white egg-white foam. No fruit garnish, no mint, no straw.
+
+cuba-libre:
+Square 1:1 premium photorealistic beverage product photography for Club VOID's fictional demonstration menu. One single drink centered, entire glass or bottle visible including base, generous 18 percent padding around subject for thumbnail cropping, straight-on three-quarter camera angle. Plain almost-black matte background and dark bar surface, subtle violet rim lighting, neutral soft key light preserving true drink colors, crisp ice and realistic condensation, coherent professional studio catalogue series. No people, no hands, no text, no lettering, no branding, no logos, no prices, no watermark, no UI. The product is: Cuba libre in a clear tall gently flared highball glass: dark rum and cola with ice cubes, a fresh lime wedge on the rim and one lime wedge inside the drink. No mint.
+
+agua-mineral:
+Square 1:1 premium photorealistic beverage product photography for Club VOID's fictional demonstration menu. One single drink centered, entire glass or bottle visible including base, generous 18 percent padding around subject for thumbnail cropping, straight-on three-quarter camera angle. Plain almost-black matte background and dark bar surface, subtle violet rim lighting, neutral soft key light preserving true drink colors, crisp ice and realistic condensation, coherent professional studio catalogue series. No people, no hands, no text, no lettering, no branding, no logos, no prices, no watermark, no UI. The product is: One small clear unbranded glass bottle of still mineral water with a plain silver screw cap, filled with clear water and realistic condensation. No label, no logos, no extra glass, no fruit.
+
+AJUSTE POSTERIOR SEGÚN TARJETA DE REFERENCIA DEL USUARIO
+Tarjetas convertidas en filas compactas: foto izquierda, nombre/descripción/precio
+en el centro y botón + morado a la derecha. Se ocultan el cero y el botón de
+decremento cuando no hay selección; al agregar, aparecen −, cantidad y +.
+Se retiró la etiqueta visual de categoría de cada tarjeta; los filtros se conservan.
+El listado se mantiene en una columna también en escritorio. Los controles
+conservan un área táctil de 44 px aunque el botón visible sea más compacto.
+Archivos modificados: product-card.component.html, product-card.component.scss y
+tragos.component.scss. Sin cambios de precios ni lógica de carrito.
+Verificado: build producción correcto (632,08 kB; advertencias previas), 46 tests
+frontend aprobados, 320/390/1280 px sin overflow y regresión real de checkout
+HTTP 201, pending_payment, 14000 CLP. Pedido: f7d2449f-d21c-4249-adeb-01baf490957a.
+Captura actualizada en docs/visual-review/tragos-mobile.png.

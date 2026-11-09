@@ -1,0 +1,43 @@
+{
+  "mode": "test",
+  "config": {
+    "http": 200,
+    "enabled": true,
+    "mode": "test",
+    "publicTestKey": true
+  },
+  "officialSdkLoaded": true,
+  "orderId": "48074a30-6e73-430f-9bbc-7a82af1be842",
+  "session": {
+    "http": 201,
+    "hasSessionToken": true,
+    "error": null
+  },
+  "verification": {
+    "http": 200,
+    "verified": false,
+    "mode": "test",
+    "status": "created",
+    "order_id": "48074a30-6e73-430f-9bbc-7a82af1be842"
+  },
+  "ui": "Apple Pay · Sandbox\n\nApple Pay no está disponible en esta sesión. Revisa dispositivo, navegador, HTTPS y habilitación del dominio con Fintoc.\n\nEsta página usa HTTP. Apple Pay requiere HTTPS y un dominio registrado mediante Fintoc.",
+  "observations": {
+    "mount": {
+      "product": "payments",
+      "country": "cl",
+      "amount": 14000,
+      "currency": "CLP",
+      "containerExists": true
+    },
+    "events": [
+      {
+        "name": "express_checkout_error",
+        "applePay": false
+      },
+      {
+        "name": "express_checkout_ready",
+        "applePay": false
+      }
+    ]
+  }
+}

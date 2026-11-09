@@ -1,0 +1,32 @@
+{
+  "result": "PASS",
+  "mode": "test",
+  "mocked": false,
+  "order_id": "47fa1a57-e6bc-4dcd-973b-f8a5d0c24ed2",
+  "total_clp": 14000,
+  "order_http": 201,
+  "session_http": 201,
+  "provider_host": "test.pay.fintoc.com",
+  "responsive": [
+    {
+      "width": 320,
+      "scrollWidth": 305
+    },
+    {
+      "width": 390,
+      "scrollWidth": 375
+    },
+    {
+      "width": 768,
+      "scrollWidth": 753
+    },
+    {
+      "width": 1280,
+      "scrollWidth": 1265
+    }
+  ],
+  "returnStatus": "not confirmed; URL flags ignored",
+  "paid": false,
+  "errors": [],
+  "cancelReturn": true
+}

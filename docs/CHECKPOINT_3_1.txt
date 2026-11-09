@@ -1,0 +1,126 @@
+CLUB VOID — CHECKPOINT 3.1
+Fecha: 30 de octubre de 2026 (America/Santiago)
+
+Objetivo:
+Implementar Inicio como pantalla de descubrimiento: bienvenida, próxima noche,
+accesos rápidos, eventos destacados e información sobre la experiencia de Club VOID.
+
+Estado:
+Completada. Implementación y verificaciones automatizadas aprobadas.
+Pendiente de aprobación visual del Product Owner y revisión del arquitecto.
+
+Archivos creados:
+/Users/nacho/Desktop/club-app/frontend/src/app/models/event.model.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/data/mock-events.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/events.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/services/events.service.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.spec.ts
+/Users/nacho/Desktop/club-app/frontend/src/assets/events/void-orbit.svg
+/Users/nacho/Desktop/club-app/docs/CHECKPOINT_3_1.txt
+
+Archivos modificados:
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.scss
+
+Componentes implementados:
+Se amplió InicioComponent existente, conservando standalone: false y su declaración
+en AppModule. No fue necesario crear componentes adicionales ni modificar NgModules,
+rutas, layout, header, navegación inferior o estilos globales.
+
+Secciones de Inicio:
+1. Bienvenida: identidad Club VOID, Tu noche comienza aquí y descripción breve.
+2. Próxima noche: evento futuro más cercano, imagen SVG local decorativa, categoría,
+   nombre, fecha, hora de Chile UTC-3, descripción, distintivo de demostración y
+   enlace Ver evento hacia /noches.
+3. Accesos rápidos: Comprar entradas -> /noches; Pedir tragos -> /tragos;
+   Mis entradas -> /wallet. Se implementan con routerLink.
+4. En el radar: máximo tres eventos futuros destacados, con nombre, fecha,
+   categoría, indicador Demo y enlace Ver detalles hacia /noches.
+5. Información: entradas desde el celular, pedidos de demostración y futuro Wallet.
+   Se aclara que compras de entradas y pagos aún no están habilitados.
+
+Modelos y servicios:
+ClubEvent: id, name, description, startsAt, category, imageUrl opcional, featured,
+isDemo. startsAt usa ISO 8601 con offset explícito.
+MOCK_EVENTS: tres eventos ficticios del 7, 14 y 21 de noviembre de 2026; todos
+identificados como demostración y sin representar entradas reales a la venta.
+EventsService.getEvents(): Observable<ClubEvent[]>, ordenado cronológicamente.
+Se copian los objetos en cada suscripción para evitar modificar los mocks.
+El contrato Observable permitirá sustituir el origen por HttpClient posteriormente.
+No se agregó un backend de eventos.
+
+Funcionalidades y decisiones técnicas:
+- Vista derivada mediante Observable y async pipe: próximo evento futuro y máximo
+  tres destacados; no se mantienen suscripciones manuales en el componente.
+- Si el catálogo queda vacío o todos los eventos han pasado, se muestran mensajes
+  alternativos y se mantienen los accesos rápidos. No se anuncia un evento pasado
+  como próximo. Las fechas de demostración no se desplazan automáticamente.
+- Diseño mobile-first: una columna en móvil y grids/tarjeta dividida desde 600 px.
+  Se mantiene el ancho máximo de 720 px del layout existente.
+- Paleta existente mediante variables globales, bordes sutiles, sin degradados,
+  sombras exageradas, librerías o tipografías externas.
+- SVG local geométrico creado como recurso vectorial del proyecto; no hay imágenes
+  remotas. Es decorativo (alt vacío), con la información del evento en HTML.
+- Iconos inline SVG, foco visible, secciones con encabezados, elementos time y
+  enlaces con nombres accesibles. Accesos rápidos superiores a 44 px de altura.
+- Las fechas de estos mocks se muestran en UTC-3, explícito en pantalla. No se
+  implementó todavía una política general de zonas horarias para futuros eventos.
+
+Pruebas ejecutadas y resultados:
+1. npm test -- --watch=false --browsers=ChromeHeadless
+   17 pruebas aprobadas: 9 existentes y 8 nuevas (2 servicio, 6 Inicio).
+   Nuevas verificaciones: mocks ordenados e independientes entre suscripciones,
+   renderizado, señalización de demostración, navegación Angular Router, rutas
+   de evento/detalles, límite de tres destacados, catálogo vacío y eventos pasados.
+2. npm run build -- --configuration development
+   Correcta. Bundle inicial de desarrollo: 1,84 MB sin optimización.
+3. npm run build
+   Correcta. Bundle inicial de producción: 597,40 kB.
+4. Integración real en Chrome Headless contra los servidores locales existentes:
+   - Inicio renderizado con tres destacados e imagen local correctamente cargada.
+   - Anchos 320, 390, 768 y 1280 px: scrollWidth igual al ancho de ventana,
+     sin desbordamiento horizontal. Accesos rápidos de 74 px en móvil y unos
+     126 px en escritorio.
+   - Navegación real desde los tres accesos: /noches, /tragos, /wallet.
+   - Enlace principal de evento y un enlace de detalles hacia /noches.
+   - Revisión visual de capturas completas de 390 y 1280 px.
+   - Cero excepciones JS, cero console.error y cero recursos HTTP >= 400 durante
+     el recorrido comprobado.
+5. Regresión de integración real /tragos -> /carrito -> /checkout:
+   Seleccionar Piscola y Gin Tonic, una unidad de cada producto; preparar pedido.
+   POST http://127.0.0.1:5000/api/orders -> HTTP 201.
+   order_id: 90f47009-03dc-4abf-9498-3ddf267e493c
+   status: pending_payment; total_units: 2; total_clp: 14000.
+   Se comprobaron UUID, precios y subtotales contra GET /api/products de Flask,
+   total 6000 + 8000 = 14000 CLP y resultado visible en checkout.
+   No se interceptaron ni simularon respuestas de esta prueba de navegador.
+   El pedido temporal no produjo cobros.
+
+Pruebas pendientes:
+- Aprobación visual del usuario.
+- Validación en dispositivos físicos y otros navegadores (Safari/iOS, Android).
+- No se volvió a ejecutar la suite backend en esta subetapa porque no se modificó
+  ningún archivo backend; se verificó la regresión Angular-Flask en navegador real.
+
+Problemas detectados / limitaciones:
+- Compilación de producción con advertencias: bundle inicial 597,40 kB frente al
+  umbral de aviso de 500 kB; estilos Inicio 3,97 kB frente a aviso de 2 kB, por
+  debajo del límite de error de 4 kB. Se redujeron estilos sin elevar presupuestos.
+- Se mantienen advertencias previas de SCSS carrito (3,45 kB), checkout (3,16 kB)
+  y dos selectores Bootstrap .form-floating>~label omitidos por el procesador CSS.
+- Noches y Wallet siguen siendo las pantallas existentes; los enlaces no habilitan
+  compra de entradas ni generan una página de detalles.
+- EventsService usa únicamente datos simulados. Sin persistencia ni endpoint API.
+- Los errores de consola y recursos se comprobaron durante el recorrido descrito,
+  no como garantía de ausencia de errores en todos los dispositivos posibles.
+
+Restricciones respetadas:
+Sin cambios al backend, catálogo de productos, carrito ni checkout.
+Sin nuevas dependencias, pagos, Fintoc, Apple Pay, Google Pay, split, autenticación,
+base de datos, compras de entradas, QR ni panel administrativo.
+
+Próximo paso sugerido:
+Revisión y aprobación de Inicio. Después, solicitar las instrucciones de 3.2 para
+reutilizar ClubEvent, MOCK_EVENTS y EventsService al desarrollar la pantalla Noches.
+No se implementó 3.2 ni se avanzó a otra subetapa.

@@ -1,0 +1,87 @@
+<section class="home" aria-labelledby="welcome-title">
+  <header class="welcome">
+    <p class="eyebrow">CLUB VOID <span aria-hidden="true">/</span> BIENVENIDO</p>
+    <h1 id="welcome-title">Tu noche comienza aquí<span class="accent">.</span></h1>
+    <p class="intro">Descubre la próxima fecha, elige tus tragos y encuentra tu lugar en la noche.</p>
+  </header>
+
+  <ng-container *ngIf="home$ | async as home">
+    <section aria-labelledby="next-title">
+      <div class="section-heading">
+        <h2 id="next-title">Próxima noche</h2>
+        <span class="section-note">Una primera mirada</span>
+      </div>
+      <article class="next-event" *ngIf="home.nextEvent as event; else noUpcoming">
+        <div class="event-art">
+          <img [src]="event.imageUrl || 'assets/events/void-orbit.svg'" alt="" width="960" height="640">
+          <span class="art-label">PRÓXIMA NOCHE</span>
+          <span class="demo-tag" *ngIf="event.isDemo">Evento de demostración</span>
+        </div>
+        <div class="event-body">
+          <p class="eyebrow">{{ event.category }}</p>
+          <h3>{{ event.name }}</h3>
+          <p class="event-date">
+            <time [attr.datetime]="event.startsAt">{{ event.startsAt | date:'dd MMM yyyy':'-0300' }}
+              · {{ event.startsAt | date:'HH:mm':'-0300' }} h</time>
+            <span>Hora de Chile · UTC−3</span>
+          </p>
+          <p class="event-description">{{ event.description }}</p>
+          <a class="void-btn-primary event-link" [routerLink]="['/noches', event.id]" [attr.aria-label]="'Ver evento ' + event.name">
+            Ver evento <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </article>
+      <ng-template #noUpcoming>
+        <div class="void-card empty-events">
+          <h3>La próxima noche está por anunciarse.</h3>
+          <p>Mientras tanto, explora lo que puedes hacer en VOID.</p>
+          <a routerLink="/noches">Explorar Noches <span aria-hidden="true">↗</span></a>
+        </div>
+      </ng-template>
+    </section>
+
+    <section class="featured-section" aria-labelledby="featured-title">
+      <div class="section-heading">
+        <h2 id="featured-title">Próximas noches</h2>
+        <a routerLink="/noches">Ver noches <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="demo-note">Programación de demostración. Estos eventos son ficticios y no están a la venta.</p>
+      <div class="featured-grid" *ngIf="home.featured.length; else noFeatured">
+        <article class="featured-card" *ngFor="let event of home.featured; let index = index">
+          <div class="featured-visual"><img [src]="event.imageUrl" alt="" width="240" height="160" loading="lazy"></div>
+          <div class="card-top"><span class="event-number" aria-hidden="true">{{ event.startsAt | date:'dd':'-0300' }}</span>
+            <span class="demo-tag" *ngIf="event.isDemo">Demo</span></div>
+          <p class="event-category">{{ event.category }}</p>
+          <h3>{{ event.name }}</h3>
+          <time [attr.datetime]="event.startsAt">{{ event.startsAt | date:'dd MMM yyyy':'-0300' }}</time>
+          <a [routerLink]="['/noches', event.id]" [attr.aria-label]="'Ver detalles de ' + event.name">Ver detalles <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+      <ng-template #noFeatured><p class="demo-note">Pronto habrá nuevas noches por descubrir.</p></ng-template>
+    </section>
+    <nav class="quick-links" aria-label="Accesos rápidos">
+      <a *ngFor="let link of quickLinks" [routerLink]="link.route" class="quick-link">
+        <span class="quick-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path [attr.d]="link.icon" />
+          </svg>
+        </span>
+        <span class="quick-copy"><strong>{{ link.title }}</strong><small>{{ link.description }}</small></span>
+        <span class="link-arrow" aria-hidden="true">↗</span>
+      </a>
+    </nav>
+
+  </ng-container>
+
+  <section class="experience" aria-labelledby="experience-title">
+    <p class="eyebrow">MENOS VUELTAS. MÁS NOCHE.</p>
+    <h2 id="experience-title">Todo empieza en tu celular.</h2>
+    <div class="benefits">
+      <div><h3>Elige tu noche</h3><p>Descubre eventos desde el celular. La compra de entradas estará disponible más adelante.</p></div>
+      <div><h3>Encuentra tu trago</h3><p>Explora el catálogo y prepara tu pedido de demostración, sin realizar cobros.</p></div>
+      <div><h3>Tenlo a mano</h3><p>Wallet será tu lugar para acceder a tus entradas y compras cuando estén habilitadas.</p></div>
+    </div>
+    <p class="availability-note">Estamos preparando la experiencia. Los pagos todavía no están habilitados.</p>
+  </section>
+</section>

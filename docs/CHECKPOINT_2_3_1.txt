@@ -1,0 +1,91 @@
+CLUB VOID — CHECKPOINT 2.3.1
+Fecha: 30 de octubre de 2026 (America/Santiago)
+
+Estado: implementada y verificada. Se recomienda aprobación del arquitecto.
+
+Archivos modificados:
+/Users/nacho/Desktop/club-app/backend/config.py
+
+Archivos creados:
+/Users/nacho/Desktop/club-app/backend/requirements.txt
+/Users/nacho/Desktop/club-app/backend/tests/test_config.py
+/Users/nacho/Desktop/club-app/docs/CHECKPOINT_2_3_1.txt
+
+Correcciones:
+- ProductionConfig no valida secretos durante la importación del módulo.
+- get_config valida SECRET_KEY al seleccionar producción, incluso cuando se
+  selecciona mediante FLASK_ENV. Rechaza valores ausentes, vacíos, solo espacios
+  y la clave predeterminada de desarrollo. No genera un secreto de producción.
+- Desarrollo y testing conservan sus configuraciones y funcionan sin .env
+  ni SECRET_KEY de producción.
+- Se añadieron 11 pruebas de configuración aisladas del .env y entorno real.
+- No existía requirements.txt. Se creó con las versiones ya instaladas y
+  probadas: Flask 3.0.3, Flask-Cors 4.0.1, python-dotenv 1.0.1 y Werkzeug 3.1.3.
+  Werkzeug se declara porque se importa directamente en la aplicación.
+  No se instalaron paquetes ni se cambiaron versiones del entorno.
+
+Pruebas ejecutadas:
+1. Suite backend: 48 pruebas aprobadas (37 previas + 11 de configuración).
+   Comando desde la raíz:
+   python3 -m unittest discover -s backend/tests -t backend -v
+2. Suite backend completa con os.environ vacío y dotenv.load_dotenv deshabilitado
+   mediante mocks: 48 pruebas aprobadas. Incluye selección de DevelopmentConfig,
+   TestingConfig y ProductionConfig, arranque de factories, rechazo de secretos
+   inválidos y aceptación de un secreto explícito ficticio de prueba.
+3. Suite frontend: npm test -- --watch=false --browsers=ChromeHeadless
+   Resultado: 9 pruebas aprobadas.
+4. Compilación Angular: npm run build
+   Resultado: correcta, con las advertencias ya conocidas de tamaño y CSS.
+
+Integración real Angular-Flask:
+Chrome Headless con perfil temporal aislado y automatización vía DevTools.
+Se intentó iniciar servidores, pero los puertos ya estaban ocupados por los
+servidores locales del proyecto. Se verificó Angular mediante HTTP 200 en
+/tragos y Flask mediante GET /api/health 200, service=club-void-api.
+Se reutilizaron esos procesos, sin detenerlos ni alterar su configuración.
+
+Recorrido comprobado en navegador real:
+http://localhost:4200/tragos
+Seleccionar Piscola y Gin Tonic, una unidad de cada producto.
+Continuar a /carrito; verificar dos productos.
+Continuar a /checkout; pulsar Preparar pedido.
+Observar la respuesta de red de http://127.0.0.1:5000/api/orders.
+
+Resultado:
+HTTP 201
+order_id: 9a2795b5-1939-4368-b69a-e3c5f6b5fa03
+status: pending_payment
+total_units: 2
+total_clp: 14000
+Verificación contra GET /api/products de Flask:
+Piscola 6000 + Gin Tonic 8000 + service_fee_clp 0 = 14000 CLP.
+Se verificaron UUID v4, precios unitarios, subtotales, total y visualización de
+Pedido preparado — pago pendiente, UUID y $14.000 en la página.
+No se interceptaron ni simularon respuestas. No se realizó ningún cobro.
+Chrome de prueba se cerró al terminar; los servidores existentes se conservaron.
+
+Problemas pendientes:
+- environment.ts conserva la URL de producción pendiente de configurar antes
+  de un despliegue; no se modificó por estar fuera de estas correcciones.
+- Advertencias de build: bundle inicial 585,64 kB frente a 500 kB; estilos de
+  carrito 3,45 kB y checkout 3,16 kB frente a 2 kB; dos selectores Bootstrap
+  .form-floating>~label omitidos por el procesador CSS. No impiden compilar.
+- En este equipo python3 selecciona intérpretes diferentes según el directorio:
+  en la raíz /Users/nacho/miniconda3/bin/python3 tiene las dependencias; desde
+  backend /opt/homebrew/bin/python3 no tiene Flask. Usar el intérprete adecuado
+  o un entorno virtual al reproducir pruebas; no se instalaron dependencias.
+- Se mantienen las limitaciones documentadas del almacenamiento en memoria:
+  pérdida al reiniciar, falta de coordinación multiproceso y ausencia de limpieza.
+- La consulta por UUID no sustituye autorización suficiente para producción.
+- El secreto de producción debe ser generado y gestionado externamente con
+  suficiente entropía. La validación rechaza ausencia y valores conocidos
+  inseguros; no puede certificar la entropía de un secreto proporcionado.
+
+Restricciones respetadas:
+Sin cambios de diseño, rutas, funcionalidades comerciales o arquitectura Angular.
+Sin pagos, base de datos ni implementación de la subetapa 2.4.
+
+Recomendación:
+Aprobar técnicamente las correcciones 2.3.1 para la demostración local. Los
+pendientes de despliegue y producción siguen vigentes. Esperar autorización
+del arquitecto antes de continuar a otra subetapa.

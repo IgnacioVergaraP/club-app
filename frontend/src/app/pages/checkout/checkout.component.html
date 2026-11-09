@@ -1,0 +1,103 @@
+<section class="page">
+  <button type="button" class="back-btn" [disabled]="paymentBusy" (click)="goBack()" aria-label="Volver al carrito">
+    ← Volver al carrito
+  </button>
+
+  <header class="page-header">
+    <h1 class="page-title">Checkout</h1>
+    <p class="page-subtitle">Revisa tu pedido antes de continuar.</p>
+  </header>
+
+  <div class="demo-banner" role="status">
+    Demostración con Fintoc Sandbox. Los intentos de prueba no representan cobros reales.
+  </div>
+
+  <ng-container *ngIf="items$ | async as items">
+    <section class="summary-card">
+      <h2 class="section-title">Resumen</h2>
+      <ul class="summary-list">
+        <li class="summary-item" *ngFor="let item of items; trackBy: trackByProductId">
+          <span class="summary-name">
+            {{ item.product.name }} <span class="summary-qty">× {{ item.quantity }}</span>
+          </span>
+          <span class="summary-price">{{ formatClp(item.subtotalClp) }}</span>
+        </li>
+      </ul>
+
+      <div class="summary-totals">
+        <div class="totals-row">
+          <span class="totals-label">Unidades</span>
+          <span class="totals-value">{{ (totalUnits$ | async) ?? 0 }}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">Subtotal</span>
+          <span class="totals-value">{{ formatClp((subtotal$ | async) ?? 0) }}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">Comisión de servicio</span>
+          <span class="totals-value">{{ formatClp(serviceFee) }}</span>
+        </div>
+        <div class="totals-row totals-grand">
+          <span class="totals-label">Total estimado</span>
+          <span class="totals-value">{{ formatClp(totalWithFee((subtotal$ | async) ?? 0)) }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="summary-card" aria-label="Preparación del pedido">
+      <h2 class="section-title">Preparar pedido de demostración</h2>
+      <button type="button" class="prepare-btn" (click)="prepareOrder()"
+              [disabled]="loading || paymentBusy || paymentAttempted || hostedAttempted || sandboxVerified || items.length === 0" [attr.aria-busy]="loading">
+        {{ loading ? 'Preparando…' : 'Preparar pedido' }}
+      </button>
+      <p *ngIf="loading" role="status">Consultando el importe con el servidor…</p>
+      <p *ngIf="errorMessage" class="order-error" role="alert">{{ errorMessage }}</p>
+
+      <div *ngIf="order as prepared" class="order-result" aria-live="polite">
+        <h3 class="section-title">{{ sandboxVerified ? 'Pago Sandbox verificado' : prepared.status === 'pending_payment'
+          ? 'Pedido preparado — pago pendiente' : 'Pedido ' + prepared.status }}</h3>
+        <p class="order-id">ID: {{ prepared.order_id }}</p>
+        <p *ngIf="!sandboxVerified">Estado: {{ prepared.status }}</p>
+        <ul class="summary-list">
+          <li class="summary-item" *ngFor="let item of prepared.items">
+            <span class="summary-name">{{ item.name }} × {{ item.quantity }}</span>
+            <span class="summary-price">{{ formatClp(item.subtotal_clp) }}</span>
+          </li>
+        </ul>
+        <p>Subtotal del servidor: {{ formatClp(prepared.subtotal_clp) }}</p>
+        <p>Cargo de servicio: {{ formatClp(prepared.service_fee_clp) }}</p>
+        <p><strong>Total del servidor: {{ formatClp(prepared.total_clp) }} CLP</strong></p>
+        <p>Vencimiento: {{ prepared.expires_at | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+        <p *ngIf="priceDifference !== 0" class="order-warning" role="alert">
+          El importe del servidor difiere del estimado en {{ formatClp(priceDifference) }}.
+          Revisa los importes. Este pedido no está listo para autorizar un pago.
+        </p>
+        <p>Esta demostración no produce cobros reales. Tu carrito se conserva.</p>
+      </div>
+    </section>
+
+    <section class="payment-section">
+      <h2 class="section-title">Opciones de pago</h2>
+
+      <app-fintoc-hosted-checkout *ngIf="order && priceDifference === 0" [order]="order"
+        [disabled]="paymentBusy || paymentAttempted || sandboxVerified"
+        (busyChange)="paymentBusy = $event" (attemptChange)="hostedAttempted = $event"></app-fintoc-hosted-checkout>
+      <app-fintoc-express-checkout *ngIf="order && priceDifference === 0 && !hostedAttempted" [order]="order"
+        (busyChange)="paymentBusy = $event" (attemptChange)="paymentAttempted = $event"
+        (verifiedChange)="sandboxVerified = $event"></app-fintoc-express-checkout>
+      <p *ngIf="!order">Prepara el pedido para pagar con Fintoc o consultar Apple Pay Sandbox.</p>
+
+      <div class="payment-option" aria-disabled="true">
+        <div class="payment-option-text">
+          <span class="payment-name">Google Pay</span>
+          <span class="payment-note">Disponible cuando habilitemos la integración.</span>
+        </div>
+        <span class="payment-badge">Próximamente</span>
+      </div>
+    </section>
+
+    <p class="demo-note">
+      Pedidos temporales y pruebas Sandbox. No se emitirán consumos ni códigos canjeables.
+    </p>
+  </ng-container>
+</section>

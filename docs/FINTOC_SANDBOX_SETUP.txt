@@ -1,0 +1,108 @@
+CLUB VOID — FINTOC EXPRESS CHECKOUT SANDBOX
+Fecha: 3 de noviembre de 2026 (America/Santiago)
+
+Configuración local
+Las claves de prueba deben pertenecer a la misma organización Fintoc.
+En backend/.env:
+FINTOC_SANDBOX_ENABLED=true
+FINTOC_SECRET_KEY=<tu clave sk_test_>
+FINTOC_PUBLIC_KEY=<tu clave pk_test_>
+Los valores entre <> son instrucciones, no claves funcionales.
+No utilizar claves de producción. No copiar la clave secreta al frontend ni al chat.
+El usuario configuró sus claves localmente y se habilitó Sandbox en ese .env.
+El archivo backend/.gitignore excluye .env; .env.example solo contiene campos vacíos.
+La integración no requiere agregar variables secretas a environment.ts.
+La clave pública se recibe desde GET /api/payments/fintoc/config.
+Reiniciar Flask tras modificar variables del .env.
+
+Arranque
+Usar el intérprete Python que tenga backend/requirements.txt instalado. En este
+equipo el entorno probado es /Users/nacho/miniconda3/bin/python3.
+Desde backend:
+/Users/nacho/miniconda3/bin/python3 -m flask --app app run --no-debugger --no-reload --host 127.0.0.1 --port 5000
+Desde frontend:
+npm start
+Si ya están corriendo, reutilizarlos; no iniciar procesos duplicados en esos puertos.
+
+Recorrido local
+Abrir http://localhost:4200/tragos, seleccionar productos y continuar al checkout.
+Preparar pedido: Flask entrega UUID, precio autoritativo y vencimiento.
+Angular consulta configuración, carga directamente https://js.fintoc.com/v1/ y crea
+Express Checkout sobre un contenedor que ya existe en el DOM.
+Si express_checkout_ready no informa wallets.applePay=true, el contenedor permanece
+oculto y se muestra un aviso. No hay un botón falso de Apple Pay.
+Google Pay continúa deshabilitado y no se integra ningún SDK adicional.
+
+Cuando Apple Pay esté disponible
+La hoja la abre el botón oficial del SDK. Después de autorizar, el SDK llama a
+onPaymentRequest; Angular envía solo order_id a Flask y devuelve {sessionToken}.
+No llamar manualmente a confirmPayment ni usar widget.open() para esta prueba,
+porque open() inicia la alternativa de transferencia bancaria, fuera de este alcance.
+La UI bloquea callbacks repetidos y la preparación de otro pedido mientras hay un
+intento sin resolver. Después de un error se puede reintentar el mismo pedido/sesión.
+Verificar estado Sandbox permite consultar nuevamente el resultado sin iniciar otro pago.
+
+Verificación
+onSuccess solo inicia una consulta a Flask. El servidor recupera la sesión asociada
+al pedido y contrasta modo test, importe, moneda, método card y referencia del pedido.
+Solo sesión finished con payment_intent succeeded coincidente informa verified=true.
+Los callbacks del navegador no pueden modificar el estado comercial del pedido.
+La UI distingue el resultado Sandbox y no emite consumos, entradas ni QR.
+No se implementaron webhooks: la verificación usa GET autenticado de la API oficial.
+
+Vencimiento de cotización
+Fintoc exige expires_at al menos 10 minutos en el futuro. Las cotizaciones actuales
+duran 15 minutos. La sesión se crea con el vencimiento del pedido; si quedan menos
+de 10 minutos y 5 segundos para una primera sesión, Flask responde quote_expiring.
+Antes de iniciar un intento, volver a pulsar Preparar pedido renueva una cotización
+por vencer con un UUID/clave nuevos. Una vez iniciado un intento, no se renueva
+hasta resolverlo. Los reintentos de sesión conservan payload y clave de idempotencia.
+Si hay timeout o error ambiguo, no cambiar claves manualmente para forzar otro pago.
+
+Habilitar un dominio para Apple Pay
+1. Elegir un dominio HTTPS de pruebas para servir el checkout y una API accesible
+   por HTTPS. El frontend debe apuntar a esa API y Flask permitir su origen en CORS.
+2. Pedir a Fintoc habilitar Apple Pay para ese dominio de pruebas. El registro también
+   se exige para Sandbox según su guía.
+3. Solicitar el archivo de asociación real a Fintoc. No inventarlo ni usar un archivo vacío.
+4. Publicarlo en:
+   https://TU_DOMINIO/.well-known/apple-developer-merchantid-domain-association
+   Debe devolver el archivo real con HTTP 200, sin caer en el HTML del router SPA.
+5. Avisar a Fintoc para que complete el registro con Apple y confirme la habilitación.
+6. Abrir el checkout HTTPS en un dispositivo y navegador compatibles con Apple Pay,
+   usando la configuración de prueba que Fintoc indique para esa cuenta.
+7. Verificar el botón, la hoja, onPaymentRequest, procesamiento, cancelación y éxito.
+   Confirmar en Flask la sesión/pago test. No cambiar a claves live para estas pruebas.
+
+No se modificó angular.json ni se creó el archivo de asociación porque todavía no
+se cuenta con el archivo real ni el dominio. La URL de producción de environment.ts
+continúa pendiente: debe configurarse al preparar el despliegue HTTPS, no usar su
+marcador de posición para probar remotamente.
+
+Pruebas
+Desde raíz:
+python3 -m unittest discover -s backend/tests -t backend -v
+Desde frontend:
+npm test -- --watch=false --browsers=ChromeHeadless
+npm run build -- --configuration development
+npm run build
+
+Evidencia real local
+La API creó una sesión test y devolvió un session_token sin mostrarlo en logs.
+El SDK se cargó y se inicializó con payments/cl/14000 CLP y contenedor existente.
+Se observaron express_checkout_error y después express_checkout_ready sin Apple Pay.
+La sesión consultada estaba created, verified=false; no se autorizó un pago.
+Ver docs/visual-review/fintoc-sandbox-result.json para el registro sin claves/tokens.
+No inferir una sola causa del botón oculto: esta prueba usa HTTP y Chrome Headless,
+y el usuario informó que el dominio aún no está registrado.
+
+Fuentes oficiales consultadas
+https://docs.fintoc.com/guides/payments/accept-a-payment/accept-a-one-click-payment-with-apple-pay
+https://docs.fintoc.com/api/payments-api/checkout-sessions/checkout-sessions-create
+https://docs.fintoc.com/api/payments-api/checkout-sessions/checkout-sessions-get
+https://docs.fintoc.com/api/payments-api/checkout-sessions/checkout-session-object
+https://docs.fintoc.com/api/payments-api/payment-intents/payment-intents-object
+https://docs.fintoc.com/api/fintoc-api/idempotent-requests
+https://docs.fintoc.com/guides/resources/widget/web-integration
+https://docs.fintoc.com/guides/home/upgrade-api-version
+https://docs.fintoc.com/guides/resources/libraries-and-integrations/index

@@ -1,0 +1,59 @@
+<section class="event-detail" *ngIf="view$ | async as view">
+  <a routerLink="/noches" class="back-link">← Volver a Noches</a>
+  <p *ngIf="view.loading" role="status">Cargando evento…</p>
+  <div *ngIf="view.error" class="void-card" role="alert">
+    <h1>No pudimos cargar el evento.</h1>
+    <p>Inténtalo nuevamente en un momento.</p>
+    <button type="button" class="void-btn-primary" (click)="retry()">Reintentar</button>
+  </div>
+  <ng-container *ngIf="!view.loading && !view.error">
+    <div *ngIf="!view.event" class="void-card not-found" role="status">
+      <h1>Evento no encontrado</h1>
+      <p>No encontramos una noche con este identificador. Puedes volver al catálogo y explorar otras fechas.</p>
+      <a routerLink="/noches" class="void-btn-primary return-link">Explorar Noches</a>
+    </div>
+    <ng-container *ngIf="view.event as event">
+      <div class="event-visual"><img [src]="event.imageUrl || 'assets/events/void-orbit.svg'" alt="" width="960" height="640"></div>
+      <header>
+        <p class="category">{{ event.category }}</p>
+        <h1>{{ event.name }}</h1>
+        <div class="badges"><span *ngIf="event.isDemo">Evento de demostración</span><span class="event-status">{{ view.status }}</span></div>
+        <dl class="event-meta">
+          <div><dt>Fecha</dt><dd><time [attr.datetime]="event.startsAt">{{ event.startsAt | date:'dd MMM yyyy':'-0300' }}</time></dd></div>
+          <div><dt>Hora de inicio</dt><dd>{{ event.startsAt | date:'HH:mm':'-0300' }} h</dd></div>
+          <div *ngIf="event.endsAt"><dt>Finaliza</dt><dd><time [attr.datetime]="event.endsAt">{{ event.endsAt | date:'dd MMM · HH:mm':'-0300' }} h</time></dd></div>
+        </dl>
+        <p class="timezone">Hora de Chile · UTC−3 para estas fechas de demostración.</p>
+      </header>
+      <section aria-labelledby="about-event"><h2 id="about-event">Sobre esta noche</h2><p class="description">{{ event.description }}</p></section>
+      <section class="tickets" aria-labelledby="tickets-title">
+        <div class="tickets-heading"><h2 id="tickets-title">Entradas</h2><span>Demostración</span></div>
+        <p class="ticket-notice">Compra de demostración. Los pagos y las reservas de entradas todavía no están habilitados</p>
+        <ng-container *ngIf="view.selection as selection">
+          <p *ngIf="!selection.canSelect" class="selection-warning" role="status">Este evento está en curso o finalizado. No se pueden seleccionar entradas.</p>
+          <p *ngIf="selectionError" role="alert">{{ selectionError }}</p>
+          <ul class="ticket-list">
+            <li *ngFor="let ticket of selection.types" [attr.data-ticket-id]="ticket.id">
+              <h3>{{ ticket.name }}</h3><p>{{ ticket.description }}</p>
+              <strong class="ticket-price">{{ tickets.formatClp(ticket.priceClp) }} <small>CLP · precio ilustrativo</small></strong>
+              <span class="ticket-availability">{{ !selection.canSelect ? 'Selección cerrada' : ticket.available ? 'Disponible para demostración' : 'No disponible' }} · máximo {{ ticket.maxQuantity }} por tipo</span>
+              <div class="ticket-controls">
+                <button type="button" [attr.aria-label]="'Disminuir ' + ticket.name"
+                  [disabled]="!selection.canSelect || !ticket.available || !(selection.quantities[ticket.id] > 0)"
+                  (click)="changeQuantity(event.id, ticket.id, (selection.quantities[ticket.id] || 0) - 1)">−</button>
+                <output [attr.aria-label]="'Cantidad de ' + ticket.name" aria-live="polite">{{ selection.quantities[ticket.id] || 0 }}</output>
+                <button type="button" [attr.aria-label]="'Aumentar ' + ticket.name"
+                  [disabled]="!selection.canSelect || !ticket.available || selection.quantities[ticket.id] >= ticket.maxQuantity"
+                  (click)="changeQuantity(event.id, ticket.id, (selection.quantities[ticket.id] || 0) + 1)">+</button>
+              </div>
+              <p class="ticket-subtotal">Subtotal: {{ tickets.formatClp(selection.subtotals[ticket.id] || 0) }}</p>
+            </li>
+          </ul>
+          <div class="selection-total" aria-live="polite"><span>{{ selection.totalUnits }} entradas · Total estimado</span><strong>{{ tickets.formatClp(selection.totalClp) }} CLP</strong></div>
+          <a *ngIf="selection.valid" routerLink="/entradas/resumen" class="void-btn-primary continue-tickets">Continuar al resumen <span aria-hidden="true">↗</span></a>
+          <p *ngIf="!selection.totalUnits && selection.canSelect" class="timezone">Selecciona al menos una entrada para continuar. Disponibilidad ilustrativa, sin inventario real.</p>
+        </ng-container>
+      </section>
+    </ng-container>
+  </ng-container>
+</section>

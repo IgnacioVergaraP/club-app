@@ -1,0 +1,109 @@
+CLUB VOID — AJUSTE VISUAL SEGÚN MOCKUP ORIGINAL
+Fecha: 2 de noviembre de 2026 (America/Santiago).
+
+Autorización:
+El Product Owner compartió Mockup UI Neón para Club VOID.png y autorizó realizar
+el ajuste visual directamente e informar al coordinador después.
+
+Objetivo y resultado:
+Acercar Inicio, Noches y Detalle a la composición móvil del mockup: identidad VOID,
+fotografía nocturna protagonista, negro dominante, acentos morados, tarjetas compactas,
+fechas destacadas, filas de entradas y acción principal sobre la navegación inferior.
+Se conservó el morado sólido de la regla existente de no usar degradados.
+Estado: ajuste implementado, compilaciones y pruebas aprobadas; pendiente de
+aprobación visual del Product Owner.
+
+Cambios:
+- Header: marca VOID vectorial centrada, subtítulo NIGHT CLUB y distintivo DEMO.
+  No se añadieron botones de notificaciones sin funcionalidad.
+- Layout y navegación: fondo más negro, espaciado reducido, navegación inferior
+  compacta y acento lila en la pestaña activa. Se conservan las cinco rutas.
+- Inicio: bienvenida más breve visualmente, foto de pista como protagonista,
+  tarjeta principal compacta y próximos eventos con fotos en tres columnas.
+  Los destacados se presentan antes de los accesos rápidos, manteniendo sus enlaces.
+- Noches: carteles compactos en móvil, imagen de fondo, fecha en bloque claro,
+  título/categoría/horario y botón morado. Se conservan filtros, avisos Demo y estados.
+- Detalle: cabecera fotográfica, metadatos compactos y entradas en filas con precio
+  y cantidad próximos. El enlace de continuar queda fijo sobre la navegación cuando
+  hay selección válida, con separación por safe area. A 320 px se reacomodan los
+  controles para evitar desbordamiento.
+- Estilos globales: color-scheme: dark para controles nativos y barras de desplazamiento.
+- Mocks: únicamente nuevas rutas de imágenes; se conservaron IDs, fechas, precios,
+  disponibilidad y reglas comerciales.
+
+Archivos modificados:
+/Users/nacho/Desktop/club-app/frontend/src/app/data/mock-events.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/layout/header/header.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/layout/header/header.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/layout/main-layout/main-layout.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/layout/bottom-nav/bottom-nav.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/inicio/inicio.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/noches/noches.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/noches/noches.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/event-detail/event-detail.component.scss
+/Users/nacho/Desktop/club-app/frontend/src/styles.scss
+
+Recursos creados:
+/Users/nacho/Desktop/club-app/frontend/src/assets/events/void-dancefloor.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/events/void-dj.jpg
+/Users/nacho/Desktop/club-app/frontend/src/assets/events/void-urban.jpg
+/Users/nacho/Desktop/club-app/docs/visual-review/inicio-mobile.png
+/Users/nacho/Desktop/club-app/docs/visual-review/noches-mobile.png
+/Users/nacho/Desktop/club-app/docs/visual-review/detalle-mobile.png
+/Users/nacho/Desktop/club-app/docs/AJUSTE_VISUAL_MOCKUP.txt
+
+Imágenes:
+Se aplicó la habilidad imagegen usando la herramienta integrada image_gen, sin API
+externa ni CLI de generación. Se crearon tres fotografías ficticias de demostración
+sin texto ni marcas. Se guardaron copias JPEG locales optimizadas mediante sips;
+la aplicación no requiere imágenes remotas.
+void-dancefloor.jpg: 1400 px de ancho, aproximadamente 232 KiB.
+void-dj.jpg: 1200 px de ancho, aproximadamente 119 KiB.
+void-urban.jpg: 1200 px de ancho, aproximadamente 121 KiB.
+Los PNG originales de generación se conservaron fuera del repositorio, en la carpeta
+generated_images de Codex. Los assets consumidos por Angular están en el proyecto.
+
+Prompts finales usados (texto exacto):
+1. Create a photorealistic editorial nightclub photograph for a fictional Club VOID demo app. A packed dance floor viewed from behind the crowd, silhouetted adult clubgoers with hands up, professional DJ stage in the distance, rich violet and magenta concert beams, realistic dark black club atmosphere, premium music photography, strong contrast but retain photographic detail. Wide landscape composition, usable as both a cropped mobile hero and compact event banner. No text, no logos, no typography, no UI, no frames, no watermarks. This is an illustrative fictional event photograph, not a real identified event.
+2. Photorealistic fictional nightclub event photograph for a premium black and purple mobile app. Close view of an adult DJ at mixing decks with dark headphones, violet and deep blue club stage lighting, moody realistic editorial photography, dark background, wide landscape framing, no text, no logos, no watermarks, no UI. Illustrative demonstration photo, no real named person or event.
+3. Photorealistic fictional late night urban dance party for a premium black and purple mobile app. Adult crowd in silhouettes beneath magenta and warm red stage lighting, energetic candid music editorial photography, dark nightclub setting, wide landscape composition, no text, no logos, no watermark, no UI. Illustrative demonstration photograph, no real identified event.
+
+Pruebas ejecutadas:
+- Suite frontend: 46 pruebas aprobadas en ChromeHeadless.
+- npm run build: correcto. Bundle inicial final 631,69 kB.
+- npm run build -- --configuration development: correcto, bundle inicial 1,90 MB.
+- Chrome real contra los servidores locales existentes: Inicio, Noches y Detalle
+  a 320, 390 y 1280 px, sin scroll horizontal, imágenes cargadas y cinco pestañas.
+- Capturas móviles revisadas visualmente y copiadas al proyecto para revisión.
+- Regresión de entradas: guard vacío, selección General/VIP, 0 y 10 como límites,
+  2 General + 1 VIP = 49000 CLP, regreso y modificación de entradas, separación
+  entre eventos y restauración de cantidades por evento.
+- Bloqueo de eventos en curso/finalizados comprobado con reloj controlado únicamente
+  en el navegador de prueba; no se modificaron fechas ni reloj del sistema.
+- Cero llamadas a la API de pedidos durante el flujo de entradas.
+- Cero excepciones JS, console.error o recursos HTTP >= 400 durante el recorrido.
+- Regresión de bebidas: Piscola + Gin Tonic, carrito y checkout -> HTTP 201,
+  pending_payment, total 14000 CLP. Respuestas reales sin interceptar.
+  order_id: 5252d9aa-68ca-4af8-ad83-8b41cf14b2ac
+
+Advertencias y pendientes:
+- Permanecen avisos de tamaño: bundle 631,69 kB frente a aviso de 500 kB;
+  Inicio 3,67 kB, Noches 2,80 kB y Detalle 3,30 kB, todos bajo error de 4 kB.
+- Se mantienen avisos anteriores de carrito/checkout y dos selectores Bootstrap
+  .form-floating>~label omitidos por el procesador CSS. No se elevaron presupuestos.
+- Pendientes: aprobación visual, dispositivos físicos y navegadores distintos
+  del Chrome comprobado. No se afirma equivalencia exacta de píxeles con el mockup.
+- Tragos, resumen de entradas, carrito y checkout conservan su diseño propio;
+  reciben la identidad compartida del header/layout cuando corresponde.
+- Pagos, QR, Wallet con entradas emitidas y otras funciones del mockup siguen
+  fuera del alcance implementado. Los avisos de demostración se conservaron.
+
+Restricciones respetadas:
+Sin cambios backend, pedidos, precios, fechas, validaciones, selección de entradas,
+servicios de negocio, guards, rutas, dependencias o arquitectura Angular.
+No se habilitaron cobros, reservas, emisión de entradas ni autenticación.
+
+Siguiente paso:
+Revisar el resultado en http://localhost:4200/ y compartir este informe con el
+coordinador cuando el Product Owner lo solicite. No avanzar a otra subetapa.

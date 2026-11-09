@@ -1,0 +1,116 @@
+.page {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+}
+
+.back-btn {
+  border: none;
+  background: transparent;
+  color: var(--void-text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  margin-bottom: 0.75rem;
+
+  &:hover { color: var(--void-text); }
+
+  &:focus-visible {
+    outline: 2px solid var(--void-primary);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+}
+
+.page-header { margin-bottom: 1.25rem; }
+.page-title { font-size: 1.5rem; font-weight: 600; color: var(--void-text); margin: 0 0 0.25rem; }
+.page-subtitle { color: var(--void-text-muted); font-size: 0.9375rem; margin: 0; }
+
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border: 1px dashed var(--void-border);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.empty-title { margin: 0; font-size: 1.125rem; font-weight: 600; color: var(--void-text); }
+.empty-text { margin: 0; font-size: 0.9375rem; color: var(--void-text-muted); }
+
+.cart-list { list-style: none; padding: 0; margin: 0 0 1.25rem; display: flex; flex-direction: column; gap: 0.625rem; }
+
+.cart-item {
+  background-color: var(--void-surface);
+  border: 1px solid var(--void-border);
+  border-radius: 0.75rem;
+  padding: 0.875rem;
+}
+
+.cart-item-main {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "info remove"
+    "qty  subtotal";
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+}
+
+.cart-item-info { grid-area: info; display: flex; flex-direction: column; gap: 0.125rem; min-width: 0; }
+.cart-item-name { margin: 0; font-size: 0.9375rem; font-weight: 600; color: var(--void-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cart-item-unit { font-size: 0.75rem; color: var(--void-text-muted); }
+
+.cart-item-qty { grid-area: qty; display: flex; align-items: center; gap: 0.5rem; }
+.qty-btn {
+  width: 2rem; height: 2rem; border-radius: 0.5rem;
+  border: 1px solid var(--void-border);
+  background-color: var(--void-surface-alt);
+  color: var(--void-text); font-size: 1rem; font-weight: 600; line-height: 1;
+  cursor: pointer; transition: border-color 0.15s ease;
+  &:hover:not(:disabled) { border-color: var(--void-primary); }
+  &:focus-visible { outline: 2px solid var(--void-primary); outline-offset: 2px; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+.qty-value { min-width: 1.5rem; text-align: center; font-size: 0.875rem; font-weight: 600; color: var(--void-text); }
+
+.cart-item-subtotal { grid-area: subtotal; font-size: 0.9375rem; font-weight: 600; color: var(--void-text); text-align: right; }
+
+.cart-item-remove {
+  grid-area: remove;
+  border: none; background: transparent;
+  color: var(--void-text-muted);
+  font-size: 0.875rem; cursor: pointer; padding: 0.25rem 0.5rem;
+  justify-self: end;
+  &:hover { color: var(--void-danger); }
+  &:focus-visible { outline: 2px solid var(--void-primary); outline-offset: 2px; border-radius: 0.25rem; }
+}
+
+.cart-totals { display: flex; flex-direction: column; gap: 0.5rem; background-color: var(--void-surface); border: 1px solid var(--void-border); border-radius: 0.75rem; padding: 1rem; }
+
+.totals-row { display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--void-text-muted); }
+.totals-value { color: var(--void-text); font-weight: 500; }
+.totals-grand { border-top: 1px solid var(--void-border); padding-top: 0.5rem; margin-top: 0.25rem; font-size: 1rem; }
+.totals-grand .totals-label,
+.totals-grand .totals-value { color: var(--void-text); font-weight: 600; }
+
+.checkout-btn { margin-top: 0.75rem; width: 100%; }
+
+@media (min-width: 576px) {
+  .cart-item-main {
+    grid-template-columns: 1fr auto auto auto;
+    grid-template-areas: "info qty subtotal remove";
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .page { padding: 1rem; padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); }
+  .page-title { font-size: 1.25rem; }
+}

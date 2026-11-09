@@ -1,0 +1,115 @@
+CLUB VOID — CHECKPOINT DE CONTINUIDAD
+Fecha: 3 de noviembre de 2026 (America/Santiago)
+
+ESTADO
+Subetapa 2.4 parcialmente completada: integración Sandbox implementada; pendiente
+validación integral de Apple Pay en un dominio HTTPS habilitado por Fintoc.
+El usuario configuró ambas claves de prueba en backend/.env. Se comprobó que
+Flask las lee y que la configuración publicable habilita Sandbox en mode=test.
+El usuario probó el checkout y confirmó que aparece un aviso de falta de registro
+ del dominio. Esto registra su observación; no constituye confirmación técnica
+independiente del estado de registro en los sistemas de Apple/Fintoc.
+No se realizaron nuevas pruebas automatizadas al redactar este checkpoint.
+
+REFERENCIAS PARA RETOMAR
+- docs/CHECKPOINT_2_4.txt: implementación, archivos, endpoints y evidencia.
+- docs/FINTOC_SANDBOX_SETUP.txt: configuración y habilitación del dominio.
+- docs/FINTOC_EXPRESS_CHECKOUT.txt: documentación técnica aportada por el usuario.
+- docs/visual-review/fintoc-sandbox-result.json: prueba real sin claves/tokens.
+- docs/CHECKPOINT_ACTUALIZADO_3_3_Y_DISENO.txt: estado previo de construcción de la app.
+
+IMPLEMENTADO
+Backend:
+- GET /api/payments/fintoc/config: configuración publicable, nunca clave secreta.
+- POST /api/payments/fintoc/checkout-session: solo order_id; importe desde Flask;
+  sesión card/CLP/test con metadata del pedido e idempotencia estable.
+- GET /api/payments/fintoc/orders/<order_id>/status: consulta autenticada a Fintoc,
+  validación de sesión, importe, moneda, referencia y pago en modo test.
+- HTTPS con biblioteca estándar, versión Fintoc 2026-02-01, timeouts y errores JSON.
+- Almacenamiento temporal en memoria; ninguna ruta permite declarar paid desde Angular.
+Frontend:
+- SDK oficial cargado directamente de https://js.fintoc.com/v1/.
+- Express Checkout montado sobre contenedor DOM existente; callbacks y limpieza.
+- Estado de disponibilidad, procesamiento, errores, cancelación y verificación.
+- Bloqueo de callbacks repetidos y preparación duplicada con un intento sin resolver.
+- onSuccess inicia verificación en Flask; no basta para confirmar un pago.
+- Google Pay continúa deshabilitado; no se modifica Wallet.
+
+CONFIGURACIÓN LOCAL
+FINTOC_SANDBOX_ENABLED=true
+FINTOC_SECRET_KEY: configurada localmente, prefijo sk_test_.
+FINTOC_PUBLIC_KEY: configurada localmente, prefijo pk_test_.
+No copiar valores a este documento, Angular, chat o Git.
+backend/.gitignore excluye .env; .env.example no contiene claves reales.
+Reiniciar Flask después de cambiar el .env.
+
+ÚLTIMA EVIDENCIA DISPONIBLE
+- Backend: 64 pruebas aprobadas.
+- Frontend: 63 pruebas aprobadas.
+- Compilaciones de desarrollo y producción correctas, con advertencias de tamaño/CSS.
+- Prueba real: SDK cargado e inicializado con payments/cl/14000 CLP.
+- Eventos reales observados: express_checkout_error y express_checkout_ready sin Apple Pay disponible.
+- Creación REAL de Checkout Session test: HTTP 201 y token recibido sin imprimirlo.
+- Consulta REAL: HTTP 200, status=created, verified=false.
+- Pedido de esa prueba: 48074a30-6e73-430f-9bbc-7a82af1be842.
+- La sesión se solicitó directamente al endpoint para comprobar la API. No provino
+  de una autorización Apple Pay. Callbacks de éxito/cancelación y pagos succeeded
+  se verificaron únicamente con dobles de prueba en las suites automatizadas.
+- No se abrió ni autorizó una hoja Apple Pay y no hubo cobros reales.
+- La prueba técnica fue en HTTP local y Chrome Headless. No se aisló una única
+  causa para la indisponibilidad de Apple Pay.
+
+ANTES DE RETOMAR LA PRUEBA INTEGRAL
+1. Obtener un dominio de pruebas servido por HTTPS.
+2. Solicitar a Fintoc el registro/habilitación de ese dominio para Apple Pay Sandbox.
+3. Obtener de Fintoc su archivo real de asociación y publicarlo en:
+   https://DOMINIO/.well-known/apple-developer-merchantid-domain-association
+4. Verificar que devuelve el archivo real con HTTP 200, no el HTML del router SPA.
+5. Obtener confirmación de habilitación por parte de Fintoc.
+6. Confirmar que el frontend de pruebas apunta a una API accesible por HTTPS y que
+   CORS permite exactamente el origen del frontend. No usar la URL de producción
+   placeholder de environment.ts para un despliegue real.
+7. Confirmar el navegador/dispositivo compatible y el procedimiento Sandbox con Fintoc.
+No inventar archivos de asociación ni cambiar a claves live para superar bloqueos.
+
+PRUEBA QUE DEBE EJECUTARSE CUANDO EL DOMINIO ESTÉ HABILITADO
+1. Abrir el checkout por su URL HTTPS en un dispositivo compatible.
+2. Preparar un pedido nuevo de bebidas y comprobar importe autoritativo Flask.
+3. Observar express_checkout_ready con wallets.applePay=true y botón oficial visible.
+4. Abrir la hoja Apple Pay y autorizar con la configuración Sandbox indicada por Fintoc.
+5. Observar procesamiento y onPaymentRequest con card/apple_pay.
+6. Confirmar que Flask crea/recupera la sesión y que la respuesta al SDK llega en menos de 30 s.
+7. Observar onSuccess y, por separado, verified=true en la consulta de Flask a Fintoc.
+8. Contrastar mode=test, importe, moneda y pedido asociado. Registrar evidencia sin tokens.
+9. Comprobar cancelación voluntaria, error y reintento seguro sin duplicar operaciones.
+10. Verificar conservación del carrito y ausencia de emisión de entradas/QR.
+No declarar la 2.4 completa hasta tener evidencia de esta autorización integral.
+
+CONDICIONES DE LA IMPLEMENTACIÓN QUE CONVIENE RECORDAR
+- Cotizaciones de bebidas: 15 minutos. Fintoc exige expires_at a más de 10 minutos;
+  la primera sesión se rechaza si quedan menos de 10 minutos y 5 segundos.
+- Antes de iniciar un intento, Preparar pedido puede renovar la cotización por vencer.
+  Con un intento iniciado, no forzar claves nuevas para resolver un resultado incierto.
+- El resultado Sandbox del pago es independiente de los estados comerciales del pedido.
+- No hay persistencia ni coordinación multiproceso; reiniciar pierde pedidos e intentos.
+- No hay webhooks ni conciliación automática. La verificación usa consulta autenticada.
+- Un UUID público no sustituye autorización suficiente para producción.
+
+CONSTRUCCIÓN ACTUAL DE LA APP
+- Inicio y Noches con fotografías locales, filtros y detalle por ID.
+- Entradas General/VIP de demostración, cantidades 0..10 por tipo y selección por evento.
+- /entradas/resumen con guard, comisión 0 y opciones de pago informativas.
+- Catálogo de ocho bebidas, imágenes locales y tarjetas compactas con botón +.
+- Carrito y checkout de bebidas con importes calculados por Flask.
+- Header sticky/translúcido y navegación inferior de cinco pestañas.
+- Wallet y Perfil continúan provisionales.
+- Sin compras reales de entradas, QR, autenticación, base de datos, split o panel admin.
+
+FORMA DE CONTINUAR
+El coordinador debe definir la siguiente subetapa de construcción. El registro del
+ dominio no impide por sí mismo trabajar en otras pantallas o funciones autorizadas,
+pero su alcance debe aprobarse expresamente. Mantener el pendiente Apple Pay visible
+y no simular éxito para desbloquear otras funcionalidades.
+Antes de nuevos cambios, revisar código y checkpoints actuales; no recrear el proyecto.
+La revisión técnica de esta integración y la autorización de siguientes subetapas
+corresponden al arquitecto con aprobación del Product Owner.

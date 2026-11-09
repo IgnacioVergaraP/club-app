@@ -1,0 +1,50 @@
+<section class="page">
+  <header class="page-header">
+    <h1 class="page-title">Tragos</h1>
+    <p class="page-subtitle">Elige tus tragos para la noche.</p>
+  </header>
+
+  <div class="search-wrapper">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Buscar por nombre…"
+      [formControl]="searchControl"
+      aria-label="Buscar tragos por nombre" />
+    <button
+      *ngIf="searchControl.value.length > 0"
+      type="button"
+      class="search-clear"
+      aria-label="Limpiar búsqueda"
+      (click)="clearSearch()">
+      ✕
+    </button>
+  </div>
+
+  <app-category-filter
+    [categories]="categories"
+    [selected]="selectedCategory$.value"
+    (selectedChange)="setCategory($event)">
+  </app-category-filter>
+
+  <ng-container *ngIf="products$ | async as products">
+    <div class="products-grid" *ngIf="products.length > 0; else emptyState">
+      <ng-container *ngIf="quantities$ | async as quantities">
+        <app-product-card
+          *ngFor="let product of products; trackBy: trackById"
+          [product]="product"
+          [quantity]="quantityFor(quantities, product.id)">
+        </app-product-card>
+      </ng-container>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <p class="empty-title">Sin resultados</p>
+        <p class="empty-text">No encontramos tragos con esos criterios.</p>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <app-cart-summary></app-cart-summary>
+</section>

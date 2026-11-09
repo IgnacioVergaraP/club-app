@@ -1,0 +1,28 @@
+<section class="ticket-summary" *ngIf="selection$ | async as selection">
+  <ng-container *ngIf="selection.valid">
+    <a class="back-link" [routerLink]="['/noches', selection.event.id]">← Volver al evento</a>
+    <header><p class="eyebrow">ENTRADAS / DEMOSTRACIÓN</p><h1>Tu selección<span>.</span></h1>
+      <p class="intro">Revisa tus entradas antes de volver a la noche.</p></header>
+    <div class="demo-notice" role="status">Compra de demostración. Los pagos y las reservas de entradas todavía no están habilitados</div>
+    <section class="void-card" aria-labelledby="selected-event">
+      <p class="eyebrow">EVENTO SELECCIONADO</p><h2 id="selected-event">{{ selection.event.name }}</h2>
+      <p class="event-date"><time [attr.datetime]="selection.event.startsAt">{{ selection.event.startsAt | date:'dd MMM yyyy':'-0300' }} · {{ selection.event.startsAt | date:'HH:mm':'-0300' }} h</time> · UTC−3</p>
+      <ul class="ticket-lines"><li *ngFor="let item of selection.items">
+        <div><strong>{{ item.ticket.name }} × {{ item.quantity }}</strong><small>{{ tickets.formatClp(item.ticket.priceClp) }} por entrada · precio ilustrativo</small></div>
+        <span>{{ tickets.formatClp(item.subtotalClp) }}</span>
+      </li></ul>
+      <dl class="totals">
+        <div><dt>Total de unidades</dt><dd>{{ selection.totalUnits }}</dd></div>
+        <div><dt>Subtotal</dt><dd>{{ tickets.formatClp(selection.subtotalClp) }}</dd></div>
+        <div><dt>Comisión adicional al comprador</dt><dd>{{ tickets.formatClp(selection.serviceFeeClp) }}</dd></div>
+        <div class="grand-total"><dt>Total estimado</dt><dd>{{ tickets.formatClp(selection.totalClp) }} CLP</dd></div>
+      </dl>
+      <a class="void-btn-primary modify-link" [routerLink]="['/noches', selection.event.id]">Modificar entradas <span aria-hidden="true">↗</span></a>
+    </section>
+    <section class="void-card" aria-labelledby="payment-options"><h2 id="payment-options">Opciones de pago</h2>
+      <div class="payment-option" aria-disabled="true"><span>Apple Pay</span><span>Próximamente</span></div>
+      <div class="payment-option" aria-disabled="true"><span>Google Pay</span><span>Próximamente</span></div>
+      <p class="payment-note">Esta selección no reserva cupos, no genera entradas válidas ni realiza cobros. Todos los importes son estimaciones del frontend.</p>
+    </section>
+  </ng-container>
+</section>

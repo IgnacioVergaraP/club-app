@@ -1,0 +1,55 @@
+<div class="home-wrapper">
+  <header class="void-header">
+    <h1 class="void-brand">Club VOID — Diagnóstico</h1>
+  </header>
+
+  <main class="void-main">
+    <section class="void-hero">
+      <h2 class="void-title">Diagnóstico de conexión con la API</h2>
+      <p class="void-subtitle">
+        Pantalla de desarrollo. Consulta el endpoint <code>/api/health</code> del backend Flask.
+      </p>
+    </section>
+
+    <section class="void-card void-status-card">
+      <h3 class="void-card-title">Estado de conexión</h3>
+
+      <div *ngIf="state === 'idle'" class="void-status idle">
+        <span class="void-badge void-badge-muted">Sin verificar</span>
+        <p class="void-status-text">Pulsa el botón para consultar el backend.</p>
+      </div>
+
+      <div *ngIf="state === 'connecting'" class="void-status connecting">
+        <span class="void-badge void-badge-warning">Conectando…</span>
+        <p class="void-status-text">Realizando solicitud a la API…</p>
+      </div>
+
+      <div *ngIf="state === 'connected' && health" class="void-status connected">
+        <span class="void-badge void-badge-success">Conectado</span>
+        <dl class="void-meta">
+          <dt>Servicio</dt>
+          <dd>{{ health.service }}</dd>
+          <dt>Versión</dt>
+          <dd>{{ health.version }}</dd>
+          <dt>Entorno</dt>
+          <dd>{{ health.environment }}</dd>
+          <dt>Estado</dt>
+          <dd>{{ health.status }}</dd>
+        </dl>
+      </div>
+
+      <div *ngIf="state === 'error'" class="void-status error">
+        <span class="void-badge void-badge-danger">Error de conexión</span>
+        <p class="void-status-text">{{ errorMessage }}</p>
+      </div>
+
+      <button
+        type="button"
+        class="void-btn-primary void-verify-btn"
+        (click)="verifyConnection()"
+        [disabled]="state === 'connecting'">
+        {{ state === 'connecting' ? 'Verificando…' : 'Verificar conexión' }}
+      </button>
+    </section>
+  </main>
+</div>

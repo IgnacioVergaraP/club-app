@@ -1,0 +1,1900 @@
+CLUB VOID — ENTREGA 2.3
+
+COMANDOS DE CREACIÓN (solo archivos nuevos de esta continuación)
+Ya están creados en este workspace. Para replicarlos manualmente, estos comandos
+crean únicamente lo que falta y conservan el contenido de archivos existentes:
+
+cd /Users/nacho/Desktop/club-app
+mkdir -p docs
+test -e frontend/src/app/pages/checkout/checkout.component.spec.ts || touch frontend/src/app/pages/checkout/checkout.component.spec.ts
+test -e docs/ETAPA_2_3.txt || touch docs/ETAPA_2_3.txt
+
+Los demás archivos ya existían al iniciar esta continuación. El servicio OrdersService
+estaba vacío y test_routes.py estaba truncado. No se recrearon frontend ni backend.
+Los archivos se actualizaron directamente según la autorización de ejecutar cambios.
+Más abajo se incluye su contenido completo para copiar y pegar si se necesita.
+
+CHECKPOINT 2.3 — PENDIENTE DE VALIDACIÓN MANUAL DEL USUARIO
+
+Objetivo:
+Completar API temporal de pedidos con catálogo autoritativo, validación estricta,
+cálculos enteros CLP, idempotencia concurrente e integración del checkout Angular.
+
+Estado:
+Implementación completada y pruebas automatizadas aprobadas. Validación manual
+integrada con Flask y Angular ejecutándose pendiente. No se implementó la 2.4.
+
+Archivos creados en esta continuación:
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.spec.ts
+/Users/nacho/Desktop/club-app/docs/ETAPA_2_3.txt
+
+Archivos modificados en esta continuación:
+/Users/nacho/Desktop/club-app/backend/app.py
+/Users/nacho/Desktop/club-app/backend/routes/orders.py
+/Users/nacho/Desktop/club-app/backend/services/order_service.py
+/Users/nacho/Desktop/club-app/backend/utils/money.py
+/Users/nacho/Desktop/club-app/backend/utils/validators.py
+/Users/nacho/Desktop/club-app/backend/tests/test_routes.py
+/Users/nacho/Desktop/club-app/frontend/src/app/services/orders/orders.service.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.ts
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.html
+/Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.scss
+
+Endpoints implementados:
+POST /api/orders: 201 nuevo; 200 recuperación idempotente; 400 validación;
+409 misma clave con contenido diferente; 413 solicitud demasiado grande.
+GET /api/orders/<order_id>: 200 pedido existente; 404 inexistente.
+GET /api/products: 200 catálogo de ocho productos.
+/api/health se conserva. No existe endpoint de cambio de estado o cobro.
+
+Modelo de pedido (ejemplo de estructura):
+{
+  "order_id": "UUID generado por el servidor",
+  "idempotency_key": "UUID enviado en Idempotency-Key",
+  "status": "pending_payment",
+  "items": [{
+    "product_id": "piscola", "name": "Piscola", "quantity": 2,
+    "unit_price_clp": 6000, "subtotal_clp": 12000
+  }],
+  "total_units": 2, "subtotal_clp": 12000, "service_fee_clp": 0,
+  "total_clp": 12000, "currency": "CLP",
+  "created_at": "2026-10-30T18:00:00Z", "expires_at": "2026-10-30T18:15:00Z"
+}
+Los subtotales individuales están dentro de items; el general en la raíz.
+Estado inicial pending_payment. Expiración de 15 minutos evaluada en GET y reintentos.
+El modelo admite cancelled; no se incorpora una operación de cancelación en esta fase.
+No se implementan estados paid, approved ni payment_success.
+
+Validaciones:
+Cuerpo objeto JSON; solo campo items; lista no vacía; cada item objeto con únicamente
+product_id y quantity; ID existente, disponible y sin duplicados; quantity entero
+(no bool, decimal, string ni null), entre 1 y 50; máximo 200 unidades por pedido.
+No se admiten precios, totales ni estados enviados por el cliente.
+Idempotency-Key obligatorio en formato UUID canónico; se normaliza a minúsculas.
+Límite de POST orders: 8 KiB; límite global Flask: 64 KiB.
+Se comprueban también bytes reales cuando falta Content-Length.
+Errores JSON consistentes sin trazas internas en la respuesta ni datos de solicitudes
+en el log de errores inesperados.
+
+Idempotencia:
+Una sección crítica RLock por servicio engloba búsqueda, creación y publicación de
+pedido y clave. En la aplicación existe un singleton compartido por las rutas.
+Misma clave y mismos IDs/cantidades (independiente del orden de items): pedido original.
+Misma clave y distinto contenido válido: 409. Claves distintas: UUIDs de pedido distintos.
+Un reintento de un pedido vencido recupera ese pedido como expired; no crea otro.
+El almacenamiento es memoria local: no resiste reinicios, no coordina múltiples
+procesos o réplicas y no tiene limpieza automática. Producción requiere persistencia
+transaccional con unicidad para la clave y una política de retención.
+
+Integración Angular:
+OrdersService tipado (POST/GET), UUID mediante crypto.randomUUID, timeout de 15 segundos.
+El servicio conserva clave durante reintentos y navegación; observa el carrito para
+invalidar la clave al cambiar productos/cantidades. Una recarga de la página pierde
+este estado en memoria, igual que el carrito actual. Requiere contexto seguro
+(HTTPS o localhost) para crypto.randomUUID.
+Checkout: resumen, Preparar pedido, bloqueo de dobles clics, carga, errores, ID,
+estado y detalles con importes autoritativos Flask. Advierte diferencias con estimado.
+Descarta resultados de una solicitud si el carrito cambió durante la espera.
+No cobra ni vacía el carrito. Mantiene standalone: false, sin cambios visuales en
+otras pestañas ni nuevas dependencias.
+
+Pruebas ejecutadas con evidencia:
+- Python unittest: 37 aprobadas (3 almacén, 10 servicio, 24 rutas).
+- Concurrencia HTTP: 12 solicitudes iguales -> una 201 y once 200, un único pedido.
+- Dos solicitudes simultáneas de contenido distinto -> una 201 y una 409.
+- Rechazo de producto no disponible mediante simulación temporal: los ocho productos
+  reales están disponibles y no se alteró el catálogo para inventar uno agotado.
+- Comparación directa catálogo Python / mock-products.ts: 8 IDs, precios y disponibilidad coinciden.
+- Angular ChromeHeadless: 9 aprobadas (2 existentes de AppComponent y 7 de checkout).
+  Verifican carga, dobles clics, payload sin precios, conservación del carrito,
+  error de conexión simulado, reintento y navegación, cambio de carrito, diferencia
+  de importes, errores de validación, timeout y descarte de respuesta obsoleta.
+- npm run build -- --configuration development: aprobado.
+- npm run build (producción): aprobado con advertencias, sin errores.
+
+Comandos para repetir pruebas (desde la raíz):
+python3 -m unittest discover -s backend/tests -t backend -v
+cd frontend
+npm test -- --watch=false --browsers=ChromeHeadless
+npm run build -- --configuration development
+npm run build
+
+Pruebas pendientes / validación manual:
+1. Terminal backend: cd /Users/nacho/Desktop/club-app/backend
+   python3 app.py
+2. Terminal frontend: cd /Users/nacho/Desktop/club-app/frontend
+   npm start
+3. Abrir http://localhost:4200/tragos y seleccionar 2 Piscolas y 1 Gin Tonic.
+4. Ir al carrito y checkout. Pulsar Preparar pedido.
+   Debe mostrar total del servidor $20.000 CLP, UUID y pending_payment.
+   Debe conservar el carrito y mostrar Pedido preparado — pago pendiente.
+5. Repetir Preparar pedido sin cambiar cantidades: conserva el ID.
+6. Volver al carrito, modificar cantidad y preparar: nuevo ID.
+7. Detener Flask y preparar: muestra error y permite reintentar.
+   Si Flask se reinicia se pierde la memoria de pedidos, por lo que un nuevo ID
+   después de reiniciar es una limitación esperada del almacenamiento temporal.
+8. Confirmar visualmente el diseño en móvil y escritorio y las otras pestañas.
+La caída se verificó automáticamente con HttpTestingController; no se afirma haber
+probado manualmente la caída de un proceso real ni un flujo completo entre ambos servidores.
+
+Prueba HTTP manual con clave fija (repetir POST sin cambiar clave):
+curl -i http://127.0.0.1:5000/api/products
+curl -i -X POST http://127.0.0.1:5000/api/orders -H 'Content-Type: application/json' -H 'Idempotency-Key: b547ea16-bcd1-43b5-b197-751c858ce46b' -d '{"items":[{"product_id":"piscola","quantity":2},{"product_id":"gin-tonic","quantity":1}]}'
+Para consultar, copiar order_id de la respuesta:
+curl -i http://127.0.0.1:5000/api/orders/REEMPLAZAR_POR_ORDER_ID
+Cambiar quantity conservando la clave anterior debe responder 409.
+Estos comandos se entregan para uso manual; las comprobaciones HTTP ejecutadas
+usaron Flask test_client, no curl contra un proceso externo.
+
+Problemas detectados / limitaciones:
+- Se corrigió archivo test_routes.py truncado y se completó servicio Angular vacío.
+- Se corrigió carrera de publicación de clave antes de almacenamiento del pedido.
+- setdefault no aplicaba el límite porque Flask ya define MAX_CONTENT_LENGTH=None;
+  se reemplazó por asignación explícita y validación de bytes reales.
+- El build de producción advierte bundle inicial 585,64 kB frente a 500 kB;
+  SCSS carrito 3,45 kB y checkout 3,16 kB frente a 2 kB; dos selectores de Bootstrap
+  .form-floating>~label omitidos por el procesador CSS. No se aumentaron presupuestos.
+- environment.ts conserva la URL de producción pendiente de configuración;
+  la demostración local usa environment.development.ts. No se desplegó la aplicación.
+- Pedidos anónimos y temporales. La consulta pública por UUID NO constituye
+  autorización suficiente para producción. Se necesita autenticación/autorización
+  antes de exponer datos reales de compradores o pedidos.
+- No hay pagos, persistencia, limpieza automática ni coordinación multiproceso.
+
+Decisiones técnicas:
+Se conservaron las capas routes/services/models y módulos de catálogo, validación,
+dinero y almacenamiento. Lock alrededor de toda la operación para garantizar
+atomicidad dentro del proceso. Almacén independiente por servicio para aislar pruebas;
+singleton de producción local inyectado con el almacén existente.
+Copias de pedidos al devolverlos para no exponer referencias mutables del almacén.
+Fecha de creación y expiración calculadas con el mismo instante UTC.
+Clave Angular en servicio singleton para sobrevivir al desmontaje del checkout.
+No se añadieron dependencias, base de datos ni servicios externos.
+
+Próximo paso sugerido:
+Validar manualmente esta 2.3 y entregar el resumen a la IA coordinadora cuando
+el usuario lo solicite. Después, seguir exclusivamente las instrucciones que defina
+para la 2.4; no se anticipa su alcance ni se implementa aquí.
+
+CÓDIGO COMPLETO DE ARCHIVOS NUEVOS O MODIFICADOS
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/app.py
+================================================================================
+"""
+Punto de entrada de la aplicación Flask para Club VOID.
+"""
+
+import os
+from flask import Flask, jsonify
+from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
+
+from config import get_config
+from routes.health import health_bp
+from routes.orders import orders_bp
+from routes.products import products_bp
+
+
+def create_app(config_name: str = None) -> Flask:
+    app = Flask(__name__)
+
+    config_class = get_config(config_name)
+    app.config.from_object(config_class)
+
+    app.json.ensure_ascii = False
+    app.json.sort_keys = False
+
+    # Limitar tamaño máximo de solicitudes (defensa básica).
+    app.config["MAX_CONTENT_LENGTH"] = 64 * 1024
+
+    CORS(
+        app,
+        resources={r"/api/*": {"origins": app.config["CORS_ORIGINS"]}},
+        supports_credentials=False,
+    )
+
+    app.register_blueprint(health_bp, url_prefix=app.config["API_PREFIX"])
+    app.register_blueprint(products_bp, url_prefix=app.config["API_PREFIX"])
+    app.register_blueprint(orders_bp, url_prefix=app.config["API_PREFIX"])
+
+    register_error_handlers(app)
+
+    @app.route("/", methods=["GET"])
+    def index():
+        return jsonify(
+            {
+                "name": "Club VOID API",
+                "version": app.config["API_VERSION"],
+                "status": "running",
+            }
+        ), 200
+
+    return app
+
+
+def register_error_handlers(app: Flask) -> None:
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify(
+            {"error": "bad_request", "message": "La solicitud es inválida.", "status_code": 400}
+        ), 400
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify(
+            {"error": "not_found", "message": "El recurso solicitado no existe.", "status_code": 404}
+        ), 404
+
+    @app.errorhandler(405)
+    def method_not_allowed(error):
+        return jsonify(
+            {"error": "method_not_allowed", "message": "El método HTTP no está permitido para este recurso.", "status_code": 405}
+        ), 405
+
+    @app.errorhandler(413)
+    def payload_too_large(error):
+        return jsonify(
+            {"error": "payload_too_large", "message": "El cuerpo de la solicitud excede el tamaño máximo.", "status_code": 413}
+        ), 413
+
+    @app.errorhandler(500)
+    def internal_error(error):
+        return jsonify(
+            {"error": "internal_server_error", "message": "Ocurrió un error interno en el servidor.", "status_code": 500}
+        ), 500
+
+    @app.errorhandler(Exception)
+    def unhandled_exception(error):
+        if isinstance(error, HTTPException):
+            return jsonify(
+                {"error": error.name.lower().replace(" ", "_"),
+                 "message": error.description, "status_code": error.code}
+            ), error.code
+        app.logger.error("Error interno no manejado en la API.")
+        return jsonify(
+            {"error": "internal_server_error", "message": "Ocurrió un error interno en el servidor.", "status_code": 500}
+        ), 500
+
+
+app = create_app()
+
+
+if __name__ == "__main__":
+    host = os.getenv("FLASK_HOST", "127.0.0.1")
+    port = int(os.getenv("FLASK_PORT", "5000"))
+    app.run(host=host, port=port, debug=app.config["DEBUG"])
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/routes/orders.py
+================================================================================
+"""
+Blueprint de pedidos de demostración.
+"""
+
+from flask import Blueprint, jsonify, request
+from werkzeug.exceptions import RequestEntityTooLarge
+
+from services.order_service import (
+    IdempotencyConflictError,
+    order_service,
+)
+from utils.validators import ValidationError, validate_idempotency_key
+
+orders_bp = Blueprint("orders", __name__)
+
+MAX_BODY_BYTES = 8 * 1024  # 8 KB
+
+
+@orders_bp.route("/orders", methods=["POST"])
+def create_order():
+    raw_length = request.content_length or 0
+    if raw_length > MAX_BODY_BYTES:
+        return (
+            jsonify(
+                {
+                    "error": "payload_too_large",
+                    "message": "El cuerpo de la solicitud excede el tamaño máximo.",
+                    "status_code": 413,
+                }
+            ),
+            413,
+        )
+
+    try:
+        idempotency_key = validate_idempotency_key(
+            request.headers.get("Idempotency-Key")
+        )
+    except ValidationError as exc:
+        return _validation_response(exc)
+
+    # Comprobar también los bytes reales: Content-Length puede faltar.
+    # Flask limita esta lectura a 64 KB a nivel global.
+    if len(request.get_data(cache=True)) > MAX_BODY_BYTES:
+        raise RequestEntityTooLarge()
+    payload = request.get_json(silent=True)
+
+    try:
+        order, created = order_service.create_order(payload, idempotency_key)
+    except ValidationError as exc:
+        return _validation_response(exc)
+    except IdempotencyConflictError as exc:
+        return (
+            jsonify(
+                {
+                    "error": "idempotency_conflict",
+                    "message": str(exc),
+                    "status_code": 409,
+                }
+            ),
+            409,
+        )
+
+    status_code = 201 if created else 200
+    return jsonify(order.to_dict()), status_code
+
+
+@orders_bp.route("/orders/<order_id>", methods=["GET"])
+def get_order(order_id: str):
+    order = order_service.get_order(order_id)
+    if order is None:
+        return (
+            jsonify(
+                {
+                    "error": "not_found",
+                    "message": "El pedido solicitado no existe.",
+                    "status_code": 404,
+                }
+            ),
+            404,
+        )
+    return jsonify(order.to_dict()), 200
+
+
+def _validation_response(exc: ValidationError):
+    payload = exc.to_dict()
+    payload["status_code"] = 400
+    return jsonify(payload), 400
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/services/order_service.py
+================================================================================
+"""
+Servicio de pedidos de demostración.
+
+Responsable de:
+- Validar contenido.
+- Calcular importes desde el catálogo del backend.
+- Crear pedidos temporales con idempotencia.
+- Almacenar en memoria.
+"""
+
+import uuid
+from copy import deepcopy
+from threading import RLock
+from datetime import datetime, timedelta, timezone
+from typing import Dict, Optional, Tuple
+
+from data.product_catalog import get_product
+from models.order import Order, OrderItem
+from services.idempotency_store import IdempotencyStore, idempotency_store
+from utils.money import compute_subtotal
+from utils.validators import ValidationError, validate_payload
+
+SERVICE_FEE_CLP = 0
+QUOTE_TTL_MINUTES = 15
+
+
+class IdempotencyConflictError(Exception):
+    """La misma clave se usó con contenido distinto."""
+
+
+class OrderNotFoundError(Exception):
+    """Pedido inexistente."""
+
+
+class OrderService:
+    def __init__(self, store=None) -> None:
+        self._orders: Dict[str, Order] = {}
+        self._store = store if store is not None else IdempotencyStore()
+        self._lock = RLock()
+
+    def create_order(self, payload, idempotency_key: str) -> Tuple[Order, bool]:
+        """
+        Crea o recupera un pedido.
+
+        Devuelve (order, created) donde created indica si fue nuevo.
+        Lanza IdempotencyConflictError si la clave ya existe con distinto
+        contenido.
+        """
+        items = validate_payload(payload)
+        fingerprint = self._build_fingerprint(items)
+
+        # Una sola sección crítica incluye lectura, creación y publicación.
+        # Ningún hilo puede observar una clave cuyo pedido aún no existe.
+        with self._lock:
+            existing = self._store.get(idempotency_key)
+            if existing is not None:
+                existing_fingerprint, order_id = existing
+                if existing_fingerprint != fingerprint:
+                    raise IdempotencyConflictError(
+                        "La Idempotency-Key ya fue usada con un contenido distinto."
+                    )
+                return self.get_order(order_id), False
+
+            order = self._build_order(items, idempotency_key)
+            self._orders[order.order_id] = order
+            self._store.try_register(idempotency_key, fingerprint, order.order_id)
+            return deepcopy(order), True
+
+    def get_order(self, order_id: str) -> Optional[Order]:
+        with self._lock:
+            order = self._orders.get(order_id)
+            if order is None:
+                return None
+            if (order.status == "pending_payment"
+                    and datetime.now(timezone.utc) >= datetime.fromisoformat(
+                        order.expires_at.replace("Z", "+00:00"))):
+                order.status = "expired"
+            return deepcopy(order)
+
+    def _build_fingerprint(self, items) -> dict:
+        return {
+            "items": sorted(
+                [{"product_id": pid, "quantity": qty} for pid, qty in items],
+                key=lambda x: x["product_id"],
+            )
+        }
+
+    def _build_order(self, items, idempotency_key: str) -> Order:
+        order_items = []
+        subtotal_total = 0
+        total_units = 0
+
+        for product_id, quantity in items:
+            product = get_product(product_id)
+            if product is None:
+                # No debería ocurrir: validado antes.
+                raise ValidationError(f"Producto inexistente: {product_id}.")
+
+            unit_price = product["price_clp"]
+            subtotal = compute_subtotal(unit_price, quantity)
+            subtotal_total += subtotal
+            total_units += quantity
+
+            order_items.append(
+                OrderItem(
+                    product_id=product_id,
+                    name=product["name"],
+                    quantity=quantity,
+                    unit_price_clp=unit_price,
+                    subtotal_clp=subtotal,
+                )
+            )
+
+        now = datetime.now(timezone.utc)
+        expires = now + timedelta(minutes=QUOTE_TTL_MINUTES)
+
+        return Order(
+            order_id=str(uuid.uuid4()),
+            idempotency_key=idempotency_key,
+            status="pending_payment",
+            items=order_items,
+            total_units=total_units,
+            subtotal_clp=subtotal_total,
+            service_fee_clp=SERVICE_FEE_CLP,
+            total_clp=subtotal_total + SERVICE_FEE_CLP,
+            currency="CLP",
+            created_at=now.isoformat(timespec="seconds").replace("+00:00", "Z"),
+            expires_at=expires.isoformat(timespec="seconds").replace("+00:00", "Z"),
+        )
+
+
+order_service = OrderService(idempotency_store)
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/utils/money.py
+================================================================================
+"""
+Utilidades monetarias. Todos los importes son enteros en CLP.
+
+Nunca se usa float para dinero.
+"""
+
+# Límites para evitar abusos: 50 unidades por producto y 200 por pedido.
+MAX_QUANTITY_PER_PRODUCT = 50
+MAX_UNITS_PER_ORDER = 200
+
+
+def to_clp(amount: int) -> int:
+    """Valida que un valor sea un entero CLP no negativo."""
+    if not isinstance(amount, int) or isinstance(amount, bool):
+        raise TypeError("El importe debe ser un entero.")
+    if amount < 0:
+        raise ValueError("El importe no puede ser negativo.")
+    return amount
+
+
+def compute_subtotal(unit_price_clp: int, quantity: int) -> int:
+    return to_clp(unit_price_clp * quantity)
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/utils/validators.py
+================================================================================
+"""
+Validación de solicitudes de pedidos.
+"""
+
+from typing import List, Tuple
+from uuid import UUID
+
+from data.product_catalog import get_product
+from utils.money import MAX_QUANTITY_PER_PRODUCT, MAX_UNITS_PER_ORDER
+
+ALLOWED_ITEM_FIELDS = {"product_id", "quantity"}
+ALLOWED_PAYLOAD_FIELDS = {"items"}
+
+
+class ValidationError(Exception):
+    """Error de validación de la solicitud."""
+
+    def __init__(self, message: str, field: str = None):
+        super().__init__(message)
+        self.message = message
+        self.field = field
+
+    def to_dict(self) -> dict:
+        payload = {"error": "validation_error", "message": self.message}
+        if self.field:
+            payload["field"] = self.field
+        return payload
+
+
+def validate_idempotency_key(raw_key: str) -> str:
+    if not raw_key or not isinstance(raw_key, str):
+        raise ValidationError("El header Idempotency-Key es obligatorio.", "Idempotency-Key")
+    stripped = raw_key.strip()
+    try:
+        parsed = UUID(stripped)
+        if str(parsed) != stripped.lower():
+            raise ValueError
+    except ValueError:
+        raise ValidationError("Idempotency-Key debe ser un UUID válido.", "Idempotency-Key")
+    return str(parsed)
+
+
+def validate_payload(payload) -> List[Tuple[str, int]]:
+    """
+    Valida el payload de POST /api/orders.
+
+    Devuelve una lista de tuplas (product_id, quantity) validadas
+    y normalizadas.
+    """
+    if not isinstance(payload, dict):
+        raise ValidationError("El cuerpo debe ser un objeto JSON.")
+
+    unexpected = set(payload.keys()) - ALLOWED_PAYLOAD_FIELDS
+    if unexpected:
+        raise ValidationError(
+            f"Campos no permitidos: {sorted(unexpected)}", "body"
+        )
+
+    items = payload.get("items")
+    if not isinstance(items, list) or len(items) == 0:
+        raise ValidationError("Debes incluir al menos un producto.", "items")
+
+    seen_ids = set()
+    total_units = 0
+    result: List[Tuple[str, int]] = []
+
+    for index, item in enumerate(items):
+        if not isinstance(item, dict):
+            raise ValidationError(
+                f"El item {index} debe ser un objeto.", f"items[{index}]"
+            )
+        unexpected = set(item.keys()) - ALLOWED_ITEM_FIELDS
+        if unexpected:
+            raise ValidationError(
+                f"Campos no permitidos en el item {index}: {sorted(unexpected)}",
+                f"items[{index}]",
+            )
+
+        product_id = item.get("product_id")
+        quantity = item.get("quantity")
+
+        if not isinstance(product_id, str) or not product_id.strip():
+            raise ValidationError(
+                f"product_id inválido en item {index}.", f"items[{index}].product_id"
+            )
+
+        if isinstance(quantity, bool) or not isinstance(quantity, int):
+            raise ValidationError(
+                f"quantity debe ser un entero en item {index}.",
+                f"items[{index}].quantity",
+            )
+
+        if quantity <= 0:
+            raise ValidationError(
+                f"quantity debe ser mayor que cero en item {index}.",
+                f"items[{index}].quantity",
+            )
+
+        if quantity > MAX_QUANTITY_PER_PRODUCT:
+            raise ValidationError(
+                f"quantity excede el máximo por producto ({MAX_QUANTITY_PER_PRODUCT}).",
+                f"items[{index}].quantity",
+            )
+
+        if product_id in seen_ids:
+            raise ValidationError(
+                f"product_id duplicado: {product_id}.", f"items[{index}].product_id"
+            )
+        seen_ids.add(product_id)
+
+        product = get_product(product_id)
+        if product is None:
+            raise ValidationError(
+                f"Producto inexistente: {product_id}.",
+                f"items[{index}].product_id",
+            )
+
+        if not product["available"]:
+            raise ValidationError(
+                f"Producto no disponible: {product_id}.",
+                f"items[{index}].product_id",
+            )
+
+        total_units += quantity
+        result.append((product_id, quantity))
+
+    if total_units > MAX_UNITS_PER_ORDER:
+        raise ValidationError(
+            f"El pedido excede el máximo de unidades ({MAX_UNITS_PER_ORDER}).",
+            "items",
+        )
+
+    return result
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/tests/test_routes.py
+================================================================================
+"""Pruebas HTTP de pedidos, catálogo, validación e idempotencia."""
+
+import json
+import unittest
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
+from threading import Barrier
+from unittest.mock import patch
+from uuid import UUID, uuid4
+
+from app import create_app
+from data.product_catalog import PRODUCT_CATALOG
+from services.order_service import OrderService
+
+
+class OrdersRoutesTests(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app("testing")
+        self.client = self.app.test_client()
+        self.service = OrderService()
+        self.service_patch = patch("routes.orders.order_service", self.service)
+        self.service_patch.start()
+        self.addCleanup(self.service_patch.stop)
+        self.key = str(uuid4())
+
+    def payload(self, quantity=1, product_id="piscola"):
+        return {"items": [{"product_id": product_id, "quantity": quantity}]}
+
+    def post(self, payload=None, key=None):
+        return self.client.post(
+            "/api/orders", json=self.payload() if payload is None else payload,
+            headers={"Idempotency-Key": key or self.key},
+        )
+
+    def assert_error(self, response, status):
+        self.assertEqual(response.status_code, status)
+        self.assertTrue(response.is_json)
+        body = response.get_json()
+        self.assertEqual(body["status_code"], status)
+        self.assertIn("error", body)
+        self.assertIn("message", body)
+        return body
+
+    def test_create_order_calculates_authoritative_totals(self):
+        response = self.post({"items": [
+            {"product_id": "piscola", "quantity": 2},
+            {"product_id": "gin-tonic", "quantity": 1},
+        ]})
+        self.assertEqual(response.status_code, 201)
+        body = response.get_json()
+        self.assertEqual(str(UUID(body["order_id"])), body["order_id"])
+        self.assertEqual(body["idempotency_key"], self.key)
+        self.assertEqual(body["status"], "pending_payment")
+        self.assertEqual(body["currency"], "CLP")
+        self.assertEqual(body["total_units"], 3)
+        self.assertEqual(body["subtotal_clp"], 20000)
+        self.assertEqual(body["service_fee_clp"], 0)
+        self.assertEqual(body["total_clp"], 20000)
+        self.assertEqual(body["items"][0]["unit_price_clp"], 6000)
+        self.assertEqual(body["items"][0]["subtotal_clp"], 12000)
+        for name in ("subtotal_clp", "service_fee_clp", "total_clp"):
+            self.assertIs(type(body[name]), int)
+        created = datetime.fromisoformat(body["created_at"].replace("Z", "+00:00"))
+        expires = datetime.fromisoformat(body["expires_at"].replace("Z", "+00:00"))
+        self.assertEqual((expires - created).total_seconds(), 900)
+
+    def test_key_is_required_and_must_be_uuid(self):
+        self.assert_error(self.client.post("/api/orders", json=self.payload()), 400)
+        for key in ("not-a-uuid", "a" * 129, "12345678"):
+            with self.subTest(key=key):
+                self.assert_error(self.post(key=key), 400)
+
+    def test_unknown_product(self):
+        self.assert_error(self.post(self.payload(product_id="no-existe")), 400)
+
+    def test_unavailable_product(self):
+        # Los ocho productos reales están disponibles: simular indisponibilidad.
+        with patch.dict(PRODUCT_CATALOG["piscola"], available=False):
+            self.assert_error(self.post(), 400)
+
+    def test_invalid_quantities(self):
+        for quantity in (-1, 0, 1.5, True, False, "2", None, 51):
+            with self.subTest(quantity=quantity):
+                self.assert_error(self.post(self.payload(quantity)), 400)
+
+    def test_empty_and_malformed_items(self):
+        for payload in ({}, {"items": []}, {"items": None}, {"items": {}},
+                        {"items": [None]}, {"items": [{}]}, {"items": [1]}):
+            with self.subTest(payload=payload):
+                self.assert_error(self.post(payload), 400)
+
+    def test_invalid_body_and_json(self):
+        for data in ("null", "[]", '"text"', '{"items":'):
+            with self.subTest(data=data):
+                self.assert_error(self.client.post(
+                    "/api/orders", data=data, content_type="application/json",
+                    headers={"Idempotency-Key": self.key}), 400)
+
+    def test_rejects_client_prices_totals_and_status(self):
+        for field in ("price_clp", "unit_price_clp", "subtotal_clp", "total_clp", "status"):
+            with self.subTest(field=field):
+                payload = self.payload()
+                payload[field] = 1
+                self.assert_error(self.post(payload), 400)
+                payload = self.payload()
+                payload["items"][0][field] = 1
+                self.assert_error(self.post(payload), 400)
+
+    def test_duplicate_products(self):
+        payload = self.payload()
+        payload["items"].append({"product_id": "piscola", "quantity": 2})
+        self.assert_error(self.post(payload), 400)
+
+    def test_order_unit_limit_and_boundary(self):
+        ids = list(PRODUCT_CATALOG)[:5]
+        self.assert_error(self.post({"items": [
+            {"product_id": pid, "quantity": 50} for pid in ids]}), 400)
+        self.assertEqual(self.post({"items": [
+            {"product_id": pid, "quantity": 50} for pid in ids[:4]]}).status_code, 201)
+
+    def test_get_existing_and_missing_order(self):
+        created = self.post().get_json()
+        response = self.client.get(f"/api/orders/{created['order_id']}")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json(), created)
+        self.assert_error(self.client.get(f"/api/orders/{uuid4()}"), 404)
+
+    def test_same_key_same_content_returns_original(self):
+        first = self.post()
+        second = self.post()
+        self.assertEqual(first.status_code, 201)
+        self.assertEqual(second.status_code, 200)
+        self.assertEqual(first.get_json(), second.get_json())
+
+    def test_item_order_does_not_change_idempotency(self):
+        items = [self.payload()["items"][0],
+                 {"product_id": "gin-tonic", "quantity": 1}]
+        first = self.post({"items": items})
+        second = self.post({"items": list(reversed(items))})
+        self.assertEqual(second.status_code, 200)
+        self.assertEqual(first.get_json(), second.get_json())
+
+    def test_same_key_different_content_conflicts(self):
+        self.assertEqual(self.post().status_code, 201)
+        self.assert_error(self.post(self.payload(2)), 409)
+
+    def test_different_keys_produce_unique_order_ids(self):
+        first = self.post().get_json()
+        second = self.post(key=str(uuid4())).get_json()
+        self.assertNotEqual(first["order_id"], second["order_id"])
+
+    def test_concurrent_retries_create_exactly_one_order(self):
+        barrier = Barrier(12)
+
+        def send(_):
+            with self.app.test_client() as client:
+                barrier.wait(timeout=10)
+                response = client.post("/api/orders", json=self.payload(),
+                                       headers={"Idempotency-Key": self.key})
+                return response.status_code, response.get_json()
+
+        with ThreadPoolExecutor(max_workers=12) as pool:
+            results = list(pool.map(send, range(12)))
+        self.assertEqual(sum(status == 201 for status, _ in results), 1)
+        self.assertEqual(sum(status == 200 for status, _ in results), 11)
+        self.assertEqual(len({body["order_id"] for _, body in results}), 1)
+        self.assertEqual(len(self.service._orders), 1)
+
+    def test_concurrent_different_content_conflicts(self):
+        barrier = Barrier(2)
+
+        def send(quantity):
+            with self.app.test_client() as client:
+                barrier.wait(timeout=10)
+                return client.post("/api/orders", json=self.payload(quantity),
+                                   headers={"Idempotency-Key": self.key}).status_code
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            statuses = list(pool.map(send, (1, 2)))
+        self.assertEqual(sorted(statuses), [201, 409])
+        self.assertEqual(len(self.service._orders), 1)
+
+    def test_expired_order_is_not_recreated_on_retry(self):
+        created = self.post().get_json()
+        self.service._orders[created["order_id"]].expires_at = "2000-01-01T00:00:00Z"
+        response = self.client.get(f"/api/orders/{created['order_id']}")
+        self.assertEqual(response.get_json()["status"], "expired")
+        retry = self.post()
+        self.assertEqual(retry.status_code, 200)
+        self.assertEqual(retry.get_json()["order_id"], created["order_id"])
+        self.assertEqual(retry.get_json()["status"], "expired")
+
+    def test_payload_limit(self):
+        data = json.dumps(self.payload()) + " " * (8 * 1024)
+        self.assert_error(self.client.post(
+            "/api/orders", data=data, content_type="application/json",
+            headers={"Idempotency-Key": self.key}), 413)
+
+    def test_stream_without_content_length_is_limited(self):
+        from io import BytesIO
+        data = (json.dumps(self.payload()) + " " * (8 * 1024)).encode()
+        self.assert_error(self.client.open(
+            "/api/orders", method="POST", content_type="application/json",
+            headers={"Idempotency-Key": self.key}, environ_overrides={
+                "wsgi.input": BytesIO(data), "wsgi.input_terminated": True,
+                "CONTENT_LENGTH": "",
+            }), 413)
+
+    def test_products_catalog(self):
+        response = self.client.get("/api/products")
+        self.assertEqual(response.status_code, 200)
+        products = response.get_json()["products"]
+        self.assertEqual(len(products), 8)
+        self.assertEqual({p["id"] for p in products}, set(PRODUCT_CATALOG))
+        for product in products:
+            self.assertIs(type(product["price_clp"]), int)
+            self.assertEqual(product, PRODUCT_CATALOG[product["id"]])
+
+    def test_cors_accepts_idempotency_header(self):
+        origin = self.app.config["CORS_ORIGINS"][0]
+        response = self.client.options("/api/orders", headers={
+            "Origin": origin, "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "Content-Type,Idempotency-Key",
+        })
+        self.assertEqual(response.headers["Access-Control-Allow-Origin"], origin)
+        self.assertIn("Idempotency-Key", response.headers["Access-Control-Allow-Headers"])
+
+    def test_client_cannot_update_status(self):
+        order_id = self.post().get_json()["order_id"]
+        for method in ("patch", "put", "delete"):
+            self.assert_error(getattr(self.client, method)(
+                f"/api/orders/{order_id}", json={"status": "paid"}), 405)
+
+    def test_internal_error_is_json_without_details(self):
+        with patch.object(self.service, "create_order", side_effect=RuntimeError("private-detail")):
+            body = self.assert_error(self.post(), 500)
+        self.assertNotIn("private-detail", json.dumps(body))
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/frontend/src/app/services/orders/orders.service.ts
+================================================================================
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { timeout } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { CartSelectionService } from '../cart-selection.service';
+
+export interface OrderRequestItem {
+  product_id: string;
+  quantity: number;
+}
+
+export interface OrderItem extends OrderRequestItem {
+  name: string;
+  unit_price_clp: number;
+  subtotal_clp: number;
+}
+
+export interface Order {
+  order_id: string;
+  idempotency_key: string;
+  status: 'pending_payment' | 'expired' | 'cancelled';
+  items: OrderItem[];
+  total_units: number;
+  subtotal_clp: number;
+  service_fee_clp: number;
+  total_clp: number;
+  currency: 'CLP';
+  created_at: string;
+  expires_at: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class OrdersService {
+  private readonly baseUrl = environment.apiUrl;
+  private fingerprint = '';
+  private idempotencyKey = '';
+
+  constructor(private http: HttpClient, cart: CartSelectionService) {
+    cart.items$.subscribe(items => this.syncCart(items.map(item => ({
+      product_id: item.product.id,
+      quantity: item.quantity
+    }))));
+  }
+
+  // El servicio sobrevive a la navegación: los reintentos conservan la clave.
+  syncCart(items: OrderRequestItem[]): void {
+    const fingerprint = JSON.stringify([...items].sort((a, b) =>
+      a.product_id.localeCompare(b.product_id)));
+    if (fingerprint !== this.fingerprint) {
+      this.fingerprint = fingerprint;
+      this.idempotencyKey = '';
+    }
+  }
+
+  prepareOrder(items: OrderRequestItem[]): Observable<Order> {
+    this.syncCart(items);
+    if (!this.idempotencyKey) {
+      this.idempotencyKey = crypto.randomUUID();
+    }
+    return this.http.post<Order>(`${this.baseUrl}/orders`, { items }, {
+      headers: new HttpHeaders({ 'Idempotency-Key': this.idempotencyKey })
+    }).pipe(timeout(15000));
+  }
+
+  getOrder(orderId: string): Observable<Order> {
+    return this.http.get<Order>(
+      `${this.baseUrl}/orders/${encodeURIComponent(orderId)}`
+    ).pipe(timeout(15000));
+  }
+}
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.ts
+================================================================================
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable, Subject, TimeoutError } from 'rxjs';
+import { finalize, take, takeUntil } from 'rxjs/operators';
+import { CartItem, CartSelectionService } from '../../services/cart-selection.service';
+import { Order, OrderRequestItem, OrdersService } from '../../services/orders/orders.service';
+
+@Component({
+  selector: 'app-checkout',
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.scss'],
+  standalone: false
+})
+export class CheckoutComponent implements OnInit, OnDestroy {
+  items$!: Observable<CartItem[]>;
+  totalUnits$!: Observable<number>;
+  subtotal$!: Observable<number>;
+  readonly serviceFee = 0;
+  loading = false;
+  errorMessage = '';
+  order: Order | null = null;
+  priceDifference = 0;
+  private currentItems: CartItem[] = [];
+  private cartFingerprint = '';
+  private cartVersion = 0;
+  private readonly destroy$ = new Subject<void>();
+
+  constructor(
+    private cart: CartSelectionService,
+    private router: Router,
+    private orders: OrdersService
+  ) {}
+
+  ngOnInit(): void {
+    this.cart.isEmpty$.pipe(take(1), takeUntil(this.destroy$)).subscribe(empty => {
+      if (empty) {
+        this.router.navigate(['/carrito']);
+      }
+    });
+    this.items$ = this.cart.items$;
+    this.totalUnits$ = this.cart.totalUnits$;
+    this.subtotal$ = this.cart.totalPriceClp$;
+    // Descartar resultados anteriores cuando cambia el contenido del carrito.
+    this.items$.pipe(takeUntil(this.destroy$)).subscribe(items => {
+      this.currentItems = items;
+      const payload = this.requestItems();
+      this.orders.syncCart(payload);
+      const fingerprint = JSON.stringify(payload);
+      if (fingerprint !== this.cartFingerprint) {
+        this.cartFingerprint = fingerprint;
+        this.cartVersion++;
+        this.order = null;
+        this.priceDifference = 0;
+        this.errorMessage = '';
+      }
+    });
+  }
+
+  prepareOrder(): void {
+    if (this.loading || this.currentItems.length === 0) {
+      return;
+    }
+    this.loading = true;
+    this.errorMessage = '';
+    const version = this.cartVersion;
+    const estimatedTotal = this.currentItems.reduce((sum, item) => sum + item.subtotalClp, 0)
+      + this.serviceFee;
+    this.orders.prepareOrder(this.requestItems()).pipe(
+      takeUntil(this.destroy$),
+      finalize(() => { this.loading = false; })
+    ).subscribe({
+      next: order => {
+        if (version !== this.cartVersion) {
+          return;
+        }
+        this.order = order;
+        this.priceDifference = order.total_clp - estimatedTotal;
+      },
+      error: (error: unknown) => {
+        if (version !== this.cartVersion) {
+          return;
+        }
+        if (error instanceof TimeoutError ||
+            (error instanceof HttpErrorResponse && error.status === 0)) {
+          this.errorMessage = 'No se pudo conectar con el servidor. Reintenta: conservaremos la misma solicitud para evitar duplicados.';
+        } else if (error instanceof HttpErrorResponse && error.status < 500) {
+          this.errorMessage = error.error?.message || 'No se pudo validar el pedido. Revisa el carrito.';
+        } else {
+          this.errorMessage = 'El servidor no pudo preparar el pedido. Puedes reintentar.';
+        }
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  formatClp(value: number): string {
+    return this.cart.formatClp(value);
+  }
+
+  totalWithFee(subtotal: number): number {
+    return subtotal + this.serviceFee;
+  }
+
+  goBack(): void {
+    this.router.navigate(['/carrito']);
+  }
+
+  trackByProductId(_: number, item: CartItem): string {
+    return item.product.id;
+  }
+
+  private requestItems(): OrderRequestItem[] {
+    return this.currentItems.map(item => ({
+      product_id: item.product.id,
+      quantity: item.quantity
+    })).sort((a, b) => a.product_id.localeCompare(b.product_id));
+  }
+}
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.html
+================================================================================
+<section class="page">
+  <button type="button" class="back-btn" (click)="goBack()" aria-label="Volver al carrito">
+    ← Volver al carrito
+  </button>
+
+  <header class="page-header">
+    <h1 class="page-title">Checkout</h1>
+    <p class="page-subtitle">Revisa tu pedido antes de continuar.</p>
+  </header>
+
+  <div class="demo-banner" role="status">
+    Versión de demostración. Los pagos todavía no están habilitados.
+  </div>
+
+  <ng-container *ngIf="items$ | async as items">
+    <section class="summary-card">
+      <h2 class="section-title">Resumen</h2>
+      <ul class="summary-list">
+        <li class="summary-item" *ngFor="let item of items; trackBy: trackByProductId">
+          <span class="summary-name">
+            {{ item.product.name }} <span class="summary-qty">× {{ item.quantity }}</span>
+          </span>
+          <span class="summary-price">{{ formatClp(item.subtotalClp) }}</span>
+        </li>
+      </ul>
+
+      <div class="summary-totals">
+        <div class="totals-row">
+          <span class="totals-label">Unidades</span>
+          <span class="totals-value">{{ (totalUnits$ | async) ?? 0 }}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">Subtotal</span>
+          <span class="totals-value">{{ formatClp((subtotal$ | async) ?? 0) }}</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">Comisión de servicio</span>
+          <span class="totals-value">{{ formatClp(serviceFee) }}</span>
+        </div>
+        <div class="totals-row totals-grand">
+          <span class="totals-label">Total estimado</span>
+          <span class="totals-value">{{ formatClp(totalWithFee((subtotal$ | async) ?? 0)) }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="summary-card" aria-label="Preparación del pedido">
+      <h2 class="section-title">Preparar pedido de demostración</h2>
+      <button type="button" class="prepare-btn" (click)="prepareOrder()"
+              [disabled]="loading || items.length === 0" [attr.aria-busy]="loading">
+        {{ loading ? 'Preparando…' : 'Preparar pedido' }}
+      </button>
+      <p *ngIf="loading" role="status">Consultando el importe con el servidor…</p>
+      <p *ngIf="errorMessage" class="order-error" role="alert">{{ errorMessage }}</p>
+
+      <div *ngIf="order as prepared" class="order-result" aria-live="polite">
+        <h3 class="section-title">{{ prepared.status === 'pending_payment'
+          ? 'Pedido preparado — pago pendiente' : 'Pedido ' + prepared.status }}</h3>
+        <p class="order-id">ID: {{ prepared.order_id }}</p>
+        <p>Estado: {{ prepared.status }}</p>
+        <ul class="summary-list">
+          <li class="summary-item" *ngFor="let item of prepared.items">
+            <span class="summary-name">{{ item.name }} × {{ item.quantity }}</span>
+            <span class="summary-price">{{ formatClp(item.subtotal_clp) }}</span>
+          </li>
+        </ul>
+        <p>Subtotal del servidor: {{ formatClp(prepared.subtotal_clp) }}</p>
+        <p>Cargo de servicio: {{ formatClp(prepared.service_fee_clp) }}</p>
+        <p><strong>Total del servidor: {{ formatClp(prepared.total_clp) }} CLP</strong></p>
+        <p>Vencimiento: {{ prepared.expires_at | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+        <p *ngIf="priceDifference !== 0" class="order-warning" role="alert">
+          El importe del servidor difiere del estimado en {{ formatClp(priceDifference) }}.
+          Revisa los importes. Este pedido no está listo para autorizar un pago.
+        </p>
+        <p>No se realizó ningún cobro. Tu carrito se conserva.</p>
+      </div>
+    </section>
+
+    <section class="payment-section">
+      <h2 class="section-title">Opciones de pago</h2>
+
+      <div class="payment-option" aria-disabled="true">
+        <div class="payment-option-text">
+          <span class="payment-name">Apple Pay</span>
+          <span class="payment-note">Disponible cuando habilitemos la integración.</span>
+        </div>
+        <span class="payment-badge">Próximamente</span>
+      </div>
+
+      <div class="payment-option" aria-disabled="true">
+        <div class="payment-option-text">
+          <span class="payment-name">Google Pay</span>
+          <span class="payment-note">Disponible cuando habilitemos la integración.</span>
+        </div>
+        <span class="payment-badge">Próximamente</span>
+      </div>
+    </section>
+
+    <p class="demo-note">
+      Puedes preparar un pedido temporal. No se realizará ningún cobro.
+    </p>
+  </ng-container>
+</section>
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.scss
+================================================================================
+.page {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+}
+
+.back-btn {
+  border: none;
+  background: transparent;
+  color: var(--void-text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  margin-bottom: 0.75rem;
+  &:hover { color: var(--void-text); }
+  &:focus-visible { outline: 2px solid var(--void-primary); outline-offset: 2px; border-radius: 0.25rem; }
+}
+
+.page-header { margin-bottom: 1rem; }
+.page-title { font-size: 1.5rem; font-weight: 600; color: var(--void-text); margin: 0 0 0.25rem; }
+.page-subtitle { color: var(--void-text-muted); font-size: 0.9375rem; margin: 0; }
+
+.demo-banner {
+  background-color: rgba(124, 58, 237, 0.12);
+  border: 1px solid var(--void-primary);
+  color: var(--void-text);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.8125rem;
+  margin-bottom: 1rem;
+}
+
+.summary-card,
+.payment-section {
+  background-color: var(--void-surface);
+  border: 1px solid var(--void-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.section-title { margin: 0 0 0.75rem; font-size: 0.9375rem; font-weight: 600; color: var(--void-text); }
+
+.summary-list { list-style: none; padding: 0; margin: 0 0 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.summary-item { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; font-size: 0.875rem; }
+.summary-name { color: var(--void-text); }
+.summary-qty { color: var(--void-text-muted); }
+.summary-price { color: var(--void-text); font-weight: 500; white-space: nowrap; }
+
+.summary-totals { display: flex; flex-direction: column; gap: 0.5rem; border-top: 1px solid var(--void-border); padding-top: 0.75rem; }
+.totals-row { display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--void-text-muted); }
+.totals-value { color: var(--void-text); font-weight: 500; }
+.totals-grand { border-top: 1px solid var(--void-border); padding-top: 0.5rem; margin-top: 0.25rem; font-size: 1rem; }
+.totals-grand .totals-label,
+.totals-grand .totals-value { color: var(--void-text); font-weight: 600; }
+
+.payment-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--void-border);
+  border-radius: 0.5rem;
+  background-color: var(--void-surface-alt);
+  margin-bottom: 0.5rem;
+  opacity: 0.75;
+}
+.payment-option:last-child { margin-bottom: 0; }
+
+.payment-option-text { display: flex; flex-direction: column; gap: 0.125rem; min-width: 0; }
+.payment-name { font-size: 0.9375rem; font-weight: 600; color: var(--void-text); }
+.payment-note { font-size: 0.75rem; color: var(--void-text-muted); }
+
+.payment-badge {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--void-border);
+  color: var(--void-text-muted);
+  white-space: nowrap;
+}
+
+.demo-note {
+  font-size: 0.75rem;
+  color: var(--void-text-muted);
+  text-align: center;
+  margin: 0.5rem 0 0;
+}
+
+.prepare-btn {
+  background: var(--void-primary);
+  color: #fff;
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  cursor: pointer;
+  width: 100%;
+  &:disabled { opacity: 0.55; cursor: wait; }
+  &:focus-visible { outline: 2px solid var(--void-text); outline-offset: 3px; }
+}
+.order-result { color: var(--void-text); margin-top: 1rem; font-size: 0.875rem; }
+.order-id { overflow-wrap: anywhere; }
+.order-error, .order-warning { color: #ffb4b4; font-size: 0.875rem; }
+
+@media (max-width: 576px) {
+  .page { padding: 1rem; padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); }
+  .page-title { font-size: 1.25rem; }
+}
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/frontend/src/app/pages/checkout/checkout.component.spec.ts
+================================================================================
+import { CommonModule } from '@angular/common';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { MOCK_PRODUCTS } from '../../data/mock-products';
+import { CartSelectionService } from '../../services/cart-selection.service';
+import { Order } from '../../services/orders/orders.service';
+import { CheckoutComponent } from './checkout.component';
+
+const ORDER: Order = {
+  order_id: '4cc803f9-f77b-4073-a5dd-6df96b92cb36',
+  idempotency_key: 'ec56292e-f69c-4186-b8a9-b49e474d6eae',
+  status: 'pending_payment',
+  items: [{ product_id: 'piscola', name: 'Piscola', quantity: 1,
+    unit_price_clp: 6000, subtotal_clp: 6000 }],
+  total_units: 1, subtotal_clp: 6000, service_fee_clp: 0, total_clp: 6000,
+  currency: 'CLP', created_at: '2026-10-30T18:00:00Z', expires_at: '2026-10-30T18:15:00Z'
+};
+
+describe('Checkout con API de pedidos', () => {
+  let fixture: ComponentFixture<CheckoutComponent>;
+  let http: HttpTestingController;
+  let cart: CartSelectionService;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CommonModule, HttpClientTestingModule],
+      declarations: [CheckoutComponent],
+      providers: [{ provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } }]
+    }).compileComponents();
+    cart = TestBed.inject(CartSelectionService);
+    cart.increment(MOCK_PRODUCTS[0]);
+    http = TestBed.inject(HttpTestingController);
+    fixture = TestBed.createComponent(CheckoutComponent);
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+    http.verify();
+  });
+
+  function pending() {
+    return http.expectOne(request => request.url.endsWith('/orders'));
+  }
+
+  it('envía solo IDs y cantidades, bloquea dobles clics y conserva el carrito', () => {
+    const button = fixture.nativeElement.querySelector('.prepare-btn') as HTMLButtonElement;
+    button.click();
+    fixture.detectChanges();
+    expect(button.disabled).toBeTrue();
+    fixture.componentInstance.prepareOrder();
+    const request = pending();
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({ items: [{ product_id: 'piscola', quantity: 1 }] });
+    expect(request.request.headers.get('Idempotency-Key')).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+    request.flush(ORDER);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('Pedido preparado — pago pendiente');
+    expect(fixture.nativeElement.textContent).toContain(ORDER.order_id);
+    expect(cart.getQuantity('piscola')).toBe(1);
+    expect(button.disabled).toBeFalse();
+  });
+
+  it('muestra caída del backend y reintenta con la misma clave incluso tras navegar', () => {
+    fixture.componentInstance.prepareOrder();
+    const first = pending();
+    const key = first.request.headers.get('Idempotency-Key');
+    first.error(new ProgressEvent('error'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('No se pudo conectar con el servidor');
+    fixture.destroy();
+    fixture = TestBed.createComponent(CheckoutComponent);
+    fixture.detectChanges();
+    fixture.componentInstance.prepareOrder();
+    const retry = pending();
+    expect(retry.request.headers.get('Idempotency-Key')).toBe(key);
+    retry.flush(ORDER);
+  });
+
+  it('renueva la clave cuando cambia el carrito fuera del checkout', () => {
+    fixture.componentInstance.prepareOrder();
+    const first = pending();
+    const key = first.request.headers.get('Idempotency-Key');
+    first.flush(ORDER);
+    fixture.destroy();
+    cart.increment(MOCK_PRODUCTS[0]);
+    cart.decrement('piscola');
+    fixture = TestBed.createComponent(CheckoutComponent);
+    fixture.detectChanges();
+    fixture.componentInstance.prepareOrder();
+    const changed = pending();
+    expect(changed.request.headers.get('Idempotency-Key')).not.toBe(key);
+    changed.flush(ORDER);
+  });
+
+  it('muestra el importe del servidor y advierte si difiere del estimado', () => {
+    fixture.componentInstance.prepareOrder();
+    pending().flush({ ...ORDER, subtotal_clp: 6500, total_clp: 6500,
+      items: [{ ...ORDER.items[0], unit_price_clp: 6500, subtotal_clp: 6500 }] });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('Total del servidor: $6.500 CLP');
+    expect(fixture.nativeElement.querySelector('.order-warning').textContent)
+      .toContain('no está listo para autorizar un pago');
+  });
+
+  it('muestra errores de validación del servidor', () => {
+    fixture.componentInstance.prepareOrder();
+    pending().flush({ message: 'Producto no disponible.' }, { status: 400, statusText: 'Bad Request' });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('Producto no disponible.');
+    expect(fixture.componentInstance.loading).toBeFalse();
+  });
+
+  it('libera el botón tras un timeout y mantiene la clave', fakeAsync(() => {
+    fixture.componentInstance.prepareOrder();
+    const first = pending();
+    const key = first.request.headers.get('Idempotency-Key');
+    tick(15001);
+    expect(first.cancelled).toBeTrue();
+    expect(fixture.componentInstance.loading).toBeFalse();
+    fixture.componentInstance.prepareOrder();
+    const retry = pending();
+    expect(retry.request.headers.get('Idempotency-Key')).toBe(key);
+    retry.flush(ORDER);
+  }));
+
+  it('descarta la respuesta anterior si cambia el carrito durante la solicitud', () => {
+    fixture.componentInstance.prepareOrder();
+    const request = pending();
+    cart.increment(MOCK_PRODUCTS[0]);
+    request.flush(ORDER);
+    expect(fixture.componentInstance.order).toBeNull();
+    expect(fixture.componentInstance.loading).toBeFalse();
+  });
+});
+
+
+ARCHIVOS DE APOYO 2.3 YA EXISTENTES, SIN MODIFICAR EN ESTA CONTINUACIÓN
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/data/__init__.py
+================================================================================
+"""Paquete de datos estáticos y catálogos del backend de Club VOID."""
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/data/product_catalog.py
+================================================================================
+"""
+Catálogo autoritativo de productos de Club VOID (backend).
+
+Estos datos son la única fuente de verdad para calcular importes de pedidos.
+El frontend puede enviar product_id y cantidad, pero NUNCA precios.
+
+Mismos IDs, precios y disponibilidad que `mock-products.ts` del frontend.
+"""
+
+from typing import Dict, Optional, TypedDict
+
+
+class ProductRecord(TypedDict):
+    id: str
+    name: str
+    description: str
+    price_clp: int
+    category: str
+    available: bool
+
+
+# Catálogo inmutable de demostración. En producción se reemplazará por
+# consultas a la base de datos.
+PRODUCT_CATALOG: Dict[str, ProductRecord] = {
+    "piscola": {
+        "id": "piscola",
+        "name": "Piscola",
+        "description": "Pisco con bebida cola y hielo.",
+        "price_clp": 6000,
+        "category": "pisco",
+        "available": True,
+    },
+    "ron-cola": {
+        "id": "ron-cola",
+        "name": "Ron Cola",
+        "description": "Ron con bebida cola y hielo.",
+        "price_clp": 6500,
+        "category": "ron",
+        "available": True,
+    },
+    "gin-tonic": {
+        "id": "gin-tonic",
+        "name": "Gin Tonic",
+        "description": "Gin con tónica, limón y hielo.",
+        "price_clp": 8000,
+        "category": "gin",
+        "available": True,
+    },
+    "vodka-tonica": {
+        "id": "vodka-tonica",
+        "name": "Vodka Tónica",
+        "description": "Vodka con tónica y hielo.",
+        "price_clp": 7500,
+        "category": "vodka",
+        "available": True,
+    },
+    "mojito": {
+        "id": "mojito",
+        "name": "Mojito",
+        "description": "Ron, menta, limón, azúcar y soda.",
+        "price_clp": 8500,
+        "category": "cocteles",
+        "available": True,
+    },
+    "pisco-sour": {
+        "id": "pisco-sour",
+        "name": "Pisco Sour",
+        "description": "Pisco, limón, azúcar y clara de huevo.",
+        "price_clp": 7000,
+        "category": "cocteles",
+        "available": True,
+    },
+    "cuba-libre": {
+        "id": "cuba-libre",
+        "name": "Cuba Libre",
+        "description": "Ron, cola y limón.",
+        "price_clp": 6500,
+        "category": "cocteles",
+        "available": True,
+    },
+    "agua-mineral": {
+        "id": "agua-mineral",
+        "name": "Agua mineral",
+        "description": "Botella de agua mineral sin gas.",
+        "price_clp": 2500,
+        "category": "sin-alcohol",
+        "available": True,
+    },
+}
+
+
+def get_product(product_id: str) -> Optional[ProductRecord]:
+    return PRODUCT_CATALOG.get(product_id)
+
+
+def list_products() -> list:
+    """Devuelve el catálogo como lista para serialización JSON."""
+    return list(PRODUCT_CATALOG.values())
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/models/__init__.py
+================================================================================
+"""Paquete de modelos de datos de la API de Club VOID."""
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/models/order.py
+================================================================================
+"""
+Modelo de pedido de demostración de Club VOID.
+
+No persiste en base de datos. Se almacena en memoria en el servicio.
+"""
+
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from typing import Dict, List
+
+
+ORDER_STATUSES = {"pending_payment", "expired", "cancelled"}
+
+
+def utc_now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
+@dataclass
+class OrderItem:
+    product_id: str
+    name: str
+    quantity: int
+    unit_price_clp: int
+    subtotal_clp: int
+
+    def to_dict(self) -> dict:
+        return {
+            "product_id": self.product_id,
+            "name": self.name,
+            "quantity": self.quantity,
+            "unit_price_clp": self.unit_price_clp,
+            "subtotal_clp": self.subtotal_clp,
+        }
+
+
+@dataclass
+class Order:
+    order_id: str
+    idempotency_key: str
+    status: str
+    items: List[OrderItem]
+    total_units: int
+    subtotal_clp: int
+    service_fee_clp: int
+    total_clp: int
+    currency: str
+    created_at: str
+    expires_at: str
+
+    def to_dict(self) -> dict:
+        return {
+            "order_id": self.order_id,
+            "idempotency_key": self.idempotency_key,
+            "status": self.status,
+            "items": [item.to_dict() for item in self.items],
+            "total_units": self.total_units,
+            "subtotal_clp": self.subtotal_clp,
+            "service_fee_clp": self.service_fee_clp,
+            "total_clp": self.total_clp,
+            "currency": self.currency,
+            "created_at": self.created_at,
+            "expires_at": self.expires_at,
+        }
+
+    def to_fingerprint(self) -> Dict:
+        """Huella del contenido relevante para idempotencia."""
+        return {
+            "items": [
+                {"product_id": item.product_id, "quantity": item.quantity}
+                for item in sorted(self.items, key=lambda i: i.product_id)
+            ]
+        }
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/services/__init__.py
+================================================================================
+"""Paquete de servicios de la API de Club VOID."""
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/services/idempotency_store.py
+================================================================================
+"""
+Almacén de idempotencia en memoria.
+
+ADVERTENCIA — NO USAR EN PRODUCCIÓN:
+- No resiste reinicios del proceso.
+- No funciona con múltiples workers o réplicas.
+- No tiene persistencia transaccional.
+En producción debe sustituirse por una tabla con restricción UNIQUE
+sobre idempotency_key y transacciones atómicas.
+"""
+
+import threading
+from typing import Dict, Optional, Tuple
+
+
+class IdempotencyStore:
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._by_key: Dict[str, Tuple[dict, str]] = {}
+
+    def get(self, key: str) -> Optional[Tuple[dict, str]]:
+        """Devuelve (fingerprint, order_id) si existe la clave."""
+        with self._lock:
+            return self._by_key.get(key)
+
+    def try_register(self, key: str, fingerprint: dict, order_id: str) -> bool:
+        """
+        Intenta registrar una clave con su fingerprint y order_id.
+        Devuelve True si se registró; False si ya existía.
+        """
+        with self._lock:
+            if key in self._by_key:
+                return False
+            self._by_key[key] = (fingerprint, order_id)
+            return True
+
+    def clear(self) -> None:
+        """Solo para tests."""
+        with self._lock:
+            self._by_key.clear()
+
+
+idempotency_store = IdempotencyStore()
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/utils/__init__.py
+================================================================================
+"""Utilidades del backend de Club VOID: validación, dinero, respuestas."""
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/tests/__init__.py
+================================================================================
+
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/tests/test_idempotency.py
+================================================================================
+"""Pruebas del almacén de idempotencia."""
+
+import unittest
+
+from services.idempotency_store import IdempotencyStore
+
+
+class IdempotencyStoreTests(unittest.TestCase):
+    def setUp(self):
+        self.store = IdempotencyStore()
+
+    def test_register_then_get(self):
+        self.assertTrue(self.store.try_register("k1", {"items": []}, "order-1"))
+        self.assertEqual(self.store.get("k1"), ({"items": []}, "order-1"))
+
+    def test_duplicate_register_returns_false(self):
+        self.assertTrue(self.store.try_register("k1", {"items": []}, "order-1"))
+        self.assertFalse(self.store.try_register("k1", {"items": []}, "order-2"))
+        self.assertEqual(self.store.get("k1"), ({"items": []}, "order-1"))
+
+    def test_get_missing_returns_none(self):
+        self.assertIsNone(self.store.get("no-existe"))
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/tests/test_order_service.py
+================================================================================
+"""Pruebas del servicio de pedidos."""
+
+import unittest
+
+from services.idempotency_store import idempotency_store
+from services.order_service import (
+    IdempotencyConflictError,
+    OrderService,
+)
+from utils.validators import ValidationError
+
+
+class OrderServiceTests(unittest.TestCase):
+    def setUp(self):
+        idempotency_store.clear()
+        self.service = OrderService()
+
+    def test_create_valid_order_calculates_totals(self):
+        payload = {
+            "items": [
+                {"product_id": "piscola", "quantity": 2},
+                {"product_id": "gin-tonic", "quantity": 1},
+            ]
+        }
+        order, created = self.service.create_order(payload, "key-aaaa-0001")
+        self.assertTrue(created)
+        self.assertEqual(order.status, "pending_payment")
+        self.assertEqual(order.total_units, 3)
+        self.assertEqual(order.subtotal_clp, 6000 * 2 + 8000)
+        self.assertEqual(order.total_clp, order.subtotal_clp)
+        self.assertEqual(order.service_fee_clp, 0)
+        self.assertEqual(order.currency, "CLP")
+
+    def test_reject_unknown_product(self):
+        payload = {"items": [{"product_id": "no-existe", "quantity": 1}]}
+        with self.assertRaises(ValidationError):
+            self.service.create_order(payload, "key-aaaa-0002")
+
+    def test_reject_zero_or_negative_quantity(self):
+        for qty in (0, -1, -50):
+            payload = {"items": [{"product_id": "piscola", "quantity": qty}]}
+            with self.assertRaises(ValidationError):
+                self.service.create_order(payload, f"key-aaaa-neg-{qty}")
+
+    def test_reject_decimal_quantity(self):
+        payload = {"items": [{"product_id": "piscola", "quantity": 1.5}]}
+        with self.assertRaises(ValidationError):
+            self.service.create_order(payload, "key-aaaa-dec")
+
+    def test_reject_empty_items(self):
+        with self.assertRaises(ValidationError):
+            self.service.create_order({"items": []}, "key-aaaa-empty")
+
+    def test_reject_duplicate_product_ids(self):
+        payload = {
+            "items": [
+                {"product_id": "piscola", "quantity": 1},
+                {"product_id": "piscola", "quantity": 2},
+            ]
+        }
+        with self.assertRaises(ValidationError):
+            self.service.create_order(payload, "key-aaaa-dup")
+
+    def test_reject_price_field_from_frontend(self):
+        payload = {
+            "items": [
+                {"product_id": "piscola", "quantity": 1, "price_clp": 1}
+            ]
+        }
+        with self.assertRaises(ValidationError):
+            self.service.create_order(payload, "key-aaaa-price")
+
+    def test_idempotency_same_key_same_content(self):
+        payload = {"items": [{"product_id": "piscola", "quantity": 1}]}
+        order1, created1 = self.service.create_order(payload, "key-aaaa-idem-1")
+        order2, created2 = self.service.create_order(payload, "key-aaaa-idem-1")
+        self.assertTrue(created1)
+        self.assertFalse(created2)
+        self.assertEqual(order1.order_id, order2.order_id)
+
+    def test_idempotency_same_key_different_content(self):
+        payload1 = {"items": [{"product_id": "piscola", "quantity": 1}]}
+        payload2 = {"items": [{"product_id": "piscola", "quantity": 2}]}
+        self.service.create_order(payload1, "key-aaaa-idem-2")
+        with self.assertRaises(IdempotencyConflictError):
+            self.service.create_order(payload2, "key-aaaa-idem-2")
+
+    def test_idempotency_order_not_found(self):
+        self.assertIsNone(self.service.get_order("00000000-0000-0000-0000-000000000000"))
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+================================================================================
+RUTA: /Users/nacho/Desktop/club-app/backend/routes/products.py
+================================================================================
+"""
+Blueprint del catálogo de productos del backend.
+"""
+
+from flask import Blueprint, jsonify
+
+from data.product_catalog import list_products
+
+products_bp = Blueprint("products", __name__)
+
+
+@products_bp.route("/products", methods=["GET"])
+def get_products():
+    return jsonify({"products": list_products()}), 200

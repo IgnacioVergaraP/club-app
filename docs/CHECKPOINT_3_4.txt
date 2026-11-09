@@ -1,0 +1,116 @@
+CLUB VOID — CHECKPOINT 3.4
+Wallet de entradas y consumos
+Fecha: 03-11-2026
+
+OBJETIVO Y ESTADO
+Completada técnicamente dentro del alcance de demostración. Pendiente de revisión visual del Product Owner y aprobación del arquitecto. No se implementó la subetapa 3.5.
+La ruta /wallet sustituye su pantalla provisional por tres pestañas internas: Entradas, Tragos e Historial. Se conservan Angular con NgModules, standalone:false, las rutas existentes y las cinco pestañas principales.
+
+ARCHIVOS CREADOS
+- frontend/src/app/models/wallet.model.ts
+- frontend/src/app/data/mock-wallet.ts
+- frontend/src/app/services/wallet.service.ts
+- frontend/src/app/services/wallet.service.spec.ts
+- frontend/src/app/pages/wallet/wallet.component.spec.ts
+- docs/CHECKPOINT_3_4.txt
+- docs/visual-review/wallet-integration-34.json
+- docs/visual-review/wallet-tickets-390-34.png
+- docs/visual-review/wallet-tickets-1280-34.png
+- docs/visual-review/wallet-drinks-390-34.png
+- docs/visual-review/wallet-drinks-1280-34.png
+- docs/visual-review/wallet-history-390-34.png
+- docs/visual-review/wallet-history-1280-34.png
+
+ARCHIVOS MODIFICADOS
+- frontend/src/app/pages/wallet/wallet.component.ts
+- frontend/src/app/pages/wallet/wallet.component.html
+- frontend/src/app/pages/wallet/wallet.component.scss
+No se modificaron AppModule, rutas, dependencias, backend, configuración Fintoc, header, catálogo, carrito, checkout ni selección de entradas. Comparación SHA-256 contra la captura previa: 56 archivos protegidos, cero diferencias.
+
+MODELOS Y SERVICIOS
+WalletTicket: evento asociado, tipo General/VIP, estado, referencia visual e isDemo:true.
+WalletDrink: evento, producto, imagen local, cantidad, estado de canje ilustrativo, referencia e isDemo:true.
+WalletActivity: tipo, título, descripción, fecha, estado, referencia, evento opcional e isDemo:true.
+WalletEvent contiene una instantánea visual del evento. WalletData agrupa las colecciones y WalletOverview representa los indicadores.
+WalletService.getWallet() devuelve un Observable de solo lectura con nuevas copias de cada registro y de sus eventos en cada suscripción. Ordena el historial desde el movimiento más reciente. No utiliza HTTP, almacenamiento, pedidos, carrito ni callbacks de pagos.
+El contrato Observable permite reemplazar posteriormente la fuente por una API autenticada; esa conexión no forma parte de esta etapa. Los tipos actuales son explícitamente de demostración y deberán revisarse al incorporar registros reales.
+
+COMPONENTE E INTERACCIONES
+WalletComponent coordina las pestañas y los estados de consulta con RxJS y async pipe. Cuenta registros de entradas y suma unidades de consumos, incluyendo todos los estados. La interfaz los etiqueta como entradas/consumos demo; no representan derechos vigentes.
+El próximo evento se calcula buscando la fecha futura más cercana entre entradas disponibles y consumos pendientes. Si no existe, muestra Sin próximas fechas. Un temporizador de 60 segundos actualiza ese cálculo mientras la pantalla permanece abierta; no cambia automáticamente los estados ilustrativos de los registros.
+Cada registro incluye detalles nativos details/summary operables con teclado. Las pestañas tienen roles tablist/tab/tabpanel, estado de selección, foco y navegación con flechas, Home y End.
+Se implementaron carga, error con Reintentar y estados vacíos separados. Los vacíos de entradas y consumos enlazan a Noches y Tragos.
+Diseño: negro, morado sólido, tarjetas compactas, entrada disponible en superficie clara inspirada en el mockup, fotos locales existentes, sin degradados. Se aprovecha el layout existente de ancho máximo 720 px y su navegación/header.
+
+DATOS DE DEMOSTRACIÓN
+Entradas, 3 registros:
+- DEMO-ENT-001: VOID Sessions, General, Disponible; 07-11-2026 a las 23:00 UTC−3.
+- DEMO-ENT-002: VOID · Noche de octubre, VIP, Utilizada; 24-10-2026 a las 23:00 UTC−3.
+- DEMO-ENT-003: VOID · Sesión de septiembre, General, Vencida; 26-09-2026 a las 23:00 UTC−3.
+Consumos, 3 registros y 4 unidades:
+- DEMO-CON-001: Piscola ×2, VOID Sessions, Pendiente de canje.
+- DEMO-CON-002: Mojito ×1, noche de octubre, Canjeado.
+- DEMO-CON-003: Gin Tonic ×1, sesión de septiembre, Vencido.
+Historial, 5 registros:
+- Entrada de ejemplo agregada.
+- Consumos de ejemplo agregados.
+- Canje simulado de bebida.
+- Uso simulado de entrada.
+- Vencimiento de ejemplo.
+Todos llevan DEMO y referencias ilustrativas. Las descripciones aclaran que no acreditan compra, ingreso o retiro real. Los eventos históricos son instantáneas exclusivas de Wallet; no alteran el catálogo de Noches. Nombres/imágenes de bebidas se reutilizan de los mocks existentes sin conexión transaccional.
+
+INDEPENDENCIA DE PAGOS Y PEDIDOS
+No se generaron QR, tokens de acceso/canje ni documentos tributarios. No hay acciones para utilizar entradas o canjear bebidas.
+No se interpreta onSuccess de Fintoc como pago confirmado y no hay suscripción de Wallet a pagos. No se transforman pedidos pending_payment en registros disponibles.
+Se verificó esta independencia con un test de servicio que prepara un pedido mediante OrdersService y una respuesta HTTP simulada, y adicionalmente con un pedido REAL de Flask desde el navegador. La segunda prueba regresó a Wallet mediante la navegación de la misma aplicación: las referencias de entradas y los indicadores 3/4 permanecieron iguales. Los tests también verifican que WalletService no realiza solicitudes HTTP y que mutar una copia no altera otras suscripciones.
+
+VERIFICACIÓN PREVIA A CAMBIOS
+- Suite frontend: 63/63 pruebas aprobadas.
+- Build desarrollo: aprobado, aproximadamente 1,92 MB iniciales.
+- Build producción: aprobado, 643,42 kB iniciales, con advertencias existentes.
+- Header sticky comprobado en Tragos, Noches y detalle tras desplazar la página: top 0, fondo rgba(6,7,9,.25), blur 12 px.
+- Wallet provisional y archivos del alcance identificados. Sin bloqueo previo.
+
+PRUEBAS AUTOMATIZADAS POSTERIORES
+Comando: npm test -- --watch=false --browsers=ChromeHeadless
+Resultado final: 75/75 aprobadas; se agregaron 12 pruebas (3 de servicio y 9 del componente).
+Cobertura nueva: identificación DEMO, estados de entradas/consumos, historial descendente, copias independientes, ausencia de HTTP en Wallet, pedido pendiente sin nuevos registros, cambio de pestañas, cantidades, indicadores calculados, evento futuro y actualización temporal, vacíos, carga con Subject, error y reintento, navegación de teclado y detalles nativos sin cambios de estado.
+Los estados de carga, error y vacío se comprobaron con fuentes controladas en tests de componente, no mediante una API real de Wallet (que todavía no existe).
+Durante la primera ejecución una prueba falló por el manejo del reloj simulado de fakeAsync. Se corrigió exclusivamente el test; la ejecución final completa pasó.
+
+COMPILACIONES POSTERIORES
+- npm run build -- --configuration development: aprobado; total inicial aproximado 1,96 MB.
+- npm run build: aprobado; total inicial 665,05 kB, transferencia estimada 132,80 kB.
+Los estilos iniciales de Wallet excedían el límite de error de 4 kB. Se redujeron hasta 3,98 kB; no se elevaron presupuestos ni cambiaron opciones de compilación.
+Permanecen advertencias: bundle inicial sobre 500 kB; estilos de varios componentes sobre el umbral de advertencia de 2 kB (Wallet incluida); dos selectores Bootstrap .form-floating>~label omitidos por el optimizador. Ninguna es error bloqueante en el build final. Wallet queda cerca del límite de estilos de 4 kB.
+
+NAVEGADOR REAL Y REGRESIONES
+Chrome Headless real, perfil temporal aislado, Angular y Flask locales existentes, sin mocks de la API para el pedido de bebidas.
+- /wallet abre correctamente con 3 entradas.
+- Pestañas: 3 entradas, 3 registros de bebidas, 5 movimientos.
+- Detalles abiertos correctamente en las tres secciones.
+- Navegación de pestañas con flecha derecha: foco y selección correctos.
+- 320, 390, 768 y 1280 px: verificadas las tres secciones, 12 combinaciones sin scroll horizontal.
+- Header sticky top 0 después del scroll, blur presente y cinco enlaces de navegación inferior.
+- Todas las imágenes locales de Wallet cargaron.
+- Cero errores de consola/excepciones y cero recursos HTTP >=400 durante el recorrido completo.
+- Entradas: 2 General de $12.000 + 1 VIP de $25.000 = $49.000; límites 0..10; guard de resumen vacío; volver/modificar; aislamiento entre eventos; selección mantenida en memoria; evento inexistente; bloqueo de selección con fechas simuladas de evento en curso/finalizado. Cero pedidos creados por el flujo de entradas.
+- Bebidas: /tragos → seleccionar Piscola y Gin Tonic → /carrito → /checkout → Preparar pedido.
+- Flask respondió HTTP 201; UUID ffdc5561-fb26-42ba-9ea4-a480541b84d0; estado pending_payment; 2 unidades; total $14.000, contrastado con precios y subtotales de /api/products.
+- Regreso desde checkout a carrito, Tragos y Wallet en la misma SPA: indicadores y referencias originales conservados.
+Evidencia estructurada: docs/visual-review/wallet-integration-34.json. Se guardaron seis capturas de Wallet a 390 y 1280 px. Las capturas de página completa muestran la barra inferior fija en la posición del viewport original; no es una barra insertada entre tarjetas.
+
+PRUEBAS PENDIENTES Y LÍMITES
+- Revisión visual y aprobación del Product Owner/arquitecto.
+- Validación manual en Safari/iOS y Android físicos y con lector de pantalla. La prueba de teclado en Chrome no equivale a una auditoría completa de accesibilidad.
+- No se probó una API de Wallet, autenticación, persistencia, emisión, canjes o pagos confirmados porque no están implementados ni autorizados en 3.4.
+- No se ejecutó un pago Apple Pay ni se validó un dominio: continúa pendiente de la integración anterior; no bloquea la Wallet DEMO independiente.
+- No se volvió a ejecutar la suite backend en esta etapa: no se modificó Flask. Sí se ejerció la integración real de preparación de pedidos.
+- Las fechas/estados son ejemplos estáticos. El próximo evento depende de la fecha actual y podrá desaparecer al pasar noviembre; los registros y sus estados siguen siendo demostrativos.
+
+DECISIONES TÉCNICAS
+Un único componente de página con detalles nativos evita añadir dependencias o componentes innecesarios. Observable como contrato de consulta, carga/error controlados y copias por suscripción preparan la futura sustitución del origen sin introducir persistencia. Datos separados y ausencia de dependencia de pagos mantienen la independencia obligatoria respecto de transacciones Sandbox. Se conserva el layout aprobado sin modificar header ni navegación.
+
+RECOMENDACIÓN Y PRÓXIMO PASO
+Se recomienda aprobar técnicamente la subetapa 3.4 como Wallet exclusivamente DEMO, sujeta a validación visual del Product Owner. El arquitecto debe definir y autorizar la siguiente subetapa antes de implementar más cambios. La futura Wallet real necesitará una API autenticada y registros emitidos por backend tras confirmaciones verificadas; esto queda fuera del trabajo realizado.
+Trabajo detenido en 3.4, a la espera de aprobación.

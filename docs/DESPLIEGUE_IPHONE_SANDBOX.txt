@@ -1,0 +1,58 @@
+CLUB VOID — Prueba HTTPS desde iPhone
+Fecha: 09-11-2026
+
+DESTINO
+Angular en Vercel. Flask en Render como alternativa preparada (sin publicar aún).
+Flujo: Tragos -> Pagar con Fintoc -> checkout alojado de Fintoc -> resultado.
+Apple Pay se elige dentro de Fintoc si está disponible para esa cuenta,
+modalidad, entorno y dispositivo. El despliegue no acredita su habilitación.
+El registro del dominio propio descrito por Express Checkout corresponde al
+botón insertado en nuestra web; este flujo usa la página alojada por Fintoc.
+
+CONFIGURACIÓN
+1. Subir este proyecto completo a un repositorio privado. No subir .env ni claves.
+2. Crear el proyecto Vercel con Root Directory en la raíz del repositorio,
+   usando vercel.json. Reservar un dominio estable para el frontend.
+3. Crear el backend con render.yaml. En sus variables configurar:
+   FINTOC_SECRET_KEY: clave sk_test_... (solo en el servidor).
+   FINTOC_PUBLIC_KEY: clave pk_test_... para conservar Express Checkout existente.
+   FINTOC_CHECKOUT_BASE_URL: https://DOMINIO-ESTABLE-DEL-FRONTEND (sin ruta).
+   CORS_ORIGINS: ese mismo origen exacto, sin barra final.
+   SECRET_KEY se genera en Render; FLASK_ENV=production desactiva debug.
+4. Comprobar https://BACKEND/api/health y /api/products.
+5. En Vercel configurar API_URL=https://BACKEND/api y desplegar.
+   El build falla si falta esta URL o no es HTTPS. No usa localhost en iPhone.
+   La compilación genera environment.deploy.ts; no modifica la configuración local.
+6. Si cambia el dominio, actualizar CORS_ORIGINS y FINTOC_CHECKOUT_BASE_URL
+   y reiniciar el backend antes de preparar nuevos pedidos.
+
+LÍMITES DE ESTA PRUEBA
+Pedidos, intentos y claves de idempotencia viven en memoria: un único worker,
+una única instancia, sin escalado. Un reinicio, redeploy o suspensión del servicio
+puede perder el pedido y su verificación al volver de Fintoc. El plan gratuito
+puede suspender el servicio; hacer la prueba seguida, sin desplegar durante ella.
+El arranque en frío puede superar el timeout del cliente: esperar al health y
+reintentar. Esto no prepara el backend para cobros reales o uso comercial.
+Las claves live siguen rechazadas. No se emiten entradas ni consumos por pagar.
+
+VERIFICACIÓN EN SAFARI / IPHONE
+Abrir el dominio estable, seleccionar un trago y pulsar Pagar con Fintoc.
+Comprobar que la página de Fintoc corresponde al importe y al entorno de prueba.
+Observar si Fintoc ofrece Apple Pay. No asumir disponibilidad Sandbox por tener
+una tarjeta real en Wallet; seguir los requisitos de prueba de Fintoc/Apple.
+Si no aparece, consultar a Fintoc si la cuenta y el checkout alojado de esta
+versión de API tienen Apple Pay habilitado en Sandbox. No enviar claves secretas.
+La oferta general de Smart Checkout no confirma disponibilidad de esta sesión.
+Al regresar, /checkout/resultado debe abrir sin 404 y consultar el estado al backend.
+La URL de retorno por sí sola no confirma el pago.
+
+PENDIENTE EXTERNO
+Conectar Vercel y el proveedor del backend para publicar; definir URLs estables.
+Validar Apple Pay dentro de la sesión real en iPhone. Sin esa prueba, no aprobado
+como Apple Pay integral. No se ha realizado ningún pago desde esta preparación.
+
+FUENTES
+https://vercel.com/docs/routing/rewrites
+https://render.com/docs/deploy-flask
+https://render.com/docs/blueprint-spec
+https://www.fintoc.com/cl/producto/payments/apple-pay

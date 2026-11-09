@@ -1,0 +1,1 @@
+"""Paquete de datos estáticos y catálogos del backend de Club VOID."""

@@ -1,0 +1,144 @@
+CLUB VOID — FINTOC CHECKOUT ALOJADO (SANDBOX)
+Fecha: 06-11-2026
+
+ALCANCE Y ESTADO
+Implementado el botón Pagar con Fintoc · Sandbox en el checkout de bebidas, según la documentación adjunta del Product Owner. Coexiste con Apple Pay Express Checkout; no sustituye ni modifica la Wallet DEMO o Perfil.
+Verificados creación real de sesión, redirección a Fintoc y regreso real mediante Volver. No se completó un pago en la página del proveedor; no se declara una prueba real de pago exitoso. Estados de éxito/fallo/requires_action se verificaron con proveedor simulado en tests.
+No se activaron producción, webhooks, persistencia, pagos reales, emisión de entradas ni canjes. Este trabajo es un ajuste autorizado directo del checkout, sin asignarle automáticamente una subetapa 3.6.
+
+FUNCIONAMIENTO
+1. El usuario selecciona bebidas y prepara el pedido existente en Flask.
+2. Si no hay diferencia entre el importe estimado y el de Flask, aparece Pagar con Fintoc · Sandbox.
+3. Angular envía únicamente order_id a Flask. No envía importe, moneda ni URLs de retorno.
+4. Flask usa el total CLP del pedido, la clave secreta test y el cliente HTTPS existente para crear /v2/checkout_sessions.
+5. El navegador se dirige a redirect_url validada y Fintoc muestra sus métodos habilitados.
+6. Fintoc devuelve al frontend en /checkout/resultado. Esa ruta funciona sin carrito y consulta el estado en Flask.
+7. Flask recupera la sesión desde Fintoc. Solo payment_intent succeeded en sesión finished, con modo, moneda, importe y pedido coincidentes, se presenta como pago Sandbox verificado.
+La URL de retorno y parámetros como verified=true nunca bastan para declarar éxito. El pedido comercial conserva su estado de demostración; no se emiten registros Wallet.
+
+REINTENTOS Y COEXISTENCIA CON APPLE PAY
+Una sola modalidad por pedido, coordinada por el mismo servicio backend y sus locks. Una vez que se inicia Checkout alojado, se oculta Apple Pay para ese pedido y se bloquea preparar otro pedido desde esa vista. Si Apple Pay ya tiene un intento en curso, el botón alojado se deshabilita. Backend también rechaza la mezcla de modalidades con HTTP 409.
+Reintentos de creación conservan payload y clave de idempotencia. Una sesión creada se reutiliza con HTTP 200. La ruta de retorno permite verificar de nuevo y continuar el mismo intento cuando la sesión sigue en created/in_progress. No ofrece reanudar un pago confirmado o pendiente de acción adicional.
+No se agregaron dependencias. Se reutiliza http.client del backend y Angular/RxJS existentes.
+
+COMPATIBILIDAD COMPROBADA CON FINTOC
+Se conserva Fintoc-Version 2026-02-01 existente.
+La API real con esa versión rechazó ui_mode:hosted (HTTP 400). Se corrigió omitiendo ui_mode para Checkout alojado, como en el ejemplo adjunto. La respuesta de esa versión incluye ui_mode:null; también se admite hosted para compatibilidad, y se rechaza embedded en este flujo.
+La API Sandbox real devuelve redirect_url en test.pay.fintoc.com. Lista exacta de destinos HTTPS admitidos, tanto en backend como frontend:
+- test.pay.fintoc.com (observado en pruebas reales)
+- pay.fintoc.com (ejemplo de la guía)
+- checkout.fintoc.com (referencia del objeto)
+Se rechazan otros dominios, HTTP, credenciales en URL, puertos distintos de 443, fragmentos y espacios.
+No se añadieron dominios comodín ni se desactivaron validaciones TLS.
+Documentación oficial consultada:
+https://docs.fintoc.com/guides/payments/accept-a-payment
+https://docs.fintoc.com/api/payments-api/checkout-sessions/checkout-session-object
+La respuesta real fija el contrato compatible cuando difiere de ejemplos recientes; la versión no se cambió para ocultar esa diferencia.
+
+CONFIGURACIÓN
+backend/.env existente:
+- FINTOC_SANDBOX_ENABLED=true
+- FINTOC_SECRET_KEY con prefijo sk_test_
+- FINTOC_PUBLIC_KEY sigue siendo necesaria para Apple Pay Express, no para el botón alojado.
+Nueva variable opcional:
+FINTOC_CHECKOUT_BASE_URL=http://localhost:4200
+Es el origen público de Angular para success_url/cancel_url. Por defecto usa localhost:4200. En un entorno HTTPS debe configurarse con el origen real sin ruta, query o fragmento, por ejemplo https://app.ejemplo.cl. Solo localhost/127.0.0.1 admiten HTTP.
+Se agregó el ejemplo a backend/.env.example. No se modificaron ni expusieron las claves locales.
+Reiniciar Flask después de cambiar la configuración. El hosting Angular deberá servir su index para la ruta /checkout/resultado.
+
+ENDPOINTS NUEVOS
+POST /api/payments/fintoc/hosted-checkout-session
+Body: {"order_id":"UUID"}
+Respuesta: {"redirect_url":"URL Fintoc validada","mode":"test"}
+HTTP 201 al crear, 200 al reutilizar. Cache-Control:no-store.
+GET /api/payments/fintoc/hosted-orders/<order_id>/status
+Respuesta: order_id, mode:test, status y verified. Cache-Control:no-store.
+Los endpoints Express anteriores mantienen sus rutas/contratos.
+
+ARCHIVOS CREADOS
+- backend/tests/test_fintoc_hosted.py
+- frontend/src/app/components/fintoc-hosted-checkout/fintoc-hosted-checkout.component.ts
+- frontend/src/app/components/fintoc-hosted-checkout/fintoc-hosted-checkout.component.spec.ts
+- frontend/src/app/pages/payment-result/payment-result.component.ts
+- frontend/src/app/pages/payment-result/payment-result.component.spec.ts
+- frontend/src/app/services/payments/fintoc-redirect.service.ts
+- frontend/src/app/services/payments/fintoc-redirect.service.spec.ts
+- docs/FINTOC_HOSTED_CHECKOUT_CHECKPOINT.txt
+Evidencia:
+- docs/visual-review/fintoc-hosted-button.png
+- docs/visual-review/fintoc-hosted-provider.png
+- docs/visual-review/fintoc-hosted-return.png
+- docs/visual-review/fintoc-hosted-integration.json
+
+ARCHIVOS MODIFICADOS
+- backend/app.py: carga del origen de retorno.
+- backend/.env.example: configuración documentada.
+- backend/routes/payments.py: endpoints alojados.
+- backend/services/fintoc_payment_service.py: creación alojada, validación/verificación y exclusión entre modalidades.
+- frontend/src/app/app.module.ts: declaraciones NgModule nuevas.
+- frontend/src/app/app-routing.module.ts: retorno sin guard de carrito.
+- frontend/src/app/services/payments/fintoc-payments.service.ts: llamadas a endpoints alojados.
+- frontend/src/app/services/payments/fintoc-payments.service.spec.ts: contrato HTTP alojado.
+- frontend/src/app/pages/checkout/checkout.component.ts: estado de intento alojado.
+- frontend/src/app/pages/checkout/checkout.component.html: botón y bloqueo de modalidades.
+- frontend/src/app/pages/checkout/checkout.component.spec.ts: stub alojado y prueba de bloqueo.
+Se mantienen standalone:false, NgModules, rutas previas, catálogo, cálculos de pedidos y diseño de pantallas ajenas al checkout. Perfil y Wallet no se modificaron.
+
+PRUEBAS EJECUTADAS
+Antes:
+- Backend: 64 pruebas aprobadas (ejecutadas desde backend).
+- Frontend: 85 pruebas aprobadas en Chrome Headless.
+Después:
+- Backend: 75 pruebas aprobadas.
+- Frontend: 98 pruebas aprobadas en Chrome Headless.
+- Desarrollo Angular: aprobado, total inicial aproximado 2,01 MB.
+- Producción Angular: aprobado, total inicial 695,59 kB; transferencia estimada 138,83 kB.
+Se mantienen advertencias de bundle >500 kB, SCSS existentes >2 kB y selectores Bootstrap .form-floating>~label. No se elevaron presupuestos ni hubo errores finales de compilación.
+Comandos reproducibles:
+cd backend
+/Users/nacho/miniconda3/bin/python3 -m unittest discover -s tests
+cd ../frontend
+npm test -- --watch=false --browsers=ChromeHeadless
+npm run build -- --configuration development
+npm run build
+
+COBERTURA NUEVA
+Backend: importe autorizado por Flask, URLs configuradas en servidor, idempotencia/reintentos incluso después de timeout, rechazo de parámetros manipulados, claves live/feature deshabilitada, secreto test sin requerir clave pública para hosted, destinos ajenos, respuestas incompatibles, ui_mode null de versión fijada, conflicto entre modalidades, cotizaciones por vencer, estados fallidos/pendientes/requires_action y éxito verificado, rechazo de importe o sesión ajenos.
+Frontend: ID como único body, doble clic, bloqueos y cotizaciones vencidas, recuperación de errores, cancelación de solicitudes al destruir componente, destinos ajenos, regreso sin carrito, rechazo de referencias inválidas, parámetros de URL sin autoridad para confirmar, respuesta verificada coincidente, requires_action, errores de consulta, continuación del mismo intento y exclusión con Apple Pay.
+
+PRUEBA REAL ANGULAR → FLASK → FINTOC SANDBOX
+Chrome Headless, perfil temporal, sin mocks de API.
+- Piscola + Gin Tonic, dos unidades, total Flask $14.000.
+- Pedido HTTP 201, UUID 47fa1a57-e6bc-4dcd-973b-f8a5d0c24ed2.
+- Sesión Fintoc creada desde Flask: HTTP 201.
+- Reintento con el mismo pedido reutiliza sesión, sin crear otra.
+- El botón navega a test.pay.fintoc.com.
+- Título Paga con Fintoc; importe $14.000; opciones banco y tarjeta visibles.
+- El comercio que muestra Fintoc es CODETEC, correspondiente a la configuración de la cuenta utilizada. No se impuso Club VOID en la identidad comercial del proveedor.
+- Se pulsó el botón real Volver a CODETEC: regresó a /checkout/resultado por cancel_url.
+- El servidor consultó Fintoc y no confirmó un pago.
+- Navegación adicional a success_url con verified=true: siguió sin confirmar; no se confió en el query string.
+- Checkout en 320, 390, 768 y 1280 px sin scroll horizontal.
+- Sin excepciones JavaScript capturadas en el recorrido final. La captura no equivale a una auditoría exhaustiva de logs internos del proveedor.
+- No se completó pago, no se ingresaron credenciales bancarias ni tarjetas y no se movió dinero.
+Las primeras pruebas reales detectaron las incompatibilidades ui_mode/dominio descritas y se corrigieron. La herramienta de captura también se ajustó para recuperar la sesión por reintento idempotente, porque el cambio inmediato de página puede impedir leer el body de la respuesta desde DevTools. La prueba final usó el botón y la navegación reales.
+
+CÓMO PROBAR MANUALMENTE
+1. Abrir http://localhost:4200/tragos.
+2. Elegir productos, ir a carrito y continuar al checkout.
+3. Pulsar Preparar pedido.
+4. Pulsar Pagar con Fintoc · Sandbox.
+5. Revisar importe y métodos en la página de prueba de Fintoc.
+6. Para salir sin pagar, pulsar Volver: se mostrará el estado consultado, sin declarar un pago exitoso.
+Para completar un pago de prueba se deben utilizar los escenarios/credenciales Sandbox oficiales; esa comprobación queda pendiente de ejecución manual.
+
+PENDIENTES Y LIMITACIONES
+- Completar un pago Sandbox exitoso o fallido en el proveedor y verificar su resultado real. Los estados finales se cubrieron con tests simulados; no se declaran como una prueba de pago real completada.
+- Dominio HTTPS y habilitación Apple Pay Express continúan como pendientes independientes.
+- No hay webhooks, base de datos, reconciliación en segundo plano ni autenticación. Solo se consulta Fintoc al regresar o al pulsar Verificar estado. La guía oficial recomienda eventos posteriores al pago para una integración comercial completa.
+- Pedidos/intentos se conservan en memoria de un proceso Flask. Un reinicio pierde la asociación; no apto para uso comercial en producción.
+- Carrito y Perfil siguen en memoria del frontend: salir a una página externa/recargar puede restablecerlos. La pantalla de retorno funciona por order_id, sin depender de ese carrito, y permite continuar el mismo intento cuando corresponde.
+- Si la sesión/cotización venció, el servidor impide continuar ese pago. Volver a Tragos/carrito para preparar un pedido vigente.
+- El nombre del comercio CODETEC se debe revisar en la configuración de Fintoc si se requiere otra presentación; no se modificó información comercial/legal de la cuenta.
+- Validación visual del Product Owner y pruebas en dispositivos físicos pendientes.
+- Wallet conserva exclusivamente sus registros DEMO independientes de pagos, incluso ante éxito Sandbox verificado.

@@ -1,0 +1,24 @@
+:host { display: block; }
+.ticket-summary { display: grid; gap: 1.25rem; }
+a { text-decoration: none; }
+.back-link { display: flex; align-items: center; min-height: 44px; color: var(--void-text-muted); font-size: .875rem; }
+.eyebrow { font-size: .65rem; color: var(--void-text-muted); letter-spacing: .1em; margin-bottom: .75rem; }
+h1 { font-size: 2rem; font-weight: 600; letter-spacing: -.04em; } h1 span { color: var(--void-primary); }
+h2 { font-size: 1.25rem; margin-bottom: .75rem; }
+.intro, .payment-note { color: var(--void-text-muted); font-size: .8rem; line-height: 1.7; margin: 0; }
+.demo-notice { border: 1px solid var(--void-primary); border-radius: .5rem; padding: 1rem; font-size: .8rem; line-height: 1.6; }
+.event-date { color: var(--void-text-muted); font-size: .75rem; }
+.ticket-lines { list-style: none; padding: 0; margin: 1.25rem 0; }
+.ticket-lines li { display: flex; justify-content: space-between; gap: .75rem; padding: .875rem 0; font-size: .8rem; }
+.ticket-lines strong { font-weight: 500; } .ticket-lines small { display: block; color: var(--void-text-muted); margin-top: .375rem; font-size: .7rem; }
+.ticket-lines li > span { white-space: nowrap; }
+.totals { display: grid; gap: .75rem; border-top: 1px solid var(--void-border); padding-top: 1rem; font-size: .8rem; }
+.totals div { display: flex; justify-content: space-between; gap: 1rem; }
+dt { font-weight: 400; color: var(--void-text-muted); } dd { margin: 0; white-space: nowrap; }
+.grand-total { border-top: 1px solid var(--void-border); padding-top: 1rem; font-size: 1rem; }
+.grand-total dt { color: var(--void-text); }
+.modify-link { display: flex; justify-content: space-between; align-items: center; min-height: 44px; font-size: .875rem; gap: .5rem; }
+a:focus-visible { outline: 2px solid var(--void-primary); outline-offset: 3px; }
+.payment-option { display: flex; justify-content: space-between; gap: .5rem; padding: 1rem 0; font-size: .8rem; border-bottom: 1px solid var(--void-border); }
+.payment-option span:last-child { color: var(--void-text-muted); font-size: .7rem; }
+.payment-note { margin-top: 1rem; font-size: .75rem; }

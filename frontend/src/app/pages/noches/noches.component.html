@@ -1,0 +1,54 @@
+<section class="nights" aria-labelledby="nights-title" *ngIf="view$ | async as view">
+  <header>
+    <p class="eyebrow">CLUB VOID / LA PROGRAMACIÓN</p>
+    <h1 id="nights-title">Noches<span>.</span></h1>
+    <p class="intro">Encuentra tu próxima fecha o vuelve a las noches anteriores.</p>
+  </header>
+  <p class="demo-note">Programación de demostración. Eventos ficticios, sin venta de entradas.</p>
+
+  <section class="filters" aria-label="Filtrar eventos">
+    <div class="periods" role="group" aria-label="Fecha del evento">
+      <button *ngFor="let period of periods" type="button" [attr.aria-pressed]="view.period === period.value"
+              [class.selected]="view.period === period.value" (click)="setPeriod(period.value)">{{ period.label }}</button>
+    </div>
+    <label for="event-category">Categoría</label>
+    <select id="event-category" [value]="view.category" (change)="setCategory($any($event.target).value)">
+      <option value="">Todas las categorías</option>
+      <option *ngFor="let category of view.categories" [value]="category">{{ category }}</option>
+    </select>
+  </section>
+
+  <p *ngIf="view.loading" class="state" role="status">Cargando noches…</p>
+  <div *ngIf="view.error" class="void-card state" role="alert">
+    <h2>No pudimos cargar las noches.</h2><p>Inténtalo de nuevo en un momento.</p>
+    <button type="button" class="void-btn-primary" (click)="retry()">Reintentar</button>
+  </div>
+  <ng-container *ngIf="!view.loading && !view.error">
+    <p class="count" aria-live="polite">{{ view.cards.length }} {{ view.cards.length === 1 ? 'evento' : 'eventos' }}</p>
+    <div *ngIf="!view.events.length" class="void-card state" role="status">
+      <h2>Aún no hay noches programadas.</h2><p>Vuelve pronto para descubrir nuevas fechas.</p>
+    </div>
+    <div *ngIf="view.events.length && !view.cards.length" class="void-card state" role="status">
+      <h2>No hay eventos que coincidan.</h2><p>Prueba con otra fecha o categoría.</p>
+      <button type="button" class="void-btn-primary" (click)="resetFilters()">Restablecer filtros</button>
+    </div>
+    <div class="event-grid">
+      <article class="night-card" *ngFor="let card of view.cards; trackBy: trackEvent">
+        <div class="visual">
+          <img [src]="card.event.imageUrl || 'assets/events/void-orbit.svg'" alt="" width="960" height="640" loading="lazy">
+          <span *ngIf="card.event.isDemo" class="badge-demo">Demo</span>
+          <time class="date-tile" [attr.datetime]="card.event.startsAt"><strong>{{ card.event.startsAt | date:'dd':'-0300' }}</strong><span>{{ card.event.startsAt | date:'MMM':'-0300' }}</span></time>
+        </div>
+        <div class="card-body">
+          <p class="category">{{ card.event.category }}</p>
+          <h2>{{ card.event.name }}</h2>
+          <span class="event-status" [class.ended]="card.status === 'ended'">{{ statusLabel(card.status) }}</span>
+          <p class="date"><time [attr.datetime]="card.event.startsAt">{{ card.event.startsAt | date:'dd MMM yyyy':'-0300' }} · {{ card.event.startsAt | date:'HH:mm':'-0300' }} h</time></p>
+          <p class="description">{{ card.event.description }}</p>
+          <a class="details-link" [routerLink]="['/noches', card.event.id]" [attr.aria-label]="'Ver detalles de ' + card.event.name">Ver detalles <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </div>
+    <p *ngIf="view.cards.length" class="timezone">Fechas y horas de demostración en UTC−3 (Chile).</p>
+  </ng-container>
+</section>

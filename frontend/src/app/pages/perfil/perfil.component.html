@@ -1,0 +1,39 @@
+<section class="profile" aria-labelledby="profile-title" *ngIf="view$ | async as view">
+  <header><h1 id="profile-title">Mi perfil<span>.</span></h1><p>Tu espacio en Club VOID.</p></header>
+  <p class="demo-notice">Perfil ficticio DEMO. Usa datos de ejemplo. Los cambios duran mientras la aplicación permanezca abierta y se restablecen al recargar; no se guardan en una cuenta real.</p>
+  <p *ngIf="view.loading" role="status">Cargando perfil de demostración…</p>
+  <div *ngIf="view.error" role="alert" class="card"><h2>No pudimos cargar el perfil.</h2><button type="button" (click)="retry()">Reintentar</button></div>
+  <ng-container *ngIf="view.profile as profile">
+    <section class="identity card" aria-label="Cuenta de demostración">
+      <span class="avatar" aria-hidden="true">{{ initials(profile.name) }}</span><div><h2>{{ profile.name }}</h2><p>{{ profile.email }}</p><span class="demo-badge">Cuenta {{ profile.accountStatus }}</span></div>
+    </section>
+    <section class="card" aria-labelledby="personal-title">
+      <div class="section-heading"><h2 id="personal-title">Mis datos</h2><button *ngIf="!editing" class="edit-button" type="button" (click)="edit(profile)">Editar datos demo</button></div>
+      <dl *ngIf="!editing"><div><dt>Nombre</dt><dd>{{ profile.name }}</dd></div><div><dt>Correo electrónico</dt><dd>{{ profile.email }}</dd></div><div><dt>Teléfono</dt><dd>{{ profile.phone || 'No indicado' }}</dd></div><div><dt>Fecha de nacimiento</dt><dd>{{ profile.birthDate ? (profile.birthDate | date:'dd/MM/yyyy':'UTC') : 'No indicada' }}</dd></div></dl>
+      <form *ngIf="editing" [formGroup]="form" (ngSubmit)="save()" novalidate aria-label="Editar datos de demostración">
+        <label for="profile-name">Nombre de ejemplo <span>(obligatorio)</span></label>
+        <input #nameInput id="profile-name" type="text" formControlName="name" [attr.maxlength]="limits.name" autocomplete="off" aria-describedby="name-help name-error" [attr.aria-invalid]="form.controls.name.touched && form.controls.name.invalid">
+        <p id="name-help" class="hint">Hasta {{ limits.name }} caracteres.</p>
+        <p id="name-error" class="error" *ngIf="form.controls.name.touched && form.controls.name.invalid">Escribe un nombre de ejemplo de hasta {{ limits.name }} caracteres; no puede contener solo espacios.</p>
+        <label for="profile-phone">Teléfono de ejemplo <span>(opcional)</span></label>
+        <input id="profile-phone" type="tel" inputmode="tel" formControlName="phone" [attr.maxlength]="limits.phone" autocomplete="off" aria-describedby="phone-help phone-error" [attr.aria-invalid]="form.controls.phone.touched && form.controls.phone.invalid">
+        <p id="phone-help" class="hint">8 a 15 dígitos. Admite + inicial, espacios, guiones y paréntesis; hasta {{ limits.phone }} caracteres.</p>
+        <p id="phone-error" class="error" *ngIf="form.controls.phone.touched && form.controls.phone.invalid">Revisa el formato del teléfono o déjalo vacío.</p>
+        <p *ngIf="saveError" role="alert" class="error">{{ saveError }}</p>
+        <div class="form-actions"><button class="primary" type="submit">Aplicar cambios demo</button><button type="button" (click)="cancel()">Cancelar</button></div>
+      </form>
+    </section>
+    <p *ngIf="message" class="feedback" role="status">{{ message }}</p>
+    <section class="card" aria-labelledby="purchases-title"><h2 id="purchases-title">Mis compras</h2><p>Consulta entradas, consumos e historial de demostración. Los pedidos con pago pendiente no representan compras pagadas.</p><a class="wallet-link" routerLink="/wallet">Ver Wallet DEMO <span aria-hidden="true">↗</span></a></section>
+    <section class="card" aria-labelledby="preferences-title"><h2 id="preferences-title">Preferencias</h2><p>Configuración de demostración, temporal y sin envío de comunicaciones.</p>
+      <label class="preference"><span>Notificaciones <small>DEMO · no solicita permisos del dispositivo</small></span><input type="checkbox" [checked]="profile.preferences.notifications" (change)="preference('notifications', $event)"></label>
+      <label class="preference"><span>Comunicaciones por correo <small>DEMO · no suscribe ni envía correos</small></span><input type="checkbox" [checked]="profile.preferences.communications" (change)="preference('communications', $event)"></label>
+    </section>
+    <section class="card info" aria-labelledby="info-title"><h2 id="info-title">Información</h2>
+      <details><summary>Acerca de Club VOID</summary><p>Explora noches, descubre la carta de tragos y conoce la experiencia Club VOID. Este perfil es una demostración de la futura cuenta del cliente.</p></details>
+      <details><summary>Términos y condiciones <small>Pendientes</small></summary><p>Pendientes de revisión y publicación. No hay términos definitivos disponibles en esta demostración.</p></details>
+      <details><summary>Política de privacidad <small>Pendiente</small></summary><p>Pendiente de revisión y publicación. Esta pantalla no contiene una política legal definitiva.</p></details>
+      <details><summary>Consumo responsable y edad</summary><p>Experiencia dirigida a mayores de 18 años. Consume con responsabilidad. Si bebes, no conduzcas. Este perfil y cualquier fecha de ejemplo no verifican ni acreditan la mayoría de edad.</p></details>
+    </section>
+  </ng-container>
+</section>
