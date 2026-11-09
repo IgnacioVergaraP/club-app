@@ -91,6 +91,25 @@ class ConfigurationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.config.get_config("unknown")
 
+    def test_cors_trims_spaces_and_allows_deployed_frontend_preflight(self):
+        os.environ['CORS_ORIGINS'] = 'http://localhost:4200, https://clubapp-ten.vercel.app, '
+        path = Path(__file__).resolve().parents[1] / 'config.py'
+        spec = importlib.util.spec_from_file_location('isolated_cors_config', path)
+        self.config = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.config)
+        app = self.make_app('testing')
+        self.assertEqual(app.config['CORS_ORIGINS'],
+                         ['http://localhost:4200', 'https://clubapp-ten.vercel.app'])
+        client = app.test_client()
+        headers = {'Origin': 'https://clubapp-ten.vercel.app',
+                   'Access-Control-Request-Method': 'POST',
+                   'Access-Control-Request-Headers': 'content-type,idempotency-key'}
+        response = client.options('/api/orders/hosted-checkout', headers=headers)
+        self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), headers['Origin'])
+        self.assertIn('idempotency-key', response.headers['Access-Control-Allow-Headers'].lower())
+        response = client.options('/api/orders/hosted-checkout', headers={**headers, 'Origin': 'https://untrusted.example'})
+        self.assertNotIn('Access-Control-Allow-Origin', response.headers)
+
 
 if __name__ == "__main__":
     unittest.main()

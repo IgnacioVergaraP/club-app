@@ -22,9 +22,11 @@ class BaseConfig:
     DEBUG = False
     TESTING = False
 
-    CORS_ORIGINS = os.getenv(
-        "CORS_ORIGINS", "http://localhost:4200"
-    ).split(",")
+    CORS_ORIGINS = [
+        origin.strip() for origin in os.getenv(
+            "CORS_ORIGINS", "http://localhost:4200"
+        ).split(",") if origin.strip()
+    ]
 
     API_PREFIX = os.getenv("API_PREFIX", "/api")
     API_VERSION = os.getenv("API_VERSION", "v1")
