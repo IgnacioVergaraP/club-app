@@ -1,175 +1,250 @@
-CLUB VOID — CHECKPOINT 3.5
-Perfil del cliente
-Fecha: 04-11-2026
+CLUB VOID — CHECKPOINT 3.5 CONSOLIDADO
+Perfil DEMO, acceso directo a Fintoc y prueba Apple Pay en Vercel
+Fecha de actualización: 10-11-2026
+Última entrega al coordinador: checkpoint 3.4 (Wallet DEMO)
 
-OBJETIVO
-Transformar /perfil en una pantalla de cuenta ficticia con información personal, compras, preferencias e información de Club VOID. Permitir editar nombre y teléfono con Reactive Forms, conservando cambios únicamente en memoria durante la navegación de la aplicación.
+OBJETIVO Y ESTADO
+Consolidar todo el trabajo posterior a 3.4 en una entrega: Perfil DEMO, Checkout alojado Fintoc, reducción de clics desde Tragos, despliegue de Angular y Flask en Vercel y corrección de CORS.
+Estado: implementado dentro del alcance de demostración y prueba visual. Pendiente revisión del coordinador/arquitecto. Esta consolidación no implica implementar o aprobar automáticamente una etapa 3.6.
 
-ESTADO
-Completada técnicamente como demostración. Pendiente de revisión visual del Product Owner y aprobación del arquitecto. Trabajo limitado a 3.5; no se avanzó a 3.6.
+Resultado confirmado por el Product Owner el 10-11-2026: «El botón Apple Pay ya aparece dentro de Fintoc».
+Se registra como validación manual reportada por el Product Owner. No se adjuntó una captura de esa visualización ni se realizó una comprobación independiente de ella. No se reportó completar una autorización o un pago Apple Pay Sandbox.
 
-ARCHIVOS CREADOS
+El Product Owner precisó que publica en Vercel exclusivamente para comprobar el botón Apple Pay dentro de la página de Fintoc. Persistencia y flujo comercial quedan para un alcance futuro. No se incorporó base de datos ni conexión a Neon, PostgreSQL o Redis. No se activaron pagos live.
+
+El checkpoint original 3.5, Perfil del cliente, del 04-11-2026 se conserva íntegro en docs/CHECKPOINT_3_5_PERFIL_ORIGINAL.txt. Sus afirmaciones de alcance y pruebas corresponden a esa ejecución histórica. Este consolidado es la entrega vigente: sí hubo cambios posteriores en backend, checkout y hosting. Se conserva el checkpoint 3.4 sin alterarlo.
+
+ARQUITECTURA
+Se mantienen Angular con NgModules y standalone:false, Flask, rutas previas, header sticky, layout de máximo 720 px y navegación inferior de cinco pestañas. Se reutilizan Reactive Forms, RxJS, HttpClient y el cliente HTTPS de Fintoc.
+No se incorporaron bibliotecas nuevas para estado o pagos. Los archivos de hosting de la alternativa Render incluyen Gunicorn, que no se utiliza en el despliegue actual de Vercel.
+
+1. PERFIL DEL CLIENTE — DEMO
+/perfil sustituye la pantalla provisional por información personal, Mis datos, Mis compras, Preferencias e Información del club.
+
+Modelo y servicio:
+- DemoProfile: nombre, correo, teléfono/fecha de nacimiento opcionales, accountStatus:DEMO y preferencias booleanas de notificaciones y comunicaciones.
+- ProfileEdit limitado a nombre y teléfono. PROFILE_LIMITS y validProfilePhone comparten reglas entre formulario y servicio.
+- MOCK_PROFILE: Alex Demo, alex.demo@example.com; teléfono y fecha ausentes, ambas preferencias desactivadas. No usa identidad real del Product Owner.
+- ProfileService: BehaviorSubject privado, Observable y copias del perfil y sus preferencias; valida y normaliza antes de actualizar.
+
+Interacciones:
+- Avatar con iniciales, nombre/correo y cuenta identificada como DEMO.
+- Reactive Forms para editar nombre y teléfono: nombre obligatorio, no solo espacios y máximo 80 caracteres. Teléfono opcional de 8 a 15 dígitos y hasta 24 caracteres de presentación; admite + inicial, espacios, guiones y paréntesis.
+- Aplicar actualiza datos e iniciales; Cancelar descarta el borrador. Labels, ayudas, errores, aria-invalid y mensajes role=status/alert.
+- Preferencias operables como simulación; no solicitan permisos, no suscriben usuarios ni envían comunicaciones.
+- Mis compras enlaza a /wallet; aclara que pending_payment no equivale a compra pagada.
+- Información con details/summary: Club VOID, términos y privacidad pendientes y consumo responsable para mayores de 18 años. Sin verificación de edad.
+- Carga, error y Reintentar previstos en presentación y probados con fuentes controladas, sin API real de Perfil.
+
+Datos y preferencias sobreviven a la navegación de la misma SPA y vuelven al mock al recargar. No hay HTTP de Perfil, autenticación, localStorage, sessionStorage, cookies ni persistencia. Correo y fecha no son editables.
+Diseño negro/morado sólido, sin degradados, tarjetas compactas, foco visible, controles táctiles y textos largos sin ensanchar la página.
+
+2. FINTOC CHECKOUT ALOJADO — SANDBOX
+Se agregó redirección a la página de pago de Fintoc. Coexiste con Express Checkout existente, con exclusión entre modalidades por pedido mientras Flask conserva el intento.
+
+Endpoints alojados:
+- POST /api/payments/fintoc/hosted-checkout-session
+  Body: {order_id}. Respuesta: {redirect_url, mode:test}.
+- GET /api/payments/fintoc/hosted-orders/<order_id>/status
+  Respuesta: order_id, mode, status y verified.
+- Ruta frontend /checkout/resultado, accesible sin carrito. Consulta estado y permite continuar el mismo intento created/in_progress cuando sigue disponible.
+
+Flask usa el importe del catálogo del servidor y construye success_url/cancel_url desde FINTOC_CHECKOUT_BASE_URL. El navegador no determina moneda, importe autorizado o URLs de retorno. Se mantienen claves test y Fintoc-Version 2026-02-01.
+
+Compatibilidad observada en la prueba histórica real:
+- La API rechazó ui_mode:hosted; ese campo se omite al crear Checkout alojado.
+- Se admite ui_mode:null o hosted en respuesta y se rechaza embedded.
+- redirect_url observada en test.pay.fintoc.com. La lista exacta también admite pay.fintoc.com y checkout.fintoc.com; exige HTTPS y valida el destino.
+- No se incorporaron comodines ni se desactivó TLS.
+
+La URL de retorno, un query verified=true y los callbacks del navegador no acreditan un pago. La verificación requiere consultar Fintoc y contrastar sesión, pedido, modo test, moneda e importe; solo sesión finished con payment_intent succeeded puede mostrarse verificada.
+El estado de pago no emite entradas o consumos ni transforma la Wallet DEMO.
+
+3. REDUCCIÓN DE CLICS DESDE TRAGOS — FLUJO ACTUAL
+Antes: seleccionar bebidas -> Continuar -> Carrito -> Checkout -> Preparar pedido -> Pagar con Fintoc.
+Ahora: seleccionar bebidas -> Pagar con Fintoc -> página alojada de Fintoc.
+Carrito y Checkout siguen disponibles, pero no son pasos obligatorios del acceso directo.
+
+El resumen fijo muestra unidades, total CLP y aviso Sandbox. El botón cambia a Abriendo Fintoc… y bloquea clics repetidos durante la solicitud/redirección. No solicita pago con selección vacía. Conserva selección al fallar y ofrece Revisar carrito. Cancela la suscripción al salir o modificar cantidades. Solo redirige ante mode:test y URL válida.
+
+Para esta prueba sin base de datos en Vercel se agregó:
+POST /api/orders/hosted-checkout
+Header: Idempotency-Key UUID.
+Body: {items:[{product_id, quantity}], expected_total_clp}.
+Respuesta: {redirect_url, mode:test}; 201 al crear sesión y 200 al reutilizarla si el proceso conserva el pedido/intento.
+
+Pedido y sesión se preparan en UNA invocación: no se depende de que dos solicitudes distintas compartan memoria. expected_total_clp es una comprobación del importe mostrado; Flask calcula el importe autorizado. Si difiere, responde price_changed/HTTP 409 y no solicita la sesión Fintoc. Valida UUID, cuerpo, cantidades, campos adicionales y límite de 8 KB; devuelve errores controlados del proveedor.
+
+OrdersService.startHostedCheckout conserva la clave del carrito para reintentos y aplica timeout de 20 segundos. Ante quote_expiring/order_not_payable renueva la clave para el próximo intento.
+Una invocación permite alcanzar la página de Fintoc para observar sus medios de pago; NO proporciona persistencia ni idempotencia global entre instancias.
+
+4. APPLE PAY — RESULTADO Y DISTINCIÓN DE MODALIDADES
+Express Checkout existente inserta un botón mediante el SDK en nuestra web y lo muestra cuando Fintoc informa wallets.applePay=true. Su registro de dominio propio y validación completa son un trabajo distinto.
+La prueba actual utiliza Apple Pay DENTRO del Checkout alojado de Fintoc. No se agregó un botón Apple Pay propio a Tragos ni se fuerza su aparición. El proveedor determina los medios disponibles para cuenta, entorno y dispositivo.
+
+Confirmación manual del Product Owner, 10-11-2026:
+«El botón Apple Pay ya aparece dentro de Fintoc».
+
+Se registra la visualización reportada en esa sesión. No se generaliza a todos los dispositivos/cuentas. No se documentaron captura del botón, versión de iOS/Safari, apertura de hoja Apple Pay, autorización biométrica, resultado final o verificación posterior. No se declara pago completado.
+
+5. GITHUB Y DESPLIEGUE EN VERCEL
+Repositorio: IgnacioVergaraP/club-app; rama main.
+Se preparó una clave SSH dedicada y core.sshCommand local al repositorio para seleccionar la identidad correcta al publicar. Este informe no incluye material de claves.
+
+Referencias locales al consolidar:
+- 84af84d: first commit; contiene el estado importado al repositorio.
+- 2bf4cdd: cambios para pruebas fintoc; configuraciones por proyecto, endpoint de una invocación y adaptación del flujo directo.
+- d3784f1: correccion cors.
+El primer commit ya contenía trabajo posterior a 3.4; estos commits no constituyen un diff exacto desde ese checkpoint.
+
+Frontend público: https://clubapp-ten.vercel.app
+Backend público: https://club-app-cbp5.vercel.app
+API Angular: https://club-app-cbp5.vercel.app/api
+
+Son DOS proyectos Vercel del mismo repositorio:
+Frontend:
+- Root Directory: frontend; Framework Preset: Other.
+- Install: npm ci. Build: npm run build:deploy.
+- Output: dist/frontend/browser.
+- frontend/vercel.json configura comandos y rewrite de rutas SPA a index.html, incluida /checkout/resultado.
+- API_URL: URL pública HTTPS del backend terminada en /api.
+- build-deploy.mjs valida API_URL, genera environment.deploy.ts y compila con production,deployment. El generado se ignora en Git y se conserva configuración local.
+
+Backend:
+- Root Directory: backend; framework Flask; entrypoint app.py.
+- backend/vercel.json: duración máxima de función 60 segundos.
+- Dependencias desde requirements.txt. No usa Gunicorn en Vercel.
+- Variables del servidor: FLASK_ENV, SECRET_KEY, FINTOC_SANDBOX_ENABLED, FINTOC_SECRET_KEY, FINTOC_PUBLIC_KEY, FINTOC_CHECKOUT_BASE_URL y CORS_ORIGINS.
+- Origen frontend para CORS y retornos: https://clubapp-ten.vercel.app.
+- .env no se publica. Las variables se configuran en Vercel y se aplican al desplegar. Las claves secretas no se incluyen en Angular.
+
+Se conservan render.yaml, requirements-hosting.txt y gunicorn.conf.py como alternativa preparatoria anterior con Render. También vercel.json/.vercelignore de la raíz para el frontend desde raíz. No son la configuración operativa de los DOS proyectos con raíces frontend/backend.
+
+6. PROBLEMAS RESUELTOS
+Build:
+- npm ci completaba con advertencias; el error bloqueante posterior era API_URL ausente o inválida. El script abortaba con mensaje explícito; se indicó configurar la variable en Vercel.
+- Logs aportados: 56 vulnerabilidades npm (4 bajas, 33 moderadas, 17 altas, 2 críticas). No se ejecutó npm audit fix ni actualización forzada; queda revisión pendiente.
+
+CORS:
+- OPTIONS desde el frontend público al endpoint directo respondía 200 sin Access-Control-Allow-Origin. Se comprobó esa respuesta del backend durante el diagnóstico.
+- BaseConfig hacía split(',') sin recortar espacios; un origen precedido de espacio podía no coincidir con Origin.
+- Se corrigió con strip() por origen y descarte de entradas vacías.
+- Se indicó configurar CORS_ORIGINS y FINTOC_CHECKOUT_BASE_URL en Vercel y desplegar de nuevo. Editar el .env local no actualiza Vercel.
+- Test nuevo: preflight acepta el dominio correcto y la cabecera Idempotency-Key; origen ajeno sin autorización CORS.
+- Corrección en d3784f1. Después el Product Owner reportó funcionamiento y aparición de Apple Pay dentro de Fintoc. No se adjunta captura de red posterior del despliegue final.
+
+7. PRUEBAS Y BUILDS REGISTRADOS
+Resultados ejecutados durante el trabajo; no se repitieron suites solo para redactar este documento.
+
+Perfil original:
+- Frontend antes: 75/75; después: 85/85. Diez pruebas nuevas de Perfil.
+- Builds desarrollo y producción aprobados. Producción: 686,91 kB iniciales.
+
+Checkout alojado:
+- Backend antes: 64/64; después: 75/75.
+- Frontend antes: 85/85; después: 98/98.
+- Builds aprobados; producción: 695,59 kB iniciales.
+
+Acceso directo inicial:
+- Frontend: 108/108 en esa versión intermedia; build aprobado.
+
+Adaptación final a una invocación:
+- Backend: 82/82, con siete pruebas nuevas del endpoint directo.
+- Frontend: 106/106. Se reemplazaron pruebas del flujo previo de dos llamadas por las del contrato final; los conteos no se suman.
+- Build de despliegue con API_URL HTTPS de ejemplo aprobado: 697,61 kB iniciales, transferencia estimada 139,27 kB. Se comprobó URL generada sin localhost/placeholder; no es medición del bundle exacto publicado por el usuario.
+- Build sin API_URL rechazado como se esperaba.
+
+Corrección CORS:
+- Backend final: 83/83 aprobadas.
+- Último frontend registrado: 106/106. Después de CORS solo cambió Python/tests.
+
+Comandos utilizados:
+- Desde frontend: npm test -- --watch=false --browsers=ChromeHeadless
+- Desde frontend: API_URL=https://BACKEND/api npm run build:deploy
+- Desde backend con dependencias: python -m unittest discover -s tests
+
+Cobertura final del acceso directo:
+- Una solicitud con IDs/cantidades/total esperado y redirección solo en test.
+- Doble clic, selección vacía, conservación de selección, diferencias de precio, errores, timeout, cancelación por cambio/salida y destinos/modo inválidos.
+- Precio calculado por Flask, UUID/cuerpo/cantidades/tamaño/campos adicionales, reintentos dentro del proceso, fallos del proveedor, claves live bloqueadas e inicio desde instancia sin pedido previo.
+- Proveedor simulado en tests; no equivalen a completar un pago Apple Pay real.
+
+Advertencias: bundle inicial sobre 500 kB; SCSS existentes sobre 2 kB; Wallet cerca del límite de error de 4 kB; dos selectores Bootstrap .form-floating>~label omitidos por el optimizador. Sin aumentos de presupuestos para ocultarlas ni errores bloqueantes en el último build.
+
+8. EVIDENCIA REAL Y VISUAL CONSERVADA
+Perfil y regresiones (ejecución histórica del 04-11):
+- Chrome Headless real, perfil temporal; consulta/edición a 320, 390, 768 y 1280 px, sin scroll horizontal. Nombre de 80 caracteres a 320 px.
+- Validación, cancelación, edición de ejemplo, preferencias y navegación Perfil -> Wallet -> Perfil conservando cambios. Recarga vuelve al mock. Storage sin cambios.
+- Header sticky, cinco pestañas y secciones informativas desplegables.
+- Wallet: 3 entradas, 3 registros/4 unidades de consumos, 5 movimientos; imágenes, teclado, detalles y anchos revisados. Pedido pendiente no modifica Wallet.
+- Entradas: 2 General de $12.000 + 1 VIP de $25.000 = $49.000; límites 0..10, guards, aislamiento por evento y bloqueo temporal. Sin pedidos de entradas.
+- Pedido real Flask Piscola + Gin Tonic, 2 unidades/$14.000, HTTP 201/pending_payment. Es evidencia del flujo histórico, no del acceso directo actual.
+- Cero errores de consola/recursos HTTP >=400 capturados en el recorrido final histórico.
+
+Checkout alojado (ejecución histórica del 06-11):
+- Angular -> Flask -> Fintoc Sandbox sin mocks HTTP. Sesión creada, reintento reutilizado, redirección a test.pay.fintoc.com y total $14.000 con banco/tarjeta visibles.
+- Comercio mostrado: CODETEC, según configuración de la cuenta utilizada.
+- Regreso por Volver al comercio y consulta sin confirmar un pago. verified=true en URL no bastó para declarar éxito.
+- Sin ingresar credenciales bancarias/tarjetas ni completar pago. Checkout revisado a 320/390/768/1280 px sin scroll horizontal.
+
+Archivos de evidencia:
+- docs/visual-review/profile-integration-35.json
+- Capturas profile-read/edit a 390/1280 px.
+- Capturas wallet-tickets/drinks/history con sufijo -35.
+- docs/visual-review/fintoc-hosted-integration.json
+- docs/visual-review/fintoc-hosted-button.png
+- docs/visual-review/fintoc-hosted-provider.png
+- docs/visual-review/fintoc-hosted-return.png
+Estas capturas son históricas; no se presentan como capturas del botón Apple Pay en el iPhone o de la última versión desplegada.
+
+9. INVENTARIO PRINCIPAL POSTERIOR A 3.4
+Perfil:
 - frontend/src/app/models/profile.model.ts
 - frontend/src/app/data/mock-profile.ts
-- frontend/src/app/services/profile.service.ts
-- frontend/src/app/services/profile.service.spec.ts
-- frontend/src/app/pages/perfil/perfil.component.spec.ts
-- docs/CHECKPOINT_3_5.txt
-Evidencia:
-- docs/visual-review/profile-integration-35.json
-- docs/visual-review/profile-read-390-35.png
-- docs/visual-review/profile-read-1280-35.png
-- docs/visual-review/profile-edit-390-35.png
-- docs/visual-review/profile-edit-1280-35.png
-- docs/visual-review/wallet-tickets-390-35.png
-- docs/visual-review/wallet-tickets-1280-35.png
-- docs/visual-review/wallet-drinks-390-35.png
-- docs/visual-review/wallet-drinks-1280-35.png
-- docs/visual-review/wallet-history-390-35.png
-- docs/visual-review/wallet-history-1280-35.png
-Las capturas Wallet son evidencia de regresión de esta etapa, sin cambios en su implementación. Se conservaron las capturas y el checkpoint de 3.4.
+- frontend/src/app/services/profile.service.ts y profile.service.spec.ts
+- frontend/src/app/pages/perfil/perfil.component.ts/.html/.scss/.spec.ts
 
-ARCHIVOS MODIFICADOS
-- frontend/src/app/pages/perfil/perfil.component.ts
-- frontend/src/app/pages/perfil/perfil.component.html
-- frontend/src/app/pages/perfil/perfil.component.scss
-No se modificaron backend, Fintoc, checkout, Wallet, API de pedidos, catálogo, selección de entradas, rutas, AppModule ni dependencias. Comparación SHA-256 contra la captura previa de 135 archivos existentes fuera de Perfil: cero diferencias. La comparación cubre frontend/src, Python del backend, package.json, package-lock.json y angular.json; no lee ni expone las claves de .env.
+Checkout alojado:
+- backend/tests/test_fintoc_hosted.py
+- backend/app.py y backend/.env.example
+- backend/routes/payments.py y backend/services/fintoc_payment_service.py
+- frontend/src/app/components/fintoc-hosted-checkout/
+- frontend/src/app/pages/payment-result/payment-result.component.ts/.spec.ts
+- frontend/src/app/services/payments/fintoc-redirect.service.ts/.spec.ts
+- frontend/src/app/services/payments/fintoc-payments.service.ts/.spec.ts
+- frontend/src/app/app.module.ts y app-routing.module.ts
+- frontend/src/app/pages/checkout/checkout.component.ts/.html/.spec.ts
 
-MODELOS Y SERVICIOS
-DemoProfile: nombre, correo, teléfono opcional, fecha de nacimiento opcional, accountStatus literal DEMO y preferencias booleanas de notificaciones/comunicaciones.
-ProfileEdit: contrato limitado a nombre y teléfono.
-PROFILE_LIMITS: nombre máximo 80 caracteres, teléfono máximo 24 caracteres de presentación.
-validProfilePhone: validación compartida entre formulario y servicio. Permite teléfono vacío o 8 a 15 dígitos con + inicial, espacios, guiones y paréntesis. No comprueba existencia, propiedad ni disponibilidad del número.
-MOCK_PROFILE: Alex Demo, alex.demo@example.com, cuenta DEMO, ambas preferencias desactivadas. Teléfono y fecha de nacimiento inicialmente ausentes, mostrados como No indicado/No indicada. No utiliza datos del Product Owner.
-ProfileService: providedIn root, BehaviorSubject privado y profile$ como Observable. Cada emisión entrega una copia del perfil y sus preferencias para evitar mutaciones externas del estado. updateDetails valida y normaliza los campos; updatePreference modifica solo la preferencia seleccionada.
-El servicio mantiene cambios mientras viva la instancia de la aplicación. Navegar entre rutas conserva los datos; recargar crea una nueva instancia y recupera el mock inicial. No usa HTTP, localStorage, sessionStorage, cookies ni otra persistencia.
+Flujo directo y CORS:
+- frontend/src/app/pages/tragos/components/cart-summary/cart-summary.component.ts/.html/.spec.ts
+- frontend/src/app/services/orders/orders.service.ts
+- backend/routes/orders.py y backend/tests/test_direct_checkout.py
+- backend/config.py y backend/tests/test_config.py
 
-COMPONENTE Y FUNCIONALIDADES
-PerfilComponent permanece en NgModules con standalone:false. ReactiveFormsModule ya estaba importado; no se alteró la arquitectura.
-Información personal:
-- Avatar con iniciales calculadas desde el nombre.
-- Nombre y correo provenientes del servicio, sin valores personales incrustados en HTML.
-- Identificación Cuenta DEMO y aviso para usar datos de ejemplo.
-Mis datos:
-- Consulta de nombre, correo, teléfono y fecha opcional.
-- Editar datos demo abre formulario Reactive Forms para nombre y teléfono.
-- Nombre obligatorio, no admite solo espacios; máximo 80 caracteres.
-- Teléfono opcional con validación de formato y longitud.
-- Etiquetas asociadas a los inputs, ayudas, errores de campo y aria-invalid.
-- Aplicar cambios demo conserva temporalmente los campos y actualiza nombre/iniciales.
-- Cancelar descarta el borrador. Al volver a editar se carga el último valor aplicado.
-- Mensajes de resultado mediante role=status y error de aplicación mediante role=alert. Un fallo conserva el formulario para reintentar.
-Mis compras:
-- Acceso directo a /wallet mediante RouterLink.
-- Explicación de historial de demostración y de que pago pendiente no equivale a compra pagada.
-- No consulta ni convierte pedidos en compras.
-Preferencias:
-- Dos checkboxes funcionales de demostración: notificaciones y comunicaciones por correo.
-- Valores conservados en el servicio en memoria.
-- No solicita permisos del dispositivo ni suscribe o envía mensajes.
-Información:
-- Acerca de Club VOID.
-- Términos y condiciones pendientes de revisión/publicación.
-- Política de privacidad pendiente de revisión/publicación.
-- Consumo responsable y experiencia para mayores de 18 años, con aclaración de que el perfil/fecha de ejemplo no acredita edad.
-- Secciones desplegables nativas details/summary. No se redactaron textos legales definitivos ni se implementó verificación de edad.
-Estados:
-- Opcionales ausentes con texto explícito.
-- Carga y error de consulta con Reintentar, previstos en la capa de presentación.
-- La fuente actual es inmediata y local; esos estados de consulta se probaron con Observables controlados en tests, no contra una API real.
+Despliegue/documentación:
+- frontend/vercel.json y frontend/.vercelignore
+- backend/vercel.json y backend/.vercelignore
+- frontend/scripts/build-deploy.mjs
+- frontend/package.json, frontend/angular.json y frontend/.gitignore
+- .gitignore, .vercelignore y vercel.json de raíz
+- render.yaml, backend/requirements-hosting.txt y backend/gunicorn.conf.py (alternativa preparatoria no usada en Vercel).
+- docs/FINTOC_HOSTED_CHECKOUT_CHECKPOINT.txt
+- docs/DESPLIEGUE_IPHONE_SANDBOX.txt
+- docs/CHECKPOINT_3_5_PERFIL_ORIGINAL.txt
+- docs/CHECKPOINT_3_5.txt y evidencia indicada arriba.
+Inventario basado en código y checkpoints conservados; no es un diff exacto contra 3.4, sin commit base independiente en este repositorio. No se incluyen secretos ni contenido de .env.
 
-DISEÑO
-Negro predominante, morado sólido, sin degradados, tarjetas compactas, identidad con avatar junto a los datos, controles de al menos 44 px de altura para entradas/botones y foco visible. Se conservan el layout existente de máximo 720 px, header sticky translúcido y navegación inferior de cinco pestañas. Los textos largos del perfil pueden partirse sin ensanchar la página.
-No se modificaron los estilos de otras pantallas ni los presupuestos de compilación.
+10. LÍMITES Y PENDIENTES
+- Wallet conserva exclusivamente registros DEMO; no se incorporan pedidos/pagos a entradas o consumos. Sin QR, emisión o canjes reales.
+- Perfil no autentica, no persiste, no verifica teléfono/edad y no tiene textos legales aprobados para uso comercial.
+- Pedidos, intentos e idempotencia viven en memoria de cada función. En Vercel otra instancia puede no encontrar el pedido al regresar de Fintoc. Un reintento en otra instancia puede generar otro pedido/sesión Sandbox. Sin garantía de recuperación tras reinicio.
+- Sin base de datos, webhooks, reconciliación en segundo plano o autenticación.
+- Apple Pay visible según confirmación del Product Owner; autorización/pago/verificación real extremo a extremo sin evidencia.
+- Registro y prueba integral de Express Checkout en dominio propio siguen fuera de esta validación del checkout alojado.
+- Pendientes revisión visual del coordinador/arquitecto, accesibilidad completa, Android físico y matriz de dispositivos/navegadores. La visualización puntual no acredita todos los flujos de Safari/iOS.
+- Revisar vulnerabilidades npm y advertencias de tamaño antes de ampliar alcance; no hubo actualización automática de dependencias.
+- Revisar identidad comercial CODETEC en Fintoc si se requiere otra presentación; no se modificó configuración legal/comercial de la cuenta.
 
-VERIFICACIÓN ANTES DE MODIFICAR
-- Inspección de Perfil provisional, AppModule y archivos del workspace.
-- npm test -- --watch=false --browsers=ChromeHeadless: 75/75 aprobadas.
-- npm run build -- --configuration development: aprobado, aproximadamente 1,96 MB iniciales.
-- Se capturaron hashes de archivos existentes fuera del componente Perfil para controlar el alcance.
-
-PRUEBAS AUTOMATIZADAS DESPUÉS
-Comando: npm test -- --watch=false --browsers=ChromeHeadless
-Resultado: 85/85 aprobadas. Se agregaron 10 pruebas: 3 de ProfileService y 7 de PerfilComponent.
-Servicio:
-- Datos y preferencias en memoria, copias sin mutación compartida y nueva instancia con valores iniciales.
-- Rechazo de nombres vacíos/largos y teléfonos inválidos sin alterar el estado.
-- Eliminación del teléfono opcional y ausencia de escrituras en Storage.setItem.
-Componente:
-- Identidad ficticia, secciones, campos opcionales vacíos, enlace Wallet e información de edad/legal pendiente.
-- Validación de nombre y teléfono e identidad sin cambios ante formulario inválido.
-- Datos y preferencias retenidos al destruir y recrear la página con el mismo servicio.
-- Cancelar y volver a editar.
-- Error al aplicar datos y posterior reintento.
-- Carga de consulta con Subject y llegada posterior del perfil.
-- Error de consulta y Reintentar con recuperación.
-Las pruebas previas de Noches, selección de entradas, Tragos, Checkout, Fintoc y Wallet siguen incluidas en la suite completa.
-
-COMPILACIONES FINALES
-- npm run build -- --configuration development: aprobado, total inicial aproximado 1,99 MB.
-- npm run build: aprobado, total inicial 686,91 kB; transferencia estimada 137,26 kB.
-Advertencias observadas:
-- Bundle inicial supera el umbral de advertencia de 500 kB por 186,91 kB.
-- Perfil SCSS: 2,68 kB, supera advertencia de 2 kB y permanece bajo el límite de error de 4 kB.
-- Se mantienen advertencias SCSS de Inicio, Noches, detalle, Carrito, Checkout y Wallet.
-- Se mantienen dos advertencias del optimizador Bootstrap sobre .form-floating>~label.
-No hubo errores bloqueantes en las compilaciones finales ni aumentos de presupuestos para ocultar advertencias.
-
-NAVEGADOR REAL: PERFIL
-Chrome Headless con perfil temporal aislado y Angular local. Sin simulación de componentes en este recorrido.
-- Acceso directo a /perfil y renderización de Alex Demo/correo example.com.
-- Formulario con nombre de solo espacios y teléfono abc: errores visibles, identidad sin cambios.
-- Aplicación de Sol Demo y teléfono ficticio 900000000.
-- Activación de preferencia de notificaciones.
-- Navegación Perfil → Wallet → Perfil mediante enlaces de la aplicación: datos y preferencia conservados.
-- localStorage y sessionStorage sin cambios tras editar y navegar.
-- Recarga: nombre vuelve a Alex Demo y preferencia a desactivada.
-- 320, 390, 768 y 1280 px en modos consulta y edición: 8 combinaciones sin scroll horizontal.
-- Prueba adicional: nombre de 80 caracteres aplicado y mostrado a 320 px, sin scroll horizontal.
-- Header permanece en top 0 al desplazar la página; se conservan cinco enlaces inferiores.
-- Las cuatro secciones informativas despliegan contenido.
-- Capturas de consulta/edición a 390 y 1280 px.
-Un recorrido intermedio se interrumpió durante una recarga de desarrollo mientras se ajustaban estilos. Se repitió el recorrido completo con los archivos estables; la ejecución final terminó PASS.
-
-REGRESIONES EN NAVEGADOR REAL
-Noches y entradas:
-- Selección 2 General × $12.000 + 1 VIP × $25.000 = $49.000.
-- Límites 0..10, resumen vacío protegido, volver/modificar, conservación por evento y aislamiento entre eventos.
-- Evento inexistente y bloqueo de selección para fechas simuladas en curso/finalizadas.
-- Cero pedidos creados por el flujo de entradas.
-- Detalle/resumen sin scroll horizontal en 320, 390 y 1280 px.
-Wallet:
-- Tres pestañas, 3 entradas, 3 registros de consumos/4 unidades y 5 movimientos.
-- Detalles y navegación de teclado.
-- Tres secciones en los cuatro anchos, sin scroll horizontal; fotos cargadas, header sticky y cinco enlaces inferiores.
-- No se incorporó el pedido pending_payment posterior a la Wallet DEMO.
-Tragos → Carrito → Checkout → Flask:
-- Se seleccionó una Piscola y un Gin Tonic y se preparó pedido real, sin mocks HTTP.
-- HTTP 201; UUID 6d917661-12eb-4fab-8177-7d216c22d0f7; estado pending_payment; 2 unidades.
-- Total $14.000 verificado contra productos y subtotales calculados por Flask.
-- Regreso a Wallet en la misma SPA: indicadores/referencias conservados.
-Consola y recursos:
-- Cero errores de consola o excepciones capturadas durante el recorrido final completo.
-- Cero respuestas de recursos HTTP >=400 capturadas.
-Evidencia: docs/visual-review/profile-integration-35.json.
-Las capturas de página completa pueden mostrar la barra inferior fija a la altura del viewport original; no es un elemento insertado entre tarjetas.
-
-PRUEBAS PENDIENTES Y LÍMITES
-- Validación visual por el Product Owner y aprobación del arquitecto.
-- Safari/iOS, Android físico y lectores de pantalla; no se declara una auditoría completa de accesibilidad.
-- La verificación de Perfil fue en Chrome con Angular de desarrollo; el build de producción se compiló pero no se desplegó ni se probó servido en un hosting.
-- No se ejecutaron pruebas contra una API de Perfil, ya que esta etapa no crea endpoints.
-- No se verificaron identidad, existencia del teléfono ni mayoría de edad.
-- No se ejecutó un pago Apple Pay ni se registró dominio HTTPS. El pendiente de Fintoc anterior sigue fuera de 3.5.
-- No se volvió a ejecutar la suite backend porque no se modificó Flask; sí se verificó el checkout real con Flask.
-- No se implementaron autenticación, contraseñas, RUT, captura de documentos, permisos reales, persistencia, emisión ni canje.
-
-PROBLEMAS DETECTADOS
-Sin problemas bloqueantes en el resultado final. Permanecen advertencias de tamaño del build, incluidas las nuevas advertencias de Perfil detalladas arriba. Los cambios de perfil desaparecen con una recarga por diseño y no se comparten entre pestañas del navegador. El correo y la fecha opcional no son editables en esta etapa.
-
-DECISIONES TÉCNICAS
-Se reutiliza Reactive Forms ya disponible y un único servicio de ámbito raíz con Observable, sin librerías de estado ni almacenamiento. Se separan mock, modelo, reglas, estado y presentación. Los cambios quedan limitados a nombre/teléfono y preferencias para conservar la identidad DEMO y evitar una apariencia de cuenta real. Las preferencias funcionan como simulación explícita en memoria. Los datos opcionales ausentes son más claros que inventar una fecha que pudiera interpretarse como prueba de edad. Details/summary aporta interacción accesible sin instalar librerías o añadir componentes innecesarios.
-
-PRÓXIMO PASO SUGERIDO
-Revisión visual del Product Owner y aprobación técnica del arquitecto de la subetapa 3.5. Recomendada para aprobación como Perfil exclusivamente DEMO, con las limitaciones documentadas. El arquitecto debe definir y autorizar el próximo alcance antes de continuar. No se propone activar autenticación ni persistencia sin esa definición.
-Trabajo detenido en 3.5, a la espera de aprobación.
+ENTREGA Y SIGUIENTE DECISIÓN
+Se entrega 3.5 consolidado como Perfil DEMO implementado y flujo Sandbox simplificado, desplegado para prueba visual. El hito nuevo confirmado por el Product Owner es Apple Pay visible dentro del checkout de Fintoc.
+Se solicita al coordinador/arquitecto revisar el alcance acumulado desde 3.4 y definir expresamente la siguiente etapa. Para un futuro flujo comercial harán falta almacenamiento compartido, autenticación, idempotencia global, eventos/verificación de pagos y emisión/canje desde backend. No se implementan esos puntos en esta entrega documental.

@@ -1,0 +1,101 @@
+CLUB VOID — VULNERABILIDADES Y CLASIFICACIÓN 3.6
+Fecha: 10-11-2026
+
+FUENTE Y ALCANCE
+npm audit --json y npm audit --omit=dev --json. No se aplicaron correcciones ni se instalaron/actualizaron dependencias.
+56 paquetes señalados: 2 críticos, 17 altos, 33 moderados, 4 bajos. No son 56 CVE distintos: el informe incluye severidades heredadas y avisos compartidos.
+73 URLs de advisories diferentes en la salida completa.
+Solo ejecución: 8 paquetes Angular (4 altos, 4 moderados, 0 críticos). Los otros 48 paquetes están marcados dev en package-lock.
+Es una clasificación de exposición basada en código y rutas actuales, no una prueba de ausencia de explotación.
+
+A. EJECUCIÓN — ANGULAR
+Angular core 17.3.12, CLI/build 17.3.17. Angular 17 está fuera de soporte según la política oficial consultada.
+Riesgo P1 antes de producción: sanear versiones con una migración coordinada Angular/CLI/TypeScript/Node autorizada por el arquitecto. No ejecutar npm audit fix --force. La propuesta automática mezcla familias/versiones y requiere evaluación.
+XSS: no se encontraron innerHTML, bypassSecurityTrust, i18n ni SVG script con href dinámico en frontend/src. Las plantillas y las imágenes actuales son locales; no se demostró un vector de explotación de los avisos concretos revisados. Esto no neutraliza todos los advisories de Angular.
+HttpTransferCache, hidratación y DoS SSR: no hay SSR/hidratación en esta SPA. Las condiciones de esos avisos no se observan en la arquitectura actual.
+XSRF: las URLs HTTP se construyen desde API_URL fija, sin protocolo relativo tomado de usuarios; no existe autenticación/cookie de sesión de cliente implementada. No se observó la condición concreta de fuga descrita.
+DoS de formatos: fechas/formato de números vienen de mocks/código; no hay plantillas o digitsInfo controlados por usuarios. Revalidar cuando exista API editable.
+
+B. COMPILACIÓN/INSTALACIÓN — DOS PAQUETES CON SEVERIDAD NPM CRÍTICA
+piscina 4.4.0: gadget de contaminación de prototipo/ejecución de worker. Exige condiciones previas controladas por atacante; no hay endpoint de worker Node público de esta app. Se ejecuta en build, por lo que un pipeline comprometido o entradas de build no confiables siguen siendo relevantes. No se ejecutó un exploit.
+tar 6.2.1: avisos de extracción de archivos maliciosos y escapes de enlaces/rutas. No se extraen TAR subidos por clientes; el riesgo está en instalación, herramientas y cadena de suministro. Tampoco se declara inocuo para CI.
+No confundir ausencia en runtime del navegador con ausencia de riesgo. Prioridad P1: revisión de pipeline/migración aprobada.
+
+C. DESARROLLO Y RESTO DE HERRAMIENTAS
+Vite/esbuild/webpack-dev-server y middleware: exposición condicional al usar servidores de desarrollo, abrir páginas maliciosas o procesar solicitudes no confiables. El frontend Vercel servido es estático; ng serve no es el servidor de producción. Aislar desarrollo y mantener la migración pendiente.
+PostCSS, serialize-javascript, glob/minimatch/picomatch/ajv y herramientas temporales: riesgos de entradas de build no confiables, mapas, patrones o archivos; no son endpoints de Flask. Los paquetes contenedores heredan avisos de sus dependencias.
+Ver detalle de cada advisory y fixAvailable en npm-audit-classification-36.json. Las versiones sugeridas por npm se guardan como datos, no como una recomendación de instalar automáticamente.
+
+D. DEPENDENCIAS PYTHON — REVISIÓN DIRIGIDA, NO ESCANEO COMPLETO
+No se instaló pip-audit ni se ejecutó un escáner exhaustivo de Python. requirements.txt permanece sin cambios.
+Flask-Cors 4.0.1: defecto conocido relacionado con Access-Control-Allow-Private-Network por defecto. Se comprobó localmente que responde true a un preflight con ese encabezado. Los orígenes siguen restringidos; no se demostró bypass de la allowlist ni un ataque contra una red privada. Diagnóstico P1 para revisión de dependencia/configuración, sin corregir por la restricción de 3.6.
+Werkzeug 3.1.3: GHSA-hgf8-39gv-g3f2 afecta safe_join en Windows con nombres de dispositivos especiales; la condición Windows no corresponde al backend Linux de Vercel ni al equipo macOS auditado. No extrapolar esta revisión dirigida a todos los avisos de Werkzeug/Flask.
+
+INVENTARIO COMPLETO DE PAQUETES NPM SEÑALADOS
+Formato: paquete | severidad npm | versiones instaladas | exposición actual | evaluación
+@angular-devkit/architect | moderate | 0.1703.17 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@angular-devkit/build-angular | high | 17.3.17 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@angular-devkit/build-webpack | moderate | 0.1703.17 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@angular-devkit/core | moderate | 17.3.17 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@angular-devkit/schematics | moderate | 17.3.17 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@angular/animations | moderate | 17.3.12 | ejecución | Angular; revisar prerrequisitos; no explotación demostrada; migración P1
+@angular/cli | high | 17.3.17 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@angular/common | high | 17.3.12 | ejecución | Angular; revisar prerrequisitos; no explotación demostrada; migración P1
+@angular/compiler | high | 17.3.12 | ejecución | Angular; revisar prerrequisitos; no explotación demostrada; migración P1
+@angular/compiler-cli | moderate | 17.3.12 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@angular/core | high | 17.3.12 | ejecución | Angular; revisar prerrequisitos; no explotación demostrada; migración P1
+@angular/forms | moderate | 17.3.12 | ejecución | Angular; revisar prerrequisitos; no explotación demostrada; migración P1
+@angular/platform-browser | moderate | 17.3.12 | ejecución | Angular; revisar prerrequisitos; no explotación demostrada; migración P1
+@angular/platform-browser-dynamic | moderate | 17.3.12 | ejecución | Angular; revisar prerrequisitos; no explotación demostrada; migración P1
+@angular/router | high | 17.3.12 | ejecución | Angular; revisar prerrequisitos; no explotación demostrada; migración P1
+@babel/core | low | 7.23.9, 7.26.10 | herramientas | entradas/mapas/patrones/temporales de build; exposición condicional; P1 migración
+@ngtools/webpack | moderate | 17.3.17 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@npmcli/package-json | moderate | 5.2.1 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@npmcli/run-script | moderate | 7.0.4 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@schematics/angular | moderate | 17.3.17 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@sigstore/core | moderate | 1.1.0 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@sigstore/sign | moderate | 2.3.2 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@sigstore/tuf | moderate | 2.3.4 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@sigstore/verify | moderate | 1.2.1 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@tufjs/models | moderate | 2.0.1 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+@vitejs/plugin-basic-ssl | moderate | 1.1.0 | desarrollo | servidor/middleware dev; no servido como runtime de producción; P1 migración
+ajv | moderate | 6.15.0, 8.12.0, 8.20.0 | herramientas | entradas/mapas/patrones/temporales de build; exposición condicional; P1 migración
+cacache | high | 18.0.4 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+copy-webpack-plugin | moderate | 11.0.0 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+esbuild | moderate | 0.20.1, 0.21.5 | desarrollo | servidor/middleware dev; no servido como runtime de producción; P1 migración
+external-editor | low | 3.1.0 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+glob | moderate | 10.5.0, 7.2.3 | herramientas | entradas/mapas/patrones/temporales de build; exposición condicional; P1 migración
+http-proxy-middleware | moderate | 2.0.8 | desarrollo | servidor/middleware dev; no servido como runtime de producción; P1 migración
+ignore-walk | moderate | 6.0.5 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+inquirer | low | 9.2.15 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+make-fetch-happen | moderate | 13.0.1 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+minimatch | moderate | 3.1.5, 9.0.9 | herramientas | entradas/mapas/patrones/temporales de build; exposición condicional; P1 migración
+node-gyp | high | 10.3.1 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+npm-packlist | moderate | 8.0.2 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+npm-registry-fetch | moderate | 16.2.1 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+pacote | high | 17.0.6 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+picomatch | high | 2.3.2, 4.0.1 | herramientas | entradas/mapas/patrones/temporales de build; exposición condicional; P1 migración
+piscina | critical | 4.4.0 | build/instalación | crítico npm; exposición condicional de CI/cadena de suministro; P1
+postcss | high | 8.4.35, 8.5.32 | herramientas | entradas/mapas/patrones/temporales de build; exposición condicional; P1 migración
+read-package-json | moderate | 7.0.1 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+serialize-javascript | high | 6.0.2 | herramientas | entradas/mapas/patrones/temporales de build; exposición condicional; P1 migración
+sigstore | high | 2.3.1 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+sockjs | moderate | 0.3.24 | desarrollo | servidor/middleware dev; no servido como runtime de producción; P1 migración
+tar | critical | 6.2.1 | build/instalación | crítico npm; exposición condicional de CI/cadena de suministro; P1
+tmp | high | 0.0.33, 0.2.7 | herramientas | entradas/mapas/patrones/temporales de build; exposición condicional; P1 migración
+tuf-js | moderate | 2.2.1 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+uuid | moderate | 8.3.2 | herramientas | cadena CLI/build, a menudo severidad heredada; revisar dependencias vía JSON; P1 migración
+vite | high | 5.4.21 | desarrollo | servidor/middleware dev; no servido como runtime de producción; P1 migración
+webpack | low | 5.112.2, 5.94.0 | herramientas | entradas/mapas/patrones/temporales de build; exposición condicional; P1 migración
+webpack-dev-middleware | high | 5.3.4, 6.1.2 | desarrollo | servidor/middleware dev; no servido como runtime de producción; P1 migración
+webpack-dev-server | high | 4.15.1 | desarrollo | servidor/middleware dev; no servido como runtime de producción; P1 migración
+
+FUENTES PRIMARIAS CONSULTADAS
+https://angular.dev/reference/releases
+https://github.com/angular/angular/security/advisories/GHSA-jrmj-c5cx-3cw6
+https://github.com/piscinajs/piscina/security/advisories/GHSA-x9g3-xrwr-cwfg
+https://github.com/isaacs/node-tar/security/advisories/GHSA-34x7-hfp2-rc4v
+https://github.com/corydolphin/flask-cors/commit/03aa3f8e2256437f7bad96422a747b98ab5e31bf
+https://github.com/pallets/werkzeug/security/advisories/GHSA-hgf8-39gv-g3f2
+
+La clasificación depende de la fecha y de esta versión del proyecto. No se autoriza una migración ni se acredita ausencia de otras vulnerabilidades.

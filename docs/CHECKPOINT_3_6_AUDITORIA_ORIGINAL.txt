@@ -1,0 +1,275 @@
+CLUB VOID — CHECKPOINT 3.6
+Auditoría integral de la aplicación del cliente
+Fecha: 10-11-2026
+Base funcional: checkpoint 3.5 consolidado
+
+RESULTADO GENERAL
+Auditoría completada dentro del alcance autorizado. Las cinco pestañas y los flujos revisados funcionan como demostración. Se verificaron 68 combinaciones de pantalla/ancho en Chrome real, las suites Angular/Flask y compilaciones de producción. Se corrigieron tres defectos menores de accesibilidad/presentación, sin cambiar la identidad visual.
+
+Dictamen: apta para continuar revisión de la DEMO; NO apta todavía para lanzamiento comercial. Persistencia/idempotencia, autenticación, endurecimiento de configuración y dependencias requieren decisiones del arquitecto. El backend público informa entorno development. El flujo de Vercel mantiene limitaciones expresas de memoria.
+Trabajo detenido en 3.6, pendiente aprobación del arquitecto. No se avanzó al panel administrativo.
+
+ALCANCE Y RESTRICCIONES CUMPLIDAS
+- Revisados Inicio, Noches, Tragos, Wallet y Perfil.
+- Revisados selección/resumen de entradas, selección de bebidas, Carrito, Checkout, acceso directo a Fintoc Sandbox y regreso.
+- Conservados Angular con NgModules/standalone:false, Flask, rutas y diseño aprobado: tipografía de sistema, negro/morado, tarjetas compactas, header sticky y cinco pestañas.
+- Sin pagos live, Split Payment, base de datos, nuevas funcionalidades comerciales, instalación o actualización de dependencias.
+- Sin modificar credenciales Fintoc ni backend/.env. package.json, package-lock.json, requirements.txt y .env comparados por SHA-256 antes/después: sin cambios.
+- Las cuestiones de arquitectura, seguridad, dependencias e integración de pagos se documentan como diagnóstico; no se aplicaron cambios de esas categorías.
+- Ya estaban pendientes de commit los documentos de 3.5 y su respaldo al iniciar 3.6. Se preservaron; no se atribuyen a esta auditoría.
+
+1. MÉTODO Y ENTORNOS
+Navegador: Chrome Headless real 157, perfil temporal aislado, Angular local en modo desarrollo y Flask local. Automatización mediante Chrome DevTools Protocol y el paquete ws ya instalado; sin instalar herramientas.
+Resoluciones: 320, 390, 768 y 1280 px de ancho, altura 844 px, escala 1. Se emula el viewport, no un iPhone/Android físico ni Safari.
+El recorrido usa botones/enlaces y eventos de teclado reales; algunas transiciones entre casos usan el Router desde el harness de desarrollo para conservar la selección SPA. No se simularon componentes en el recorrido principal.
+Para el error de pago se bloqueó deliberadamente la petición en Chrome; esa evidencia está separada del recorrido exitoso.
+Se consultaron health y cabeceras de los despliegues públicos en modo lectura. No se crearon pedidos remotos. La sesión real Fintoc de esta auditoría partió del backend local y fue exclusivamente Sandbox, sin autorización de pago.
+
+Herramientas locales: Node 22.23.3, npm 10.9.9, Python 3.11.6. Angular core 17.3.12; CLI/build-angular 17.3.17.
+No se efectuó pentest, prueba de carga, revisión legal o auditoría WCAG exhaustiva. No se declara cobertura total de seguridad por pasar las suites.
+
+2. PRUEBAS AUTOMATIZADAS Y COMPILACIONES
+Angular:
+  npm test -- --watch=false --browsers=ChromeHeadless
+  Antes y después de las correcciones: 106/106 aprobadas.
+Flask:
+  python -m unittest discover -s tests
+  83/83 aprobadas. La línea de error interno registrada procede del test que provoca una excepción para comprobar su respuesta sanitizada; la suite termina OK.
+
+Producción estándar:
+  npm run build
+  Aprobado antes y después de los primeros cambios de accesibilidad. El último cambio posterior fue el espacio condicional de error; su compilación se validó con el build de despliegue de producción final.
+Producción para Vercel, final:
+  API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+  Aprobado tras todos los cambios: 697,91 kB iniciales, transferencia estimada 139,37 kB.
+  Verificado que el bundle contiene la URL pública y no el placeholder de producción.
+
+Advertencias conservadas:
+- Bundle inicial excede advertencia de 500 kB por aproximadamente 197,91 kB.
+- SCSS de Inicio, Noches, detalle, Carrito, Checkout, Perfil y Wallet superan advertencia de 2 kB.
+- Wallet: 3,98 kB, cerca del límite de error de 4 kB.
+- Dos selectores Bootstrap .form-floating>~label omitidos por el optimizador.
+No se aumentaron presupuestos ni se ocultaron errores.
+
+Limitación del build estándar: environment.ts todavía contiene REPLACE_WITH_PRODUCTION_API_URL. Compilar con npm run build no acredita API funcional. El camino de despliegue válido es build:deploy con API_URL. Se deja como diagnóstico de configuración/reproducibilidad, sin cambiar la integración autorizada.
+
+3. CONSISTENCIA VISUAL Y RESPONSIVIDAD
+Recorrido principal PASS: 17 pantallas/estados por 4 anchos = 68 combinaciones.
+Pantallas: Inicio; Noches; Tragos; Wallet Entradas; Perfil consulta; Perfil edición; Wallet Tragos; Wallet Historial; detalle de evento; resumen de entradas; evento inexistente; carrito vacío; Tragos con selección; Carrito; Checkout sin pedido; Checkout con pedido; regreso de Fintoc.
+
+Resultados:
+- Cero combinaciones con scroll horizontal en el recorrido.
+- Imágenes revisadas cargadas; sin imágenes locales rotas detectadas.
+- Misma familia tipográfica de sistema en las 68 mediciones.
+- Sin degradados CSS de fondo detectados en los elementos medidos; fotos, paleta, tarjetas y espaciados actuales conservados.
+- En las cinco pestañas, header sticky en top 0 tras scroll, blur presente y cinco enlaces inferiores. Pestaña activa correctamente identificada.
+- Carrito, Checkout y resultado mantienen su layout independiente existente, sin barra inferior; no se rediseñaron.
+- El resumen de compra normal permite alcanzar el último producto al final del scroll.
+- Se inspeccionaron capturas móviles y de escritorio. Las cinco pestañas tienen capturas a los cuatro anchos; estados auxiliares incluyen capturas a 390/1280 y error controlado a los cuatro anchos.
+- Los tamaños de textos secundarios y el layout estrecho centrado en escritorio pertenecen al diseño actual. No se modificaron por preferencia estética.
+
+4. FLUJOS FUNCIONALES REVISADOS
+Inicio/Noches:
+- Carga de programación DEMO y navegación a detalle.
+- Próximo evento calculado por fecha actual: After Hours, 14-11-2026. VOID Sessions del 07-11 aparece finalizado.
+- Evento inexistente muestra estado explícito; guard del resumen sin selección devuelve a Noches.
+- La programación es ficticia y las fechas son estáticas: requerirá contenido mantenido antes del lanzamiento.
+
+Entradas:
+- Selección de evento futuro, 2 General de $12.000 + 1 VIP de $25.000 = $49.000.
+- Continuar al resumen, revisar y volver a modificar conservando selección.
+- Evento pasado bloquea todos los controles de selección.
+- Guard, límites y aislamiento por evento también incluidos en la suite existente.
+- Sin solicitud de emisión, pago o reserva real de entradas.
+
+Tragos/Carrito/Checkout:
+- Búsqueda sin coincidencias y limpieza de búsqueda.
+- Piscola + Gin Tonic, una unidad cada uno: $14.000; selección conservada al navegar a Carrito y Checkout.
+- Guard de Checkout vacío devuelve a Carrito.
+- Preparación real de pedido en Flask, estado pending_payment.
+- Acceso directo desde Tragos crea pedido/sesión en una sola invocación y redirige al proveedor.
+- Estado de error controlado muestra mensaje, conserva selección y permite revisar carrito.
+- Tests existentes cubren precios distintos, cantidades/cuerpo inválidos, claves, doble clic, timeout, cancelación y destinos/modo inválidos.
+
+Perfil:
+- Nombre de solo espacios produce error sin actualizar identidad.
+- Aplicación de nombre/teléfono ficticios y preferencia.
+- Navegar Perfil -> Wallet -> Perfil conserva cambios en memoria; recargar restaura Alex Demo.
+- No se introdujeron datos personales reales.
+
+Wallet:
+- Tres secciones con detalles operables y navegación por teclado.
+- 3 entradas DEMO y 4 unidades de consumos; referencias DEMO-ENT-001/002/003 conservadas.
+- Después de preparar el pedido pending_payment se regresó en LA MISMA SPA: indicadores y referencias idénticos. No se utilizó una recarga para esconder un posible cambio.
+- WalletService solo clona mocks; no observa pedidos, callbacks o HTTP.
+- No hay QR, tokens de acceso/retiro ni acciones para utilizar entradas o canjear consumos. La etiqueta Disponible de un ejemplo no concede derechos.
+Conclusión: no se detectó conversión de pago pendiente en entradas o consumos utilizables.
+
+5. ACCESIBILIDAD BÁSICA
+Verificado:
+- Nombres de controles, labels en formularios, mensajes de validación y estados de consulta.
+- Foco visible en la navegación y controles comprobados.
+- Wallet: ArrowRight mueve selección y foco; Home/End cambian sección; Enter abre details nativo.
+- Enter sobre navegación inferior abre Noches.
+- Enter incrementa cantidad de un producto.
+- Espacio activa checkbox de preferencia.
+- Árbol de accesibilidad de las cinco pestañas con landmark main y nombres de botones revisados.
+- Sin controles sin nombre detectados por la comprobación DOM del recorrido.
+
+Correcciones de 3.6:
+A. Navegación activa: ariaCurrentWhenActive=page en RouterLinkActive. Sin cambio visual.
+B. Botones de cantidad y eliminación: incluyen nombre del producto en aria-label en Tragos y Carrito. Se comprobaron en el árbol de accesibilidad de Chrome; p. ej. Aumentar cantidad de Piscola.
+
+Pendiente de evaluación adicional:
+- No se probaron VoiceOver/NVDA/TalkBack ni dispositivos físicos.
+- No hay certificación de contraste de todos los estados, zoom/reflow al 200/400 %, orientación o safe-area real de iOS.
+- Navegación SPA sin anuncio/foco de encabezado tras cada cambio de ruta y sin enlace Saltar al contenido: revisar antes de lanzamiento.
+- Carrito/Checkout/resultado, fuera del layout principal, no comparten su landmark main.
+- aria-describedby del Perfil puede referenciar un ID de error que solo existe al mostrarse el error; revisar refinamiento semántico.
+- Hay checkboxes de 22 px con label envolvente mayor y controles de Carrito de 32 px. No se declara incumplimiento automático por medir solo la caja del input; revisar área táctil y separaciones en dispositivo.
+- Tamaños de textos secundarios reducidos: revisión con usuarios/PO antes de cualquier cambio del diseño aprobado.
+
+6. DEFECTO VISUAL CORREGIDO
+C. Error de pago en Tragos: el mensaje aumentaba la altura de la barra fija y tapaba parte del último producto incluso al final del scroll.
+Reproducido bloqueando solo la petición de checkout en el navegador. En la medición anterior a 1280 px, último producto bottom=675,91 y barra top=650: existía solapamiento.
+Corrección mínima: clase has-error en el host del resumen y mayor padding inferior de la página solo cuando existe esa clase. No cambia el layout normal ni la paleta.
+Después: producto bottom aproximadamente 556, barra top >=633,5; sin solapamiento en 320/390/768/1280 px. Se conservan JSON y capturas anteriores/posteriores.
+La prueba negativa no envió ese intento al proveedor. No se añadieron tests unitarios que reflejen solo CSS; se verificó en navegador y compilación final.
+
+7. FINTOC SANDBOX — EVALUACIÓN
+Recorrido real local:
+- Selección de bebidas y apertura desde el botón Pagar con Fintoc.
+- Destino observado: test.pay.fintoc.com; título Paga con Fintoc.
+- Botón Volver a CODETEC; regreso real al frontend localhost sin autorizar pago.
+- Ruta /checkout/resultado consultada; verified=true en query no declara pago confirmado.
+- Referencia inválida muestra mensaje y no permite una confirmación falsa.
+- Cero excepciones JavaScript y cero respuestas HTTP >=400 capturadas en el recorrido principal final.
+
+Se mantuvieron claves test, versión API y allowlist. Ninguna autorización Apple Pay, ingreso de datos bancarios o tarjeta ni pago completado en 3.6. La aparición de Apple Pay reportada por el PO en 3.5 permanece como antecedente; Chrome local no equivale a validación física de Safari/iPhone.
+
+Protecciones actuales revisadas:
+- Importe calculado por Flask, expected_total_clp solo como comparación.
+- Validación de modo, moneda, importe y referencia de sesión/pedido.
+- Claves live rechazadas; URLs de retorno configuradas en servidor y destinos HTTPS restringidos.
+- Locks e idempotencia dentro de un proceso, bloqueo de modalidades simultáneas.
+- No se acepta un retorno o callback como prueba suficiente de pago; no se emite Wallet.
+
+Limitaciones de Vercel, reproducidas con proveedor SIMULADO y dos servicios aislados:
+- Misma clave de idempotencia en dos instancias de OrderService: se obtienen IDs de pedido distintos.
+- Verificación del pedido anterior desde instancia nueva: not_found/404.
+- Conservar pedidos pero perder el servicio de intentos produce not_started, aunque otra instancia hubiera creado una sesión.
+- La creación de sesión mantiene pending_payment, sin emisión de derechos.
+Evidencia: docs/security/serverless-memory-36.json.
+
+El endpoint de una invocación sirve para alcanzar el checkout en la DEMO; no soluciona duplicación entre instancias, reinicios, reintentos tras timeout o pérdida del resultado al volver. No hay almacenamiento compartido, webhooks, conciliación o recuperación garantizada. Se presenta el diagnóstico; no se implementan estos cambios de arquitectura/integración.
+
+8. NPM AUDIT Y RIESGO REAL
+Ejecutados sin correcciones automáticas:
+- npm audit --json
+- npm audit --omit=dev --json
+La primera consulta falló por la restricción de red del sandbox; se repitió con acceso autorizado. El código de salida 1 posterior corresponde a vulnerabilidades encontradas, no a instalación fallida.
+
+Resultado completo: 56 paquetes señalados; 2 críticos, 17 altos, 33 moderados, 4 bajos. Incluye avisos heredados; no equivale a 56 CVE diferentes. La salida contiene 73 URLs de advisories distintos.
+Solo ejecución: 8 paquetes Angular; 4 altos, 4 moderados, 0 críticos. Los otros 48 paquetes están marcados como desarrollo en package-lock.
+
+Clasificación:
+- P1 ejecución: Angular 17.3.12 está fuera de soporte y presenta avisos de XSS/sanitización y otros. No se hallaron innerHTML, bypassSecurityTrust, i18n o scripts SVG con href dinámico en las plantillas actuales. No hay SSR/HttpTransferCache/hidratación ni cookies de autenticación implementadas; algunas condiciones de avisos no se observan. Esto NO acredita seguridad del framework ni descarta todos sus avisos.
+- P1 build: piscina 4.4.0 y tar 6.2.1 tienen severidad npm crítica. Son herramientas de compilación/instalación, no endpoints del navegador o Flask. Piscina exige condiciones previas de contaminación/opciones controladas; tar necesita extracción de archivos maliciosos. Riesgo condicional de pipeline/cadena de suministro, no exploit remoto demostrado en la aplicación. No se ejecutaron exploits.
+- Herramientas de desarrollo: Vite/esbuild/webpack-dev-server y middleware tienen riesgos si se expone ng serve o procesa tráfico no confiable. El frontend publicado es estático; no ignorar el riesgo sobre equipos de desarrollo.
+- Resto de herramientas: mapas CSS, serialización, patrones, archivos temporales y dependencias de CLI. Revisión de migración e integridad de CI antes de producción.
+
+Inventario de los 56 paquetes, versiones, avisos, exposición y fixAvailable en:
+- docs/security/DEPENDENCIES_3_6.txt
+- docs/security/npm-audit-classification-36.json
+- docs/security/npm-audit-36.json
+- docs/security/npm-audit-prod-36.json
+No se ejecutaron npm audit fix, --force, npm install ni cambios de lockfile. Las propuestas automáticas de versiones mayores requieren una migración coordinada y aprobación; no se aplican como instrucciones directas.
+
+Revisión dirigida adicional de Python, SIN escáner completo ni instalar pip-audit:
+- Flask-Cors 4.0.1: valor permisivo de Access-Control-Allow-Private-Network por defecto, comprobado con test_client local; orígenes siguen restringidos. No se demostró bypass de allowlist ni ataque contra red privada. Requiere revisión de dependencia/configuración autorizada.
+- Werkzeug 3.1.3: aviso safe_join con nombres de dispositivos Windows; condición Windows no corresponde a los entornos Linux/macOS revisados. No es un descarte de todos los posibles avisos Python.
+
+Fuentes primarias y prerrequisitos detallados en DEPENDENCIES_3_6.txt. La auditoría no es un pentest ni un análisis exhaustivo de todas las dependencias Python.
+
+9. RIESGOS DE SEGURIDAD Y CONFIGURACIÓN — DIAGNÓSTICO
+S1. Backend público responde /api/health con environment:development. Configuración predeterminada de Flask es development si falta FLASK_ENV. Se recomienda configurar production y validar SECRET_KEY segura en Vercel. No se probó ni se afirma que exista un debugger público explotable. No se modificó el despliegue.
+S2. Endpoints de pedidos/sesiones sin autenticación, ownership o rate limiting de aplicación. CORS no sustituye control de acceso: otros clientes pueden llamar a la API. Riesgo de consumo de recursos, creación abusiva y acceso por referencia. Datos actuales DEMO; bloqueo comercial antes de manejar identidad real.
+S3. Pedidos e intentos en diccionarios en memoria sin persistencia ni límite de retención aplicado. Además de la pérdida/duplicación, requieren política de límites/limpieza antes de escalar. No se hizo prueba de carga.
+S4. Cabeceras públicas: HSTS presente; en la respuesta HTML comprobada faltan CSP, X-Frame-Options, X-Content-Type-Options y Referrer-Policy explícitas. Diagnóstico de endurecimiento, no evidencia de explotación. Revisar CSP compatible con Fintoc/iframes antes de aplicarla; no cambiarla a ciegas.
+S5. backend/.env está ignorado y no versionado. Búsqueda dirigida de patrones de claves secretas largas en archivos Git: sin coincidencias. No equivale a escaneo completo de historial o secretos de todas las clases. Las claves test se compartieron en el contexto de trabajo previo; valorar rotación autorizada, sin reproducirlas ni modificarlas en 3.6.
+S6. Dependencias sin soporte/avisos descritos arriba; falta remediación aprobada y análisis completo de Python.
+S7. Al futuro activar identidad/persistencia: privacidad, autorización por usuario, conservación, registros y emisión deben diseñarse antes de uso comercial. No hay política legal definitiva ni verificación de edad implementada.
+
+Pruebas públicas de solo lectura:
+- Backend: https://club-app-cbp5.vercel.app/api/health, status ok/environment development.
+- OPTIONS endpoint directo: HTTP 200; permite Origin https://clubapp-ten.vercel.app y content-type/idempotency-key.
+- Frontend https://clubapp-ten.vercel.app/: HTTP 200 y HSTS.
+Evidencia sanitizada: docs/visual-review/audit-36/public-probes-36.json.
+El backend publicita varios métodos en CORS; eso no crea rutas inexistentes ni acredita que se admitan escrituras de esos métodos.
+
+10. PENDIENTES FUNCIONALES Y UX
+- El carrito permite superar el máximo de backend (50 por producto/200 por pedido); el servidor rechaza el exceso. La UI muestra un error genérico de pago que no indica ese límite. Presentado para alinear contrato de límites/errores, sin alterar el flujo de integración en esta auditoría.
+- Inicio conserva un texto general de pagos no habilitados, mientras Tragos ofrece Sandbox. Aclarar copy de pagos reales frente a prueba en revisión con PO; no se rediseñó.
+- Perfil/Carrito/selecciones son temporales y se pierden al recargar/salir a Fintoc. Debe explicarse y resolverse en el diseño comercial.
+- Cuenta comercial CODETEC en Fintoc: validar si corresponde a la identidad final; no se cambió información legal del proveedor.
+- Sin pruebas de pago exitoso/fallido extremo a extremo en dispositivo compatible, sin cobertura completa de Safari/Android/lectores de pantalla y sin pruebas de carga.
+- Necesaria revisión legal/publicación de términos, privacidad, consumo responsable y reglas de entradas/canjes antes de operar.
+
+11. RECOMENDACIONES PRIORIZADAS PARA APROBACIÓN
+P0 — bloquean lanzamiento comercial:
+1. Definir persistencia compartida e idempotencia transaccional global; pedidos, sesiones, reintentos y recuperación entre instancias.
+2. Diseñar autenticación, autorización por propietario y controles de abuso de API.
+3. Definir verificación/eventos de pago y conciliación con emisión/canje solo desde backend; probar casos finales y recuperaciones. Mantener todo en Sandbox hasta autorización específica.
+4. Corregir configuración pública de entorno y revisar secretos/credenciales con autorización. No declarar debugger expuesto sin probarlo.
+
+P1 — resolver antes de producción:
+5. Aprobar migración coordinada a Angular/CLI soportados y remediar cadena de build/dependencias; revisar Python. No usar --force automáticamente.
+6. Endurecer cabeceras, políticas de recursos, logging y retención con compatibilidad de Fintoc verificada.
+7. Completar pruebas físicas iOS/Safari/Android, pagos Sandbox autorizados, accesibilidad y cobertura de error/retorno.
+8. Fijar un único proceso reproducible de build/despliegue, revisar bundle y presupuestos sin elevarlos para ocultar problemas.
+9. Alinear límites de carrito con backend y explicar errores. Mantener datos/productos/precios reales e identidad comercial bajo revisión del PO.
+
+P2 — calidad de experiencia y operación:
+10. Mejorar anuncios/foco de navegación SPA, landmarks fuera del layout, referencias ARIA y revisión de targets/textos con dispositivos reales.
+11. Mantener programación y mensajes DEMO actualizados; aprobar textos legales y definir requisitos comerciales pendientes.
+
+Las prioridades no autorizan su implementación en 3.6. Deben acordarse alcance, diseño técnico y plan de validación antes de modificar arquitectura/seguridad/pagos/dependencias.
+
+12. ARCHIVOS MODIFICADOS EN 3.6
+Código (cinco archivos):
+- frontend/src/app/layout/bottom-nav/bottom-nav.component.html
+- frontend/src/app/pages/tragos/components/product-card/product-card.component.html
+- frontend/src/app/pages/carrito/carrito.component.html
+- frontend/src/app/pages/tragos/components/cart-summary/cart-summary.component.ts
+- frontend/src/app/pages/tragos/tragos.component.scss
+Sin modificaciones de backend, credenciales, dependencias, rutas de pago o reglas de emisión.
+
+Creación de documentación/evidencia:
+- docs/CHECKPOINT_3_6.txt
+- docs/security/DEPENDENCIES_3_6.txt
+- docs/security/npm-audit-36.json
+- docs/security/npm-audit-prod-36.json
+- docs/security/npm-audit-classification-36.json
+- docs/security/serverless-memory-36.json
+- docs/visual-review/audit-36/: informes browser/keyboard/error antes/después,
+  validation-36.json, public-probes-36.json, logs de suites/builds, scripts CDP
+  reproducibles y 49 capturas de pantalla de esta ejecución.
+
+Evidencia principal:
+- audit-browser-36.json: 68 combinaciones, flujos, teclado, errores y retorno real.
+- audit-keyboard-36.json: Enter/Espacio y árbol de accesibilidad.
+- audit-error-before-36.json y audit-error-36.json: solapamiento y corrección final a cuatro anchos.
+- Las capturas Fintoc son de Chrome local Sandbox, no del botón Apple Pay físico.
+- Los scripts CDP requieren Angular en desarrollo en localhost:4200, Flask en :5000 y Chrome instalado. No son tests del build publicado ni sustituyen pruebas manuales físicas.
+
+13. INCIDENCIAS DE LA HERRAMIENTA Y LÍMITES DE EVIDENCIA
+Se corrigieron en el harness, sin atribuirlos a la app:
+- Evento Enter incompleto al principio; se añadieron códigos de tecla y texto adecuados.
+- Primer recorrido usaba 127.0.0.1 como origen, distinto de localhost autorizado por CORS; se repitió con el origen correcto.
+- Error de comillas en el complemento de teclado; se corrigió y terminó PASS.
+Los informes finales corresponden a ejecuciones completas corregidas. El negativo de pago bloqueado está identificado como controlado. No se ocultaron defectos de aplicación bajo esos ajustes del harness.
+El recorrido funcional completo se realizó antes del último ajuste exclusivamente visual del padding de error; después se repitió ese caso a los cuatro anchos, suite Angular completa y build de producción de despliegue. No se repitió innecesariamente el recorrido real de Fintoc tras cambiar solo el espaciado.
+
+CIERRE
+Se entrega CHECKPOINT 3.6 con auditoría, evidencias, tres correcciones menores y diagnóstico priorizado. No se emiten derechos de compra por pagos pendientes y no se completaron pagos en la auditoría.
+A la espera de aprobación del arquitecto. No avanzar al panel administrativo ni aplicar remediaciones mayores sin la siguiente definición de alcance.

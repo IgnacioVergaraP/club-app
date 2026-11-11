@@ -1,5 +1,13 @@
 CLUB VOID — Prueba HTTPS desde iPhone
 Fecha: 09-11-2026
+Actualización de estado: 10-11-2026
+
+ESTADO REPORTADO
+Frontend publicado: https://clubapp-ten.vercel.app
+Backend publicado: https://club-app-cbp5.vercel.app
+El Product Owner confirmó el 10-11-2026 que el botón Apple Pay aparece dentro
+del checkout alojado de Fintoc. Confirmación manual, sin captura adjunta ni
+autorización/pago completado reportado. Ver CHECKPOINT_3_5.txt consolidado.
 
 DESTINO
 Angular y Flask en DOS proyectos Vercel del mismo repositorio.
@@ -69,21 +77,24 @@ backend puede devolver pedido no encontrado por la memoria efímera de Vercel.
 La URL de retorno por sí sola no confirma el pago.
 
 PENDIENTE EXTERNO
-Publicar ambos proyectos en Vercel y definir sus URLs estables.
-Validar Apple Pay dentro de la sesión real en iPhone. Sin esa prueba, no aprobado
-como Apple Pay integral. No se ha realizado ningún pago desde esta preparación.
+Publicación de ambos proyectos y aparición del botón confirmadas por el usuario.
+Sigue pendiente una prueba de autorización/pago y verificación extremo a extremo,
+solo si se acuerda ampliar el alcance visual. No aprobado como Apple Pay integral.
 
 VERIFICACIÓN LOCAL DE ESTA PREPARACIÓN
 - npm run build:deploy con API_URL HTTPS de ejemplo: aprobado, con advertencias
   existentes de tamaño. Se comprobó que el bundle usa esa URL y no localhost ni
   el placeholder de producción. La URL usada no es un backend publicado.
 - build:deploy sin API_URL: rechazado con mensaje de configuración, como se espera.
-- Suite backend tras agregar el endpoint de una invocación: 82/82 aprobadas.
+- Suite backend tras agregar el endpoint de una invocación: 82/82 aprobadas;
+  después de corregir espacios en CORS_ORIGINS: 83/83 aprobadas.
 - Suite frontend con Chrome Headless: 106/106 aprobadas.
 - Build de despliegue actualizado: aprobado con advertencias existentes de tamaño.
 - Proveedor simulado en tests; no se efectuaron autorizaciones reales ni Sandbox.
-- No se verificaron aún DNS, HTTPS público, CORS entre dominios desplegados,
-  disponibilidad de Apple Pay ni retorno desde Fintoc en el teléfono.
+- En el diagnóstico público se verificó preflight HTTP 200 sin cabecera CORS;
+  se corrigieron espacios en la lista de orígenes y se indicó configurar Vercel.
+  Tras ello el usuario reportó funcionamiento y Apple Pay visible. No se adjuntó
+  captura de red final, del botón o del retorno desde Fintoc en el teléfono.
 
 FUENTES
 https://vercel.com/docs/routing/rewrites

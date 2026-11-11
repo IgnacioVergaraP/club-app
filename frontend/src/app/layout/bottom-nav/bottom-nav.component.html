@@ -5,6 +5,7 @@
         class="bottom-nav-link"
         [routerLink]="item.path"
         routerLinkActive="is-active"
+        ariaCurrentWhenActive="page"
         [routerLinkActiveOptions]="{ exact: item.path === '/' }"
         [attr.aria-label]="item.label">
         <span class="bottom-nav-icon" aria-hidden="true">

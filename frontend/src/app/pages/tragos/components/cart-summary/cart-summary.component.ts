@@ -10,6 +10,7 @@ import { FintocRedirectService } from '../../../../services/payments/fintoc-redi
   selector: 'app-cart-summary',
   templateUrl: './cart-summary.component.html',
   styleUrls: ['./cart-summary.component.scss'],
+  host: { '[class.has-error]': '!!error' },
   standalone: false
 })
 export class CartSummaryComponent implements OnDestroy {

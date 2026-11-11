@@ -1,0 +1,15 @@
+{
+  "provider": "simulated; no network or payment",
+  "same_key_in_two_order_instances_creates_different_order_ids": true,
+  "fresh_instance_return": {
+    "error": "not_found",
+    "http": 404
+  },
+  "payment_attempt_lost_with_orders_retained": {
+    "verified": false,
+    "mode": "test",
+    "status": "not_started",
+    "order_id": "d717a4e9-5b9e-4a9c-9912-c354651eb672"
+  },
+  "order_status_after_session": "pending_payment"
+}

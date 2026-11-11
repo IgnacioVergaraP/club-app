@@ -1,0 +1,173 @@
+{
+  "date": "2026-11-10",
+  "browser": "Chrome Headless real, isolated profile; local Angular development and Flask",
+  "matrix": [
+    {
+      "screen": "ticket",
+      "width": 320,
+      "scrollWidth": 305,
+      "qrWidth": 222,
+      "qrHeight": 222,
+      "src": "assets/qr-demo/ticket-001.svg",
+      "alt": "QR de demostración DEMO-ENT-001 con logo VOID. Sin validez real.",
+      "count": 1,
+      "caption": "QR de demostración\nVOID:DEMO:ENT:001\nDEMO · Sin validez para ingresar o retirar bebidas",
+      "tickets": "3",
+      "drinks": "4"
+    },
+    {
+      "screen": "ticket",
+      "width": 390,
+      "scrollWidth": 375,
+      "qrWidth": 222,
+      "qrHeight": 222,
+      "src": "assets/qr-demo/ticket-001.svg",
+      "alt": "QR de demostración DEMO-ENT-001 con logo VOID. Sin validez real.",
+      "count": 1,
+      "caption": "QR de demostración\nVOID:DEMO:ENT:001\nDEMO · Sin validez para ingresar o retirar bebidas",
+      "tickets": "3",
+      "drinks": "4"
+    },
+    {
+      "screen": "ticket",
+      "width": 768,
+      "scrollWidth": 753,
+      "qrWidth": 222,
+      "qrHeight": 222,
+      "src": "assets/qr-demo/ticket-001.svg",
+      "alt": "QR de demostración DEMO-ENT-001 con logo VOID. Sin validez real.",
+      "count": 1,
+      "caption": "QR de demostración\nVOID:DEMO:ENT:001\nDEMO · Sin validez para ingresar o retirar bebidas",
+      "tickets": "3",
+      "drinks": "4"
+    },
+    {
+      "screen": "ticket",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "qrWidth": 222,
+      "qrHeight": 222,
+      "src": "assets/qr-demo/ticket-001.svg",
+      "alt": "QR de demostración DEMO-ENT-001 con logo VOID. Sin validez real.",
+      "count": 1,
+      "caption": "QR de demostración\nVOID:DEMO:ENT:001\nDEMO · Sin validez para ingresar o retirar bebidas",
+      "tickets": "3",
+      "drinks": "4"
+    },
+    {
+      "screen": "drink",
+      "width": 320,
+      "scrollWidth": 305,
+      "qrWidth": 222,
+      "qrHeight": 222,
+      "src": "assets/qr-demo/drink-001.svg",
+      "alt": "QR de demostración DEMO-CON-001 con logo VOID. Sin validez real.",
+      "count": 1,
+      "caption": "QR de demostración\nVOID:DEMO:CON:001\nDEMO · Sin validez para ingresar o retirar bebidas",
+      "tickets": "3",
+      "drinks": "4"
+    },
+    {
+      "screen": "drink",
+      "width": 390,
+      "scrollWidth": 375,
+      "qrWidth": 222,
+      "qrHeight": 222,
+      "src": "assets/qr-demo/drink-001.svg",
+      "alt": "QR de demostración DEMO-CON-001 con logo VOID. Sin validez real.",
+      "count": 1,
+      "caption": "QR de demostración\nVOID:DEMO:CON:001\nDEMO · Sin validez para ingresar o retirar bebidas",
+      "tickets": "3",
+      "drinks": "4"
+    },
+    {
+      "screen": "drink",
+      "width": 768,
+      "scrollWidth": 753,
+      "qrWidth": 222,
+      "qrHeight": 222,
+      "src": "assets/qr-demo/drink-001.svg",
+      "alt": "QR de demostración DEMO-CON-001 con logo VOID. Sin validez real.",
+      "count": 1,
+      "caption": "QR de demostración\nVOID:DEMO:CON:001\nDEMO · Sin validez para ingresar o retirar bebidas",
+      "tickets": "3",
+      "drinks": "4"
+    },
+    {
+      "screen": "drink",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "qrWidth": 222,
+      "qrHeight": 222,
+      "src": "assets/qr-demo/drink-001.svg",
+      "alt": "QR de demostración DEMO-CON-001 con logo VOID. Sin validez real.",
+      "count": 1,
+      "caption": "QR de demostración\nVOID:DEMO:CON:001\nDEMO · Sin validez para ingresar o retirar bebidas",
+      "tickets": "3",
+      "drinks": "4"
+    }
+  ],
+  "screenshots": [
+    "ticket-wallet-320.png",
+    "ticket-wallet-390.png",
+    "ticket-wallet-768.png",
+    "ticket-wallet-1280.png",
+    "drink-wallet-320.png",
+    "drink-wallet-390.png",
+    "drink-wallet-768.png",
+    "drink-wallet-1280.png"
+  ],
+  "keyboard": [
+    {
+      "check": "Wallet keyboard remains operable",
+      "result": "PASS"
+    }
+  ],
+  "flows": {},
+  "errors": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "check": "No QR in history",
+      "result": "PASS"
+    }
+  ],
+  "paid": false,
+  "rasterMethod": "Browser canvas renders the complete local SVG with logo at its actual displayed 222px size; no navbar overlay in decoder input",
+  "samples": [
+    {
+      "file": "ticket-qr-320.png",
+      "expected": "VOID:DEMO:ENT:001"
+    },
+    {
+      "file": "ticket-qr-390.png",
+      "expected": "VOID:DEMO:ENT:001"
+    },
+    {
+      "file": "ticket-qr-768.png",
+      "expected": "VOID:DEMO:ENT:001"
+    },
+    {
+      "file": "ticket-qr-1280.png",
+      "expected": "VOID:DEMO:ENT:001"
+    },
+    {
+      "file": "drink-qr-320.png",
+      "expected": "VOID:DEMO:CON:001"
+    },
+    {
+      "file": "drink-qr-390.png",
+      "expected": "VOID:DEMO:CON:001"
+    },
+    {
+      "file": "drink-qr-768.png",
+      "expected": "VOID:DEMO:CON:001"
+    },
+    {
+      "file": "drink-qr-1280.png",
+      "expected": "VOID:DEMO:CON:001"
+    }
+  ],
+  "dependenciesInstalled": false,
+  "result": "PASS"
+}

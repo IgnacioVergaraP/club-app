@@ -6,6 +6,7 @@ import { MOCK_WALLET } from '../../data/mock-wallet';
 import { WalletData } from '../../models/wallet.model';
 import { WalletService } from '../../services/wallet.service';
 import { WalletComponent } from './wallet.component';
+import { DemoQrComponent } from '../../components/demo-qr/demo-qr.component';
 
 describe('WalletComponent', () => {
   let fixture: ComponentFixture<WalletComponent>;
@@ -16,7 +17,7 @@ describe('WalletComponent', () => {
     data = structuredClone(MOCK_WALLET);
     service = jasmine.createSpyObj('WalletService', ['getWallet']);
     service.getWallet.and.returnValue(of(data));
-    await TestBed.configureTestingModule({ imports:[CommonModule, RouterTestingModule], declarations:[WalletComponent],
+    await TestBed.configureTestingModule({ imports:[CommonModule, RouterTestingModule], declarations:[WalletComponent, DemoQrComponent],
       providers:[{provide:WalletService, useValue:service}] }).compileComponents();
   });
   function check(body:()=>void):()=>void { return fakeAsync(()=>{try {body();} finally {fixture?.destroy();}}); }
@@ -28,7 +29,7 @@ describe('WalletComponent', () => {
     expect(page.querySelectorAll('.ticket-card').length).toBe(3);
     for(const text of ['Disponible','Utilizada','Vencida','Entrada General','Entrada VIP','DEMO-ENT-001','SIN VALIDEZ DE ACCESO']) expect(page.textContent).toContain(text);
     expect(page.querySelectorAll('.ticket-cover .demo-badge').length).toBe(3);
-    expect(page.querySelectorAll('button').length).toBe(3);
+    expect(page.querySelectorAll('.wallet-tabs button').length).toBe(3);
   }));
   it('cambia secciones y muestra cantidades, estados de consumo e historial', check(()=>{
     const page=render();tab('drinks');
@@ -86,5 +87,46 @@ describe('WalletComponent', () => {
       detail.querySelector('summary')!.click();expect(detail.open).toBeFalse();
     }
     expect(data).toEqual(MOCK_WALLET);
+  }));
+  it('muestra las muestras QR locales dentro de los detalles y sin botón de pausa', check(()=>{
+    const page=render();
+    expect(page.querySelectorAll('app-demo-qr img').length).toBe(3);
+    expect(page.querySelector('app-demo-qr img')?.getAttribute('src')).toBe('assets/qr-demo/ticket-001.svg');
+    expect(page.querySelector('app-demo-qr')?.textContent).toContain('VOID:DEMO:ENT:001');
+    expect(page.querySelector('app-demo-qr')?.textContent).toContain('Sin validez para ingresar o retirar bebidas');
+    expect(page.querySelector('app-demo-qr img')?.getAttribute('alt')).toContain('logo VOID');
+    const ticketDetails=page.querySelector('app-demo-qr')?.closest('details');
+    expect(ticketDetails).not.toBeNull();expect(ticketDetails?.open).toBeFalse();
+    ticketDetails?.querySelector('summary')?.click();expect(ticketDetails?.open).toBeTrue();
+    expect(page.querySelector('.motion-toggle')).toBeNull();
+    expect(page.querySelectorAll('app-demo-qr button').length).toBe(0);
+    tab('drinks');
+    expect(page.querySelectorAll('app-demo-qr img').length).toBe(3);
+    expect(page.querySelector('app-demo-qr img')?.getAttribute('src')).toBe('assets/qr-demo/drink-001.svg');
+    expect(page.querySelector('app-demo-qr')?.textContent).toContain('VOID:DEMO:CON:001');
+    const drinkDetails=page.querySelector('app-demo-qr')?.closest('details');
+    expect(drinkDetails).not.toBeNull();expect(drinkDetails?.open).toBeFalse();
+    drinkDetails?.querySelector('summary')?.click();expect(drinkDetails?.open).toBeTrue();
+    tab('history');expect(page.querySelector('app-demo-qr')).toBeNull();
+    expect(data).toEqual(MOCK_WALLET);
+  }));
+  it('superpone el mismo estado sobre el centro del QR de registros utilizados, canjeados y vencidos', check(()=>{
+    const page=render();
+    const tickets=page.querySelectorAll('.ticket-card');
+    expect(tickets[0].querySelector('.qr-status')).toBeNull();
+    expect(tickets[1].querySelector('.qr-status.used')?.textContent).toBe('Utilizada');
+    expect(tickets[2].querySelector('.qr-status.expired')?.textContent).toBe('Vencida');
+    tab('drinks');const drinks=page.querySelectorAll('.drink-card');
+    expect(drinks[0].querySelector('.qr-status')).toBeNull();
+    expect(drinks[1].querySelector('.qr-status.redeemed')?.textContent).toBe('Canjeado');
+    expect(drinks[2].querySelector('.qr-status.expired')?.textContent).toBe('Vencido');
+    expect(drinks[1].querySelector('app-demo-qr img')?.getAttribute('alt')).toContain('Canjeado');
+    expect(data).toEqual(MOCK_WALLET);
+  }));
+  it('no crea imágenes para referencias desconocidas', check(()=>{
+    data.tickets[0].reference='OTHER-ORDER-001';const page=render();
+    expect(page.querySelector('.ticket-card')?.querySelector('app-demo-qr img')).toBeNull();
+    data.tickets[0].reference='__proto__';fixture.componentInstance.retry();fixture.detectChanges();
+    expect(page.querySelector('.ticket-card')?.querySelector('app-demo-qr img')).toBeNull();
   }));
 });

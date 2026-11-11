@@ -1,0 +1,3319 @@
+{
+  "date": "2026-11-10",
+  "browser": "Chrome Headless real, isolated profile; local Angular development and Flask",
+  "matrix": [
+    {
+      "screen": "inicio",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Tu noche comienza aqu\u00ed."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "inicio",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Tu noche comienza aqu\u00ed."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "inicio",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Tu noche comienza aqu\u00ed."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "inicio",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Tu noche comienza aqu\u00ed."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "noches",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Noches."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(51, 22, 80)",
+          "bg": "rgb(236, 217, 255)",
+          "radius": "10px",
+          "w": 87,
+          "h": 44,
+          "top": -79.78125,
+          "bottom": -35.78125
+        },
+        {
+          "name": "Pr\u00f3ximos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(18, 20, 25)",
+          "radius": "10px",
+          "w": 87,
+          "h": 44,
+          "top": -79.78125,
+          "bottom": -35.78125
+        },
+        {
+          "name": "Anteriores",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(18, 20, 25)",
+          "radius": "10px",
+          "w": 87,
+          "h": 44,
+          "top": -79.78125,
+          "bottom": -35.78125
+        }
+      ]
+    },
+    {
+      "screen": "noches",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Noches."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(51, 22, 80)",
+          "bg": "rgb(236, 217, 255)",
+          "radius": "10px",
+          "w": 110.328125,
+          "h": 44,
+          "top": -79.78125,
+          "bottom": -35.78125
+        },
+        {
+          "name": "Pr\u00f3ximos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(18, 20, 25)",
+          "radius": "10px",
+          "w": 110.34375,
+          "h": 44,
+          "top": -79.78125,
+          "bottom": -35.78125
+        },
+        {
+          "name": "Anteriores",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(18, 20, 25)",
+          "radius": "10px",
+          "w": 110.328125,
+          "h": 44,
+          "top": -79.78125,
+          "bottom": -35.78125
+        }
+      ]
+    },
+    {
+      "screen": "noches",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Noches."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(51, 22, 80)",
+          "bg": "rgb(236, 217, 255)",
+          "radius": "10px",
+          "w": 225.328125,
+          "h": 44,
+          "top": -151.390625,
+          "bottom": -107.390625
+        },
+        {
+          "name": "Pr\u00f3ximos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(18, 20, 25)",
+          "radius": "10px",
+          "w": 225.34375,
+          "h": 44,
+          "top": -151.390625,
+          "bottom": -107.390625
+        },
+        {
+          "name": "Anteriores",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(18, 20, 25)",
+          "radius": "10px",
+          "w": 225.328125,
+          "h": 44,
+          "top": -151.390625,
+          "bottom": -107.390625
+        }
+      ]
+    },
+    {
+      "screen": "noches",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Noches."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(51, 22, 80)",
+          "bg": "rgb(236, 217, 255)",
+          "radius": "10px",
+          "w": 225.328125,
+          "h": 44,
+          "top": -151.390625,
+          "bottom": -107.390625
+        },
+        {
+          "name": "Pr\u00f3ximos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(18, 20, 25)",
+          "radius": "10px",
+          "w": 225.34375,
+          "h": 44,
+          "top": -151.390625,
+          "bottom": -107.390625
+        },
+        {
+          "name": "Anteriores",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(18, 20, 25)",
+          "radius": "10px",
+          "w": 225.328125,
+          "h": 44,
+          "top": -151.390625,
+          "bottom": -107.390625
+        }
+      ]
+    },
+    {
+      "screen": "tragos",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Tragos"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "999px",
+          "w": 67.484375,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Pisco",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 63.625,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Ron",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 53.828125,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Gin",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 50.703125,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        }
+      ]
+    },
+    {
+      "screen": "tragos",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Tragos"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "999px",
+          "w": 67.484375,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Pisco",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 63.625,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Ron",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 53.828125,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Gin",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 50.703125,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        }
+      ]
+    },
+    {
+      "screen": "tragos",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Tragos"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "999px",
+          "w": 67.484375,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Pisco",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 63.625,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Ron",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 53.828125,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Gin",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 50.703125,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        }
+      ]
+    },
+    {
+      "screen": "tragos",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Tragos"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "999px",
+          "w": 67.484375,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Pisco",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 63.625,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Ron",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 53.828125,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Gin",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 50.703125,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        }
+      ]
+    },
+    {
+      "screen": "wallet-tickets",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 85.65625,
+          "h": 44,
+          "top": -360.90625,
+          "bottom": -316.90625
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 85.671875,
+          "h": 44,
+          "top": -360.90625,
+          "bottom": -316.90625
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 85.65625,
+          "h": 44,
+          "top": -360.90625,
+          "bottom": -316.90625
+        }
+      ]
+    },
+    {
+      "screen": "wallet-tickets",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 109,
+          "h": 44,
+          "top": -324.828125,
+          "bottom": -280.828125
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 109,
+          "h": 44,
+          "top": -324.828125,
+          "bottom": -280.828125
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 109,
+          "h": 44,
+          "top": -324.828125,
+          "bottom": -280.828125
+        }
+      ]
+    },
+    {
+      "screen": "wallet-tickets",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -324.546875,
+          "bottom": -280.546875
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -324.546875,
+          "bottom": -280.546875
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -324.546875,
+          "bottom": -280.546875
+        }
+      ]
+    },
+    {
+      "screen": "wallet-tickets",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -324.546875,
+          "bottom": -280.546875
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -324.546875,
+          "bottom": -280.546875
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -324.546875,
+          "bottom": -280.546875
+        }
+      ]
+    },
+    {
+      "screen": "perfil",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Mi perfil."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [
+        {
+          "tag": "INPUT",
+          "name": "Notificaciones\nDEMO \u00b7 no solicita permisos del dispositivo",
+          "w": 22,
+          "h": 22,
+          "top": 301.03125,
+          "bottom": 323.03125
+        },
+        {
+          "tag": "INPUT",
+          "name": "Comunicaciones por correo\nDEMO \u00b7 no suscribe ni env\u00eda correos",
+          "w": 22,
+          "h": 22,
+          "top": 377.03125,
+          "bottom": 399.03125
+        }
+      ],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Editar datos demo",
+          "color": "rgb(224, 195, 250)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 121.1875,
+          "h": 44,
+          "top": -308.59375,
+          "bottom": -264.59375
+        }
+      ]
+    },
+    {
+      "screen": "perfil",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Mi perfil."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [
+        {
+          "tag": "INPUT",
+          "name": "Notificaciones\nDEMO \u00b7 no solicita permisos del dispositivo",
+          "w": 22,
+          "h": 22,
+          "top": 300.84375,
+          "bottom": 322.84375
+        },
+        {
+          "tag": "INPUT",
+          "name": "Comunicaciones por correo\nDEMO \u00b7 no suscribe ni env\u00eda correos",
+          "w": 22,
+          "h": 22,
+          "top": 376.84375,
+          "bottom": 398.84375
+        }
+      ],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Editar datos demo",
+          "color": "rgb(224, 195, 250)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 121.1875,
+          "h": 44,
+          "top": -289.59375,
+          "bottom": -245.59375
+        }
+      ]
+    },
+    {
+      "screen": "perfil",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Mi perfil."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [
+        {
+          "tag": "INPUT",
+          "name": "Notificaciones\nDEMO \u00b7 no solicita permisos del dispositivo",
+          "w": 22,
+          "h": 22,
+          "top": 301.09375,
+          "bottom": 323.09375
+        },
+        {
+          "tag": "INPUT",
+          "name": "Comunicaciones por correo\nDEMO \u00b7 no suscribe ni env\u00eda correos",
+          "w": 22,
+          "h": 22,
+          "top": 377.09375,
+          "bottom": 399.09375
+        }
+      ],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Editar datos demo",
+          "color": "rgb(224, 195, 250)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 121.1875,
+          "h": 44,
+          "top": -250.96875,
+          "bottom": -206.96875
+        }
+      ]
+    },
+    {
+      "screen": "perfil",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Mi perfil."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [
+        {
+          "tag": "INPUT",
+          "name": "Notificaciones\nDEMO \u00b7 no solicita permisos del dispositivo",
+          "w": 22,
+          "h": 22,
+          "top": 301.09375,
+          "bottom": 323.09375
+        },
+        {
+          "tag": "INPUT",
+          "name": "Comunicaciones por correo\nDEMO \u00b7 no suscribe ni env\u00eda correos",
+          "w": 22,
+          "h": 22,
+          "top": 377.09375,
+          "bottom": 399.09375
+        }
+      ],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Editar datos demo",
+          "color": "rgb(224, 195, 250)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 121.1875,
+          "h": 44,
+          "top": -250.96875,
+          "bottom": -206.96875
+        }
+      ]
+    },
+    {
+      "screen": "perfil-edit",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Mi perfil."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [
+        {
+          "tag": "INPUT",
+          "name": "Notificaciones\nDEMO \u00b7 no solicita permisos del dispositivo",
+          "w": 22,
+          "h": 22,
+          "top": 300.796875,
+          "bottom": 322.796875
+        },
+        {
+          "tag": "INPUT",
+          "name": "Comunicaciones por correo\nDEMO \u00b7 no suscribe ni env\u00eda correos",
+          "w": 22,
+          "h": 22,
+          "top": 376.796875,
+          "bottom": 398.796875
+        }
+      ],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Aplicar cambios demo",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(118, 37, 230)",
+          "radius": "7.2px",
+          "w": 151.3125,
+          "h": 44,
+          "top": -98.390625,
+          "bottom": -54.390625
+        },
+        {
+          "name": "Cancelar",
+          "color": "rgb(224, 195, 250)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 76.015625,
+          "h": 44,
+          "top": -98.390625,
+          "bottom": -54.390625
+        }
+      ]
+    },
+    {
+      "screen": "perfil-edit",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Mi perfil."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [
+        {
+          "tag": "INPUT",
+          "name": "Notificaciones\nDEMO \u00b7 no solicita permisos del dispositivo",
+          "w": 22,
+          "h": 22,
+          "top": 301.609375,
+          "bottom": 323.609375
+        },
+        {
+          "tag": "INPUT",
+          "name": "Comunicaciones por correo\nDEMO \u00b7 no suscribe ni env\u00eda correos",
+          "w": 22,
+          "h": 22,
+          "top": 377.609375,
+          "bottom": 399.609375
+        }
+      ],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Aplicar cambios demo",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(118, 37, 230)",
+          "radius": "7.2px",
+          "w": 151.3125,
+          "h": 44,
+          "top": -78.390625,
+          "bottom": -34.390625
+        },
+        {
+          "name": "Cancelar",
+          "color": "rgb(224, 195, 250)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 76.015625,
+          "h": 44,
+          "top": -78.390625,
+          "bottom": -34.390625
+        }
+      ]
+    },
+    {
+      "screen": "perfil-edit",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Mi perfil."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [
+        {
+          "tag": "INPUT",
+          "name": "Notificaciones\nDEMO \u00b7 no solicita permisos del dispositivo",
+          "w": 22,
+          "h": 22,
+          "top": 301.21875,
+          "bottom": 323.21875
+        },
+        {
+          "tag": "INPUT",
+          "name": "Comunicaciones por correo\nDEMO \u00b7 no suscribe ni env\u00eda correos",
+          "w": 22,
+          "h": 22,
+          "top": 377.21875,
+          "bottom": 399.21875
+        }
+      ],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Aplicar cambios demo",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(118, 37, 230)",
+          "radius": "7.2px",
+          "w": 151.3125,
+          "h": 44,
+          "top": -40.40625,
+          "bottom": 3.59375
+        },
+        {
+          "name": "Cancelar",
+          "color": "rgb(224, 195, 250)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 76.015625,
+          "h": 44,
+          "top": -40.40625,
+          "bottom": 3.59375
+        }
+      ]
+    },
+    {
+      "screen": "perfil-edit",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Mi perfil."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [
+        {
+          "tag": "INPUT",
+          "name": "Notificaciones\nDEMO \u00b7 no solicita permisos del dispositivo",
+          "w": 22,
+          "h": 22,
+          "top": 301.21875,
+          "bottom": 323.21875
+        },
+        {
+          "tag": "INPUT",
+          "name": "Comunicaciones por correo\nDEMO \u00b7 no suscribe ni env\u00eda correos",
+          "w": 22,
+          "h": 22,
+          "top": 377.21875,
+          "bottom": 399.21875
+        }
+      ],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Aplicar cambios demo",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(118, 37, 230)",
+          "radius": "7.2px",
+          "w": 151.3125,
+          "h": 44,
+          "top": -40.40625,
+          "bottom": 3.59375
+        },
+        {
+          "name": "Cancelar",
+          "color": "rgb(224, 195, 250)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 76.015625,
+          "h": 44,
+          "top": -40.40625,
+          "bottom": 3.59375
+        }
+      ]
+    },
+    {
+      "screen": "wallet-drinks",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 85.65625,
+          "h": 44,
+          "top": 60.09375,
+          "bottom": 104.09375
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 85.671875,
+          "h": 44,
+          "top": 60.09375,
+          "bottom": 104.09375
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 85.65625,
+          "h": 44,
+          "top": 60.09375,
+          "bottom": 104.09375
+        }
+      ]
+    },
+    {
+      "screen": "wallet-drinks",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 109,
+          "h": 44,
+          "top": 78.171875,
+          "bottom": 122.171875
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 109,
+          "h": 44,
+          "top": 78.171875,
+          "bottom": 122.171875
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 109,
+          "h": 44,
+          "top": 78.171875,
+          "bottom": 122.171875
+        }
+      ]
+    },
+    {
+      "screen": "wallet-drinks",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": 77.453125,
+          "bottom": 121.453125
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": 77.453125,
+          "bottom": 121.453125
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": 77.453125,
+          "bottom": 121.453125
+        }
+      ]
+    },
+    {
+      "screen": "wallet-drinks",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": 77.453125,
+          "bottom": 121.453125
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": 77.453125,
+          "bottom": 121.453125
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": 77.453125,
+          "bottom": 121.453125
+        }
+      ]
+    },
+    {
+      "screen": "wallet-history",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 85.65625,
+          "h": 44,
+          "top": -212.90625,
+          "bottom": -168.90625
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 85.671875,
+          "h": 44,
+          "top": -212.90625,
+          "bottom": -168.90625
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 85.65625,
+          "h": 44,
+          "top": -212.90625,
+          "bottom": -168.90625
+        }
+      ]
+    },
+    {
+      "screen": "wallet-history",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 109,
+          "h": 44,
+          "top": -140.828125,
+          "bottom": -96.828125
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 109,
+          "h": 44,
+          "top": -140.828125,
+          "bottom": -96.828125
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 109,
+          "h": 44,
+          "top": -140.828125,
+          "bottom": -96.828125
+        }
+      ]
+    },
+    {
+      "screen": "wallet-history",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -122.546875,
+          "bottom": -78.546875
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -122.546875,
+          "bottom": -78.546875
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -122.546875,
+          "bottom": -78.546875
+        }
+      ]
+    },
+    {
+      "screen": "wallet-history",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Mi Wallet."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Entradas",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -122.546875,
+          "bottom": -78.546875
+        },
+        {
+          "name": "Tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -122.546875,
+          "bottom": -78.546875
+        },
+        {
+          "name": "Historial",
+          "color": "rgb(234, 215, 255)",
+          "bg": "rgb(29, 18, 43)",
+          "radius": "7.2px",
+          "w": 224,
+          "h": 44,
+          "top": -122.546875,
+          "bottom": -78.546875
+        }
+      ]
+    },
+    {
+      "screen": "event-detail",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "After Hours"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Disminuir Entrada General",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(38, 41, 50)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 352.203125,
+          "bottom": 396.203125
+        },
+        {
+          "name": "Aumentar Entrada General",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 50, 244)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 352.203125,
+          "bottom": 396.203125
+        },
+        {
+          "name": "Disminuir Entrada VIP",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(38, 41, 50)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 548.609375,
+          "bottom": 592.609375
+        },
+        {
+          "name": "Aumentar Entrada VIP",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 50, 244)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 548.609375,
+          "bottom": 592.609375
+        }
+      ]
+    },
+    {
+      "screen": "event-detail",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "After Hours"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Disminuir Entrada General",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(38, 41, 50)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 309.171875,
+          "bottom": 353.171875
+        },
+        {
+          "name": "Aumentar Entrada General",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 50, 244)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 309.171875,
+          "bottom": 353.171875
+        },
+        {
+          "name": "Disminuir Entrada VIP",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(38, 41, 50)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 465.890625,
+          "bottom": 509.890625
+        },
+        {
+          "name": "Aumentar Entrada VIP",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 50, 244)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 465.890625,
+          "bottom": 509.890625
+        }
+      ]
+    },
+    {
+      "screen": "event-detail",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "After Hours"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Disminuir Entrada General",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(38, 41, 50)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 377.375,
+          "bottom": 421.375
+        },
+        {
+          "name": "Aumentar Entrada General",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 50, 244)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 377.375,
+          "bottom": 421.375
+        },
+        {
+          "name": "Disminuir Entrada VIP",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(38, 41, 50)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 507.21875,
+          "bottom": 551.21875
+        },
+        {
+          "name": "Aumentar Entrada VIP",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 50, 244)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 507.21875,
+          "bottom": 551.21875
+        }
+      ]
+    },
+    {
+      "screen": "event-detail",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "After Hours"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Disminuir Entrada General",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(38, 41, 50)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 377.375,
+          "bottom": 421.375
+        },
+        {
+          "name": "Aumentar Entrada General",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 50, 244)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 377.375,
+          "bottom": 421.375
+        },
+        {
+          "name": "Disminuir Entrada VIP",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(38, 41, 50)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 507.21875,
+          "bottom": 551.21875
+        },
+        {
+          "name": "Aumentar Entrada VIP",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 50, 244)",
+          "radius": "6.4px",
+          "w": 44,
+          "h": 44,
+          "top": 507.21875,
+          "bottom": 551.21875
+        }
+      ]
+    },
+    {
+      "screen": "ticket-summary",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Tu selecci\u00f3n."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 0,
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "ticket-summary",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Tu selecci\u00f3n."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 0,
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "ticket-summary",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Tu selecci\u00f3n."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 0,
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "ticket-summary",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Tu selecci\u00f3n."
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 0,
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "event-not-found",
+      "width": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "h1": [
+        "Evento no encontrado"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "event-not-found",
+      "width": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "h1": [
+        "Evento no encontrado"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "event-not-found",
+      "width": 768,
+      "scrollWidth": 768,
+      "overflow": false,
+      "h1": [
+        "Evento no encontrado"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "event-not-found",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overflow": false,
+      "h1": [
+        "Evento no encontrado"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": []
+    },
+    {
+      "screen": "empty-cart",
+      "width": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "h1": [
+        "Carrito"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver a tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 113.15625,
+          "h": 29,
+          "top": 16,
+          "bottom": 45
+        },
+        {
+          "name": "Explorar tragos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 153.234375,
+          "h": 44,
+          "top": 264.5,
+          "bottom": 308.5
+        }
+      ]
+    },
+    {
+      "screen": "empty-cart",
+      "width": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "h1": [
+        "Carrito"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver a tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 113.15625,
+          "h": 29,
+          "top": 16,
+          "bottom": 45
+        },
+        {
+          "name": "Explorar tragos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 153.234375,
+          "h": 44,
+          "top": 264.5,
+          "bottom": 308.5
+        }
+      ]
+    },
+    {
+      "screen": "empty-cart",
+      "width": 768,
+      "scrollWidth": 768,
+      "overflow": false,
+      "h1": [
+        "Carrito"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver a tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 113.15625,
+          "h": 29,
+          "top": 24,
+          "bottom": 53
+        },
+        {
+          "name": "Explorar tragos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 153.234375,
+          "h": 44,
+          "top": 254.796875,
+          "bottom": 298.796875
+        }
+      ]
+    },
+    {
+      "screen": "empty-cart",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overflow": false,
+      "h1": [
+        "Carrito"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver a tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 113.15625,
+          "h": 29,
+          "top": 24,
+          "bottom": 53
+        },
+        {
+          "name": "Explorar tragos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 153.234375,
+          "h": 44,
+          "top": 254.796875,
+          "bottom": 298.796875
+        }
+      ]
+    },
+    {
+      "screen": "tragos-selected",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Tragos"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "999px",
+          "w": 67.484375,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Pisco",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 63.625,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Ron",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 53.828125,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Gin",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 50.703125,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        }
+      ]
+    },
+    {
+      "screen": "tragos-selected",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Tragos"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "999px",
+          "w": 67.484375,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Pisco",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 63.625,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Ron",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 53.828125,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        },
+        {
+          "name": "Gin",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 50.703125,
+          "h": 33.5,
+          "top": -85.390625,
+          "bottom": -51.890625
+        }
+      ]
+    },
+    {
+      "screen": "tragos-selected",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Tragos"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "999px",
+          "w": 67.484375,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Pisco",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 63.625,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Ron",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 53.828125,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Gin",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 50.703125,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        }
+      ]
+    },
+    {
+      "screen": "tragos-selected",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Tragos"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 5,
+      "activeNav": 1,
+      "ariaCurrent": "page",
+      "headerTop": 0,
+      "blur": "blur(12px)",
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Todos",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "999px",
+          "w": 67.484375,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Pisco",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 63.625,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Ron",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 53.828125,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        },
+        {
+          "name": "Gin",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgb(23, 23, 29)",
+          "radius": "999px",
+          "w": 50.703125,
+          "h": 33.5,
+          "top": -85.59375,
+          "bottom": -52.09375
+        }
+      ]
+    },
+    {
+      "screen": "cart",
+      "width": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "h1": [
+        "Carrito"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver a tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 113.15625,
+          "h": 29,
+          "top": 16,
+          "bottom": 45
+        },
+        {
+          "name": "Disminuir cantidad de Piscola",
+          "color": "rgb(245, 245, 247)",
+          "bg": "rgb(34, 34, 43)",
+          "radius": "8px",
+          "w": 32,
+          "h": 32,
+          "top": 188.5,
+          "bottom": 220.5
+        },
+        {
+          "name": "Aumentar cantidad de Piscola",
+          "color": "rgb(245, 245, 247)",
+          "bg": "rgb(34, 34, 43)",
+          "radius": "8px",
+          "w": 32,
+          "h": 32,
+          "top": 188.5,
+          "bottom": 220.5
+        },
+        {
+          "name": "Eliminar Piscola del carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 26.671875,
+          "h": 29,
+          "top": 147,
+          "bottom": 176
+        }
+      ]
+    },
+    {
+      "screen": "cart",
+      "width": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "h1": [
+        "Carrito"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver a tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 113.15625,
+          "h": 29,
+          "top": 16,
+          "bottom": 45
+        },
+        {
+          "name": "Disminuir cantidad de Piscola",
+          "color": "rgb(245, 245, 247)",
+          "bg": "rgb(34, 34, 43)",
+          "radius": "8px",
+          "w": 32,
+          "h": 32,
+          "top": 188.5,
+          "bottom": 220.5
+        },
+        {
+          "name": "Aumentar cantidad de Piscola",
+          "color": "rgb(245, 245, 247)",
+          "bg": "rgb(34, 34, 43)",
+          "radius": "8px",
+          "w": 32,
+          "h": 32,
+          "top": 188.5,
+          "bottom": 220.5
+        },
+        {
+          "name": "Eliminar Piscola del carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 26.671875,
+          "h": 29,
+          "top": 147,
+          "bottom": 176
+        }
+      ]
+    },
+    {
+      "screen": "cart",
+      "width": 768,
+      "scrollWidth": 768,
+      "overflow": false,
+      "h1": [
+        "Carrito"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver a tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 113.15625,
+          "h": 29,
+          "top": 24,
+          "bottom": 53
+        },
+        {
+          "name": "Disminuir cantidad de Piscola",
+          "color": "rgb(245, 245, 247)",
+          "bg": "rgb(34, 34, 43)",
+          "radius": "8px",
+          "w": 32,
+          "h": 32,
+          "top": 158.296875,
+          "bottom": 190.296875
+        },
+        {
+          "name": "Aumentar cantidad de Piscola",
+          "color": "rgb(245, 245, 247)",
+          "bg": "rgb(34, 34, 43)",
+          "radius": "8px",
+          "w": 32,
+          "h": 32,
+          "top": 158.296875,
+          "bottom": 190.296875
+        },
+        {
+          "name": "Eliminar Piscola del carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 26.671875,
+          "h": 29,
+          "top": 159.796875,
+          "bottom": 188.796875
+        }
+      ]
+    },
+    {
+      "screen": "cart",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overflow": false,
+      "h1": [
+        "Carrito"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver a tragos",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 113.15625,
+          "h": 29,
+          "top": 24,
+          "bottom": 53
+        },
+        {
+          "name": "Disminuir cantidad de Piscola",
+          "color": "rgb(245, 245, 247)",
+          "bg": "rgb(34, 34, 43)",
+          "radius": "8px",
+          "w": 32,
+          "h": 32,
+          "top": 158.296875,
+          "bottom": 190.296875
+        },
+        {
+          "name": "Aumentar cantidad de Piscola",
+          "color": "rgb(245, 245, 247)",
+          "bg": "rgb(34, 34, 43)",
+          "radius": "8px",
+          "w": 32,
+          "h": 32,
+          "top": 158.296875,
+          "bottom": 190.296875
+        },
+        {
+          "name": "Eliminar Piscola del carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 26.671875,
+          "h": 29,
+          "top": 159.796875,
+          "bottom": 188.796875
+        }
+      ]
+    },
+    {
+      "screen": "checkout",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Checkout"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver al carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 117.1875,
+          "h": 29,
+          "top": -114,
+          "bottom": -85
+        },
+        {
+          "name": "Preparar pedido",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 239,
+          "h": 48,
+          "top": 438,
+          "bottom": 486
+        }
+      ]
+    },
+    {
+      "screen": "checkout",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Checkout"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver al carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 117.1875,
+          "h": 29,
+          "top": -34,
+          "bottom": -5
+        },
+        {
+          "name": "Preparar pedido",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 309,
+          "h": 48,
+          "top": 480.5,
+          "bottom": 528.5
+        }
+      ]
+    },
+    {
+      "screen": "checkout",
+      "width": 768,
+      "scrollWidth": 768,
+      "overflow": false,
+      "h1": [
+        "Checkout"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver al carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 117.1875,
+          "h": 29,
+          "top": 24,
+          "bottom": 53
+        },
+        {
+          "name": "Preparar pedido",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 646,
+          "h": 48,
+          "top": 523.796875,
+          "bottom": 571.796875
+        }
+      ]
+    },
+    {
+      "screen": "checkout",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overflow": false,
+      "h1": [
+        "Checkout"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver al carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 117.1875,
+          "h": 29,
+          "top": 24,
+          "bottom": 53
+        },
+        {
+          "name": "Preparar pedido",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 646,
+          "h": 48,
+          "top": 523.796875,
+          "bottom": 571.796875
+        }
+      ]
+    },
+    {
+      "screen": "checkout-prepared",
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false,
+      "h1": [
+        "Checkout"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver al carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 117.1875,
+          "h": 29,
+          "top": -840,
+          "bottom": -811
+        },
+        {
+          "name": "Preparar pedido",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 239,
+          "h": 48,
+          "top": -288,
+          "bottom": -240
+        },
+        {
+          "name": "Pagar con Fintoc \u00b7 Sandbox",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(118, 37, 230)",
+          "radius": "8px",
+          "w": 239,
+          "h": 48,
+          "top": 292,
+          "bottom": 340
+        }
+      ]
+    },
+    {
+      "screen": "checkout-prepared",
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false,
+      "h1": [
+        "Checkout"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver al carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 117.1875,
+          "h": 29,
+          "top": -687,
+          "bottom": -658
+        },
+        {
+          "name": "Preparar pedido",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 309,
+          "h": 48,
+          "top": -172.5,
+          "bottom": -124.5
+        },
+        {
+          "name": "Pagar con Fintoc \u00b7 Sandbox",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(118, 37, 230)",
+          "radius": "8px",
+          "w": 309,
+          "h": 48,
+          "top": 347.5,
+          "bottom": 395.5
+        }
+      ]
+    },
+    {
+      "screen": "checkout-prepared",
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false,
+      "h1": [
+        "Checkout"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver al carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 117.1875,
+          "h": 29,
+          "top": -586,
+          "bottom": -557
+        },
+        {
+          "name": "Preparar pedido",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 646,
+          "h": 48,
+          "top": -86.203125,
+          "bottom": -38.203125
+        },
+        {
+          "name": "Pagar con Fintoc \u00b7 Sandbox",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(118, 37, 230)",
+          "radius": "8px",
+          "w": 646,
+          "h": 48,
+          "top": 412.796875,
+          "bottom": 460.796875
+        }
+      ]
+    },
+    {
+      "screen": "checkout-prepared",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overflow": false,
+      "h1": [
+        "Checkout"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Volver al carrito",
+          "color": "rgb(161, 161, 170)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "radius": "0px",
+          "w": 117.1875,
+          "h": 29,
+          "top": -586,
+          "bottom": -557
+        },
+        {
+          "name": "Preparar pedido",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(124, 58, 237)",
+          "radius": "8px",
+          "w": 646,
+          "h": 48,
+          "top": -86.203125,
+          "bottom": -38.203125
+        },
+        {
+          "name": "Pagar con Fintoc \u00b7 Sandbox",
+          "color": "rgb(255, 255, 255)",
+          "bg": "rgb(118, 37, 230)",
+          "radius": "8px",
+          "w": 646,
+          "h": 48,
+          "top": 412.796875,
+          "bottom": 460.796875
+        }
+      ]
+    },
+    {
+      "screen": "payment-return",
+      "width": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "h1": [
+        "Resultado de Fintoc Sandbox"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Verificar estado",
+          "color": "rgb(230, 207, 250)",
+          "bg": "rgb(32, 17, 46)",
+          "radius": "8px",
+          "w": 139.671875,
+          "h": 44,
+          "top": 303.125,
+          "bottom": 347.125
+        },
+        {
+          "name": "Continuar el mismo intento",
+          "color": "rgb(230, 207, 250)",
+          "bg": "rgb(32, 17, 46)",
+          "radius": "8px",
+          "w": 220.40625,
+          "h": 44,
+          "top": 363.125,
+          "bottom": 407.125
+        }
+      ]
+    },
+    {
+      "screen": "payment-return",
+      "width": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "h1": [
+        "Resultado de Fintoc Sandbox"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Verificar estado",
+          "color": "rgb(230, 207, 250)",
+          "bg": "rgb(32, 17, 46)",
+          "radius": "8px",
+          "w": 139.671875,
+          "h": 44,
+          "top": 280.734375,
+          "bottom": 324.734375
+        },
+        {
+          "name": "Continuar el mismo intento",
+          "color": "rgb(230, 207, 250)",
+          "bg": "rgb(32, 17, 46)",
+          "radius": "8px",
+          "w": 220.40625,
+          "h": 44,
+          "top": 340.734375,
+          "bottom": 384.734375
+        }
+      ]
+    },
+    {
+      "screen": "payment-return",
+      "width": 768,
+      "scrollWidth": 768,
+      "overflow": false,
+      "h1": [
+        "Resultado de Fintoc Sandbox"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Verificar estado",
+          "color": "rgb(230, 207, 250)",
+          "bg": "rgb(32, 17, 46)",
+          "radius": "8px",
+          "w": 139.671875,
+          "h": 44,
+          "top": 235.953125,
+          "bottom": 279.953125
+        },
+        {
+          "name": "Continuar el mismo intento",
+          "color": "rgb(230, 207, 250)",
+          "bg": "rgb(32, 17, 46)",
+          "radius": "8px",
+          "w": 220.40625,
+          "h": 44,
+          "top": 235.953125,
+          "bottom": 279.953125
+        }
+      ]
+    },
+    {
+      "screen": "payment-return",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overflow": false,
+      "h1": [
+        "Resultado de Fintoc Sandbox"
+      ],
+      "font": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif",
+      "background": "rgb(11, 11, 15)",
+      "navCount": 0,
+      "activeNav": 0,
+      "headerTop": null,
+      "blur": null,
+      "brokenImages": [],
+      "namelessControls": [],
+      "smallControls": [],
+      "gradients": 0,
+      "buttons": [
+        {
+          "name": "Verificar estado",
+          "color": "rgb(230, 207, 250)",
+          "bg": "rgb(32, 17, 46)",
+          "radius": "8px",
+          "w": 139.671875,
+          "h": 44,
+          "top": 235.953125,
+          "bottom": 279.953125
+        },
+        {
+          "name": "Continuar el mismo intento",
+          "color": "rgb(230, 207, 250)",
+          "bg": "rgb(32, 17, 46)",
+          "radius": "8px",
+          "w": 220.40625,
+          "h": 44,
+          "top": 235.953125,
+          "bottom": 279.953125
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    "inicio-390.png",
+    "inicio-1280.png",
+    "noches-390.png",
+    "noches-1280.png",
+    "tragos-390.png",
+    "tragos-1280.png",
+    "wallet-tickets-390.png",
+    "wallet-tickets-1280.png",
+    "perfil-390.png",
+    "perfil-1280.png",
+    "perfil-edit-390.png",
+    "perfil-edit-1280.png",
+    "wallet-drinks-390.png",
+    "wallet-drinks-1280.png",
+    "wallet-history-390.png",
+    "wallet-history-1280.png",
+    "event-detail-390.png",
+    "event-detail-1280.png",
+    "ticket-summary-390.png",
+    "ticket-summary-1280.png",
+    "tragos-selected-390.png",
+    "tragos-selected-1280.png",
+    "cart-390.png",
+    "cart-1280.png",
+    "checkout-390.png",
+    "checkout-1280.png",
+    "checkout-prepared-390.png",
+    "checkout-prepared-1280.png",
+    "fintoc-provider-1280.png",
+    "payment-return-390.png",
+    "payment-return-1280.png"
+  ],
+  "keyboard": [
+    {
+      "check": "Wallet ArrowRight",
+      "selected": "wallet-tab-drinks",
+      "focused": "wallet-tab-drinks"
+    },
+    {
+      "check": "Wallet details Enter",
+      "result": "PASS"
+    },
+    {
+      "check": "First Tab",
+      "tag": "A",
+      "name": "Ir al inicio de Club VOID",
+      "outline": "solid"
+    }
+  ],
+  "flows": {
+    "profileInvalidName": "PASS",
+    "walletBefore": {
+      "tickets": "3",
+      "drinks": "4",
+      "refs": [
+        "DEMO-ENT-001",
+        "DEMO-ENT-002",
+        "DEMO-ENT-003"
+      ]
+    },
+    "profileRetained": "PASS",
+    "profileReloadReset": "PASS",
+    "ticketTotal": "2 General + 1 VIP = 49000 CLP",
+    "ticketModify": "PASS",
+    "expiredTicketSelectionBlocked": "PASS",
+    "invalidEvent": "PASS",
+    "emptyTicketGuard": "PASS",
+    "emptyCartGuard": "PASS",
+    "searchEmpty": "PASS",
+    "orderPrepared": {
+      "status": "pending_payment",
+      "total": 14000
+    },
+    "pendingDoesNotIssueWallet": {
+      "before": {
+        "tickets": "3",
+        "drinks": "4",
+        "refs": [
+          "DEMO-ENT-001",
+          "DEMO-ENT-002",
+          "DEMO-ENT-003"
+        ]
+      },
+      "after": {
+        "tickets": "3",
+        "drinks": "4",
+        "refs": [
+          "DEMO-ENT-001",
+          "DEMO-ENT-002",
+          "DEMO-ENT-003"
+        ]
+      },
+      "result": "PASS"
+    },
+    "provider": {
+      "host": "test.pay.fintoc.com",
+      "title": "Paga con Fintoc",
+      "hasError": false
+    },
+    "providerReturnButton": "Volver a CODETEC",
+    "returnHost": "localhost",
+    "queryCannotConfirmPayment": "PASS",
+    "invalidReturnReference": "PASS"
+  },
+  "errors": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "check": "Last product versus fixed summary at max scroll",
+      "productBottom": 675.90625,
+      "summaryTop": 678.5,
+      "overlap": false
+    }
+  ],
+  "paid": false,
+  "result": "PASS"
+}

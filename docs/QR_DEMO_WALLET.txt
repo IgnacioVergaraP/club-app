@@ -1,0 +1,103 @@
+CLUB VOID — QR DEMO EN WALLET CON LOGO VOID
+Fecha: 10-11-2026
+Alcance adicional autorizado por el Product Owner después de la auditoría 3.6.
+No sustituye los checkpoints históricos ni asigna automáticamente una etapa 3.7.
+
+ESTADO ACTUAL — QR PARA TODOS LOS REGISTROS DEMO
+- Se eliminó el botón de pausar/reanudar por solicitud del Product Owner.
+- Entradas: DEMO-ENT-001/002/003, payloads VOID:DEMO:ENT:001/002/003.
+- Consumos: DEMO-CON-001/002/003, payloads VOID:DEMO:CON:001/002/003.
+- Los QR siguen dentro de los detalles, cerrados por defecto.
+- Disponible/Pendiente: logo central visible. Utilizada/Canjeado/Vencida/Vencido: el mismo badge de estado de la tarjeta, con los mismos colores, superpuesto sobre el logo en el centro del QR.
+- El borde animado continúa y respeta prefers-reduced-motion. Sin control de pausa manual.
+- Los badges son indicaciones visuales. Tapar el logo no revoca un código ni garantiza que deje de ser legible. No hay validación o canje real.
+- Referencias desconocidas siguen sin generar imagen. No se cambiaron estados, cantidades ni reglas de pago.
+
+Última verificación:
+- Angular: 109/109 pruebas aprobadas.
+- Build de despliegue aprobado: 702,23 kB iniciales, transferencia estimada 140,23 kB; advertencias previas conservadas.
+- Chrome: ocho combinaciones de sección/ancho (320/390/768/1280), tres QR en cada sección, sin scroll horizontal ni botones de pausa; badges centrados, con etiqueta y fondo iguales a los del estado de la tarjeta.
+- Sin excepciones ni HTTP >=400 capturados. Historial sin QR.
+- Evidencia: qr-states.json, drinks-status-1-390.png (Canjeado) y tickets-status-2-390.png (Vencida), dentro de docs/visual-review/qr-demo/.
+- Cuatro SVG adicionales creados por el generador local existente; sin instalar dependencias ni cambios de backend/credenciales.
+
+HISTORIAL DE IMPLEMENTACIÓN — las versiones siguientes describen el estado anterior a esta actualización.
+
+RESULTADO
+Se incorporaron dos QR de demostración, con el logo vectorial existente de VOID en el centro:
+- Entrada disponible DEMO-ENT-001: VOID:DEMO:ENT:001.
+- Consumo pendiente DEMO-CON-001 (Piscola x2): VOID:DEMO:CON:001.
+El segundo corresponde al registro ilustrativo de dos unidades; no descuenta unidades ni implementa canjes.
+
+Solo aparecen para esas referencias locales si el registro está identificado como DEMO y su estado es available/pending, respectivamente. No aparecen en entradas utilizadas/vencidas, consumos canjeados/vencidos o Historial. Referencias desconocidas no generan un código.
+Se respetan los estados estáticos de los mocks; no se alteraron las fechas históricas del evento. Disponible/Pendiente siguen siendo ejemplos sin validez real.
+
+Ubicación actual: dentro de «Ver detalles de demostración», cerrado por defecto en cada tarjeta. El QR y su leyenda se muestran al desplegar los detalles.
+
+Cada imagen tiene texto alternativo y una leyenda externa:
+QR de demostración
+Referencia codificada legible
+DEMO · Sin validez para ingresar o retirar bebidas
+El aviso no cubre módulos del código.
+
+IMPLEMENTACIÓN
+Assets SVG locales precomputados. QR versión 3, corrección H y quiet zone de cuatro módulos. Patrón negro/blanco, placa blanca central de 9 x 5 módulos y logo copiado del vector del header. No se modificó el header ni se utilizó un servicio externo de generación.
+Tamaño mostrado: 222 x 222 px, con max-width:100% y altura automática. Componente reutilizable dentro de NgModules, standalone:false. Estilos propios para no aumentar el SCSS de Wallet, que ya estaba cerca del presupuesto de 4 kB. No se cambiaron presupuestos de compilación.
+
+El script de generación se ejecutó puntualmente con qrcode 8.2, que ya estaba disponible en el equipo. No es parte del build/deploy ni una dependencia de Angular/Flask; las imágenes ya están en assets. No se instalaron ni actualizaron paquetes.
+
+INDEPENDENCIA DE PAGOS
+No se modificaron WalletService, mocks, pedidos, backend o Fintoc. Los QR existen como dos muestras estáticas: no se crean por pagar ni por pending_payment, no contienen datos personales, URLs, claves, firmas o tokens y no autorizan ingreso/retiro.
+No hay lector, endpoint de validación, persistencia ni acciones de uso/canje. Los QR reales futuros deberán emitirse y validarse desde backend con persistencia y pago confirmado; no deben reutilizar estas referencias de ejemplo.
+
+VERIFICACIÓN
+- Suite Angular completa: 108/108 aprobadas (dos pruebas de Wallet nuevas).
+- Cobertura: referencias/estados correctos, leyendas, assets, alternativa textual, ausencia en Historial, ocultación al usar/canjear, referencias desconocidas y ausencia de mutación de mocks.
+- Build de producción de despliegue: aprobado; 700,01 kB iniciales, transferencia estimada 139,74 kB. Permanecen las advertencias previas de tamaño/Bootstrap. Wallet SCSS no se modificó.
+- Chrome real local: dos secciones por cuatro anchos (320/390/768/1280), ocho combinaciones sin scroll horizontal ni imágenes rotas. Indicadores 3 entradas/4 unidades conservados. Teclado de pestañas operativo. Sin excepciones ni recursos HTTP >=400 capturados.
+- Los ocho SVG renderizados en Chrome a 222 px, incluido el logo, se decodificaron con OpenCV QRCodeDetector: payload esperado en 8/8 casos.
+- La entrada del decodificador es el SVG completo rasterizado por canvas del navegador, sin retirar el logo. No es un QR sin marca ni una imagen inventada para la prueba.
+- Un primer recorte de pantalla incluía la navegación inferior y falló al decodificar. Se corrigió la captura de verificación, no el QR: gráfico completo a tamaño real y capturas centradas. Las capturas de página completa pueden mostrar la barra fija a la altura original del viewport.
+- No se probó lectura con una cámara física iPhone/Android. La corrección H y la lectura automática no garantizan todos los dispositivos o condiciones de iluminación; queda prueba manual pendiente.
+- No se repitió Flask: no hay cambios de backend ni de pagos en este alcance.
+- package.json, package-lock.json, requirements.txt y backend/.env permanecen sin cambios respecto de la comprobación previa.
+
+ARCHIVOS
+Creados:
+- frontend/src/app/components/demo-qr/demo-qr.component.ts
+- frontend/src/assets/qr-demo/ticket-001.svg
+- frontend/src/assets/qr-demo/drink-001.svg
+- frontend/scripts/generate-demo-qr.py
+- docs/QR_DEMO_WALLET.txt
+- docs/visual-review/qr-demo/: informes browser/decoding, ocho rasterizaciones de QR, vistas Wallet/capturas centradas y script reproducible de revisión.
+Modificados:
+- frontend/src/app/app.module.ts: declaración del componente.
+- frontend/src/app/pages/wallet/wallet.component.html: presentación condicional.
+- frontend/src/app/pages/wallet/wallet.component.spec.ts: pruebas integradas con componente real.
+
+EVIDENCIA Y LÍMITES
+- docs/visual-review/qr-demo/qr-browser.json
+- docs/visual-review/qr-demo/qr-decoding.json
+- docs/visual-review/qr-demo/ticket-focused-390.png
+- docs/visual-review/qr-demo/drink-focused-390.png
+Las capturas guardadas corresponden a la presentación inicial del QR; su ubicación se cambió posteriormente al interior de los detalles por instrucción del Product Owner. El script de revisión abre ahora el desplegable para inspeccionarlo.
+Revisión física y visual final por el Product Owner pendiente. No se declara emisión de compras reales ni validez comercial. Los riesgos de arquitectura y seguridad diagnosticados en 3.6 siguen abiertos.
+
+Referencia de la herramienta de generación:
+https://github.com/lincolnloop/python-qrcode
+
+ACTUALIZACIÓN — BORDE CON MOVIMIENTO (10-11-2026)
+Por solicitud del Product Owner, se añadió un borde morado con un segmento que recorre el contorno en seis segundos. Está fuera de la imagen y de su margen blanco: el patrón y el logo permanecen estáticos.
+Los QR continúan dentro de los detalles, cerrados por defecto. Incluyen Pausar animación/Reanudar animación. Con prefers-reduced-motion:reduce se desactiva la animación y se oculta el control, porque ya no es necesario pausarla.
+Es una decoración DEMO. No verifica que la pantalla esté en vivo, no invalida pantallazos y no impide copiar/reutilizar el QR. La protección real futura requiere validación de backend y control de uso; no se implementó en este cambio.
+
+Verificación de la actualización:
+- Suite Angular completa: 108/108 aprobadas.
+- Build de despliegue: aprobado; 701,63 kB iniciales, transferencia estimada 140,17 kB. Se mantienen las advertencias previas; sin aumentar presupuestos.
+- Chrome: segmento cambia de posición, pausa lo detiene y reanudar lo activa.
+- La rasterización de la imagen QR es idéntica antes/después del movimiento y de la pausa.
+- Emulación de movimiento reducido: animation-name:none y control oculto.
+- Entradas/consumos revisados a 320/390/768/1280 px, ocho combinaciones sin scroll horizontal; sin excepciones capturadas.
+- Sin cambios de backend, SVG codificados, dependencias, credenciales o pagos.
+Evidencia adicional: docs/visual-review/qr-demo/qr-motion.json y drink-motion-390.png.
+Archivos de esta actualización: demo-qr.component.ts y wallet.component.spec.ts, más esta documentación/evidencia.

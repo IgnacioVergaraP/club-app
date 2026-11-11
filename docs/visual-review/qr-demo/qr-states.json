@@ -1,0 +1,242 @@
+{
+  "date": "2026-11-10",
+  "browser": "Chrome Headless real, isolated profile; local Angular development and Flask",
+  "matrix": [
+    {
+      "section": "tickets",
+      "width": 320,
+      "scrollWidth": 305,
+      "count": 3,
+      "buttons": 0,
+      "states": [
+        {
+          "status": "Disponible",
+          "overlay": false
+        },
+        {
+          "status": "Utilizada",
+          "overlay": true,
+          "label": "Utilizada",
+          "centered": true,
+          "sameBackground": true
+        },
+        {
+          "status": "Vencida",
+          "overlay": true,
+          "label": "Vencida",
+          "centered": true,
+          "sameBackground": true
+        }
+      ]
+    },
+    {
+      "section": "tickets",
+      "width": 390,
+      "scrollWidth": 375,
+      "count": 3,
+      "buttons": 0,
+      "states": [
+        {
+          "status": "Disponible",
+          "overlay": false
+        },
+        {
+          "status": "Utilizada",
+          "overlay": true,
+          "label": "Utilizada",
+          "centered": true,
+          "sameBackground": true
+        },
+        {
+          "status": "Vencida",
+          "overlay": true,
+          "label": "Vencida",
+          "centered": true,
+          "sameBackground": true
+        }
+      ]
+    },
+    {
+      "section": "tickets",
+      "width": 768,
+      "scrollWidth": 753,
+      "count": 3,
+      "buttons": 0,
+      "states": [
+        {
+          "status": "Disponible",
+          "overlay": false
+        },
+        {
+          "status": "Utilizada",
+          "overlay": true,
+          "label": "Utilizada",
+          "centered": true,
+          "sameBackground": true
+        },
+        {
+          "status": "Vencida",
+          "overlay": true,
+          "label": "Vencida",
+          "centered": true,
+          "sameBackground": true
+        }
+      ]
+    },
+    {
+      "section": "tickets",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "count": 3,
+      "buttons": 0,
+      "states": [
+        {
+          "status": "Disponible",
+          "overlay": false
+        },
+        {
+          "status": "Utilizada",
+          "overlay": true,
+          "label": "Utilizada",
+          "centered": true,
+          "sameBackground": true
+        },
+        {
+          "status": "Vencida",
+          "overlay": true,
+          "label": "Vencida",
+          "centered": true,
+          "sameBackground": true
+        }
+      ]
+    },
+    {
+      "section": "drinks",
+      "width": 320,
+      "scrollWidth": 305,
+      "count": 3,
+      "buttons": 0,
+      "states": [
+        {
+          "status": "Pendiente de canje",
+          "overlay": false
+        },
+        {
+          "status": "Canjeado",
+          "overlay": true,
+          "label": "Canjeado",
+          "centered": true,
+          "sameBackground": true
+        },
+        {
+          "status": "Vencido",
+          "overlay": true,
+          "label": "Vencido",
+          "centered": true,
+          "sameBackground": true
+        }
+      ]
+    },
+    {
+      "section": "drinks",
+      "width": 390,
+      "scrollWidth": 375,
+      "count": 3,
+      "buttons": 0,
+      "states": [
+        {
+          "status": "Pendiente de canje",
+          "overlay": false
+        },
+        {
+          "status": "Canjeado",
+          "overlay": true,
+          "label": "Canjeado",
+          "centered": true,
+          "sameBackground": true
+        },
+        {
+          "status": "Vencido",
+          "overlay": true,
+          "label": "Vencido",
+          "centered": true,
+          "sameBackground": true
+        }
+      ]
+    },
+    {
+      "section": "drinks",
+      "width": 768,
+      "scrollWidth": 753,
+      "count": 3,
+      "buttons": 0,
+      "states": [
+        {
+          "status": "Pendiente de canje",
+          "overlay": false
+        },
+        {
+          "status": "Canjeado",
+          "overlay": true,
+          "label": "Canjeado",
+          "centered": true,
+          "sameBackground": true
+        },
+        {
+          "status": "Vencido",
+          "overlay": true,
+          "label": "Vencido",
+          "centered": true,
+          "sameBackground": true
+        }
+      ]
+    },
+    {
+      "section": "drinks",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "count": 3,
+      "buttons": 0,
+      "states": [
+        {
+          "status": "Pendiente de canje",
+          "overlay": false
+        },
+        {
+          "status": "Canjeado",
+          "overlay": true,
+          "label": "Canjeado",
+          "centered": true,
+          "sameBackground": true
+        },
+        {
+          "status": "Vencido",
+          "overlay": true,
+          "label": "Vencido",
+          "centered": true,
+          "sameBackground": true
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    "tickets-status-0-390.png",
+    "tickets-status-1-390.png",
+    "tickets-status-2-390.png",
+    "drinks-status-0-390.png",
+    "drinks-status-1-390.png",
+    "drinks-status-2-390.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "check": "History has no QR",
+      "result": "PASS"
+    }
+  ],
+  "paid": false,
+  "result": "PASS"
+}

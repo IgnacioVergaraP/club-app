@@ -1,0 +1,87 @@
+{
+  "tool": "OpenCV QRCodeDetector",
+  "input": "Complete SVG rendered by Chrome canvas at displayed 222px, central logo included",
+  "results": [
+    {
+      "file": "ticket-qr-320.png",
+      "expected": "VOID:DEMO:ENT:001",
+      "decoded": "VOID:DEMO:ENT:001",
+      "readable": true,
+      "size": [
+        222,
+        222
+      ]
+    },
+    {
+      "file": "ticket-qr-390.png",
+      "expected": "VOID:DEMO:ENT:001",
+      "decoded": "VOID:DEMO:ENT:001",
+      "readable": true,
+      "size": [
+        222,
+        222
+      ]
+    },
+    {
+      "file": "ticket-qr-768.png",
+      "expected": "VOID:DEMO:ENT:001",
+      "decoded": "VOID:DEMO:ENT:001",
+      "readable": true,
+      "size": [
+        222,
+        222
+      ]
+    },
+    {
+      "file": "ticket-qr-1280.png",
+      "expected": "VOID:DEMO:ENT:001",
+      "decoded": "VOID:DEMO:ENT:001",
+      "readable": true,
+      "size": [
+        222,
+        222
+      ]
+    },
+    {
+      "file": "drink-qr-320.png",
+      "expected": "VOID:DEMO:CON:001",
+      "decoded": "VOID:DEMO:CON:001",
+      "readable": true,
+      "size": [
+        222,
+        222
+      ]
+    },
+    {
+      "file": "drink-qr-390.png",
+      "expected": "VOID:DEMO:CON:001",
+      "decoded": "VOID:DEMO:CON:001",
+      "readable": true,
+      "size": [
+        222,
+        222
+      ]
+    },
+    {
+      "file": "drink-qr-768.png",
+      "expected": "VOID:DEMO:CON:001",
+      "decoded": "VOID:DEMO:CON:001",
+      "readable": true,
+      "size": [
+        222,
+        222
+      ]
+    },
+    {
+      "file": "drink-qr-1280.png",
+      "expected": "VOID:DEMO:CON:001",
+      "decoded": "VOID:DEMO:CON:001",
+      "readable": true,
+      "size": [
+        222,
+        222
+      ]
+    }
+  ],
+  "allReadable": true
+}

@@ -1,0 +1,175 @@
+CLUB VOID — CHECKPOINT 3.5
+Perfil del cliente
+Fecha: 04-11-2026
+
+OBJETIVO
+Transformar /perfil en una pantalla de cuenta ficticia con información personal, compras, preferencias e información de Club VOID. Permitir editar nombre y teléfono con Reactive Forms, conservando cambios únicamente en memoria durante la navegación de la aplicación.
+
+ESTADO
+Completada técnicamente como demostración. Pendiente de revisión visual del Product Owner y aprobación del arquitecto. Trabajo limitado a 3.5; no se avanzó a 3.6.
+
+ARCHIVOS CREADOS
+- frontend/src/app/models/profile.model.ts
+- frontend/src/app/data/mock-profile.ts
+- frontend/src/app/services/profile.service.ts
+- frontend/src/app/services/profile.service.spec.ts
+- frontend/src/app/pages/perfil/perfil.component.spec.ts
+- docs/CHECKPOINT_3_5.txt
+Evidencia:
+- docs/visual-review/profile-integration-35.json
+- docs/visual-review/profile-read-390-35.png
+- docs/visual-review/profile-read-1280-35.png
+- docs/visual-review/profile-edit-390-35.png
+- docs/visual-review/profile-edit-1280-35.png
+- docs/visual-review/wallet-tickets-390-35.png
+- docs/visual-review/wallet-tickets-1280-35.png
+- docs/visual-review/wallet-drinks-390-35.png
+- docs/visual-review/wallet-drinks-1280-35.png
+- docs/visual-review/wallet-history-390-35.png
+- docs/visual-review/wallet-history-1280-35.png
+Las capturas Wallet son evidencia de regresión de esta etapa, sin cambios en su implementación. Se conservaron las capturas y el checkpoint de 3.4.
+
+ARCHIVOS MODIFICADOS
+- frontend/src/app/pages/perfil/perfil.component.ts
+- frontend/src/app/pages/perfil/perfil.component.html
+- frontend/src/app/pages/perfil/perfil.component.scss
+No se modificaron backend, Fintoc, checkout, Wallet, API de pedidos, catálogo, selección de entradas, rutas, AppModule ni dependencias. Comparación SHA-256 contra la captura previa de 135 archivos existentes fuera de Perfil: cero diferencias. La comparación cubre frontend/src, Python del backend, package.json, package-lock.json y angular.json; no lee ni expone las claves de .env.
+
+MODELOS Y SERVICIOS
+DemoProfile: nombre, correo, teléfono opcional, fecha de nacimiento opcional, accountStatus literal DEMO y preferencias booleanas de notificaciones/comunicaciones.
+ProfileEdit: contrato limitado a nombre y teléfono.
+PROFILE_LIMITS: nombre máximo 80 caracteres, teléfono máximo 24 caracteres de presentación.
+validProfilePhone: validación compartida entre formulario y servicio. Permite teléfono vacío o 8 a 15 dígitos con + inicial, espacios, guiones y paréntesis. No comprueba existencia, propiedad ni disponibilidad del número.
+MOCK_PROFILE: Alex Demo, alex.demo@example.com, cuenta DEMO, ambas preferencias desactivadas. Teléfono y fecha de nacimiento inicialmente ausentes, mostrados como No indicado/No indicada. No utiliza datos del Product Owner.
+ProfileService: providedIn root, BehaviorSubject privado y profile$ como Observable. Cada emisión entrega una copia del perfil y sus preferencias para evitar mutaciones externas del estado. updateDetails valida y normaliza los campos; updatePreference modifica solo la preferencia seleccionada.
+El servicio mantiene cambios mientras viva la instancia de la aplicación. Navegar entre rutas conserva los datos; recargar crea una nueva instancia y recupera el mock inicial. No usa HTTP, localStorage, sessionStorage, cookies ni otra persistencia.
+
+COMPONENTE Y FUNCIONALIDADES
+PerfilComponent permanece en NgModules con standalone:false. ReactiveFormsModule ya estaba importado; no se alteró la arquitectura.
+Información personal:
+- Avatar con iniciales calculadas desde el nombre.
+- Nombre y correo provenientes del servicio, sin valores personales incrustados en HTML.
+- Identificación Cuenta DEMO y aviso para usar datos de ejemplo.
+Mis datos:
+- Consulta de nombre, correo, teléfono y fecha opcional.
+- Editar datos demo abre formulario Reactive Forms para nombre y teléfono.
+- Nombre obligatorio, no admite solo espacios; máximo 80 caracteres.
+- Teléfono opcional con validación de formato y longitud.
+- Etiquetas asociadas a los inputs, ayudas, errores de campo y aria-invalid.
+- Aplicar cambios demo conserva temporalmente los campos y actualiza nombre/iniciales.
+- Cancelar descarta el borrador. Al volver a editar se carga el último valor aplicado.
+- Mensajes de resultado mediante role=status y error de aplicación mediante role=alert. Un fallo conserva el formulario para reintentar.
+Mis compras:
+- Acceso directo a /wallet mediante RouterLink.
+- Explicación de historial de demostración y de que pago pendiente no equivale a compra pagada.
+- No consulta ni convierte pedidos en compras.
+Preferencias:
+- Dos checkboxes funcionales de demostración: notificaciones y comunicaciones por correo.
+- Valores conservados en el servicio en memoria.
+- No solicita permisos del dispositivo ni suscribe o envía mensajes.
+Información:
+- Acerca de Club VOID.
+- Términos y condiciones pendientes de revisión/publicación.
+- Política de privacidad pendiente de revisión/publicación.
+- Consumo responsable y experiencia para mayores de 18 años, con aclaración de que el perfil/fecha de ejemplo no acredita edad.
+- Secciones desplegables nativas details/summary. No se redactaron textos legales definitivos ni se implementó verificación de edad.
+Estados:
+- Opcionales ausentes con texto explícito.
+- Carga y error de consulta con Reintentar, previstos en la capa de presentación.
+- La fuente actual es inmediata y local; esos estados de consulta se probaron con Observables controlados en tests, no contra una API real.
+
+DISEÑO
+Negro predominante, morado sólido, sin degradados, tarjetas compactas, identidad con avatar junto a los datos, controles de al menos 44 px de altura para entradas/botones y foco visible. Se conservan el layout existente de máximo 720 px, header sticky translúcido y navegación inferior de cinco pestañas. Los textos largos del perfil pueden partirse sin ensanchar la página.
+No se modificaron los estilos de otras pantallas ni los presupuestos de compilación.
+
+VERIFICACIÓN ANTES DE MODIFICAR
+- Inspección de Perfil provisional, AppModule y archivos del workspace.
+- npm test -- --watch=false --browsers=ChromeHeadless: 75/75 aprobadas.
+- npm run build -- --configuration development: aprobado, aproximadamente 1,96 MB iniciales.
+- Se capturaron hashes de archivos existentes fuera del componente Perfil para controlar el alcance.
+
+PRUEBAS AUTOMATIZADAS DESPUÉS
+Comando: npm test -- --watch=false --browsers=ChromeHeadless
+Resultado: 85/85 aprobadas. Se agregaron 10 pruebas: 3 de ProfileService y 7 de PerfilComponent.
+Servicio:
+- Datos y preferencias en memoria, copias sin mutación compartida y nueva instancia con valores iniciales.
+- Rechazo de nombres vacíos/largos y teléfonos inválidos sin alterar el estado.
+- Eliminación del teléfono opcional y ausencia de escrituras en Storage.setItem.
+Componente:
+- Identidad ficticia, secciones, campos opcionales vacíos, enlace Wallet e información de edad/legal pendiente.
+- Validación de nombre y teléfono e identidad sin cambios ante formulario inválido.
+- Datos y preferencias retenidos al destruir y recrear la página con el mismo servicio.
+- Cancelar y volver a editar.
+- Error al aplicar datos y posterior reintento.
+- Carga de consulta con Subject y llegada posterior del perfil.
+- Error de consulta y Reintentar con recuperación.
+Las pruebas previas de Noches, selección de entradas, Tragos, Checkout, Fintoc y Wallet siguen incluidas en la suite completa.
+
+COMPILACIONES FINALES
+- npm run build -- --configuration development: aprobado, total inicial aproximado 1,99 MB.
+- npm run build: aprobado, total inicial 686,91 kB; transferencia estimada 137,26 kB.
+Advertencias observadas:
+- Bundle inicial supera el umbral de advertencia de 500 kB por 186,91 kB.
+- Perfil SCSS: 2,68 kB, supera advertencia de 2 kB y permanece bajo el límite de error de 4 kB.
+- Se mantienen advertencias SCSS de Inicio, Noches, detalle, Carrito, Checkout y Wallet.
+- Se mantienen dos advertencias del optimizador Bootstrap sobre .form-floating>~label.
+No hubo errores bloqueantes en las compilaciones finales ni aumentos de presupuestos para ocultar advertencias.
+
+NAVEGADOR REAL: PERFIL
+Chrome Headless con perfil temporal aislado y Angular local. Sin simulación de componentes en este recorrido.
+- Acceso directo a /perfil y renderización de Alex Demo/correo example.com.
+- Formulario con nombre de solo espacios y teléfono abc: errores visibles, identidad sin cambios.
+- Aplicación de Sol Demo y teléfono ficticio 900000000.
+- Activación de preferencia de notificaciones.
+- Navegación Perfil → Wallet → Perfil mediante enlaces de la aplicación: datos y preferencia conservados.
+- localStorage y sessionStorage sin cambios tras editar y navegar.
+- Recarga: nombre vuelve a Alex Demo y preferencia a desactivada.
+- 320, 390, 768 y 1280 px en modos consulta y edición: 8 combinaciones sin scroll horizontal.
+- Prueba adicional: nombre de 80 caracteres aplicado y mostrado a 320 px, sin scroll horizontal.
+- Header permanece en top 0 al desplazar la página; se conservan cinco enlaces inferiores.
+- Las cuatro secciones informativas despliegan contenido.
+- Capturas de consulta/edición a 390 y 1280 px.
+Un recorrido intermedio se interrumpió durante una recarga de desarrollo mientras se ajustaban estilos. Se repitió el recorrido completo con los archivos estables; la ejecución final terminó PASS.
+
+REGRESIONES EN NAVEGADOR REAL
+Noches y entradas:
+- Selección 2 General × $12.000 + 1 VIP × $25.000 = $49.000.
+- Límites 0..10, resumen vacío protegido, volver/modificar, conservación por evento y aislamiento entre eventos.
+- Evento inexistente y bloqueo de selección para fechas simuladas en curso/finalizadas.
+- Cero pedidos creados por el flujo de entradas.
+- Detalle/resumen sin scroll horizontal en 320, 390 y 1280 px.
+Wallet:
+- Tres pestañas, 3 entradas, 3 registros de consumos/4 unidades y 5 movimientos.
+- Detalles y navegación de teclado.
+- Tres secciones en los cuatro anchos, sin scroll horizontal; fotos cargadas, header sticky y cinco enlaces inferiores.
+- No se incorporó el pedido pending_payment posterior a la Wallet DEMO.
+Tragos → Carrito → Checkout → Flask:
+- Se seleccionó una Piscola y un Gin Tonic y se preparó pedido real, sin mocks HTTP.
+- HTTP 201; UUID 6d917661-12eb-4fab-8177-7d216c22d0f7; estado pending_payment; 2 unidades.
+- Total $14.000 verificado contra productos y subtotales calculados por Flask.
+- Regreso a Wallet en la misma SPA: indicadores/referencias conservados.
+Consola y recursos:
+- Cero errores de consola o excepciones capturadas durante el recorrido final completo.
+- Cero respuestas de recursos HTTP >=400 capturadas.
+Evidencia: docs/visual-review/profile-integration-35.json.
+Las capturas de página completa pueden mostrar la barra inferior fija a la altura del viewport original; no es un elemento insertado entre tarjetas.
+
+PRUEBAS PENDIENTES Y LÍMITES
+- Validación visual por el Product Owner y aprobación del arquitecto.
+- Safari/iOS, Android físico y lectores de pantalla; no se declara una auditoría completa de accesibilidad.
+- La verificación de Perfil fue en Chrome con Angular de desarrollo; el build de producción se compiló pero no se desplegó ni se probó servido en un hosting.
+- No se ejecutaron pruebas contra una API de Perfil, ya que esta etapa no crea endpoints.
+- No se verificaron identidad, existencia del teléfono ni mayoría de edad.
+- No se ejecutó un pago Apple Pay ni se registró dominio HTTPS. El pendiente de Fintoc anterior sigue fuera de 3.5.
+- No se volvió a ejecutar la suite backend porque no se modificó Flask; sí se verificó el checkout real con Flask.
+- No se implementaron autenticación, contraseñas, RUT, captura de documentos, permisos reales, persistencia, emisión ni canje.
+
+PROBLEMAS DETECTADOS
+Sin problemas bloqueantes en el resultado final. Permanecen advertencias de tamaño del build, incluidas las nuevas advertencias de Perfil detalladas arriba. Los cambios de perfil desaparecen con una recarga por diseño y no se comparten entre pestañas del navegador. El correo y la fecha opcional no son editables en esta etapa.
+
+DECISIONES TÉCNICAS
+Se reutiliza Reactive Forms ya disponible y un único servicio de ámbito raíz con Observable, sin librerías de estado ni almacenamiento. Se separan mock, modelo, reglas, estado y presentación. Los cambios quedan limitados a nombre/teléfono y preferencias para conservar la identidad DEMO y evitar una apariencia de cuenta real. Las preferencias funcionan como simulación explícita en memoria. Los datos opcionales ausentes son más claros que inventar una fecha que pudiera interpretarse como prueba de edad. Details/summary aporta interacción accesible sin instalar librerías o añadir componentes innecesarios.
+
+PRÓXIMO PASO SUGERIDO
+Revisión visual del Product Owner y aprobación técnica del arquitecto de la subetapa 3.5. Recomendada para aprobación como Perfil exclusivamente DEMO, con las limitaciones documentadas. El arquitecto debe definir y autorizar el próximo alcance antes de continuar. No se propone activar autenticación ni persistencia sin esa definición.
+Trabajo detenido en 3.5, a la espera de aprobación.

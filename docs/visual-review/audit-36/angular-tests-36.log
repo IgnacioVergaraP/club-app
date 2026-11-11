@@ -1,0 +1,15 @@
+
+> frontend@0.0.0 test
+> ng test --watch=false --browsers=ChromeHeadless
+
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+10 11 2026 17:29:12.512:INFO [karma-server]: Karma v6.4.4 server started at http://localhost:9876/
+10 11 2026 17:29:12.513:INFO [launcher]: Launching browsers ChromeHeadless with concurrency unlimited
+10 11 2026 17:29:12.516:INFO [launcher]: Starting browser ChromeHeadless
+10 11 2026 17:29:15.025:INFO [Chrome Headless 157.0.0.0 (Mac OS 10.15.7)]: Connected on socket PRdO2SRiKHqnxfgEAAAA with id 68472145
+Chrome Headless 157.0.0.0 (Mac OS 10.15.7): Executed 106 of 106 SUCCESS (0 secs / 0.285 secs)
+Chrome Headless 157.0.0.0 (Mac OS 10.15.7): Executed 106 of 106 SUCCESS (0.314 secs / 0.285 secs)
+TOTAL: 106 SUCCESS
+✔ Browser application bundle generation complete.
+✔ Browser application bundle generation complete.

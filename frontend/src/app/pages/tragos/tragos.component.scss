@@ -3,6 +3,11 @@
   padding-bottom: 4.5rem;
 }
 
+// Reservar espacio para el mensaje ampliado de la barra fija al fallar el pago.
+.page:has(app-cart-summary.has-error) {
+  padding-bottom: 12rem;
+}
+
 .page-header {
   margin-bottom: 1rem;
 }

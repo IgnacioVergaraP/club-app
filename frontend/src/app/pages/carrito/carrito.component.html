@@ -33,7 +33,7 @@
               <button
                 type="button"
                 class="qty-btn"
-                aria-label="Disminuir cantidad"
+                [attr.aria-label]="'Disminuir cantidad de ' + item.product.name"
                 (click)="decrement(item)">
                 −
               </button>
@@ -41,7 +41,7 @@
               <button
                 type="button"
                 class="qty-btn"
-                aria-label="Aumentar cantidad"
+                [attr.aria-label]="'Aumentar cantidad de ' + item.product.name"
                 [disabled]="!item.product.available"
                 (click)="increment(item)">
                 +
@@ -53,7 +53,7 @@
             <button
               type="button"
               class="cart-item-remove"
-              aria-label="Eliminar producto"
+              [attr.aria-label]="'Eliminar ' + item.product.name + ' del carrito'"
               (click)="remove(item)">
               ✕
             </button>

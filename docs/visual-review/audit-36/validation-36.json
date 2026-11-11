@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-10",
+  "angularTests": 106,
+  "flaskTests": 83,
+  "browserMatrix": 68,
+  "viewports": [
+    320,
+    390,
+    768,
+    1280
+  ],
+  "mainBrowserRun": "PASS",
+  "keyboardSupplement": "PASS",
+  "controlledPaymentError": "PASS after correction; before overlap confirmed",
+  "dependencyOrCredentialChanges": false,
+  "localRuntime": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "python": "3.11.6",
+    "angularCore": "17.3.12",
+    "angularCLI": "17.3.17"
+  },
+  "productionBuild": "PASS",
+  "deploymentBuild": {
+    "result": "PASS",
+    "initialKB": 697.91,
+    "estimatedTransferKB": 139.37,
+    "apiUrl": "https://club-app-cbp5.vercel.app/api"
+  },
+  "paid": false
+}

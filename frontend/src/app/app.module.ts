@@ -25,6 +25,7 @@ import { FintocExpressCheckoutComponent } from './components/fintoc-express-chec
 
 import { FintocHostedCheckoutComponent } from './components/fintoc-hosted-checkout/fintoc-hosted-checkout.component';
 import { PaymentResultComponent } from './pages/payment-result/payment-result.component';
+import { DemoQrComponent } from './components/demo-qr/demo-qr.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { PaymentResultComponent } from './pages/payment-result/payment-result.co
     CheckoutComponent,
     FintocExpressCheckoutComponent,
     FintocHostedCheckoutComponent,
-    PaymentResultComponent
+    PaymentResultComponent,
+    DemoQrComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-10",
+  "backendHealth": {
+    "url": "https://club-app-cbp5.vercel.app/api/health",
+    "status": "ok",
+    "environment": "development"
+  },
+  "backendPreflight": {
+    "access-control-allow-headers": "content-type, idempotency-key",
+    "access-control-allow-methods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT",
+    "access-control-allow-origin": "https://clubapp-ten.vercel.app",
+    "cache-control": "public, max-age=0, must-revalidate",
+    "strict-transport-security": "max-age=63072000; includeSubDomains; preload"
+  },
+  "frontendHeaders": {
+    "access-control-allow-origin": "*",
+    "cache-control": "public, max-age=0, must-revalidate",
+    "strict-transport-security": "max-age=63072000; includeSubDomains; preload"
+  },
+  "note": "Read-only probes; no remote orders or payments. Missing headers are observations, not proof of exploitation."
+}

@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-10",
+  "browser": "Chrome Headless real, isolated profile; local Angular development and Flask",
+  "matrix": [],
+  "screenshots": [
+    "inicio-320.png",
+    "inicio-768.png",
+    "noches-320.png",
+    "noches-768.png",
+    "tragos-320.png",
+    "tragos-768.png",
+    "wallet-320.png",
+    "wallet-768.png",
+    "perfil-320.png",
+    "perfil-768.png"
+  ],
+  "keyboard": [
+    {
+      "check": "Bottom navigation Enter opens Noches",
+      "result": "PASS"
+    },
+    {
+      "check": "Quantity Enter",
+      "name": "Aumentar cantidad de Piscola",
+      "result": "PASS"
+    },
+    {
+      "check": "Profile checkbox Space",
+      "result": "PASS"
+    }
+  ],
+  "flows": {},
+  "errors": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "screen": "inicio",
+      "namedButtons": [],
+      "mainLandmarks": 1
+    },
+    {
+      "screen": "noches",
+      "namedButtons": [
+        "Todos",
+        "Próximos",
+        "Anteriores"
+      ],
+      "mainLandmarks": 1
+    },
+    {
+      "screen": "tragos",
+      "namedButtons": [
+        "Aumentar cantidad de Piscola",
+        "Aumentar cantidad de Ron Cola",
+        "Aumentar cantidad de Gin Tonic",
+        "Aumentar cantidad de Vodka Tónica",
+        "Aumentar cantidad de Mojito",
+        "Aumentar cantidad de Pisco Sour",
+        "Aumentar cantidad de Cuba Libre",
+        "Aumentar cantidad de Agua mineral"
+      ],
+      "mainLandmarks": 1
+    },
+    {
+      "screen": "wallet",
+      "namedButtons": [],
+      "mainLandmarks": 1
+    },
+    {
+      "screen": "perfil",
+      "namedButtons": [
+        "Editar datos demo"
+      ],
+      "mainLandmarks": 1
+    }
+  ],
+  "paid": false,
+  "result": "PASS"
+}

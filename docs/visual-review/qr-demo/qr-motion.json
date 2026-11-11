@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-10",
+  "browser": "Chrome Headless real, isolated profile; local Angular development and Flask",
+  "matrix": [
+    {
+      "section": "tickets",
+      "width": 320,
+      "scrollWidth": 305
+    },
+    {
+      "section": "tickets",
+      "width": 390,
+      "scrollWidth": 375
+    },
+    {
+      "section": "tickets",
+      "width": 768,
+      "scrollWidth": 753
+    },
+    {
+      "section": "tickets",
+      "width": 1280,
+      "scrollWidth": 1265
+    },
+    {
+      "section": "drinks",
+      "width": 320,
+      "scrollWidth": 305
+    },
+    {
+      "section": "drinks",
+      "width": 390,
+      "scrollWidth": 375
+    },
+    {
+      "section": "drinks",
+      "width": 768,
+      "scrollWidth": 753
+    },
+    {
+      "section": "drinks",
+      "width": 1280,
+      "scrollWidth": 1265
+    }
+  ],
+  "screenshots": [],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "check": "Border moves",
+      "first": "-0.554467px",
+      "second": "-9.16447px"
+    },
+    {
+      "check": "Pause freezes border",
+      "result": "PASS"
+    },
+    {
+      "check": "QR bitmap unchanged during motion/pause",
+      "result": "PASS"
+    },
+    {
+      "check": "Reduced motion: static border, hidden pause control",
+      "result": "PASS"
+    }
+  ],
+  "paid": false,
+  "rasterMethod": "Unchanged original SVG; animation lives in a separate decorative SVG outside the QR",
+  "result": "PASS"
+}

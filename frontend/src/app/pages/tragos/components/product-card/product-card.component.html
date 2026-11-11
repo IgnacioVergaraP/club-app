@@ -9,11 +9,11 @@
   </div>
   <div class="product-card-controls" *ngIf="product.available">
     <ng-container *ngIf="quantity > 0">
-      <button type="button" class="qty-btn minus-btn" aria-label="Disminuir cantidad"
+      <button type="button" class="qty-btn minus-btn" [attr.aria-label]="'Disminuir cantidad de ' + product.name"
               (click)="onDecrement()">−</button>
       <span class="qty-value" aria-live="polite" aria-label="Cantidad seleccionada">{{ quantity }}</span>
     </ng-container>
-    <button type="button" class="qty-btn plus-btn" aria-label="Aumentar cantidad"
+    <button type="button" class="qty-btn plus-btn" [attr.aria-label]="'Aumentar cantidad de ' + product.name"
             (click)="onIncrement()">+</button>
   </div>
 </article>
