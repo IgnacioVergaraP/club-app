@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-12",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "bottom": "40px",
+      "navTop": 744,
+      "navBottom": 804,
+      "summaryBottom": 742
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "bottom": "40px",
+      "navTop": 744,
+      "navBottom": 804,
+      "summaryBottom": 742
+    },
+    {
+      "width": 768,
+      "scrollWidth": 768,
+      "bottom": "40px",
+      "navTop": 744,
+      "navBottom": 804,
+      "summaryBottom": 742
+    },
+    {
+      "width": 1280,
+      "scrollWidth": 1280,
+      "bottom": "40px",
+      "navTop": 744,
+      "navBottom": 804,
+      "summaryBottom": 742
+    }
+  ],
+  "screenshots": [
+    "glass-safe-area-390.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "safeAreaOverrideSupported": true
+    },
+    {
+      "errorSpacing": {
+        "width": 320,
+        "scrollWidth": 320,
+        "summaryTop": 633.5,
+        "summaryBottom": 776,
+        "lastProductBottom": 556.109375,
+        "navTop": 778
+      }
+    },
+    {
+      "errorSpacing": {
+        "width": 390,
+        "scrollWidth": 390,
+        "summaryTop": 633.5,
+        "summaryBottom": 776,
+        "lastProductBottom": 556.109375,
+        "navTop": 778
+      }
+    },
+    {
+      "errorSpacing": {
+        "width": 768,
+        "scrollWidth": 768,
+        "summaryTop": 650,
+        "summaryBottom": 776,
+        "lastProductBottom": 555.90625,
+        "navTop": 778
+      }
+    },
+    {
+      "errorSpacing": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "summaryTop": 650,
+        "summaryBottom": 776,
+        "lastProductBottom": 555.90625,
+        "navTop": 778
+      }
+    }
+  ],
+  "paid": false,
+  "result": "PASS"
+}

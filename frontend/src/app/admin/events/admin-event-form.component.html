@@ -1,0 +1,29 @@
+<section aria-labelledby="form-heading"><header><h1 id="form-heading">{{ id ? 'Editar evento' : 'Nuevo evento' }}</h1><p>Solo DEMO · sin publicación en el catálogo del cliente.</p></header>
+  <div *ngIf="missing; else editor" class="notice" role="alert"><h2>Evento no disponible</h2><p>Puede haberse perdido al recargar esta demostración.</p><a routerLink="/admin/eventos">Volver al listado</a></div>
+  <ng-template #editor><form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="fields">
+      <label class="wide">Nombre del evento<input id="event-name" formControlName="name" maxlength="100" [attr.aria-invalid]="invalid(form.controls.name)" aria-describedby="name-error"><span id="name-error" class="error" *ngIf="invalid(form.controls.name)">Escribe un nombre de 1 a 100 caracteres, no solo espacios.</span></label>
+      <label class="wide">Descripción<textarea id="event-description" formControlName="description" rows="3" maxlength="1200" [attr.aria-invalid]="invalid(form.controls.description)"></textarea><span class="error" *ngIf="invalid(form.controls.description)">Máximo 1200 caracteres.</span></label>
+      <label>Fecha<input id="event-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="date" [attr.aria-invalid]="invalid(form.controls.date)"><span class="error" *ngIf="invalid(form.controls.date)">Elige una fecha válida entre 2000 y 2100.</span></label>
+      <label>Estado<select id="event-status" formControlName="status"><option *ngFor="let state of statuses" [value]="state.value">{{ state.label }}</option></select></label>
+      <label>Hora de inicio<input id="event-start" type="time" formControlName="startsAt" [attr.aria-invalid]="invalid(form.controls.startsAt)" aria-describedby="schedule-help"></label>
+      <label>Hora de término<input id="event-end" type="time" formControlName="endsAt" [attr.aria-invalid]="invalid(form.controls.endsAt)" aria-describedby="schedule-help"></label>
+      <label class="check wide"><input id="event-next-day" type="checkbox" formControlName="endsNextDay">Termina al día siguiente</label>
+      <p id="schedule-help" class="help wide">Horario local de Chile. Para 23:00–05:00, marca «Termina al día siguiente». Duración máxima: 24 horas. Los estados, incluido Finalizado, se establecen manualmente.</p>
+      <p class="error wide" *ngIf="form.hasError('schedule') && (form.controls.startsAt.touched || form.controls.endsAt.touched || form.controls.endsNextDay.touched)">El término debe ser posterior al inicio y no superar 24 horas.</p>
+      <label>Imagen local<select id="event-image" formControlName="image"><option *ngFor="let image of images" [value]="image.value">{{ image.label }}</option></select></label><img class="preview" [src]="form.controls.image.value" alt="Vista previa de imagen del evento" width="160" height="90">
+    </div>
+    <div class="ticket-heading"><h2>Tipos de entrada · DEMO</h2><button type="button" (click)="addTicket()" [disabled]="form.controls.ticketTypes.length >= limits.ticketTypes">+ Agregar tipo de entrada</button></div>
+    <p class="help">Precio entero CLP entre 0 y 10.000.000; cupo de 1 a 100.000; máximo por compra de 1 a 100, sin superar el cupo. Hasta 12 tipos, con nombres diferentes.</p>
+    <p *ngIf="!form.controls.ticketTypes.length" class="notice">Sin tipos de entrada. Añade al menos uno antes de publicar el evento DEMO.</p>
+    <div formArrayName="ticketTypes"><fieldset *ngFor="let type of form.controls.ticketTypes.controls; index as index" [formGroupName]="index"><legend>Entrada {{ index + 1 }}</legend><div class="ticket-fields">
+      <label>Nombre<input formControlName="name" maxlength="50" [attr.aria-invalid]="invalid(type.controls.name)"></label>
+      <label>Precio CLP<input type="number" formControlName="priceClp" min="0" max="10000000" step="1" [attr.aria-invalid]="invalid(type.controls.priceClp)"></label>
+      <label>Cupo disponible<input type="number" formControlName="capacity" min="1" max="100000" step="1" [attr.aria-invalid]="invalid(type.controls.capacity)"></label>
+      <label>Máximo por compra<input type="number" formControlName="maxPerPurchase" min="1" max="100" step="1" [attr.aria-invalid]="invalid(type.controls.maxPerPurchase)"></label>
+      <label>Estado<select formControlName="status"><option *ngFor="let state of ticketStatuses" [value]="state.value">{{ state.label }}</option></select></label>
+    </div><p class="error" *ngIf="type.invalid && type.touched">Revisa nombre, precio entero no negativo, cupo y máximo por compra. El máximo no puede superar el cupo.</p><button class="remove" type="button" (click)="removeTicket(index)" [attr.aria-label]="'Quitar tipo de entrada ' + (index + 1)">Quitar tipo</button></fieldset></div>
+    <p class="error" *ngIf="form.hasError('publishTickets') && form.controls.status.touched">Para publicar, agrega al menos un tipo de entrada válido.</p><p class="error" *ngIf="form.hasError('duplicateTickets')">Los tipos de entrada deben tener nombres diferentes.</p>
+    <p *ngIf="error" class="error" role="alert">{{ error }}</p><div class="form-actions"><button class="primary" type="submit">Guardar evento DEMO</button><a routerLink="/admin/eventos">Cancelar y volver</a></div>
+  </form></ng-template>
+</section>

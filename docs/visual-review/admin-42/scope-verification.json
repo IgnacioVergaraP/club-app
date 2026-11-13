@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-12",
+  "existingFilesChecked": 233,
+  "existingFilesUnchanged": 228,
+  "modifiedExisting": [
+    "frontend/src/index.html",
+    "frontend/src/app/layout/bottom-nav/bottom-nav.component.scss",
+    "frontend/src/app/admin/admin-layout.component.ts",
+    "frontend/src/app/admin/admin.module.ts",
+    "frontend/src/app/admin/admin-routing.spec.ts"
+  ],
+  "backendClientPagesPaymentsDependenciesDashboardUnchanged": true,
+  "note": "SHA-256 comparison before/after; no hashes or secret contents published. New files listed separately in checkpoint."
+}

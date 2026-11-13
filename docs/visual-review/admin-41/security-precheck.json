@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-12",
+  "repositoryBefore": "git status --short: clean",
+  "publicBackend": "https://club-app-cbp5.vercel.app",
+  "health": {
+    "path": "/api/health",
+    "status": 200,
+    "body": {
+      "status": "ok",
+      "service": "club-void-api",
+      "version": "v1",
+      "environment": "development"
+    }
+  },
+  "debuggerChecks": [
+    {
+      "path": "/console",
+      "status": 404,
+      "contentType": "application/json",
+      "result": "controlled not_found"
+    },
+    {
+      "path": "/?__debugger__=yes&cmd=resource&f=style.css",
+      "status": 200,
+      "contentType": "application/json",
+      "result": "normal API index JSON, not debugger CSS"
+    }
+  ],
+  "sourceReview": {
+    "DevelopmentConfig.DEBUG": true,
+    "ProductionConfig.DEBUG": false,
+    "get_config_default": "FLASK_ENV or development",
+    "app.run_debug": "app.config[DEBUG] only under __main__",
+    "create_app": "no DebuggedApplication wrapper; generic exception JSON handler"
+  },
+  "assessment": "Public deployment reports development. No evidence of an accessible debugger in these read-only probes. They do not prove exhaustive absence of debugger endpoints or reveal the actual WSGI runtime debug value.",
+  "proposedCorrection": "Set FLASK_ENV=production in backend Vercel environment; check existing SECRET_KEY is secure and satisfies production validation without exposing it; keep Fintoc Sandbox unchanged; redeploy and repeat health/controlled-error checks.",
+  "remoteChanges": false,
+  "credentialsReadOrModified": false
+}

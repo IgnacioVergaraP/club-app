@@ -1,0 +1,447 @@
+{
+  "date": "2026-11-12",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "route": "/admin",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Club VOID DEMO",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Club VOID DEMO",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Club VOID DEMO",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Club VOID DEMO",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/eventos",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Eventos",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/eventos",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Eventos",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/eventos",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Eventos",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/eventos",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Eventos",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/tragos",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Tragos",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/tragos",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Tragos",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/tragos",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Tragos",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/tragos",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Tragos",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/ventas",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Ventas",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/ventas",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Ventas",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/ventas",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Ventas",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/ventas",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Ventas",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/comisiones",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Comisiones",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/comisiones",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Comisiones",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/comisiones",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Comisiones",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/comisiones",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Comisiones",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/personal",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Personal",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/personal",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Personal",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/personal",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Personal",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/personal",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/configuracion",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Configuración",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/configuracion",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Configuración",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/configuracion",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Configuración",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/admin/configuracion",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Configuración",
+      "selectors": 0,
+      "nav": 7,
+      "clientNav": 0,
+      "active": 1
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "scrollWidth": 320,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "scrollWidth": 390,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "scrollWidth": 768,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/noches",
+      "width": 320,
+      "scrollWidth": 320,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/noches",
+      "width": 390,
+      "scrollWidth": 390,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/noches",
+      "width": 768,
+      "scrollWidth": 768,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/noches",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/tragos",
+      "width": 320,
+      "scrollWidth": 320,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/tragos",
+      "width": 390,
+      "scrollWidth": 390,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/tragos",
+      "width": 768,
+      "scrollWidth": 768,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/tragos",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/wallet",
+      "width": 320,
+      "scrollWidth": 320,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/wallet",
+      "width": 390,
+      "scrollWidth": 390,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/wallet",
+      "width": 768,
+      "scrollWidth": 768,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/wallet",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/perfil",
+      "width": 320,
+      "scrollWidth": 320,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/perfil",
+      "width": 390,
+      "scrollWidth": 390,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/perfil",
+      "width": 768,
+      "scrollWidth": 768,
+      "admin": false,
+      "nav": 5
+    },
+    {
+      "route": "/perfil",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "admin": false,
+      "nav": 5
+    }
+  ],
+  "screenshots": [
+    "dashboard-320.png",
+    "dashboard-390.png",
+    "dashboard-full-390.png",
+    "dashboard-768.png",
+    "dashboard-1280.png",
+    "dashboard-full-1280.png",
+    "mobile-menu-390.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    "Direct VOID dashboard, no club selector or platform identity",
+    "Admin to real client link and keyboard navigation passed",
+    "Direct reload always opens VOID; client/admin layouts separated"
+  ],
+  "paid": false,
+  "result": "PASS"
+}

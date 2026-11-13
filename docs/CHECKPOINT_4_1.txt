@@ -1,0 +1,164 @@
+AVISO DE VIGENCIA — 12-11-2026
+El enfoque multidiscoteca descrito en este documento quedó sustituido por decisión definitiva del Product Owner. La entrega vigente consolidada es docs/CHECKPOINT_4_1_CORRECCION.txt: aplicación y panel exclusivos de Club VOID, sin selector, sin tarjeta Comisión acumulada y con Ticket promedio como cuarta tarjeta móvil. Este documento se conserva como antecedente histórico.
+
+CLUB VOID — CHECKPOINT 4.1
+Estructura del panel administrativo multiclub — DEMO
+Revisión visual según referencias del Product Owner
+Fecha: 12-11-2026
+Base: Etapa 3 aprobada como demostración; CHECKPOINT_3_6.txt conservado.
+
+OBJETIVO Y ESTADO
+Implementada exclusivamente la estructura administrativa 4.1. Pendiente revisión visual del Product Owner y aprobación del arquitecto. No se implementó 4.2.
+/admin ofrece un dashboard local y seis secciones provisionales. Angular conserva NgModules y standalone:false. El panel se carga mediante un módulo lazy independiente del layout del cliente.
+Revisión visual posterior autorizada por el Product Owner: se adaptó el panel a las imágenes «Panel administrativo nocturno de Club VOID» y «Panel de Club VOID en Modo Oscuro». Se conserva la separación multiclub y se añaden únicamente representaciones locales de indicadores/ventas ficticias, sin operaciones comerciales.
+Datos explícitamente ficticios; no representan ventas, compras, personal ni derechos de ingreso o retiro reales. Las rutas son públicas sin autenticación por alcance DEMO, y su separación NO constituye control de seguridad.
+
+VERIFICACIÓN DE SEGURIDAD PREVIA
+- Repositorio inicialmente limpio: git status --short sin cambios.
+- Código revisado: BaseConfig.DEBUG=False, DevelopmentConfig.DEBUG=True, ProductionConfig.DEBUG=False. get_config selecciona FLASK_ENV y usa development si falta. app.run(debug=...) solo está bajo __main__; Vercel importa la aplicación WSGI. No se encontró un wrapper DebuggedApplication en app.py. Existe manejador genérico de excepciones con JSON controlado.
+- Consulta pública del 12-11-2026: GET https://club-app-cbp5.vercel.app/api/health respondió 200, environment:development. El problema observado en 3.6 continúa.
+- Comprobaciones de solo lectura: /console respondió 404 JSON controlado; /?__debugger__=yes&cmd=resource&f=style.css respondió el JSON normal del índice, no CSS del debugger.
+- No hubo evidencia de debugger públicamente accesible en estas consultas, por lo que se continuó con 4.1. No son un escaneo exhaustivo ni prueban el valor efectivo de DEBUG dentro del runtime WSGI.
+- Se informó al Product Owner y se propuso configurar FLASK_ENV=production en el proyecto backend de Vercel, comprobar que SECRET_KEY existente sea segura y cumpla las validaciones de producción, desplegar de nuevo y repetir health/errores controlados. Una clave solo adecuada a desarrollo requiere una intervención autorizada; no se debe copiar su contenido en evidencias.
+- No se cambiaron variables remotas, archivos .env, credenciales ni pagos Sandbox. La corrección del entorno remoto queda pendiente del responsable del despliegue. No se expuso contenido de claves.
+Evidencia: docs/visual-review/admin-41/security-precheck.json.
+
+ARQUITECTURA Y MODELOS
+Nuevo directorio frontend/src/app/admin con AdminModule cargado desde la ruta /admin, antes del layout cliente y del comodín global. AppModule no requirió cambios.
+DemoClub: id interno estable, tradeName, legalName ficticia, demoTaxId ilustrativo no válido, country, address ficticia, status:demo, currency:CLP y settings de zona horaria, locale y salesEnabled:false.
+DemoDashboard: clubId, isDemo:true, periodo explícito, ventas CLP, pedidos, entradas, tragos, ticket promedio, comisión ilustrativa y colecciones de productos, eventos, ventas recientes y actividad con identificadores propios. Productos incluyen imagen local y participación ficticia; eventos incluyen imagen y capacidad de ejemplo.
+Los IDs club-demo-001 y club-demo-002 son independientes de los nombres comerciales. Club VOID aparece como plataforma; Órbita y Prisma representan discotecas vendedoras ficticias.
+Los identificadores DEMO-RUT-001/002 NO tienen formato de RUT utilizable; evitan atribuir un identificador tributario real a un tercero.
+
+SERVICIO Y SEPARACIÓN MULTICLUB
+AdminDemoService se provee en el módulo administrativo. Usa BehaviorSubject privado y context$ con el club y dashboard del ID seleccionado. Un ID desconocido se ignora.
+Cada emisión crea copias nuevas del club, settings, dashboard y registros de sus colecciones, incluidas ventas recientes. Los productos destacados se ordenan por unidades de ejemplo. La lista del selector también contiene copias. Las pruebas verifican que mutaciones de una instantánea no afecten otra suscripción.
+Cada club tiene sus propios productos, eventos, actividad e indicadores. Al cambiar de club se reemplaza el contexto completo; las pantallas provisionales conservan la selección dentro de la SPA. Al recargar vuelve a Órbita.
+No hay HttpClient, API, escritura, almacenamiento del navegador ni lectura de pedidos en este servicio. No depende de OrdersService, WalletService, ProfileService o servicios Fintoc.
+La separación local prepara el contrato visual; no implementa aislamiento de tenants, permisos ni seguridad de servidor.
+
+RUTAS Y COMPONENTES
+- /admin: AdminDashboardComponent.
+- /admin/eventos: pantalla provisional Eventos.
+- /admin/tragos: pantalla provisional Tragos.
+- /admin/ventas: pantalla provisional Ventas.
+- /admin/comisiones: pantalla provisional Comisiones.
+- /admin/personal: pantalla provisional Personal.
+- /admin/configuracion: pantalla provisional Configuración.
+AdminLayoutComponent incluye logo SVG VOID existente, marca de plataforma, selector de discoteca, siete enlaces con iconos SVG, indicador de ruta activa y enlace a la aplicación cliente. En móvil el menú está cerrado por defecto y se abre con botón accesible; Escape lo cierra y devuelve el foco al botón. Elegir una ruta también lo cierra.
+AdminOverviewComponent presenta la identidad del club y seis indicadores en escritorio; en móvil muestra cuatro como la referencia (ventas, pedidos, entradas y comisión). Las variaciones porcentuales son ejemplos estáticos, no cálculos sobre transacciones.
+AdminIconComponent contiene trazados SVG locales decorativos, sin dependencias nuevas.
+AdminPlaceholderComponent se reutiliza para las seis secciones. Observa route.data para actualizar el título al navegar entre rutas que reutilizan el componente. No hay botones de CRUD ni acciones comerciales.
+Un comodín interno de /admin redirige al dashboard. Las rutas comerciales y sus guards se conservan.
+El acceso al administrador es por /admin; no se añadió una sexta pestaña ni un enlace administrativo a la navegación comercial aprobada. El enlace del panel permite regresar a Inicio; también se comprobó el acceso directo nuevamente al administrador.
+
+DASHBOARD Y DATOS FICTICIOS
+Órbita Club, club-demo-001:
+- Ventas DEMO: $1.280.000 CLP; pedidos: 73; entradas: 214; tragos: 358; ticket promedio: $17.534; comisión ilustrativa: $192.000.
+- Productos: Piscola, 38 unidades/$266.000 (35%); Gin Tonic, 31/$248.000 (27%); Mojito, 24/$192.000 (18%); Pisco Sour, 18/$144.000 (12%). Porcentajes ficticios de participación global; la selección no cubre todos los productos.
+- Eventos: Sesión nocturna, 20-11-2026 23:00 UTC−3, 72 entradas DEMO; Sábado, 28-11-2026 23:00 UTC−3, 48 entradas DEMO; Ritmo local, 29-11-2026 23:00 UTC−3, 96 entradas DEMO. Capacidades ilustrativas: 100, 80 y 300 respectivamente.
+- Dos actividades ilustrativas del 12-11-2026.
+Prisma Club, club-demo-002:
+- Ventas DEMO: $680.000 CLP; pedidos: 42; entradas: 64; tragos: 112; ticket promedio: $16.190; comisión ilustrativa: $102.000.
+- Productos: Gin Tonic, 20 unidades/$160.000; Agua mineral, 16 unidades/$32.000.
+- Evento: Luces de viernes, 27-11-2026 22:00 UTC−3, 64 entradas DEMO.
+- Una actividad ilustrativa del 12-11-2026.
+Los productos destacados son una selección parcial; sus subtotales no pretenden sumar el indicador global de ventas.
+Periodo de indicadores: 12 de noviembre de 2026, escenario ficticio. Tres ventas recientes ficticias en Órbita y dos en Prisma, con IDs propios. El distintivo Aprobado DEMO es un estado ilustrativo, no una confirmación de Fintoc. Sus totales no son el conjunto completo de ventas del escenario. Fechas y cifras estáticas; no hay actualización, filtrado o sincronización comercial. Los próximos eventos del escenario podrán quedar en el pasado con el paso del tiempo.
+Razones sociales y direcciones están marcadas como ficticias. No se utiliza información sensible del Product Owner ni datos de la cuenta comercial de Fintoc.
+
+DISEÑO Y ACCESIBILIDAD BÁSICA
+Fondo oscuro, superficies compactas, morado sólido, sin degradados, tipografía global del cliente. Indicadores grandes, iconos SVG, fotos locales existentes, barras de progreso moradas sólidas, tablas con encabezados semánticos, calendario y actividad en listas. Ventas recientes aparecen como tabla en escritorio y lista compacta en móvil. Información del vendedor en details/summary. Se mantuvieron siete rutas: no se creó una sección adicional de Entradas a partir del dibujo de referencia.
+Barra lateral en escritorio y menú desplegable administrativo en móvil; no utiliza la barra inferior del cliente. El dashboard usa dos columnas donde hay espacio y una columna en anchos menores.
+Selector con label, enlaces nativos, aria-current para ruta activa, foco visible y enlace Saltar al contenido con destino main enfocable. Las tablas tienen caption y scope.
+Se revisaron capturas a 320, 390, 768 y 1280 px, navegación Tab/Enter, apertura del menú móvil, cierre por Escape y cierre al elegir una ruta. El encabezado muestra fecha fija del escenario y perfil Admin DEMO como información; no simulan autenticación, filtro de fechas o notificaciones funcionales. No equivale a una auditoría completa WCAG ni a pruebas con lector de pantalla o dispositivos físicos.
+
+PRUEBAS EJECUTADAS
+1. Suite completa Angular:
+   npm test -- --watch=false --browsers=ChromeHeadless
+   Resultado final: 112/112 aprobadas. Base existente: 109; tres pruebas nuevas.
+   Nuevas pruebas: separación por IDs/contextos, copias independientes e ID inválido; navegación de las siete rutas, títulos, cambio de club, menú/Escape, copias de ventas recientes, persistencia en la SPA, salida/retorno y ausencia de HTTP con HttpTestingController.
+   La primera ejecución en sandbox no pudo abrir el puerto 9876 (EPERM). Se ejecutó con permiso para el servidor local y Chrome; la ejecución final pasó.
+2. Desarrollo:
+   npm run build -- --configuration development
+   Aprobado; inicial aproximado 2,02 MB; chunk lazy administrativo 59,51 kB.
+3. Despliegue:
+   API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+   Aprobado; inicial 711,67 kB / transferencia estimada 144,43 kB; chunk administrativo lazy 33,84 kB / 8,66 kB estimados.
+   Es una compilación local con la URL pública configurada, no un despliegue realizado en Vercel.
+4. Chrome Headless real con perfil temporal aislado, Angular local:
+   - Siete rutas administrativas × cuatro anchos = 28 combinaciones.
+   - Cinco pestañas reales del cliente × cuatro anchos = 20 combinaciones.
+   - Total 48 combinaciones sin scroll horizontal de página.
+   - Siete enlaces administrativos y una ruta activa; cero navegación inferior del cliente en el panel.
+   - Cambio Órbita → Prisma: nombre, importe y productos reemplazados; sin Piscola de Órbita en el dashboard Prisma.
+   - Tab/Enter entre enlaces administrativos y apertura de Eventos. Menú móvil cerrado inicialmente, apertura con botón, cierre por Escape y al elegir Eventos.
+   - Fotografías locales de eventos y bebidas cargadas correctamente. Capturas completas a 390/1280 px y del menú móvil a 390 px.
+   - Regreso mediante enlace real a Inicio: cinco pestañas del cliente, sin layout administrativo.
+   - Acceso directo posterior a /admin y restablecimiento del club por recarga.
+   - Cero excepciones/errores de consola capturados, cero respuestas HTTP >=400 y cero solicitudes con métodos de escritura en el recorrido.
+5. git diff --check: sin errores.
+No se ejecutó nuevamente Flask ni npm audit: no se modificaron backend, dependencias o integración de pagos en 4.1. Los resultados y vulnerabilidades históricos de 3.6 siguen documentados allí y no se presentan como una nueva medición.
+No se crearon pedidos ni sesiones Fintoc en esta etapa; no se autorizó ni completó ningún pago. La regresión de pagos se cubre con las pruebas Angular existentes, no con una nueva transacción extremo a extremo.
+
+ERRORES CORREGIDOS DURANTE IMPLEMENTACIÓN
+- Se ajustó el título de las pantallas provisionales para observar cambios de datos de ruta; snapshot por sí solo no actualiza el título si Angular reutiliza el componente.
+- Se registró locale es-CL dentro del módulo para formatear CLP sin depender de una configuración global previa.
+- Durante el rediseño, los estilos iniciales del dashboard excedieron el límite de 4 kB. Se separó el resumen de indicadores en AdminOverviewComponent; la compilación final pasó conservando los presupuestos.
+No se corrigieron problemas de arquitectura, dependencias o pagos fuera del alcance.
+
+ARCHIVOS CREADOS
+frontend/src/app/admin/admin-icon.component.ts
+frontend/src/app/admin/admin-overview.component.ts
+frontend/src/app/admin/admin-overview.component.html
+frontend/src/app/admin/admin-overview.component.scss
+frontend/src/app/admin/admin.model.ts
+frontend/src/app/admin/admin.data.ts
+frontend/src/app/admin/admin-demo.service.ts
+frontend/src/app/admin/admin-demo.service.spec.ts
+frontend/src/app/admin/admin-layout.component.ts
+frontend/src/app/admin/admin-layout.component.html
+frontend/src/app/admin/admin-layout.component.scss
+frontend/src/app/admin/admin-dashboard.component.ts
+frontend/src/app/admin/admin-dashboard.component.html
+frontend/src/app/admin/admin-dashboard.component.scss
+frontend/src/app/admin/admin-placeholder.component.ts
+frontend/src/app/admin/admin.module.ts
+frontend/src/app/admin/admin-routing.spec.ts
+docs/CHECKPOINT_4_1.txt
+docs/visual-review/admin-41/review-admin.cjs
+docs/visual-review/admin-41/admin-browser-41.json
+docs/visual-review/admin-41/security-precheck.json
+docs/visual-review/admin-41/angular-tests.log
+docs/visual-review/admin-41/build-development.log
+docs/visual-review/admin-41/build-deployment.log
+docs/visual-review/admin-41/dashboard-320.png
+docs/visual-review/admin-41/dashboard-390.png
+docs/visual-review/admin-41/dashboard-768.png
+docs/visual-review/admin-41/dashboard-1280.png
+docs/visual-review/admin-41/prisma-1280.png
+docs/visual-review/admin-41/dashboard-full-390.png
+docs/visual-review/admin-41/dashboard-full-1280.png
+docs/visual-review/admin-41/mobile-menu-390.png
+
+ARCHIVOS MODIFICADOS
+frontend/src/app/app-routing.module.ts: ruta lazy /admin.
+El archivo environment.deploy.ts generado por el build está ignorado y no forma parte de la entrega versionada.
+No se modificaron AppModule, vistas del cliente, QR DEMO, backend, archivos de dependencias, presupuestos de compilación, credenciales o configuración de hosting.
+
+PROBLEMAS Y RIESGOS PENDIENTES
+- Entorno público Flask aún development. Priorizar la corrección de variables/redeploy descrita antes de ampliar exposición o habilitar operaciones.
+- Administración pública DEMO sin autenticación; nunca colocar datos sensibles ni operaciones reales detrás de estas rutas sin control de acceso desde servidor.
+- Multiclub solo en memoria local: faltan persistencia, autenticación, membresías, autorización por club e integridad transaccional para cualquier versión comercial.
+- Permanecen las limitaciones de memoria de Vercel, ausencia de idempotencia global/reconciliación y Wallet/Perfil DEMO de la Etapa 3. El panel no las resuelve ni se conecta a pedidos anónimos.
+- Advertencias de build: inicial supera 500 kB; estilos administrativos de layout (3,25 kB) y dashboard (3,35 kB) superan el aviso de 2 kB, dentro del error de 4 kB; persisten advertencias de estilos del cliente y dos selectores Bootstrap omitidos por el optimizador. No se elevaron presupuestos.
+- Dependencias y vulnerabilidades diagnosticadas en 3.6 pendientes; no se instalaron/actualizaron paquetes ni se aplicó npm audit fix.
+- Falta revisión visual del Product Owner, Safari/iOS y Android físicos, lector de pantalla y accesibilidad integral.
+- El usuario debe publicar estos archivos para revisar /admin en Vercel; no se realizó commit, push ni despliegue remoto.
+
+RECOMENDACIONES PARA 4.2
+P0: responsable del despliegue debe resolver el entorno Flask público y confirmar DEBUG desactivado; preservar Fintoc en Sandbox.
+P1: aprobación del arquitecto del layout y del contrato de datos multiclub, con revisión visual del Product Owner.
+P1: definir expresamente el alcance de 4.2, manteniendo datos locales si sigue siendo DEMO. No habilitar CRUD ni conectar ventas reales por inferencia de este checkpoint.
+Antes de cualquier operación real: autorizar una etapa técnica de autenticación, autorización/aislamiento por club, persistencia e idempotencia, junto a la revisión de dependencias y seguridad pendiente. Split Payment, facturación y canjes continúan excluidos.
+Entrega detenida en 4.1, a la espera de aprobación del arquitecto. No se avanzó a 4.2.

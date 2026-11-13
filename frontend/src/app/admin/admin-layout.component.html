@@ -1,0 +1,19 @@
+<div class="admin-shell" *ngIf="context$ | async as context" [style.--admin-primary]="context.club.branding.primary" [style.--admin-accent]="context.club.branding.accent" [style.--admin-background]="context.club.branding.background">
+  <a class="skip-link" href="#admin-content">Saltar al contenido administrativo</a>
+  <aside id="admin-navigation" class="admin-sidebar" [class.open]="menuOpen">
+    <a class="brand" routerLink="/admin" [attr.aria-label]="'Dashboard de ' + context.club.tradeName" (click)="menuOpen=false"><img [src]="context.club.logo.src" [alt]="context.club.logo.alt" width="140" height="54"></a>
+    <div class="club-identity"><app-admin-icon name="activity"/><div><strong>{{ context.club.tradeName }}</strong><small>Panel administrativo</small></div></div>
+    <nav aria-label="Navegación administrativa"><a *ngFor="let link of links" [routerLink]="link[0] ? '/admin/' + link[0] : '/admin'" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" ariaCurrentWhenActive="page" (click)="menuOpen=false"><app-admin-icon [name]="link[2]"/>{{ link[1] }}</a></nav>
+    <a class="client-link" routerLink="/" (click)="menuOpen=false">← Ir a la aplicación cliente</a>
+    <div class="demo-card"><strong>DEMO</strong><p>Panel de demostración con datos ficticios. Sin operaciones reales.</p></div>
+  </aside>
+  <div class="admin-workspace">
+    <header class="topbar">
+      <button id="admin-menu-toggle" type="button" class="menu-toggle" [attr.aria-expanded]="menuOpen" aria-controls="admin-navigation" [attr.aria-label]="menuOpen ? 'Cerrar menú administrativo' : 'Abrir menú administrativo'" (click)="menuOpen=!menuOpen"><app-admin-icon [name]="menuOpen ? 'close' : 'menu'"/></button>
+      <div class="page-title"><strong>{{ title$ | async }}</strong><span>Resumen operativo del club · DEMO</span></div>
+      <span class="date-label"><app-admin-icon name="calendar"/>12 nov 2026 · DEMO</span>
+      <span class="admin-avatar" aria-hidden="true">AD</span><span class="admin-name">Admin DEMO<small>{{ context.club.tradeName }}</small></span>
+    </header>
+    <main id="admin-content" tabindex="-1"><router-outlet></router-outlet><p class="demo-notice">Demostración pública sin autenticación. Datos locales ficticios, sin acceso a ventas reales ni acciones comerciales. Las rutas no son un control de seguridad.</p></main>
+  </div>
+</div>

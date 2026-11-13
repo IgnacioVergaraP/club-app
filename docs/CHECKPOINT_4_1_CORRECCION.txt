@@ -1,0 +1,133 @@
+CLUB VOID — CHECKPOINT 4.1 CONSOLIDADO
+Corrección del panel y ajustes finales del dashboard
+Panel administrativo exclusivo de Club VOID
+Fecha: 12-11-2026
+Sustituye el enfoque multidiscoteca del CHECKPOINT_4_1.txt.
+
+DECISIÓN Y ESTADO
+Corrección implementada conforme a la decisión definitiva del Product Owner: cada discoteca tendrá su propia aplicación personalizada y su propio panel administrativo.
+Esta aplicación administra exclusivamente Club VOID. /admin abre directamente el dashboard VOID; no hay catálogo de discotecas, selector, cambio de club ni estado de selección.
+Se conserva el diseño revisado con el Product Owner: fondo oscuro, morado sólido, iconos, tarjetas, fotos locales, tablas/listas adaptables y menú administrativo móvil.
+Estado final: aplicación dedicada a VOID; tarjeta Comisión acumulada eliminada junto con su campo/dato; Ticket promedio ocupa su lugar en móvil. Cinco indicadores en escritorio y cuatro en móvil, en dos filas de dos.
+Entrega DEMO terminada técnicamente, pendiente de revisión y aprobación. No se avanzó a 4.2.
+
+CONFIGURACIÓN DE LA APLICACIÓN
+Nuevo frontend/src/app/admin/club.config.ts con una única CLUB_CONFIG:
+- ID interno: void-demo-001, independiente del nombre visible. No representa un tenant ni controla acceso.
+- Nombre: Club VOID.
+- Logo local: assets/admin/void-logo.svg; texto alternativo Club VOID. Se reutilizó el trazado VOID existente sin modificar el header del cliente.
+- Identidad visual: primary, accent y background. El layout aplica variables CSS limitadas al panel; acentos, iconos, barras, enlaces, avatar y distintivos usan esas variables.
+- Razón social, identificador tributario y dirección expresamente ficticios.
+- CL, CLP, estado demo, zona America/Santiago, locale es-CL y salesEnabled:false.
+El logo se muestra desde la configuración tanto en la navegación como en el resumen del dashboard. Se eliminó la presentación de VOID como plataforma de múltiples discotecas.
+La reutilización futura consiste en usar estos componentes en otra aplicación con su propia configuración y datos. No se incorporó un registro de clubes, selección en runtime, resolución por dominio ni mecanismo multitenant.
+
+LÓGICA Y DATOS
+DemoClub se sustituyó por ClubConfiguration. DemoDashboard conserva los indicadores y colecciones del escenario; se retiró clubId, innecesario con una sola configuración.
+Se eliminaron DEMO_CLUBS, DEMO_DASHBOARDS, selectedId, selectClub y el BehaviorSubject de selección.
+AdminDemoService ofrece context$ mediante defer/of: cada suscripción obtiene nuevas copias de configuración, logo, colores, settings y registros de todas las colecciones. No mantiene estados mutables de cambio de discoteca.
+admin.data.ts contiene un único DEMO_DASHBOARD de VOID. Se eliminaron íntegramente los escenarios Órbita y Prisma, sin ocultarlos detrás de un selector deshabilitado.
+Datos del escenario actual:
+- Ventas: $1.280.000 CLP; 73 pedidos; 214 entradas; 358 tragos.
+- Ticket promedio: $17.534 CLP. Se retiró la tarjeta de comisión acumulada y su campo del modelo/datos por indicación posterior del Product Owner.
+- Cuatro productos destacados: Piscola, Gin Tonic, Mojito y Pisco Sour.
+- Tres eventos: VOID Sessions; VOID · After Hours; VOID · Ritmo local.
+- Tres ventas ilustrativas con referencias DEMO-VOID-1048/1047/1046 y dos actividades de ejemplo.
+- Fechas del escenario: noviembre de 2026. Los valores, variaciones y estados Aprobado DEMO son estáticos y ficticios.
+No hay conexión con ventas reales, pedidos anónimos, pagos o Wallet. Estos ejemplos no emiten entradas ni consumos utilizables.
+
+INTERFAZ Y NAVEGACIÓN
+- Selector y su label eliminados del DOM, en móvil y escritorio.
+- Nombre Club VOID visible al abrir /admin, volver desde otra sección o recargar.
+- Siete rutas conservadas: /admin, eventos, tragos, ventas, comisiones, personal y configuracion.
+- Las seis secciones secundarias siguen siendo pantallas provisionales.
+- Navegación lateral en escritorio y menú móvil cerrado por defecto, con apertura, cierre por Escape y cierre al elegir una ruta.
+- El enlace a la aplicación cliente conserva su comportamiento. No se agregó navegación nueva al cliente.
+- Tras retirar comisión acumulada quedan cinco indicadores en escritorio y cuatro en móvil (ventas, pedidos, entradas y ticket promedio), en cuadrícula de dos columnas. La ruta provisional Comisiones se conserva.
+
+PRUEBAS EJECUTADAS
+Angular completo:
+npm test -- --watch=false --browsers=ChromeHeadless
+Resultado registrado durante la corrección de aplicación única: 112/112 aprobadas. No se repitió la suite tras los dos ajustes visuales finales (retirar comisión y mostrar ticket promedio en móvil).
+Se adaptaron las tres pruebas administrativas existentes al contrato de un solo club: configuración/escenario VOID; copias independientes de logo, colores y registros; apertura directa, ausencia de selector, navegación de siete rutas, menú/Escape, regreso al dashboard y ausencia de solicitudes HTTP.
+No se sumaron pruebas artificiales por retirar el selector; el total se mantiene en 112.
+
+Build desarrollo:
+npm run build -- --configuration development
+Aprobado durante la corrección de aplicación única, antes de los dos ajustes visuales finales. Total inicial aproximado 2,02 MB; chunk administrativo lazy 56,87 kB.
+
+Build despliegue:
+API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+Última compilación aprobada DESPUÉS de los ajustes finales. Inicial 711,67 kB; transferencia estimada 144,48 kB. Chunk administrativo lazy 31,79 kB; transferencia estimada 8,13 kB.
+Evidencia final: docs/visual-review/admin-41-correction/build-mobile-average.log. También se conserva build-without-commission.log de la versión intermedia, que ya no describe la distribución móvil vigente.
+Se compiló localmente; no se publicó una nueva versión en Vercel.
+
+Chrome Headless real con perfil temporal aislado (ejecución anterior a retirar comisión y sustituirla por ticket promedio en móvil):
+- Siete rutas administrativas × 320/390/768/1280 px: 28 combinaciones.
+- Cinco pestañas del cliente × los mismos cuatro anchos: 20 combinaciones de regresión visual.
+- Total: 48 combinaciones sin scroll horizontal.
+- Cero selectores en las siete rutas administrativas.
+- Dashboard directo y después de recargar: Club VOID, sin nombres Órbita/Prisma ni identidad de plataforma.
+- Logo e imágenes locales cargados correctamente.
+- Menú móvil, Escape, cierre al navegar y Tab/Enter entre enlaces administrativos comprobados.
+- Regreso al cliente: cinco pestañas y sin layout administrativo; retorno directo a VOID correcto.
+- Cero errores de consola/excepciones, cero respuestas HTTP >=400 y cero solicitudes de escritura durante el recorrido.
+Capturas históricas revisadas: dashboard a los cuatro anchos, página completa a 390/1280 px y menú a 390 px. No se renovaron las capturas tras los ajustes visuales finales: todavía muestran Comisión acumulada. La ausencia de scroll de la distribución final 5/4 no se presenta como una nueva comprobación de navegador.
+
+Protección de alcance:
+Comparación SHA-256 antes/después de 165 archivos de backend, páginas/layout/servicios del cliente, environments, dependencias, Angular config, estilos globales y rutas: cero diferencias.
+No se modificaron el frontend del cliente, Fintoc, Flask ni credenciales. Los estilos nuevos están limitados al panel administrativo.
+git diff --check: aprobado.
+No se volvió a ejecutar Flask: no hubo cambios Python ni nuevos flujos de pago. No se repitió npm audit y no se instalaron/actualizaron dependencias.
+
+ARCHIVOS CREADOS EN ESTA CORRECCIÓN
+- frontend/src/app/admin/club.config.ts
+- frontend/src/assets/admin/void-logo.svg
+- docs/CHECKPOINT_4_1_CORRECCION.txt
+- docs/visual-review/admin-41-correction/review-admin.cjs
+- docs/visual-review/admin-41-correction/admin-browser-correction-41.json
+- docs/visual-review/admin-41-correction/scope-verification.json
+- docs/visual-review/admin-41-correction/angular-tests.log
+- docs/visual-review/admin-41-correction/build-development.log
+- docs/visual-review/admin-41-correction/build-deployment.log (corrección anterior a los últimos ajustes visuales)
+- docs/visual-review/admin-41-correction/build-without-commission.log (versión intermedia)
+- docs/visual-review/admin-41-correction/build-mobile-average.log (build final vigente)
+- docs/visual-review/admin-41-correction/dashboard-320.png
+- docs/visual-review/admin-41-correction/dashboard-390.png
+- docs/visual-review/admin-41-correction/dashboard-768.png
+- docs/visual-review/admin-41-correction/dashboard-1280.png
+- docs/visual-review/admin-41-correction/dashboard-full-390.png
+- docs/visual-review/admin-41-correction/dashboard-full-1280.png
+- docs/visual-review/admin-41-correction/mobile-menu-390.png
+
+ARCHIVOS MODIFICADOS RESPECTO A LA ENTREGA 4.1 PREVIA
+- frontend/src/app/admin/admin.model.ts
+- frontend/src/app/admin/admin.data.ts
+- frontend/src/app/admin/admin-demo.service.ts
+- frontend/src/app/admin/admin-demo.service.spec.ts
+- frontend/src/app/admin/admin-layout.component.ts
+- frontend/src/app/admin/admin-layout.component.html
+- frontend/src/app/admin/admin-layout.component.scss
+- frontend/src/app/admin/admin-overview.component.ts
+- frontend/src/app/admin/admin-overview.component.html
+- frontend/src/app/admin/admin-overview.component.scss
+- frontend/src/app/admin/admin-dashboard.component.html
+- frontend/src/app/admin/admin-dashboard.component.scss
+- frontend/src/app/admin/admin-routing.spec.ts
+- docs/CHECKPOINT_4_1.txt: aviso inicial de sustitución; contenido histórico conservado.
+El inventario es relativo a la versión 4.1 inmediatamente anterior. El módulo administrativo ya era trabajo local sin commit; git status muestra varios de estos archivos como nuevos respecto de main.
+Las evidencias anteriores de admin-41 se conservan como históricas y no describen la corrección vigente.
+
+LÍMITES Y PENDIENTES
+- Sigue siendo una demostración pública sin autenticación ni operaciones comerciales. Separar rutas no aporta autorización.
+- Perfil Admin DEMO es ilustrativo; no representa una sesión autenticada.
+- Datos, aprobaciones y porcentajes son ejemplos. La sección Comisiones sigue provisional; el indicador de comisión fue retirado. Sin base de datos, persistencia, CRUD, emisión/canje o pagos adicionales.
+- Continúan advertencias de tamaño: inicial sobre 500 kB; estilos administrativos layout 3,06 kB y dashboard 3,47 kB sobre aviso de 2 kB, dentro del error de 4 kB; advertencias anteriores del cliente/Bootstrap. No se elevaron presupuestos.
+- Los riesgos de dependencias y memoria de Vercel de 3.6 siguen pendientes. El entorno Flask development observado en 4.1 no se consultó ni corrigió en esta tarea, porque se limitó al frontend administrativo.
+- Pendientes revisión visual del Product Owner, aprobación del arquitecto y validación física Safari/iOS/Android y accesibilidad integral.
+- No se hizo commit, push ni despliegue remoto.
+
+ENTREGA
+Panel exclusivo de Club VOID, con configuración reutilizable por aplicación y sin estados ni escenarios multidiscoteca.
+Últimos cambios incorporados: retiro de comisión acumulada y restauración de la cuadrícula móvil de cuatro tarjetas mediante Ticket promedio. Build final aprobado, sin nuevas ejecuciones de suite o navegador para esta actualización documental.
+Trabajo detenido en la corrección 4.1, a la espera de aprobación. No se avanzó a 4.2.

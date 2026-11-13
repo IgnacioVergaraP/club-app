@@ -1,0 +1,9 @@
+  <div class="club-banner"><div><h1 id="dashboard-title">{{ club.tradeName }} <span class="demo-tag">DEMO</span></h1><p>Panel administrativo del club</p></div><img class="banner-mark" [src]="club.logo.src" alt="" width="80" height="30"></div>
+  <p class="period">{{ dashboard.period }} · todos los indicadores son simulados.</p>
+  <div class="metrics" aria-label="Indicadores ficticios">
+    <article class="highlight"><app-admin-icon name="coins"/><h2>Ventas hoy</h2><strong data-metric="sales">{{ dashboard.salesClp | currency:'CLP':'symbol-narrow':'1.0-0':'es-CL' }}</strong><span class="trend">↑ +12% <small>vs. ayer · DEMO</small></span></article>
+    <article><app-admin-icon name="cart"/><h2>Pedidos hoy</h2><strong>{{ dashboard.orders }}</strong><span class="trend">↑ +18% <small>vs. ayer · DEMO</small></span></article>
+    <article><app-admin-icon name="ticket"/><h2>Entradas emitidas</h2><strong>{{ dashboard.tickets }}</strong><span class="trend">↑ +9% <small>vs. ayer · DEMO</small></span></article>
+    <article class="extra-metric"><app-admin-icon name="drink"/><h2>Tragos vendidos</h2><strong>{{ dashboard.drinks }}</strong><span class="trend">↑ +15% <small>vs. ayer · DEMO</small></span></article>
+    <article><app-admin-icon name="receipt"/><h2>Ticket promedio</h2><strong>{{ dashboard.averageClp | currency:'CLP':'symbol-narrow':'1.0-0':'es-CL' }}</strong><span class="trend">↑ +6% <small>vs. ayer · DEMO</small></span></article>
+  </div>

@@ -1,0 +1,210 @@
+CLUB VOID — CHECKPOINT 4.2
+Gestión administrativa de eventos DEMO + Liquid Glass
+Fecha: 12-11-2026
+Base: CHECKPOINT_4_1_CORRECCION.txt, aplicación exclusiva de Club VOID.
+
+1. OBJETIVO Y ESTADO
+Implementada exclusivamente 4.2: /admin/eventos pasa de provisional a listado, creación, edición, detalles y cambio de estado con datos locales. La barra inferior del cliente incorpora una estética de cristal flotante.
+Terminada técnicamente dentro del alcance DEMO; pendiente revisión visual del Product Owner y aprobación del arquitecto. No se avanzó a 4.3.
+Se mantiene Angular 17 con NgModules y standalone:false. Sin nuevas dependencias, autenticación, base de datos, escritura HTTP ni integraciones comerciales.
+VOID sigue siendo la única discoteca de esta aplicación, con club.config.ts conservado; sin selector ni arquitectura multitenant visible.
+
+2. VERIFICACIONES INICIALES OBLIGATORIAS
+- Se inspeccionó git status: ya existían cambios locales de 4.1 (ruta /admin, módulo, documentos, evidencias y logo sin commit). Se conservaron.
+- Se leyó el CHECKPOINT 4.1 consolidado y se verificó la implementación vigente antes de desarrollar.
+- Suite Angular inicial completa: 112/112 aprobadas.
+- Chrome Headless real con perfil aislado: dashboard a 320, 390, 768 y 1280 px, sin scroll horizontal.
+- Comisión acumulada ausente; sin selector de discotecas.
+- Ticket promedio visible en móvil; cuatro indicadores a 320/390 y cinco a 768/1280.
+- Se guardaron cuatro capturas iniciales y initial-review.json. No se detectó una regresión importante que impidiera continuar.
+El dashboard no se rediseñó ni conectó a la gestión de eventos; su contenido aprobado sigue intacto.
+
+3. FUNCIONALIDADES ADMINISTRATIVAS
+Listado /admin/eventos:
+- Imagen local, nombre, fecha/horario, descripción breve, estado DEMO, cantidad de tipos de entrada y precio mínimo; sin tipos muestra Sin precio definido.
+- Buscador por nombre sin distinción de mayúsculas, filtro por estado y orden ascendente/descendente por fecha y hora.
+- Nuevo evento, Ver detalles, Editar y selector nativo de estado por registro.
+- Estados Borrador, Publicado, Cancelado y Finalizado, todos manuales. Finalizado no se infiere automáticamente del reloj y nunca sustituye Cancelado.
+- Mensajes de cambio de estado, errores controlados, Sin resultados con Limpiar filtros y presentación prevista para una colección inicialmente vacía.
+- Tarjetas horizontales en escritorio y verticales en móvil, sin tabla horizontal obligatoria.
+
+Rutas nuevas dentro del módulo administrativo:
+- /admin/eventos: listado.
+- /admin/eventos/nuevo: formulario de creación.
+- /admin/eventos/:id: detalles.
+- /admin/eventos/:id/editar: edición.
+El encabezado del layout reconoce estas subrutas como Eventos. Dashboard y las otras cinco secciones secundarias conservan sus rutas y comportamiento.
+Los detalles muestran imagen, descripción completa, horario, estado y tipos con precio, cupo, máximo por compra y estado. Un ID inexistente o perdido por recarga muestra Evento no disponible y regreso al listado.
+No se implementó eliminación de eventos, venta, emisión o canje. Quitar tipos de entrada pertenece exclusivamente al formulario local.
+
+4. MODELOS, DATOS Y SERVICIO
+Archivos separados y tipados:
+- AdminEventStatus: draft/published/cancelled/finished.
+- AdminTicketStatus: available/inactive.
+- AdminTicketType: nombre, precio CLP, cupo, máximo por compra y estado.
+- AdminEventDraft: nombre, descripción, fecha, inicio, término, endsNextDay, imagen, estado y tipos.
+- AdminEvent: incorpora ID local estable e isDemo:true.
+- EVENT_STATUSES, TICKET_STATUSES, EVENT_IMAGES y EVENT_LIMITS centralizan opciones y límites.
+
+AdminEventsService:
+- BehaviorSubject privado y events$ de consulta con nuevas copias de cada evento y sus tipos por emisión.
+- save valida también en el servicio, normaliza nombres/descripciones y crea o reemplaza un único registro con ID estable. Los registros nuevos reciben IDs admin-demo-event-005 en adelante.
+- changeStatus aplica las mismas reglas; una publicación inválida no modifica el registro.
+- El servicio vive en el módulo administrativo, conservando cambios al ir a otras secciones y volver en la misma SPA. Recargar o abrir una nueva instancia de la app restablece los cuatro mocks.
+- No usa HttpClient, storage del navegador, cookies ni backend. Las modificaciones no alteran los arrays iniciales ni instantáneas recibidas por otros suscriptores.
+- Fuente y modelos separados del catálogo público, dashboard, Wallet, pedidos y pagos.
+
+Escenario inicial, cuatro eventos ficticios:
+1. admin-demo-event-001: VOID Sessions, Publicado; 20-11-2026 23:00–05:00 del día siguiente. General $12.000, cupo 100/máximo 10; VIP $25.000, cupo 40/máximo 4; ambos Disponibles DEMO.
+2. admin-demo-event-002: VOID · After Hours, Borrador; 28-11-2026 23:00–06:00 del día siguiente; sin tipos de entrada.
+3. admin-demo-event-003: VOID · Ritmo local, Cancelado; 29-11-2026 22:00–04:00 del día siguiente; General $10.000, cupo 80/máximo 5, Inactivo.
+4. admin-demo-event-004: VOID · Archivo de octubre, Finalizado; 24-10-2026 23:00–05:00 del día siguiente; General $10.000, cupo 100/máximo 10, Inactivo.
+Fechas y estados no representan operaciones comerciales. Cupos y Disponibles DEMO son atributos de ejemplo, no inventario ni derechos utilizables.
+
+5. FORMULARIO REACTIVE FORMS
+FormGroup tipado con FormArray de tipos de entrada. Agregar, editar y quitar tipos solo modifica el borrador hasta pulsar Guardar evento DEMO. Cancelar y volver descarta los cambios sin guardar.
+El editor responde a cambios de parámetros cuando Angular reutiliza el componente entre IDs; no arrastra los datos del registro anterior. La suscripción se cancela al destruirse.
+
+Reglas:
+- Nombre obligatorio, no solo espacios, máximo 100 caracteres; descripción opcional hasta 1200.
+- Fecha real del calendario entre 2000 y 2100, rechazando desbordes como 30 de febrero.
+- Horas válidas HH:mm, término posterior al inicio y duración máxima de 24 horas.
+- Checkbox explícito Termina al día siguiente para horarios nocturnos como 23:00–05:00. No se infiere un día adicional silenciosamente.
+- Horarios locales de Chile; fecha y horas se guardan como valores de calendario, sin conversión a instantes UTC ni resolución de transiciones de horario estacional.
+- Imagen mediante selector de tres archivos locales existentes, con vista previa. Sin carga de archivos ni URLs externas.
+- Nombre de tipo obligatorio hasta 50 caracteres, sin duplicados ignorando espacios externos y mayúsculas.
+- Precio entero CLP entre 0 y 10.000.000; cupo entero de 1 a 100.000; máximo por compra entero de 1 a 100, sin superar el cupo.
+- Hasta 12 tipos de entrada; publicación requiere al menos un tipo válido. Borradores pueden guardarse sin tipos.
+- No se exige una fecha futura: los estados son manuales y el escenario permite revisar registros históricos. Reglas comerciales de publicación quedan fuera de esta entrega.
+Validadores compartidos, mensajes de campo/grupo, labels, fieldsets/legend, aria-invalid, foco visible y resumen de error role=alert.
+No se consideran los estados administrativos como confirmación de un pago; no hay acceso a Fintoc desde estas pantallas.
+
+6. LIQUID GLASS EN LA NAVEGACIÓN DEL CLIENTE
+Se modificó únicamente el SCSS de BottomNav y la meta viewport necesaria para el área segura:
+- Barra fija flotante, centrada, ancho hasta 700 px, separación lateral y margen inferior.
+- Superficie translúcida rgba(18,18,26,.82), blur de 18 px y saturación moderada dentro de @supports.
+- Bordes luminosos, sombras/reflejo superior discretos e indicador activo de cristal morado con bordes sólidos; sin degradados.
+- Fondo opaco #111117 definido como base para navegadores sin backdrop-filter. Se admite también -webkit-backdrop-filter.
+- Transiciones suaves limitadas a colores, borde y sombra; prefers-reduced-motion las elimina.
+- Margen inferior calc(.375rem + env(safe-area-inset-bottom,0px)); viewport-fit=cover habilita la zona segura en dispositivos compatibles.
+- Cinco pestañas, rutas, iconos, aria-current, nombres accesibles y enlaces nativos sin cambios. Tab y Enter mantienen la navegación normal de Angular.
+La reserva existente del layout y la posición existente del resumen de Tragos bastaron: no se modificaron el layout de contenido ni las páginas del cliente. Header sticky sin cambios.
+En viewport de altura 844 px: barra termina a 838 px y comienza a 778; resumen de Tragos termina a 776, dejando 2 px de separación. Al emular inset inferior de 34 px, se mantienen esos 2 px y la barra termina a 804.
+La comprobación de controles sin tapar se realizó al llegar al final de cada página. Durante el desplazamiento, el contenido pasa por debajo de la superficie flotante, como corresponde a este diseño.
+
+7. PRUEBAS AUTOMATIZADAS Y BUILDS
+Inicial:
+npm test -- --watch=false --browsers=ChromeHeadless
+112/112 aprobadas.
+
+Final:
+npm test -- --watch=false --browsers=ChromeHeadless
+136/136 aprobadas: 24 pruebas nuevas y adaptación de la prueba de navegación administrativa existente.
+- Servicio: creación/edición, copias, estados, publicación sin tipos, nombres/fechas/horarios/imagen inválidos, límites numéricos, duplicados, gratuidad, horarios nocturnos, IDs inexistentes, reinicio de la memoria, ausencia de HTTP y catálogo público intacto.
+- Formulario: bloqueo de datos inválidos, publicación, precios/horario, agregar/quitar/duplicar tipos, máximo/cupo, guardado y detalles, edición sin mutación anticipada, editor reutilizado entre IDs y registro ausente.
+- Listado: búsqueda/estado combinados, vacíos, limpiar, orden temporal y recuperación visual ante una publicación rechazada.
+- Navegación existente: las siete secciones, títulos, menú/Escape, coherencia inicial del selector de estado y ausencia de HTTP.
+
+Build desarrollo final:
+npm run build -- --configuration development
+Aprobado. Inicial aproximado 2,03 MB; chunk lazy administrativo 119,68 kB.
+
+Build despliegue final:
+API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+Aprobado. Inicial 720,57 kB / transferencia estimada 145,31 kB; chunk lazy administrativo 66,20 kB / 15,23 kB estimados.
+No se cambiaron presupuestos ni dependencias. Es una compilación local; no se desplegó en Vercel.
+git diff --check: aprobado.
+No se volvió a ejecutar Flask ni npm audit porque no hubo cambios de backend o dependencias y no forman parte de las pruebas nuevas solicitadas.
+
+8. NAVEGADOR REAL, RESPONSIVIDAD Y EVIDENCIAS
+Chrome Headless real, perfil temporal aislado, Angular local, sin iniciar solicitudes de pago.
+Verificación inicial: cuatro anchos del dashboard, sin comisión y con Ticket promedio en móvil.
+
+Recorrido final principal: 56 combinaciones, todas sin scroll horizontal:
+- Dashboard, listado de eventos, formulario nuevo, formulario con errores, formulario válido, detalles, edición y vacío filtrado: 8 pantallas × 4 anchos = 32.
+- Inicio, Noches, Tragos, Wallet y Perfil con Liquid Glass: 5 × 4 = 20.
+- Tragos con selección y resumen fijo: 1 × 4 = 4.
+Anchos: 320, 390, 768 y 1280 px; altura de referencia 844 px.
+
+Interacciones comprobadas con controles del navegador:
+- Crear Noche QA 42 con General/VIP, editar nombre, guardar y consultar detalles.
+- Mensajes de nombre/fecha vacíos, publicación sin tipos, precio negativo y horario nocturno incoherente.
+- Agregar tres tipos y quitar uno; guardar dos válidos.
+- Cancelar el evento creado; buscar, combinar filtro sin resultados, limpiar y cambiar orden.
+- Ir a Ventas y volver: evento editado y estado Cancelado conservados en la misma SPA.
+- Recargar: evento nuevo desaparece; ID inexistente muestra estado de no disponible.
+- Las cinco pestañas del cliente, una activa, Tab/Enter, header top 0 tras scroll y controles finales fuera de la barra.
+- Logo y fotografías locales cargados. Cero errores de consola/excepciones, cero HTTP >=400 y cero solicitudes de escritura durante el recorrido.
+
+Casos adicionales de Liquid Glass:
+- Movimiento reducido emulado: transition-duration:0s.
+- Alternativa opaca: se deshabilitó controladamente la rama @supports en CSSOM para representar ausencia de blur; color de base rgb(17,17,23). No se presenta como una prueba física en un navegador antiguo.
+- Área segura mediante Emulation.setSafeAreaInsetsOverride de Chrome: 34 px en los cuatro anchos; bottom calculado 40 px, sin superposición con resumen ni scroll horizontal.
+- Error ampliado del resumen de Tragos en cuatro anchos: error controlado inyectado con utilidades Angular de desarrollo, sin petición de pago. Último producto por encima del resumen y resumen por encima de la barra. No se modificó código de Tragos.
+
+Evidencias en docs/visual-review/admin-42/:
+- review-initial.cjs e initial-review.json; cuatro capturas initial-dashboard-320/390/768/1280.png.
+- review-final.cjs y final-review.json, matriz principal e interacciones.
+- review-edges.cjs y edge-review.json, área segura y error ampliado.
+- angular-before.log y angular-after.log.
+- build-development.log y build-deployment.log.
+- scope-verification.json.
+- Capturas a 390/1280 de dashboard; events-list; events-form-new/errors/valid/edit; event-detail; events-filter-empty; glass-inicio/noches/tragos/wallet/perfil; glass-selected-cart.
+- Capturas glass-reduced-motion.png, glass-opaque-fallback.png y glass-safe-area-390.png.
+Son capturas locales de Chrome. Las capturas de viewport no equivalen a revisión física de Safari/iOS/Android ni a auditoría completa de accesibilidad.
+
+9. ARCHIVOS CREADOS
+frontend/src/app/admin/events/admin-event.model.ts
+frontend/src/app/admin/events/admin-event.validation.ts
+frontend/src/app/admin/events/admin-events.data.ts
+frontend/src/app/admin/events/admin-events.service.ts
+frontend/src/app/admin/events/admin-events.service.spec.ts
+frontend/src/app/admin/events/admin-events.component.ts
+frontend/src/app/admin/events/admin-events.component.html
+frontend/src/app/admin/events/admin-events.component.scss
+frontend/src/app/admin/events/admin-events.component.spec.ts
+frontend/src/app/admin/events/admin-event-form.component.ts
+frontend/src/app/admin/events/admin-event-form.component.html
+frontend/src/app/admin/events/admin-event-form.component.scss
+frontend/src/app/admin/events/admin-event-form.component.spec.ts
+frontend/src/app/admin/events/admin-event-detail.component.ts
+frontend/src/app/admin/events/admin-event-detail.component.html
+Docs y evidencia: docs/CHECKPOINT_4_2.txt y directorio docs/visual-review/admin-42/ descrito arriba.
+
+10. ARCHIVOS MODIFICADOS EN 4.2
+- frontend/src/app/admin/admin.module.ts: ReactiveFormsModule, declaraciones, rutas y proveedor del servicio.
+- frontend/src/app/admin/admin-layout.component.ts: título Eventos en sus nuevas subrutas.
+- frontend/src/app/admin/admin-routing.spec.ts: listado real y estados iniciales en lugar del placeholder.
+- frontend/src/app/layout/bottom-nav/bottom-nav.component.scss: Liquid Glass.
+- frontend/src/index.html: únicamente viewport-fit=cover en meta viewport.
+No se modificaron el HTML/TS de navegación inferior ni sus rutas.
+Inventario relativo al estado inicial de esta tarea; parte de 4.1 ya era trabajo local sin commit y continúa apareciendo como archivos nuevos en git status.
+
+Protección de alcance: comparación SHA-256 de 233 archivos existentes, con 228 idénticos y solo los cinco cambios autorizados anteriores. Backend, Fintoc, credenciales, páginas/servicios del cliente, dashboard, dependencias, estilos globales y configuración de hosting permanecen intactos. No se publican hashes ni contenidos de secretos.
+
+11. PROBLEMAS DETECTADOS Y CORREGIDOS
+- Selector de estado nativo inicialmente mostraba Borrador aunque el registro fuese Publicado/Finalizado: se sincronizó la opción seleccionada al renderizar y se agregó comprobación de regresión.
+- Reutilización del editor por Angular entre IDs podía conservar los datos anteriores: se observa paramMap, se reinicia el borrador y se libera la suscripción al destruir el componente.
+- Los filtros ahora toman el valor vigente también al suscribirse de nuevo, evitando perder valores precargados.
+- Se habilitó viewport-fit=cover para que la meta viewport sea coherente con safe-area-inset-bottom.
+Las compilaciones y la suite final pasaron. No quedan fallos bloqueantes conocidos dentro del alcance DEMO comprobado.
+
+12. RIESGOS Y LIMITACIONES
+- Estado en memoria: se pierde al recargar, cerrar la pestaña o reiniciar la app. No existe concurrencia, auditoría duradera ni permisos.
+- Administración pública DEMO sin autenticación. No debe utilizarse para operaciones comerciales ni datos sensibles.
+- Publicado/Disponible/Finalizado son simulaciones manuales; no hay backend de publicación, inventario, emisión, venta, cancelación comercial o reembolso.
+- Catálogo público y dashboard mantienen sus mocks independientes; un cambio administrativo no se propaga a ellos por diseño y restricción de 4.2.
+- Imágenes limitadas a tres archivos locales; sin subida de archivos o gestión multimedia.
+- Fecha/hora local sin conversión de zona horaria ni reglas comerciales de horario estacional; resolver al diseñar el contrato de backend.
+- La alternativa sin blur y el área segura se probaron por emulación. Pendientes Safari/iOS y Android físicos, contraste/auditoría WCAG completa y lectores de pantalla.
+- Avisos de build: inicial supera 500 kB; varios SCSS superan aviso de 2 kB, incluidos listado/detalle compartido de eventos (2,88 kB) y formulario (2,17 kB), todos bajo el límite de error de 4 kB. Persisten advertencias previas del cliente y dos selectores Bootstrap omitidos por el optimizador. No se elevaron presupuestos.
+- Riesgos de dependencias, memoria de Vercel y entorno Flask development reportados en etapas previas siguen pendientes; no se reconsultó ni modificó el backend en esta tarea.
+- Sin pagos adicionales, Split Payment, Supabase, QR reales, push, promociones, facturación, autenticación o acceso a ventas reales.
+- Sin commit, push ni despliegue remoto.
+
+13. RECOMENDACIONES PARA 4.3 Y ENTREGA
+Revisión visual del Product Owner y aprobación del arquitecto antes de definir otra subetapa.
+Para 4.3, acordar expresamente la siguiente sección DEMO; no se asume autorización de CRUD comercial o sincronización con Noches.
+Antes de una integración real de eventos: diseñar persistencia, autenticación/permisos, contrato de fecha/zona horaria, publicación e inventario de entradas, y manejo de imágenes. Mantener la solución por aplicación de club, sin selector multidiscoteca.
+Validar Liquid Glass y formularios en dispositivos físicos y revisar las dependencias/seguridad pendientes mediante una etapa técnica autorizada.
+Trabajo detenido en 4.2, a la espera de revisión del arquitecto. No se avanzó a 4.3.
