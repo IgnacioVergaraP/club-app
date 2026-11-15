@@ -1,0 +1,10 @@
+{
+  "checkedExistingFiles": 281,
+  "changedExistingFiles": [
+    "frontend/src/app/admin/admin-layout.component.html",
+    "frontend/src/app/admin/admin.module.ts",
+    "frontend/src/app/admin/admin-routing.spec.ts"
+  ],
+  "missingExistingFiles": [],
+  "note": "Comparison against the snapshot before 4.4, preserving uncommitted 4.2/4.3 work. No secret contents or digests included."
+}

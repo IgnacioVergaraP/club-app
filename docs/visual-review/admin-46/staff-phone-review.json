@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-15",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "width": 320,
+      "scrollWidth": 305,
+      "phone": "Teléfono DEMO: +56 9 0000 0001",
+      "missing": "Teléfono DEMO: Sin teléfono"
+    },
+    {
+      "width": 390,
+      "scrollWidth": 375,
+      "phone": "Teléfono DEMO: +56 9 0000 0001",
+      "missing": "Teléfono DEMO: Sin teléfono"
+    },
+    {
+      "width": 768,
+      "scrollWidth": 753,
+      "phone": "Teléfono DEMO: +56 9 0000 0001",
+      "missing": "Teléfono DEMO: Sin teléfono"
+    },
+    {
+      "width": 1280,
+      "scrollWidth": 1280,
+      "phone": "Teléfono DEMO: +56 9 0000 0001",
+      "missing": "Teléfono DEMO: Sin teléfono"
+    }
+  ],
+  "screenshots": [
+    "staff-phones-390.png",
+    "staff-phones-1280.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [],
+  "paid": false,
+  "result": "PASS"
+}

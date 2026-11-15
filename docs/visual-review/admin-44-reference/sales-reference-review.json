@@ -1,0 +1,363 @@
+{
+  "date": "2026-11-14",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "sales-reference-list",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-list",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-list",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-list",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-selected",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-selected",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-selected",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-selected",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-partial",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-partial",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-partial",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-partial",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-filters",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-filters",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-filters",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-filters",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-empty",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-empty",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-empty",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-empty",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-custom",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-custom",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-custom",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-custom",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-invalid",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-invalid",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-invalid",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-reference-invalid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Ventas"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "events-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Eventos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Tragos"
+    },
+    {
+      "screen": "wallet-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "payment-result-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "payment-result-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "payment-result-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "payment-result-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "sales-reference-direct-route",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "DEMO-ORD-0001"
+    },
+    {
+      "screen": "sales-reference-direct-route",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "DEMO-ORD-0001"
+    },
+    {
+      "screen": "sales-reference-direct-route",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "DEMO-ORD-0001"
+    },
+    {
+      "screen": "sales-reference-direct-route",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "DEMO-ORD-0001"
+    }
+  ],
+  "screenshots": [
+    "sales-reference-list-390.png",
+    "sales-reference-list-full-390.png",
+    "sales-reference-list-1280.png",
+    "sales-reference-list-full-1280.png",
+    "sales-reference-selected-390.png",
+    "sales-reference-selected-full-390.png",
+    "sales-reference-selected-1280.png",
+    "sales-reference-selected-full-1280.png",
+    "sales-reference-partial-390.png",
+    "sales-reference-partial-full-390.png",
+    "sales-reference-partial-1280.png",
+    "sales-reference-partial-full-1280.png",
+    "sales-reference-filters-390.png",
+    "sales-reference-filters-1280.png",
+    "sales-reference-empty-390.png",
+    "sales-reference-empty-1280.png",
+    "sales-reference-custom-390.png",
+    "sales-reference-custom-1280.png",
+    "sales-reference-invalid-390.png",
+    "sales-reference-invalid-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "events-regression-390.png",
+    "events-regression-1280.png",
+    "drinks-regression-390.png",
+    "drinks-regression-1280.png",
+    "wallet-regression-390.png",
+    "wallet-regression-1280.png",
+    "payment-result-regression-390.png",
+    "payment-result-regression-1280.png",
+    "sales-reference-direct-route-390.png",
+    "sales-reference-direct-route-1280.png"
+  ],
+  "keyboard": [
+    "Enter opens desktop inline detail; Close restores focus to the order button without navigation.",
+    "Mobile card opens with Enter; changing filters closes stale detail; menu responds to Escape."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [],
+  "paid": false,
+  "result": "PASS"
+}

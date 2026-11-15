@@ -8,6 +8,18 @@ import { Component, Input } from '@angular/core';
 export class AdminIconComponent {
   @Input() name = 'activity';
   readonly paths: Record<string, string> = {
+    eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Zm10-3a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z',
+    crown: 'm3 6 4 4 5-7 5 7 4-4-2 14H5L3 6Zm2 10h14',
+    shield: 'm12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Zm-4 9 3 3 5-6',
+    power: 'M12 2v10M6 5a9 9 0 1 0 12 0',
+    mail: 'M3 5h18v14H3zM3 6l9 7 9-7',
+    phone: 'm5 3 4 4-2 3c2 3 4 5 7 7l3-2 4 4-3 3C10 20 4 14 2 6l3-3Z',
+    briefcase: 'M3 7h18v14H3zM8 7V3h8v4M3 12h18m-11-2v4h4v-4',
+    layers: 'm12 3 10 5-10 5L2 8l10-5ZM2 13l10 5 10-5M2 18l10 5 10-5',
+    'credit-card': 'M3 5h18v14H3zM3 9h18M6 15h3m3 0h2',
+    bank: 'M2 9 12 3l10 6H2ZM4 21h16M5 10v8m5-8v8m4-8v8m5-8v8M3 18h18',
+    download: 'M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4',
+    search: 'M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm5 12 6 6',
     home: 'M3 10 12 3l9 7M5 9v12h5v-7h4v7h5V9',
     calendar: 'M4 5h16v16H4zM8 3v4m8-4v4M4 10h16',
     drink: 'M3 3h18L12 13 3 3Zm9 10v8m-5 0h10M7 7h10',

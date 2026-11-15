@@ -1,0 +1,540 @@
+{
+  "date": "2026-11-14",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "dashboard",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "events-list",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-list",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-list",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-list",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "wizard-step-1",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Información del evento"
+    },
+    {
+      "screen": "wizard-step-1",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Información del evento"
+    },
+    {
+      "screen": "wizard-step-1",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Información del evento"
+    },
+    {
+      "screen": "wizard-step-1",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Información del evento"
+    },
+    {
+      "screen": "wizard-step-2",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Fecha y horario"
+    },
+    {
+      "screen": "wizard-step-2",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Fecha y horario"
+    },
+    {
+      "screen": "wizard-step-2",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Fecha y horario"
+    },
+    {
+      "screen": "wizard-step-2",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Fecha y horario"
+    },
+    {
+      "screen": "wizard-step-3",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Entradas"
+    },
+    {
+      "screen": "wizard-step-3",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Entradas"
+    },
+    {
+      "screen": "wizard-step-3",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Entradas"
+    },
+    {
+      "screen": "wizard-step-3",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Entradas"
+    },
+    {
+      "screen": "wizard-step-4",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Revisar y publicar"
+    },
+    {
+      "screen": "wizard-step-4",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Revisar y publicar"
+    },
+    {
+      "screen": "wizard-step-4",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Revisar y publicar"
+    },
+    {
+      "screen": "wizard-step-4",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento",
+      "step": "Revisar y publicar"
+    },
+    {
+      "screen": "wizard-duplicate-review",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar evento",
+      "step": "Revisar y publicar"
+    },
+    {
+      "screen": "wizard-duplicate-review",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar evento",
+      "step": "Revisar y publicar"
+    },
+    {
+      "screen": "wizard-duplicate-review",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar evento",
+      "step": "Revisar y publicar"
+    },
+    {
+      "screen": "wizard-duplicate-review",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar evento",
+      "step": "Revisar y publicar"
+    },
+    {
+      "screen": "wizard-missing",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "wizard-missing",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "wizard-missing",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "wizard-missing",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "client-inicio",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-inicio",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-inicio",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-inicio",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-noches",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-noches",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-noches",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-noches",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-tragos",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-tragos",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-tragos",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-tragos",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-wallet",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-wallet",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-wallet",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-wallet",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-perfil",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "client-perfil",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "client-perfil",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "client-perfil",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "wallet-demo-qr",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-demo-qr",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-demo-qr",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-demo-qr",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-cart",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "client-cart",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "client-cart",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "client-cart",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "client-checkout",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "client-checkout",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "client-checkout",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "client-checkout",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Checkout"
+    }
+  ],
+  "screenshots": [
+    "dashboard-390.png",
+    "dashboard-1280.png",
+    "events-list-390.png",
+    "events-list-1280.png",
+    "wizard-step-1-390.png",
+    "wizard-step-1-full-390.png",
+    "wizard-step-1-1280.png",
+    "wizard-step-1-full-1280.png",
+    "wizard-step-2-390.png",
+    "wizard-step-2-full-390.png",
+    "wizard-step-2-1280.png",
+    "wizard-step-2-full-1280.png",
+    "wizard-step-3-390.png",
+    "wizard-step-3-full-390.png",
+    "wizard-step-3-1280.png",
+    "wizard-step-3-full-1280.png",
+    "wizard-step-4-390.png",
+    "wizard-step-4-full-390.png",
+    "wizard-step-4-1280.png",
+    "wizard-step-4-full-1280.png",
+    "wizard-duplicate-review-390.png",
+    "wizard-duplicate-review-1280.png",
+    "wizard-missing-390.png",
+    "wizard-missing-1280.png",
+    "client-inicio-390.png",
+    "client-inicio-1280.png",
+    "client-noches-390.png",
+    "client-noches-1280.png",
+    "client-tragos-390.png",
+    "client-tragos-1280.png",
+    "client-wallet-390.png",
+    "client-wallet-1280.png",
+    "client-perfil-390.png",
+    "client-perfil-1280.png",
+    "wallet-demo-qr-390.png",
+    "wallet-demo-qr-1280.png",
+    "client-cart-390.png",
+    "client-cart-1280.png",
+    "client-checkout-390.png",
+    "client-checkout-1280.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    {
+      "flow": "Incomplete draft recovery, four steps, backward navigation, validation, preview, review section editing, General/VIP add/edit/remove confirmation, published DEMO, guarded cancel, independent duplicate and mandatory new date",
+      "draftId": "admin-demo-event-005",
+      "publishedId": "admin-demo-event-006",
+      "copyId": "admin-demo-event-007"
+    },
+    "Cart/checkout summary reviewed without preparing orders or starting Fintoc"
+  ],
+  "paid": false,
+  "result": "PASS"
+}

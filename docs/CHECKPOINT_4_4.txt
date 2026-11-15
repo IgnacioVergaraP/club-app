@@ -1,0 +1,158 @@
+CLUB VOID — CHECKPOINT 4.4 ACTUALIZADO
+Gestión administrativa de ventas y pedidos — ajuste a referencia visual
+Fecha: 14-11-2026
+
+1. OBJETIVO Y ESTADO
+Subetapa 4.4 implementada como consulta exclusivamente DEMO. Se adaptó /admin/ventas a la imagen “Panel de Ventas Club VOID.png” entregada por el Product Owner después de la primera revisión.
+Pendiente de revisión visual del Product Owner y aprobación del arquitecto. No se avanzó a 4.5 ni se desplegó en Vercel.
+
+La entrega inicial se conserva en docs/CHECKPOINT_4_4_INICIAL.txt. Sus pruebas y capturas describen aquella versión. Este documento describe la interfaz vigente.
+Se mantienen Angular 17, NgModules, standalone:false, Bootstrap existente, SCSS y RxJS, sin dependencias nuevas.
+
+2. AJUSTE VISUAL IMPLEMENTADO
+- Encabezado Ventas con descripción, distintivo DEMO e identidad de Club VOID.
+- Cinco indicadores compactos con iconos; cinco columnas en escritorio y cuadrícula de dos columnas en pantallas pequeñas.
+- Indicadores antes de los filtros, como en la referencia.
+- Hoy, Ayer, Últimos 7 días y Personalizado mediante botones con estado seleccionado. En móvil se abrevia el texto de siete días y Personalizado se presenta como icono de calendario con nombre accesible.
+- Barra de búsqueda con lupa; filtros Tipo/Pago/Ordenar alineados en escritorio y adaptados a móvil.
+- Tabla de ocho columnas: Pedido, Fecha y hora, Tipo, Productos, Total CLP, Medio de pago, Estado de pago y Estado de entrega.
+- Filas compactas y pedido seleccionado con superficie y contorno morado.
+- Tarjetas móviles con número/fecha, tipo, importe CLP, pago, entrega, medio y resumen de productos. A 1150 px o menos se utiliza la presentación de tarjetas.
+- Badges sin cortes de palabras y tipos con iconos sobre morado sólido.
+- Sidebar existente y menú móvil conservados. Solo en Ventas se adapta la cabecera administrativa para evitar el título duplicado y mostrar Club VOID/DEMO en móvil; otras secciones conservan su cabecera.
+- Fondo oscuro, morado sólido y ausencia de degradados.
+
+Detalle integrado:
+- En escritorio el botón del pedido abre su detalle DEBAJO de la tabla, sin navegar a otra página. Cerrar devuelve el foco al botón del pedido.
+- En móvil el detalle se expande DENTRO de la tarjeta seleccionada; su botón permite abrir/cerrar. Solo un pedido permanece seleccionado.
+- Productos, cantidades, precio unitario, importe por línea, subtotal/total, información del pago, entrega y timeline se presentan mediante un panel reutilizable.
+- El total usa acento morado. Pago y entrega siguen siendo estados separados.
+- Cambiar filtros cierra el detalle anterior para no mostrar un pedido ajeno a la selección.
+- Se conserva /admin/ventas/:id como enlace directo compatible, usando el mismo panel de contenido y regreso con filtros en URL.
+
+La imagen se usa como referencia visual. Se mantienen cifras calculadas desde los datos DEMO; no se copiaron importes o porcentajes de crecimiento sin respaldo. Las leyendas de indicadores describen su cálculo, sin simular comparaciones históricas.
+
+3. FUNCIONALIDADES Y COHERENCIA DE DATOS
+Se conservan el servicio, los 12 pedidos sintéticos y las reglas financieras implementadas en 4.4:
+- Hoy, Ayer, últimos siete días inclusivos y rango personalizado inclusivo.
+- Búsqueda por número de pedido; tipo Entrada/Tragos/Mixto; estado de pago; fecha/importe en ambos sentidos.
+- Filtros combinados, mensajes sin resultados, validación de fechas, Limpiar filtros y resumen actualizado.
+- Los indicadores y el listado derivan de una única fuente y de los mismos filtros.
+- Pedidos cuenta todos los estados seleccionados. Ventas totales, unidades y ticket promedio incluyen solo approved.
+- Ticket promedio = importe aprobado / cantidad de pedidos aprobados, redondeado a CLP; cero sin aprobados.
+- Pending, failed y refunded conservan su importe ilustrativo en la lista, pero no suman a ventas ni unidades aprobadas. No es un reporte contable neto de reembolsos.
+
+Pago: Pendiente, Aprobado, Fallido, Reembolsado.
+Entrega/canje: Pendiente, Parcial, Completado, No corresponde.
+DEMO-ORD-0001 muestra pago Aprobado y entrega Pendiente; DEMO-ORD-0002 muestra Aprobado y Parcial. No hay transición automática de pago a entrega.
+La actividad es ilustrativa. Cuando la entrega está pendiente/parcial se muestra también una etapa pendiente, sin afirmar que ocurrió una operación.
+No existen acciones de cobro, entrega, canje, reembolso o emisión de documentos.
+
+Escenario comprobado con reloj fijo del 14-11-2026:
+- Hoy: 5 pedidos, 2 aprobados, $69.000, promedio $34.500, 3 entradas y 3 tragos.
+- Ayer: 3 pedidos, 2 aprobados, $35.000, promedio $17.500, 1 entrada y 3 tragos.
+- Últimos 7 días: 10 pedidos, 6 aprobados, $156.000, promedio $26.000, 7 entradas y 8 tragos.
+- Rango de los 12 pedidos: 7 aprobados, $175.000, promedio $25.000, 8 entradas y 9 tragos.
+- Semana + Mixto + Aprobado: 1 pedido por $29.000.
+
+4. MODELOS Y SERVICIOS
+AdminSale, AdminSaleItem, AdminSalePaymentStatus, AdminSaleFulfillmentStatus, AdminSaleType, AdminSalesSummary, AdminSalesFilters y AdminSalesView mantienen contratos tipados.
+La fuente contiene IDs DEMO reconocibles, líneas con cantidades/precios unitarios, fechas ISO, medio de pago, estados independientes, timeline e isDemo:true. Sin identidad de compradores, números de tarjeta o secretos.
+Tipo e importe se derivan de los ítems; subtotal = total en este escenario sin cargos/descuentos adicionales.
+
+AdminSalesService ofrece getSales(), query(filters) y find(id), con Observables y copias nuevas anidadas en cada suscripción. No tiene operaciones de escritura, HttpClient, almacenamiento del navegador ni conexión a Flask, Fintoc, Wallet o catálogo comercial.
+ADMIN_SALES_CLOCK fija el reloj en pruebas. El escenario se ancla al día de creación del servicio en America/Santiago, se conserva durante la sesión y se regenera al recargar. No tiene temporizador de medianoche.
+Los rangos inválidos/invertidos muestran error y resumen cero. La fecha/hora compacta de listado usa Intl y la zona del club; el detalle mantiene el año.
+
+AdminSalesListComponent coordina las dos presentaciones de consulta y emite la selección. AdminSalePanelComponent comparte el detalle entre escritorio, tarjeta móvil y ruta directa. La selección es solo estado visual local, no cambia pedidos ni se persiste.
+
+5. ARCHIVOS DE LA ENTREGA
+Archivos de 4.4 en frontend/src/app/admin/sales/:
+- admin-sale.model.ts
+- admin-sales.data.ts
+- admin-sales.logic.ts
+- admin-sales.service.ts / .spec.ts
+- admin-sales.component.ts / .html / .scss / .spec.ts
+- admin-sales-summary.component.ts
+- admin-sale-status.component.ts
+- admin-sales-list.component.ts / .html / .scss (añadidos para esta revisión visual)
+- admin-sale-panel.component.ts / .html / .scss (añadidos para esta revisión visual)
+- admin-sale-detail.component.ts / .html / .scss
+
+Archivos existentes administrativos modificados acumuladamente en 4.4:
+- admin.module.ts: componentes, servicio y rutas de Ventas/detalle.
+- admin-routing.spec.ts: navegación de secciones, rutas directas y regreso con filtros; selección de período mediante botones.
+- admin-layout.component.html: selección activa de Ventas y cabecera específica de esa sección.
+- admin-layout.component.scss: estilos de cabecera limitados a .sales-view.
+- admin-icon.component.ts: icono de búsqueda añadido al sistema SVG existente.
+
+Documentación:
+- docs/CHECKPOINT_4_4.txt (vigente).
+- docs/CHECKPOINT_4_4_INICIAL.txt (histórico).
+- docs/visual-review/admin-44/ (evidencia inicial, previa al ajuste de referencia).
+- docs/visual-review/admin-44-reference/ (evidencia de esta revisión).
+
+Comparación contra la captura previa a 4.4: 281 archivos existentes comprobados; solo difieren los cinco archivos administrativos enumerados. El nuevo directorio sales contiene el código de esta etapa. Backend, cliente, Wallet/QR, checkout, Fintoc, credenciales, dependencias y configuración de compilación no cambiaron. No se alteró el trabajo anterior de eventos/tragos; el diff global conserva cambios previos sin commit de 4.2/4.3.
+
+6. PRUEBAS Y BUILDS
+Angular completo:
+npm test -- --watch=false --browsers=ChromeHeadless
+- Antes de 4.4: 197/197 aprobadas.
+- Entrega inicial: 216/216.
+- Tras la revisión visual: 219/219 aprobadas en la versión final.
+
+Se mantienen las pruebas de cálculo, promedio, filtros combinados, fechas inclusivas/inválidas, Chile/UTC, ordenamiento, copias independientes, ítems/importe, estados independientes, ausencia de HTTP e igualdad de Wallet antes/después de consultas.
+Se añaden tres pruebas de interacción: botones de período y cierre al filtrar; detalle integrado sin navegación y cierre; expansión exclusiva de tarjeta móvil. Las pruebas anteriores de detalle y rutas se adaptaron al panel compartido.
+Durante la primera ejecución de esta revisión falló una aserción que buscaba el formato anterior “2 × $12.000” en texto continuo. Se actualizó para comprobar las nuevas columnas cantidad/precio unitario. No cambió el cálculo ni el importe. La suite final completa pasó.
+
+Desarrollo:
+npm run build -- --configuration development
+Aprobado; inicial aproximado 2,03 MB; módulo administrativo lazy 308,99 kB.
+
+Despliegue:
+API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+Aprobado; inicial 718,61 kB, transferencia estimada 145,15 kB; módulo administrativo lazy 169,31 kB, transferencia 34,47 kB.
+Se compiló; no se publicó en Vercel.
+
+Advertencias: inicial >500 kB; estilos de lista/panel/página de ventas >2 kB, sin superar 4 kB. El layout administrativo queda aproximadamente en 3,73 kB; requiere vigilar el margen. Se mantienen avisos existentes de otros componentes y dos selectores Bootstrap omitidos. No se elevaron presupuestos ni actualizaron dependencias.
+No se ejecutó suite Flask: no hubo cambios backend.
+
+7. REVISIÓN REAL Y CAPTURAS
+Chrome Headless real, perfil temporal, Angular local aislado en puerto 4300.
+Revisión final PASS: 13 pantallas/estados × 320, 390, 768 y 1280 px = 52 combinaciones. Sin scroll horizontal, errores de consola/excepciones, HTTP >=400 ni solicitudes de escritura observadas.
+32 capturas registradas en sales-reference-review.json. Se inspeccionaron visualmente capturas completas de escritorio y móvil; se ajustaron cortes de badges, densidad de filas y botón de calendario móvil antes de repetir la revisión final.
+
+Verificado:
+- Tabla de ocho columnas y tarjetas; indicador/importe coherente.
+- Selección mediante Enter, detalle integrado sin cambiar la ruta, cierre y foco de retorno.
+- Detalle móvil dentro de la tarjeta; pago aprobado con entrega pendiente o parcial.
+- Filtros combinados, semana, vacío/limpiar, rango personalizado e inválido.
+- Menú móvil y Escape.
+- Ruta directa al pedido con subtotal/total esperado.
+- Regresiones de Dashboard, Eventos, Tragos, Wallet y resultado de Fintoc sin pedido válido.
+Las regresiones extensas iniciales (108 combinaciones, seis imágenes QR, cinco pestañas, carrito/checkout y ausencia de escritura) se conservan como evidencia histórica. Las pruebas automatizadas completas del cliente y Fintoc volvieron a pasar en la suite de 219 pruebas. No se completó una sesión o pago nuevo Fintoc/Apple Pay.
+
+Evidencia vigente: docs/visual-review/admin-44-reference/
+- review-reference.cjs
+- sales-reference-review.json
+- angular-after.log
+- build-development.log
+- build-deployment.log
+- scope-verification.json
+- sales-reference-list-full-1280.png / -390.png
+- sales-reference-selected-full-1280.png / -390.png
+- sales-reference-partial-full-1280.png / -390.png
+- Capturas de filtros, vacío, rangos, rutas directas y regresiones.
+El servidor temporal se detuvo al finalizar; se conservó el servidor preexistente del usuario.
+
+8. LIMITACIONES Y SIGUIENTE REVISIÓN
+Solo DEMO y lectura; sin persistencia, autenticación, autorización, emisión, canjes, pagos o reembolsos reales.
+El dashboard y catálogos conservan sus fuentes DEMO independientes; no se sincronizan ni reconcilian con los pedidos ficticios de Ventas.
+La reproducción visual conserva los componentes de identidad existentes; no añade botones ficticios de notificaciones, proveedores de pago ni comparaciones porcentuales sin datos.
+La selección visual del pedido se pierde al cambiar filtros o recargar. Los filtros se mantienen mediante URL; la ruta directa permanece disponible.
+Sin prueba física iOS/Android/Safari ni auditoría completa con lector de pantalla. La validación de teclado y tamaños se hizo en Chrome.
+Los límites anteriores de pedidos/intentos en memoria de Vercel siguen vigentes; esta pantalla no consume esos registros ni resuelve la persistencia.
+
+Para una futura integración comercial se deberán definir contratos persistentes, precios del servidor, confirmación verificable Fintoc, permisos del personal, idempotencia global, auditoría, conciliación y transiciones de entrega independientes del pago. No se implementó ninguno de esos cambios.
+
+Se entrega 4.4 con el ajuste solicitado a la referencia visual. Trabajo detenido a la espera de revisión del Product Owner y arquitecto. Sin avance a 4.5.

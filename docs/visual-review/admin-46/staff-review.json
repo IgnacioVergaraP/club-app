@@ -1,0 +1,724 @@
+{
+  "date": "2026-11-15",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "staff-list",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-list",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-list",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-list",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-detail",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-detail",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-detail",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-detail",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-deactivated",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-deactivated",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-deactivated",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-deactivated",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-filters",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-filters",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-filters",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-filters",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-empty",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-empty",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-empty",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-empty",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-page-two",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-page-two",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-page-two",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-page-two",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-new",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-new",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-new",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-new",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-invalid",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-invalid",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-invalid",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-invalid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-duplicate-email",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-duplicate-email",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-duplicate-email",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-duplicate-email",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-long-valid-name",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-long-valid-name",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-long-valid-name",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-long-valid-name",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Agregar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-created",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-created",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-created",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-created",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-edit",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Editar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-edit",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Editar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-edit",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Editar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-edit",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Editar trabajador",
+      "overlay": false
+    },
+    {
+      "screen": "staff-edited",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-edited",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-edited",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-edited",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Club VOID DEMO",
+      "overlay": false
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Club VOID DEMO",
+      "overlay": false
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Club VOID DEMO",
+      "overlay": false
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Club VOID DEMO",
+      "overlay": false
+    },
+    {
+      "screen": "events-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Eventos",
+      "overlay": false
+    },
+    {
+      "screen": "events-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Eventos",
+      "overlay": false
+    },
+    {
+      "screen": "events-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Eventos",
+      "overlay": false
+    },
+    {
+      "screen": "events-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Eventos",
+      "overlay": false
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Tragos",
+      "overlay": false
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Tragos",
+      "overlay": false
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Tragos",
+      "overlay": false
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Tragos",
+      "overlay": false
+    },
+    {
+      "screen": "sales-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Ventas",
+      "overlay": false
+    },
+    {
+      "screen": "sales-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Ventas",
+      "overlay": false
+    },
+    {
+      "screen": "sales-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Ventas",
+      "overlay": false
+    },
+    {
+      "screen": "sales-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Ventas",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "staff-lost-editor",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Trabajador no disponible",
+      "overlay": false
+    },
+    {
+      "screen": "staff-lost-editor",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Trabajador no disponible",
+      "overlay": false
+    },
+    {
+      "screen": "staff-lost-editor",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Trabajador no disponible",
+      "overlay": false
+    },
+    {
+      "screen": "staff-lost-editor",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Trabajador no disponible",
+      "overlay": false
+    },
+    {
+      "screen": "staff-reload-reset",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-reload-reset",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-reload-reset",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "staff-reload-reset",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Personal",
+      "overlay": false
+    },
+    {
+      "screen": "wallet-qr-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Mi Wallet.",
+      "overlay": false
+    },
+    {
+      "screen": "wallet-qr-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Mi Wallet.",
+      "overlay": false
+    },
+    {
+      "screen": "wallet-qr-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Mi Wallet.",
+      "overlay": false
+    },
+    {
+      "screen": "wallet-qr-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Mi Wallet.",
+      "overlay": false
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Resultado de Fintoc Sandbox",
+      "overlay": false
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Resultado de Fintoc Sandbox",
+      "overlay": false
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Resultado de Fintoc Sandbox",
+      "overlay": false
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Resultado de Fintoc Sandbox",
+      "overlay": false
+    }
+  ],
+  "screenshots": [
+    "staff-list-390.png",
+    "staff-list-full-390.png",
+    "staff-list-1280.png",
+    "staff-list-full-1280.png",
+    "staff-detail-390.png",
+    "staff-detail-full-390.png",
+    "staff-detail-1280.png",
+    "staff-detail-full-1280.png",
+    "staff-deactivated-390.png",
+    "staff-deactivated-full-390.png",
+    "staff-deactivated-1280.png",
+    "staff-deactivated-full-1280.png",
+    "staff-filters-390.png",
+    "staff-filters-1280.png",
+    "staff-empty-390.png",
+    "staff-empty-1280.png",
+    "staff-page-two-390.png",
+    "staff-page-two-1280.png",
+    "staff-new-390.png",
+    "staff-new-1280.png",
+    "staff-invalid-390.png",
+    "staff-invalid-1280.png",
+    "staff-duplicate-email-390.png",
+    "staff-duplicate-email-1280.png",
+    "staff-long-valid-name-390.png",
+    "staff-long-valid-name-1280.png",
+    "staff-created-390.png",
+    "staff-created-full-390.png",
+    "staff-created-1280.png",
+    "staff-created-full-1280.png",
+    "staff-edit-390.png",
+    "staff-edit-full-390.png",
+    "staff-edit-1280.png",
+    "staff-edit-full-1280.png",
+    "staff-edited-390.png",
+    "staff-edited-full-390.png",
+    "staff-edited-1280.png",
+    "staff-edited-full-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "events-regression-390.png",
+    "events-regression-1280.png",
+    "drinks-regression-390.png",
+    "drinks-regression-1280.png",
+    "sales-regression-390.png",
+    "sales-regression-1280.png",
+    "commissions-regression-390.png",
+    "commissions-regression-1280.png",
+    "staff-lost-editor-390.png",
+    "staff-lost-editor-1280.png",
+    "staff-reload-reset-390.png",
+    "staff-reload-reset-1280.png",
+    "wallet-qr-regression-390.png",
+    "wallet-qr-regression-1280.png",
+    "fintoc-result-regression-390.png",
+    "fintoc-result-regression-1280.png"
+  ],
+  "keyboard": [
+    "Deactivation under an active-only filter closes the filtered-out detail and returns focus to search.",
+    "Enter opens worker detail. Close returns focus. Native confirmation cancels without mutation and confirms deactivation; activation restores state.",
+    "Mobile card detail toggles with Enter; administrative menu responds to Escape; invalid form focuses the first invalid input."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    "Create/edit, phone validation, normalized duplicate email including inactive, role change, status confirmation both detail and form, independent ID, unsaved draft guard, full-name length80.",
+    "Actual SPA navigation preserves the same staff source and admin identity; role edits never switch session or hide administrative sections.",
+    "Reload resets memory; missing IDs controlled. Wallet six QR DEMO images intact. No order or Fintoc session prepared."
+  ],
+  "paid": false,
+  "result": "PASS"
+}

@@ -1,0 +1,7 @@
+    <article class="drink-row" [attr.data-id]="drink.id" [attr.aria-label]="drink.name">
+      <div class="drink-info"><img [src]="drink.image" alt="" width="64" height="68"><div><h2>{{ drink.name }}</h2><p>{{ drink.description || 'Sin descripción.' }}</p></div></div>
+      <span class="category-chip">{{ category }}</span><strong class="drink-price">{{ drink.priceClp | currency:'CLP':'symbol-narrow':'1.0-0':'es-CL' }}</strong>
+      <button type="button" class="availability" [class.available]="drink.available" [attr.aria-pressed]="drink.available" [attr.aria-label]="'Disponibilidad de ' + drink.name" (click)="availabilityChange.emit()"><span aria-hidden="true">●</span> {{ drink.available?'Disponible':'No disponible' }}</button>
+      <button type="button" class="featured" [class.is-featured]="drink.featured" [attr.aria-pressed]="drink.featured" [attr.aria-label]="'Destacado de ' + drink.name" (click)="featuredChange.emit()"><span aria-hidden="true">{{ drink.featured?'★':'☆' }}</span><span *ngIf="drink.featured">Destacado</span></button>
+      <div class="row-actions"><a [routerLink]="['/admin/tragos',drink.id,'editar']" [attr.aria-label]="'Editar ' + drink.name"><app-admin-icon name="edit"/>Editar</a><button type="button" class="duplicate" (click)="duplicate.emit()" [attr.aria-label]="'Duplicar ' + drink.name"><span aria-hidden="true">⧉</span> Duplicar</button></div>
+    </article>

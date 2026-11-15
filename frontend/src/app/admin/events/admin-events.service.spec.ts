@@ -71,4 +71,36 @@ describe('AdminEventsService DEMO', () => {
     expect(await firstValueFrom(publicService.getEvents())).toEqual(before);
     TestBed.inject(HttpTestingController).expectNone(()=>true);TestBed.inject(HttpTestingController).verify();
   });
+  it('saves a recoverable draft with only a name and incomplete tickets',async()=>{
+    const saved=service.save({...draft(),name:'Borrador mínimo',status:'draft',date:'',startsAt:'',endsAt:'',endsOn:'',ticketTypes:[{name:'',priceClp:null,capacity:null,maxPerPurchase:null,status:'available'}]});
+    expect(saved.status).toBe('draft');expect(saved.date).toBe('');expect(saved.ticketTypes[0].priceClp).toBeNull();
+    expect((await firstValueFrom(service.events$)).find(event=>event.id===saved.id)?.name).toBe('Borrador mínimo');
+    expect(()=>service.changeStatus(saved.id,'published')).toThrow();
+    service.changeStatus(saved.id,'cancelled');expect((await firstValueFrom(service.events$)).find(event=>event.id===saved.id)?.status).toBe('cancelled');
+  });
+  it('duplicates with a new ID and independent types, always as draft',async()=>{
+    const before=await firstValueFrom(service.events$);const duplicate=service.duplicate(before[0].id);
+    expect(duplicate.id).not.toBe(before[0].id);expect(duplicate.name).toBe(before[0].name);expect(duplicate.status).toBe('draft');expect(duplicate.requiresDateReview).toBeTrue();
+    duplicate.ticketTypes[0].priceClp=1;expect((await firstValueFrom(service.events$))[0]).toEqual(before[0]);
+    expect((await firstValueFrom(service.events$)).find(e=>e.id===duplicate.id)?.ticketTypes[0].priceClp).toBe(12000);
+  });
+  it('cannot publish a duplicate until dates change and review is confirmed',()=>{
+    const duplicate=service.duplicate('admin-demo-event-001');
+    expect(()=>service.changeStatus(duplicate.id,'published')).toThrow();
+    expect(()=>service.save({...duplicate,status:'published'},duplicate.id,true)).toThrow();
+    const changed={...duplicate,date:'2026-12-04',endsOn:'2026-12-05',status:'published' as const};
+    expect(()=>service.save(changed,duplicate.id)).toThrow();
+    expect(service.save(changed,duplicate.id,true).requiresDateReview).toBeUndefined();
+  });
+  it('does not retain order, attendance, QR or statistics fields when copying',()=>{
+    const source=service.save({...draft(),sales:10,orders:['private'],attendees:['private'],qr:'private',stats:{total:99}} as AdminEventDraft);
+    const duplicate=service.duplicate(source.id);
+    for(const key of ['sales','orders','attendees','qr','stats'])expect(Object.prototype.hasOwnProperty.call(duplicate,key)).toBeFalse();
+  });
+  it('preserves the review requirement across saves of a copied draft',()=>{
+    const duplicate=service.duplicate('admin-demo-event-001');
+    const saved=service.save({...duplicate,name:'Otra copia'},duplicate.id);
+    expect(saved.requiresDateReview).toBeTrue();expect(()=>service.changeStatus(saved.id,'published')).toThrow();
+  });
+
 });

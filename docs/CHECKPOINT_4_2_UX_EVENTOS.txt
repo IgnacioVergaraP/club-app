@@ -1,0 +1,253 @@
+CLUB VOID — CHECKPOINT 4.2 CONSOLIDADO · UX DE EVENTOS
+Asistente de creación y edición en cuatro pasos
+Fecha: 14-11-2026
+Base: docs/CHECKPOINT_4_2.txt. No es una implementación de 4.3.
+ESTADO VIGENTE PARA ENTREGA
+- Asistente de cuatro pasos para crear/editar, borradores recuperables en sesión y duplicación de eventos DEMO.
+- Carga de imagen desde el dispositivo, JPG/PNG/WEBP hasta 5 MB, con vista previa; selector de imágenes retirado.
+- Imagen conservada en memoria al guardar, editar y duplicar. Sin envío al servidor ni persistencia tras recargar.
+- Última suite completa: 168/168 aprobadas. Últimos builds de desarrollo y despliegue: aprobados.
+- Revisión de carga de imagen en 320/390/768/1280 px: aprobada, sin scroll horizontal ni solicitudes de escritura.
+- El recorrido completo del asistente de 64 combinaciones y sus 42 capturas son anteriores al cambio de carga de imágenes. Se agregaron cuatro capturas y un recorrido específico del nuevo control; no se repitió la matriz completa.
+Resultados y evidencia de la última ampliación: sección 15. Las secciones 9 y 10 conservan resultados de la ejecución anterior, identificados como tales.
+Pendiente revisión del arquitecto. No se avanzó a 4.3 ni se desplegó a Vercel.
+
+1. OBJETIVO Y ESTADO
+Se sustituyó el formulario largo de eventos por un asistente guiado reutilizado para creación y edición, con información, programación, entradas y revisión.
+Incluye vista previa reactiva, borradores incompletos recuperables durante la sesión, duplicación segura en memoria y protección contra salida accidental.
+Implementado técnicamente dentro del alcance DEMO autorizado; pendiente revisión visual del Product Owner y del arquitecto. Trabajo detenido al entregar este checkpoint.
+Club VOID continúa administrando exclusivamente VOID, sin selector de discotecas ni arquitectura multitenant visible.
+Sin nuevas dependencias, persistencia, autenticación, publicación real, venta o emisión de entradas.
+
+2. SITUACIÓN INICIAL Y LÍNEA BASE
+Se inspeccionaron el repositorio, modelos, validadores, servicio, rutas y formularios efectivos de 4.2 antes de modificar código.
+Ya existían listado, filtros, edición, detalle, cuatro estados y un servicio de eventos en memoria. El formulario mostraba todos los campos y tipos simultáneamente; las fechas usaban un checkbox de término al día siguiente y no permitía guardar un evento incompleto.
+Se conservaron AdminEventFormComponent, AdminEventsService, listado/detalle y rutas existentes. No se creó un editor paralelo ni otro almacén de eventos.
+Suite Angular previa: 136/136 aprobadas.
+Evidencia: docs/visual-review/admin-42-ux/angular-before.log.
+
+3. ARQUITECTURA IMPLEMENTADA
+- El mismo AdminEventFormComponent mantiene un FormGroup tipado y su FormArray durante los cuatro pasos. Avanzar, retroceder o editar una sección no reconstruye los controles ni pierde sus valores.
+- AdminEventProgressComponent: indicador presentacional reutilizable, pasos completos/pendientes, aria-current=step y nombres accesibles también cuando se ocultan etiquetas largas en móvil.
+- AdminEventPreviewComponent: tarjeta reactiva de imagen, nombre, descripción y programación. Se reutiliza en panel lateral, vista móvil plegable y revisión.
+- AdminEventTicketsComponent: tarjetas compactas, editor de un tipo y confirmación de retiro. Reutiliza el mismo FormArray; no mantiene otra copia de las entradas.
+- createTicketForm: fábrica de controles compartida por el editor y sus pruebas.
+- admin-event-dates.ts: cálculo/validación de calendario y zona horaria, formato en español y compatibilidad de registros previos.
+- AdminEventsService se amplió de forma compatible: save, changeStatus y nueva acción duplicate. Sigue siendo el único origen local de registros.
+- adminEventUnsavedGuard protege las rutas existentes de creación/edición. No agrega endpoints ni rutas comerciales.
+NgModules, standalone:false, CommonModule, ReactiveForms y RxJS conservados. club.config.ts sin cambios.
+
+4. LOS CUATRO PASOS
+Paso 1 — Información del evento:
+Carga de imagen JPG/PNG/WEBP desde el dispositivo, nombre y descripción. Los recursos locales previos se conservan para mocks y registros existentes, sin selector visible. Vista previa actualizada al editar los campos.
+Nombre obligatorio, no solo espacios, máximo 100 caracteres; descripción opcional hasta 1200. Los campos requeridos deben ser válidos para continuar.
+Nuevo evento comienza en Borrador. Al editar se muestra el estado guardado, sin confundirlo con los cambios pendientes del formulario.
+La carga usa FileReader y una data URL mantenida solo en memoria. No se implementó subida a servidor, storage local ni escritura remota. La vista previa no modifica Noches.
+
+Paso 2 — Fecha y horario:
+Fecha/hora de inicio y fecha/hora de término explícitas, con zona America/Santiago.
+Resumen en español, por ejemplo: viernes 23:00 → sábado 05:00, acompañado de las fechas de calendario.
+Si el término está vacío al seleccionar el inicio, se propone el mismo día o el siguiente según las horas. Una fecha de término ya ingresada nunca se sobrescribe al cambiar el inicio: si deja de ser coherente se muestra un error para corregirla.
+Las fechas se validan numéricamente como calendario, se resuelven a instantes en America/Santiago usando Intl y se comparan esos instantes. No se depende de comparar cadenas ni de la zona horaria del navegador.
+Horas locales inexistentes o ambiguas por cambio estacional se rechazan explícitamente para evitar elegir un instante silenciosamente.
+
+Paso 3 — Entradas:
+Tarjetas General/VIP u otros nombres, con precio, cupos y estado de configuración. Edición progresiva: nombre, precio y cupos primero; máximo por compra y disponibilidad dentro de Opciones avanzadas.
+Agregar abre un nuevo tipo; Listo cierra un editor válido. Los errores de cupo/máximo dejan visibles sus opciones avanzadas.
+Quitar un tipo configurado solicita confirmación inline con Sí, quitar / Conservar. Un tipo nuevo sin contenido puede retirarse directamente.
+Se muestra cantidad de tipos y suma de cupos válidos DEMO. No hay reservas ni descuento de inventario real.
+El modelo previo no contenía descripción de entrada; no se añadió ese campo opcional.
+
+Paso 4 — Revisar y publicar:
+Resumen de información, fechas, tipos/precios/cupos y tarjeta de vista previa. Checklist de secciones completas o pendientes.
+Editar información / programación / entradas vuelve directamente al paso correspondiente sin perder el borrador.
+Guardar borrador está disponible también desde los pasos anteriores con un nombre válido para recuperar el registro.
+Marcar como publicado DEMO se habilita únicamente con información, programación y entradas válidas, más revisión de fecha cuando es una copia. El método y el servicio también validan; no basta con habilitar un botón.
+Sin tipos se permite llegar a Revisar para identificar el pendiente, pero nunca publicar. Si se agregaron tipos inválidos, Continuar solicita corregirlos.
+
+5. BORRADORES, EDICIÓN Y CONSERVACIÓN
+El servicio permite guardar estado Borrador aunque falten fecha, hora o datos requeridos de entradas, conservando sus valores para completarlos después. Precio/cupo/máximo admiten null en el modelo administrativo para representar un campo numérico pendiente sin convertirlo en cero.
+Se mantienen controles estructurales: nombre recuperable dentro del límite, descripción acotada, referencia de imagen raster permitida, tipos tipados, estados reconocidos y hasta 12 tipos. Los borradores pueden conservar valores incompletos o inválidos para corregirlos al editar; no se tratan como inventario válido.
+Las validaciones completas se exigen para Publicado. Cancelar un borrador incompleto no exige completar campos destinados a publicar; los estados restantes siguen siendo manuales e ilustrativos.
+Los datos guardados sobreviven a navegar entre secciones de la misma SPA. Al recargar se restablecen los mocks; no hay autoguardado persistente.
+Indicador Sin cambios pendientes / Cambios sin guardar basado en los valores reales del FormGroup, no solo en touched o dirty.
+Cancelar o navegar fuera con cambios pendientes solicita confirmación nativa. Se puede permanecer editando o descartarlos; el original no cambia antes de guardar.
+Se registra beforeunload para advertir de recarga/cierre con cambios. Esta advertencia depende del navegador y no garantiza recuperación ante cierre forzado o descarga de una pestaña móvil.
+Guardar borrador cambia expresamente el estado a Borrador, incluso si el registro editado estaba Publicado. El pie de acciones lo aclara.
+No se simularon cargas remotas: la consulta del servicio es inmediata. Se conservó el estado Evento no disponible para IDs inexistentes o perdidos por recarga y los mensajes de error de validación/servicio.
+
+6. DUPLICACIÓN DE EVENTOS
+La acción Duplicar evento del listado:
+1. Crea un registro local con ID DEMO nuevo.
+2. Copia nombre, descripción, imagen, programación inicial y tipos como punto de partida.
+3. Fuerza Borrador y abre el mismo asistente de edición.
+4. Marca requiresDateReview y registra la programación original de la copia.
+5. Exige cambiar la fecha de inicio, mantener una programación válida y confirmar la revisión antes de publicar. Un cambio posterior de fecha/hora invalida la confirmación y debe revisarse nuevamente.
+6. Impide eludir esa revisión usando el selector de Publicado del listado.
+7. Crea copias independientes de tipos y usa una lista explícita de campos: no arrastra ventas, pedidos, asistentes, QR ni estadísticas, aunque aparezcan propiedades extra en un objeto de origen.
+El nombre se mantiene tal como pidió el alcance; el aviso identifica la copia como Borrador pendiente de revisión de fecha.
+Guardar una copia todavía incompleta conserva su requisito de revisión; guardar una programación nueva válida y confirmada permite resolverlo para publicaciones posteriores.
+
+7. VALIDACIONES Y FECHAS
+Se mantienen los límites DEMO de 4.2, sin añadir nuevas reglas comerciales:
+- Calendario entre 2000 y 2100 y fechas reales, sin normalizar un 30 de febrero.
+- Término posterior al inicio y duración máxima existente de 24 horas, ahora medida entre instantes en America/Santiago.
+- Entradas: nombre obligatorio hasta 50 caracteres, sin duplicados al publicar ignorando mayúsculas/espacios externos.
+- Precio entero CLP de 0 a 10.000.000; cupo de 1 a 100.000; máximo por compra de 1 a 100 sin superar el cupo; hasta 12 tipos.
+- Publicación requiere al menos un tipo válido. Estado de disponibilidad sigue siendo un dato DEMO, sin reglas comerciales nuevas sobre ventas.
+- Imágenes raster desde el dispositivo, hasta 5 MB; se valida tipo, firma y decodificación. Compatibilidad con recursos locales existentes. SVG y URLs externas rechazados.
+AdminEventDraft añade endsOn como fecha explícita; endsNextDay se conserva para leer los mocks anteriores. endsOn es la referencia cuando está presente. Se conservaron los mocks originales sin reescribir sus fechas.
+formatEventDay utiliza un calendario controlado para mostrar el día elegido sin desplazarlo a la zona horaria de otro dispositivo. eventInstant resuelve la zona del club explícitamente y rechaza ambigüedades estacionales.
+Ejemplos medidos en las pruebas con los datos Intl del runtime: 04-12-2026 23:00 en Santiago se resuelve como 05-12-2026 02:00Z; 06-09-2026 00:30 inexistente y 04-04-2026 23:30 ambigua son rechazadas.
+La resolución depende de las reglas IANA incluidas en el navegador. No es un contrato de zona horaria de backend ni garantiza cambios legislativos futuros.
+
+8. MÓVIL, DESKTOP Y ACCESIBILIDAD BÁSICA
+Desktop: indicador superior, formulario y tarjeta lateral cuando hay espacio. Revisión incluye su propia vista previa.
+Móvil: una columna, cuatro pasos numerados con nombre accesible y texto Paso X de 4; controles táctiles y botones normales dentro del flujo, sin barra de acciones que tape campos.
+La vista previa móvil está en details/summary y no ocupa permanentemente el espacio superior.
+Foco visible en controles, nombres/labels, aria-current, indicadores de estado del formulario y errores role=alert. El encabezado del paso recibe el foco al cambiar de sección.
+Tab/Enter se probaron sobre los campos, Continuar y los botones del indicador; no se emplearon roles de pestaña que exigieran otro patrón de teclado.
+La revisión básica no equivale a auditoría WCAG ni a pruebas con lector de pantalla o dispositivos físicos.
+
+9. PRUEBAS Y BUILDS
+Suite inicial completa:
+npm test -- --watch=false --browsers=ChromeHeadless
+136/136 aprobadas.
+
+Suite completa tras el asistente, anterior a la ampliación de imágenes:
+npm test -- --watch=false --browsers=ChromeHeadless
+163/163 aprobadas. Se adaptaron los casos anteriores al nuevo contrato y se incorporaron 27 pruebas.
+Cobertura añadida:
+- Ocho casos de calendario, mismo día, medianoche, término anterior/igual/excesivo, resolución Santiago, horario estacional, español y lectura compatible de registros.
+- Borrador mínimo recuperable y cancelable, publicación bloqueada, duplicación/IDs/copias, revisión obligatoria y ausencia de campos históricos.
+- Pasos, retroceso, bloqueo por validación, revisión sin entradas, edición de secciones, guardado incompleto, fecha final conservada, vista previa, descarte/reload y nueva confirmación tras editar la programación duplicada.
+- Listado duplica y abre el editor correcto.
+- Editor de entradas: General/VIP, precio/cupo, retiro confirmado, editor inválido y límite de tipos existente.
+La suite completa conserva las pruebas previas de cliente, Wallet/QR y servicios/checkout Fintoc; sus pruebas HTTP siguen usando proveedores simulados.
+
+Build de desarrollo tras el asistente, anterior a la ampliación de imágenes:
+npm run build -- --configuration development
+Aprobado; inicial aproximado 2,03 MB; chunk lazy administrativo 169,29 kB.
+
+Build de despliegue tras el asistente, anterior a la ampliación de imágenes:
+API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+Aprobado; inicial 718,72 kB / transferencia estimada 145,14 kB; chunk administrativo lazy 92,73 kB / 20,76 kB estimados.
+Compilación local, sin despliegue a Vercel. No se elevaron presupuestos ni se instalaron/actualizaron dependencias.
+git diff --check aprobado.
+No se repitieron Flask ni npm audit, al no modificar backend o dependencias. No se inició un pago ni una sesión de Fintoc.
+
+10. NAVEGADOR REAL Y EVIDENCIA VISUAL
+Evidencia del asistente previa al cambio de selector por carga de imagen. Chrome Headless real, perfil temporal aislado, servidor Angular propio en 127.0.0.1:4300, sin HMR y sin avisos de compilación superpuestos.
+Recorrido principal: 64 combinaciones a 320, 390, 768 y 1280 px, altura de referencia 844 px, todas sin scroll horizontal:
+- Dashboard y listado administrativo.
+- Cuatro pasos del asistente, revisión de una copia y registro ausente.
+- Inicio, Noches, Tragos, Wallet y Perfil.
+- Wallet con QR DEMO abiertos, carrito y checkout existentes.
+Cero errores de consola/excepciones capturados, cero HTTP >=400 y cero solicitudes de escritura.
+
+Acciones realizadas en el navegador:
+- Guardar un evento solo con nombre y recuperar el borrador en el editor.
+- Crear otro evento con vista previa reactiva; misma programación legible al emular Pacific/Honolulu y Europe/Madrid.
+- Rechazar fecha de término anterior, entradas duplicadas y máximo por compra mayor al cupo.
+- Agregar General y VIP, editar valores, conservar un tipo al cancelar su retiro, quitarlo al confirmar y agregarlo otra vez.
+- Ir a Revisar, volver a editar Información y avanzar sin perder fechas o entradas.
+- Marcar Publicado DEMO; el detalle muestra el estado administrativo.
+- Editar y cancelar: primer diálogo responde Permanecer, segundo Descartar. El original mantiene el nombre guardado.
+- Duplicar, comprobar ID nuevo, rechazar publicación con la fecha original, cambiar programación/confirmarla y modificar el precio de la copia sin alterar el precio original.
+- Abrir tres QR de entradas y tres de consumos DEMO; no se validaron ni canjearon.
+- Conservar selección de Tragos al navegar; abrir Carrito y Checkout sin pulsar Preparar pedido. Para acceder al enlace existente Revisar carrito se mostró un error controlado con utilidades Angular de desarrollo, sin solicitud de pago.
+Recorrido adicional: teclado nativo Tab/Enter, publicación deshabilitada sin tipos, valores conservados al retroceder y menú móvil abierto/cerrado con Escape.
+
+Evidencias: docs/visual-review/admin-42-ux/
+- review-wizard.cjs y wizard-review.json: matriz 64, flujos y diálogos.
+- review-keyboard.cjs y keyboard-review.json.
+- angular-before.log, angular-after.log, build-development.log, build-deployment.log y serve-isolated.log.
+- scope-verification.json.
+- 42 PNG de la revisión anterior a la carga de imágenes: incluyen cada paso a 390/1280 px, capturas completas de los cuatro pasos, vista previa móvil, revisión de duplicación y regresiones.
+Capturas recomendadas para el arquitecto:
+wizard-step-1-1280.png
+wizard-step-1-full-390.png
+wizard-step-2-full-390.png
+wizard-step-3-full-390.png
+wizard-step-4-full-1280.png
+wizard-mobile-preview-390.png
+wizard-keyboard-focus-390.png
+Las capturas finales se inspeccionaron visualmente después de repetir el recorrido en servidor aislado. Los pequeños ajustes finales de etiqueta de estado guardado y cancelación de borradores se validaron con la suite/build finales; no se presenta como una nueva transacción o auditoría física.
+
+11. ARCHIVOS CREADOS
+frontend/src/app/admin/events/admin-event-image.ts
+frontend/src/app/admin/events/admin-event-image.spec.ts
+frontend/src/app/admin/events/admin-event-dates.ts
+frontend/src/app/admin/events/admin-event-dates.spec.ts
+frontend/src/app/admin/events/admin-event-preview.component.ts
+frontend/src/app/admin/events/admin-event-preview.component.html
+frontend/src/app/admin/events/admin-event-preview.component.scss
+frontend/src/app/admin/events/admin-event-progress.component.ts
+frontend/src/app/admin/events/admin-event-progress.component.scss
+frontend/src/app/admin/events/admin-event-ticket-form.ts
+frontend/src/app/admin/events/admin-event-tickets.component.ts
+frontend/src/app/admin/events/admin-event-tickets.component.html
+frontend/src/app/admin/events/admin-event-tickets.component.scss
+frontend/src/app/admin/events/admin-event-tickets.component.spec.ts
+frontend/src/app/admin/events/admin-event-unsaved.guard.ts
+Docs: docs/CHECKPOINT_4_2_UX_EVENTOS.txt y evidencia del directorio indicado arriba.
+
+ARCHIVOS MODIFICADOS
+frontend/src/app/admin/admin.module.ts
+frontend/src/app/admin/events/admin-event.model.ts
+frontend/src/app/admin/events/admin-event.validation.ts
+frontend/src/app/admin/events/admin-events.service.ts
+frontend/src/app/admin/events/admin-events.service.spec.ts
+frontend/src/app/admin/events/admin-events.component.ts
+frontend/src/app/admin/events/admin-events.component.html
+frontend/src/app/admin/events/admin-events.component.spec.ts
+frontend/src/app/admin/events/admin-event-form.component.ts
+frontend/src/app/admin/events/admin-event-form.component.html
+frontend/src/app/admin/events/admin-event-form.component.scss
+frontend/src/app/admin/events/admin-event-form.component.spec.ts
+frontend/src/app/admin/events/admin-event-detail.component.ts
+frontend/src/app/admin/events/admin-event-detail.component.html
+
+Protección del alcance: SHA-256 de 248 archivos existentes; 14 cambios exclusivamente en administración y 234 idénticos. Backend, credenciales, cliente, Liquid Glass, dashboard, configuración de club, dependencias y hosting sin cambios. No se publican hashes ni secretos.
+
+12. PROBLEMAS ENCONTRADOS Y RESUELTOS
+- El contrato anterior rechazaba guardar eventos incompletos. Se separó la validación de estructura/borrador de la validación de publicación sin crear otro servicio.
+- El checkbox de medianoche no expresaba una fecha final explícita. Se añadió endsOn, preservando la lectura de los registros previos.
+- Opciones/editores extensos se sustituyeron por tarjetas, plegables y pasos; la estructura principal de eventos se reutilizó.
+- Una copia podía conservar una fecha vieja o una confirmación previa a cambios posteriores: se exige nueva fecha de inicio y se invalida la confirmación al editar el horario.
+- Los estilos iniciales del asistente excedieron 4 kB (4,47 kB). Separar el progreso como componente presentacional dejó el formulario en aproximadamente 3,48 kB, sin aumentar presupuestos.
+- Durante edición incremental, el servidor compartido 4200 retenía una superposición de error antiguo de TypeScript al migrar campos numéricos a nullable. Se detectó inspeccionando capturas, se corrigieron los consumidores y se descartó esa evidencia: se repitieron las 64 combinaciones en un servidor aislado con comprobación explícita de ausencia de overlay.
+- Los mensajes generales se limpian al modificar el formulario para no mantener una advertencia obsoleta cuando el dato ya está corregido.
+No quedan fallos bloqueantes conocidos dentro del alcance DEMO verificado.
+
+13. LIMITACIONES Y RIESGOS
+- Sin persistencia o recuperación tras recarga/cierre forzado. No es una experiencia de autoguardado remoto.
+- Borradores pueden contener información incompleta o inválida para corregir; solo Publicado exige la validación completa. Ningún estado otorga derechos reales.
+- Sin sincronización con Noches ni dashboard, por restricción del proyecto. Esos orígenes conservan sus mocks.
+- Sin autenticación ni autorización. Las rutas administrativas continúan siendo DEMO públicas, sin datos sensibles ni operaciones reales.
+- Sin ventas, reservas, emisión, canjes, descuentos reales de inventario, datos de asistentes, QR reales, facturación o integración adicional con Fintoc.
+- Imágenes restringidas a recursos locales. Disponibilidad/estados y límites son ejemplos heredados de 4.2, no políticas comerciales aprobadas.
+- La duración máxima de 24 horas y los límites numéricos existentes deben revisarse con el modelo comercial antes de producción.
+- Fecha/hora depende de Intl/IANA del navegador; backend futuro deberá ser la autoridad. Horas ambiguas/inexistentes requieren elegir otra hora en esta DEMO.
+- Pendientes lector de pantalla, auditoría WCAG integral y dispositivos Safari/iOS/Android físicos. Liquid Glass no se rediseñó ni se revalidaron sus emulaciones de blur/área segura de 4.2; se comprobó como regresión visual y su código permanece idéntico.
+- Persisten avisos de bundle inicial sobre 500 kB, SCSS sobre aviso de 2 kB y selectores Bootstrap omitidos. Sin errores de presupuesto en el build final ni ampliación de límites.
+- Riesgos previos de dependencias, memoria de Vercel y entorno de Flask quedan pendientes de su etapa técnica; no se reconsultaron ni modificaron aquí.
+- Sin commit, push o despliegue automático.
+
+14. PRÓXIMO PASO RECOMENDADO
+Revisión del asistente con las capturas y aprobación del arquitecto antes de definir 4.3.
+Si se autoriza una siguiente sección DEMO, mantener el mismo patrón de progresión, revisión y estados explícitos. No inferir autorización para backend, persistencia o publicación comercial.
+Antes de conectar eventos reales: diseñar autenticación/permisos, persistencia, zona horaria autoritativa, reglas de publicación e inventario, procesamiento seguro de imágenes y recuperación de borradores.
+Entrega detenida en la mejora UX de 4.2. No se avanzó a 4.3.
+
+15. ACTUALIZACIÓN AUTORIZADA — CARGA DE IMAGEN DESDE EL DISPOSITIVO
+Se reemplazó el selector de imágenes por input type=file en el paso 1. Admite JPG, PNG y WEBP de hasta 5 MB. Se comprueban MIME, firma de archivo y decodificación real en el navegador.
+Vista previa inmediata al completar la lectura; carga indicada con role=status y aria-busy. Se bloquea continuar/guardar mientras se lee. Si el archivo no es válido, se informa el motivo y se conserva la imagen anterior. Una lectura tardía no se aplica a otro registro ni a un editor destruido.
+La imagen se conserva como data URL en el servicio en memoria: sigue disponible al guardar borrador, editar o duplicar el evento. No se envía al backend ni se usa localStorage, base de datos o servidor de archivos. Al recargar se pierde junto al resto de registros nuevos DEMO.
+Se mantuvo la compatibilidad con las imágenes locales de los mocks; ya no hay un selector de esos recursos en el formulario. No se implementó recorte, compresión ni edición de imágenes.
+Archivos nuevos: admin-event-image.ts y admin-event-image.spec.ts. Cambios de esta ampliación: validación de referencias de imagen y controles/lectura/estado en AdminEventFormComponent y su plantilla. Backend, cliente, credenciales y dependencias sin modificaciones.
+Pruebas vigentes: suite Angular completa 168/168 aprobadas, con cinco casos nuevos de imagen: PNG real, tamaño/formatos vacíos o no admitidos, MIME falseado/archivo corrupto, guardado/duplicación y referencias externas/SVG rechazadas.
+Build de despliegue posterior aprobado: inicial 718,72 kB / 145,13 kB estimados; chunk administrativo 95,48 kB / 21,70 kB. Build desarrollo aprobado: inicial aproximado 2,03 MB; chunk administrativo 174,07 kB. Persisten advertencias anteriores, sin aumentar presupuestos.
+Chrome real: carga de JPG mediante selección real de archivo, vista previa decodificada, rechazo de SVG conservando la anterior, y conservación al guardar/editar/duplicar. Cuatro anchos (320/390/768/1280), sin scroll horizontal, errores de consola, HTTP >=400 ni solicitudes de escritura.
+Evidencia nueva: review-image-upload.cjs, image-upload-review.json, angular-image-upload.log, build-image-upload.log y build-image-upload-development.log. Capturas image-upload-390.png, image-upload-1280.png e image-upload-full-390/1280.png. Las 42 capturas anteriores pertenecen a la revisión previa; las que muestran el paso 1 todavía incluyen el selector viejo. review-wizard.cjs fue adaptado al input de archivo para futuras ejecuciones; no se repitió su recorrido completo de 64 combinaciones en esta ampliación.
+Trabajo detenido en la mejora UX 4.2; no se avanzó a 4.3 ni se desplegó a Vercel.

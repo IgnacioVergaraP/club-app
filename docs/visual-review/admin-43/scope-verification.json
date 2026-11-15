@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-14",
+  "existingFilesCompared": 263,
+  "unchanged": 260,
+  "modifiedExisting": [
+    "frontend/src/app/admin/admin.module.ts",
+    "frontend/src/app/admin/admin-routing.spec.ts",
+    "frontend/src/app/admin/events/admin-event-image.ts"
+  ],
+  "backendClientLiquidGlassPaymentsDependenciesUnchanged": true,
+  "note": "SHA-256 before/after; no hashes or credentials published. Only module wiring, existing route tests and the backwards-compatible event image adapter changed."
+}

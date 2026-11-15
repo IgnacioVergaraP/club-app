@@ -1,0 +1,547 @@
+{
+  "date": "2026-11-15",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "commissions-default",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-default",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-default",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-default",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-page-two",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-page-two",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-page-two",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-page-two",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-detail",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-detail",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-detail",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-detail",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-invalid-config",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-invalid-config",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-invalid-config",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-invalid-config",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-fixed-codetec",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-fixed-codetec",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-fixed-codetec",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-fixed-codetec",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-net-vat",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-net-vat",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-net-vat",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-net-vat",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-pending",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-pending",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-pending",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-pending",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-refunded",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-refunded",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-refunded",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-refunded",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-empty",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-empty",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-empty",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-empty",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-invalid-range",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-invalid-range",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-invalid-range",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-invalid-range",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-all-period",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-all-period",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-all-period",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "commissions-all-period",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Comisiones e informes financieros",
+      "overlay": false
+    },
+    {
+      "screen": "sales-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Ventas",
+      "overlay": false
+    },
+    {
+      "screen": "sales-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Ventas",
+      "overlay": false
+    },
+    {
+      "screen": "sales-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Ventas",
+      "overlay": false
+    },
+    {
+      "screen": "sales-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Ventas",
+      "overlay": false
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Club VOID DEMO",
+      "overlay": false
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Club VOID DEMO",
+      "overlay": false
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Club VOID DEMO",
+      "overlay": false
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Club VOID DEMO",
+      "overlay": false
+    },
+    {
+      "screen": "events-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Eventos",
+      "overlay": false
+    },
+    {
+      "screen": "events-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Eventos",
+      "overlay": false
+    },
+    {
+      "screen": "events-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Eventos",
+      "overlay": false
+    },
+    {
+      "screen": "events-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Eventos",
+      "overlay": false
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Tragos",
+      "overlay": false
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Tragos",
+      "overlay": false
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Tragos",
+      "overlay": false
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Tragos",
+      "overlay": false
+    },
+    {
+      "screen": "wallet-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "title": "Mi Wallet.",
+      "overlay": false
+    },
+    {
+      "screen": "wallet-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "title": "Mi Wallet.",
+      "overlay": false
+    },
+    {
+      "screen": "wallet-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "title": "Mi Wallet.",
+      "overlay": false
+    },
+    {
+      "screen": "wallet-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "title": "Mi Wallet.",
+      "overlay": false
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "title": "Resultado de Fintoc Sandbox",
+      "overlay": false
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Resultado de Fintoc Sandbox",
+      "overlay": false
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "title": "Resultado de Fintoc Sandbox",
+      "overlay": false
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "title": "Resultado de Fintoc Sandbox",
+      "overlay": false
+    }
+  ],
+  "screenshots": [
+    "commissions-default-390.png",
+    "commissions-default-full-390.png",
+    "commissions-default-1280.png",
+    "commissions-default-full-1280.png",
+    "commissions-page-two-390.png",
+    "commissions-page-two-1280.png",
+    "commissions-detail-390.png",
+    "commissions-detail-full-390.png",
+    "commissions-detail-1280.png",
+    "commissions-detail-full-1280.png",
+    "commissions-invalid-config-390.png",
+    "commissions-invalid-config-1280.png",
+    "commissions-fixed-codetec-390.png",
+    "commissions-fixed-codetec-full-390.png",
+    "commissions-fixed-codetec-1280.png",
+    "commissions-fixed-codetec-full-1280.png",
+    "commissions-net-vat-390.png",
+    "commissions-net-vat-1280.png",
+    "commissions-pending-390.png",
+    "commissions-pending-full-390.png",
+    "commissions-pending-1280.png",
+    "commissions-pending-full-1280.png",
+    "commissions-refunded-390.png",
+    "commissions-refunded-1280.png",
+    "commissions-empty-390.png",
+    "commissions-empty-1280.png",
+    "commissions-invalid-range-390.png",
+    "commissions-invalid-range-1280.png",
+    "commissions-all-period-390.png",
+    "commissions-all-period-full-390.png",
+    "commissions-all-period-1280.png",
+    "commissions-all-period-full-1280.png",
+    "sales-regression-390.png",
+    "sales-regression-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "events-regression-390.png",
+    "events-regression-1280.png",
+    "drinks-regression-390.png",
+    "drinks-regression-1280.png",
+    "wallet-regression-390.png",
+    "wallet-regression-1280.png",
+    "fintoc-result-regression-390.png",
+    "fintoc-result-regression-1280.png"
+  ],
+  "keyboard": [
+    "Desktop financial detail opens with Enter; mobile summary toggles and retains focus.",
+    "Native configuration disclosure responds to Enter/Tab; mobile administrative menu responds to Escape."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    "Sales source reused without mutations; applied configuration survives actual SPA navigation. Invalid drafts do not affect calculations; fixed/percentage, payer, net/included IVA all exercised.",
+    "Wallet six DEMO QR images loaded. No payment prepared or Fintoc session created."
+  ],
+  "paid": false,
+  "csv": {
+    "file": "csv-KAPqbO/void-comisiones-DEMO-2026-11-09-2026-11-15.csv",
+    "operations": 10,
+    "parameters": "Default 5%, 2.9%, VAT included, club pays, all seven-day matching rows (not only the visible page)"
+  },
+  "result": "PASS"
+}

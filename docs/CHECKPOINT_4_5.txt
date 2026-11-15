@@ -1,0 +1,229 @@
+CLUB VOID — CHECKPOINT 4.5
+Comisiones e informes financieros — exclusivamente DEMO
+Fecha: 15-11-2026
+
+1. OBJETIVO Y ESTADO
+Implementada la subetapa 4.5: /admin/comisiones sustituye la pantalla provisional por un informe financiero DEMO con configuración explícita, KPIs, operaciones, detalle expandible y exportación CSV local.
+Interfaz inspirada en la referencia visual entregada por el Product Owner: fondo oscuro, morado sólido, indicadores compactos, sidebar y menú administrativo existentes, tabla en escritorio y tarjetas en móvil. Sin degradados.
+Pendiente de revisión visual del Product Owner y aprobación del arquitecto. Trabajo detenido al finalizar 4.5. No se implementó 4.6.
+No hubo despliegue, commit, push, instalación o actualización de dependencias.
+
+2. FUNCIONALIDADES IMPLEMENTADAS
+Resumen financiero:
+- Venta bruta aprobada.
+- Comisión total Codetec.
+- Costo total del procesador.
+- Importe estimado correspondiente a Club VOID.
+- Cantidad de operaciones aprobadas, pendientes, reembolsadas y fallidas en la selección.
+Los indicadores no presentan la comisión de Codetec como ingreso del club.
+
+Configuración de simulación:
+- Codetec: porcentaje de 0 a 100%, hasta dos decimales.
+- Base Codetec: venta bruta o bruto dividido por 1,19 como supuesto de base sin IVA DEMO.
+- Procesador: porcentaje del bruto o costo fijo CLP por pedido aprobado; fijo entero de 0 a 1.000.000.
+- Costo del procesador asumido por Club VOID o por Codetec.
+- Tasas y fijo con IVA incluido o netos más IVA DEMO del 19%. La modalidad se aplica a ambos costos.
+- Aplicar simulación y Restablecer. Los borradores no modifican el informe ni el CSV hasta aplicar. Valores inválidos conservan la simulación anterior.
+- Configuración aplicada explícita sobre el listado. Los parámetros válidos permanecen al navegar por la misma SPA y vuelven a los valores iniciales al recargar.
+- Panel de configuración abierto inicialmente en escritorio y plegado en móvil, mediante details/summary nativos. La sección tributaria también se puede desplegar.
+
+Informe y operaciones:
+- Hoy, Ayer, Últimos 7 días y rango personalizado inclusivo. Inicio en Últimos 7 días.
+- Búsqueda por referencia, estado de pago y orden por fecha o bruto en ambos sentidos.
+- Rangos inválidos, estados sin resultados y Limpiar filtros, que vuelve a siete días sin otros filtros.
+- Tabla de siete columnas: operación, fecha/hora, bruto, comisión Codetec, procesador, importe club y estado de pago.
+- Tarjetas en anchos de 1150 px o menos: bruto, tipo, pago, entrega e importe estimado/exclusión visibles sin abrir detalle.
+- Paginación de cinco registros; el resumen incluye toda la selección, no solamente la página visible.
+- Detalle dentro de la tabla o tarjeta: pedido, fecha, tipo, medio, productos, cantidades, precios unitarios, subtotales, base, costos, IVA separado, importe club, retenido Codetec y explicación desplegable de las fórmulas.
+- Estados de pago y entrega independientes, con actividad ilustrativa reutilizada del pedido. Un pago aprobado no equivale a entrega/canje.
+- El detalle se cierra al cambiar filtros, configuración aplicada o página, para evitar mostrar un desglose de una selección anterior.
+
+La navegación mantiene Comisiones seleccionada aun con filtros en la URL. Se reutiliza la adaptación de cabecera de Ventas solo para estas dos secciones. No se cambió el Dashboard ni se agregó nuevamente una comisión acumulada a sus indicadores.
+
+3. FÓRMULAS Y SUPUESTOS
+Importes CLP enteros. Porcentajes internos expresados en puntos base: 5% = 500, 2,9% = 290. IVA supuesto DEMO: 1900 puntos base = 19%. Son parámetros ficticios, no condiciones contratadas con Fintoc ni una conclusión tributaria.
+Las fórmulas se centralizan en funciones puras. roundedRatio usa BigInt para calcular el cociente y redondear las mitades hacia arriba, evitando errores de multiplicación de punto flotante. Rechaza importes fraccionarios, negativos o fuera del rango entero seguro cuando corresponde a una entrada de cálculo.
+Se redondea POR OPERACIÓN y los totales suman los resultados redondeados, sin recalcular una comisión sobre un agregado.
+
+Para cada operación aprobada:
+G = suma de cantidad × precio unitario de las líneas del pedido.
+Base Codetec B = G; o redondear(G ÷ 1,19), según la opción aplicada.
+Valor inicial Codetec C = redondear(B × tasa Codetec).
+Valor inicial procesador P = redondear(G × tasa procesador); o fijo por pedido aprobado.
+La selección de base afecta solo a Codetec. El procesador porcentual siempre usa el bruto G. El fijo no se multiplica por ítems ni unidades.
+
+IVA incluido:
+- Total del costo = valor inicial C o P.
+- Neto = redondear(total ÷ 1,19).
+- IVA = total − neto. No se añade IVA otra vez.
+
+Tasas/fijo netos:
+- Neto del costo = valor inicial C o P, ya redondeado.
+- IVA = redondear(neto × 19%).
+- Total del costo = neto + IVA.
+
+Asignación del costo del procesador:
+- Si lo asume el club: estimado club = G − Codetec total − procesador total. Retenido Codetec = Codetec total.
+- Si lo asume Codetec: estimado club = G − Codetec total. Retenido Codetec = Codetec total − procesador total.
+El procesador se descuenta UNA sola vez, a quien lo asume. No se vuelve a restar al club cuando lo asume Codetec.
+El retenido Codetec incluye el IVA simulado: no es utilidad ni ingreso neto contable. Tampoco se calculan impuestos comerciales, créditos fiscales, liquidaciones o transferencias.
+Los resultados negativos por operación se conservan sin limitar artificialmente a cero. Si el total estimado para el club o el retenido agregado de Codetec es negativo, se muestra además una advertencia de déficit estimado.
+
+Operaciones no aprobadas:
+Pending, failed y refunded conservan el bruto original como referencia, pero reconocen cero ingreso, comisión y costo en este modelo. El listado muestra guiones en las columnas calculadas; el detalle explica la exclusión. No se simula devolución de comisiones del procesador o de Codetec ni se infiere una política de reembolsos.
+
+Ejemplos probados:
+- G=$10.000; Codetec 5% IVA incluido y procesador cero: Codetec $500 ($420 neto + $80 IVA); club $9.500.
+- Mismo bruto con procesador 2,9% IVA incluido: procesador $290 ($244 neto + $46 IVA). Si paga el club: club $9.210; Codetec $500.
+- Si ese procesador lo asume Codetec: club $9.500; retenido Codetec $210. Los importes siguen sumando el bruto al incorporar el procesador.
+- Tasas netas más IVA para ese bruto: Codetec $595 y procesador $345; club $9.060 si asume el procesador.
+- Base sin IVA DEMO para G=$11.900: base $10.000; Codetec $500 y procesador $345, con tasas incluidas; club $11.055.
+
+4. MODELOS Y SERVICIOS
+AdminCommissionConfig tipa tasas, base, modalidad de procesador, fijo, responsable y modalidad IVA. AdminFeeBreakdown separa neto/IVA/total. AdminFinancialOperation conserva el pedido de origen, elegibilidad, bruto de referencia/reconocido, base, ambos costos y estimaciones. AdminCommissionSummary, AdminCommissionFilters y AdminCommissionReport tipan el informe completo.
+
+AdminCommissionsService:
+- Reutiliza AdminSalesService.getSales() en modo lectura.
+- Aplica selectSales para períodos, búsqueda, estado y orden. No modifica el código ni los datos del servicio Ventas.
+- report(filters) devuelve Observables que recalculan operaciones y KPIs desde esa misma selección y la configuración aplicada.
+- BehaviorSubject privado para los parámetros DEMO, con copias al leer y validar antes de aplicar. No hay escrituras sobre pedidos.
+- Sin HttpClient, almacenamiento del navegador o conexión a Flask/Fintoc/SII.
+
+Componentes separados para página, configuración, KPIs, lista/paginación y detalle. Se reutilizan iconos SVG y badges de estado existentes de 4.4. No se añadieron bibliotecas.
+
+5. ORIGEN Y COHERENCIA DE OPERACIONES DEMO
+La fuente es EXACTAMENTE el conjunto de 12 pedidos DEMO de Ventas, con IDs DEMO-ORD-0001 a DEMO-ORD-0012, copiados por suscripción. No hay un segundo catálogo financiero ni importación de sesiones Fintoc o pedidos Flask.
+El bruto aprobado de ambas pantallas coincide al usar los mismos filtros. Los costos son proyecciones locales según parámetros, sin mutar pagos, precios, cantidades, estados o Wallet.
+Los borradores de configuración no se exportan: tanto KPIs como detalle y CSV usan la configuración aplicada del informe.
+
+Resultados con reloj fijado al 15-11-2026 y configuración inicial (5% Codetec, 2,9% procesador, sobre bruto, IVA incluido, costo asumido por el club):
+- Hoy: bruto aprobado $69.000; Codetec $3.450; procesador $2.001; club $63.549.
+- Ayer: bruto aprobado $35.000.
+- Últimos 7 días: 10 operaciones, 6 aprobadas, 2 pendientes, 1 reembolsada y 1 fallida; bruto $156.000; Codetec $7.800; procesador $4.524; club $143.676.
+- Rango del 26-10 al 15-11 que incluye los 12 registros: 7 aprobados; bruto $175.000; Codetec $8.750; procesador $5.075; club $161.175.
+- Búsqueda 0006 + aprobado en siete días: bruto $29.000; Codetec $1.450; procesador $841; club $26.709.
+La referencia visual contiene cifras ilustrativas. Se respeta su composición sin copiar valores incompatibles con el período/datos de Ventas.
+
+El reloj y la zona America/Santiago proceden de Ventas. La fecha del escenario se fija al iniciar ese servicio en la SPA; una sesión abierta durante medianoche mantiene su referencia hasta recargar.
+
+6. CSV DEMO Y SECCIÓN TRIBUTARIA
+Exportación local sin dependencias:
+- Archivo void-comisiones-DEMO-DESDE-HASTA.csv, UTF-8 con BOM y filas CRLF.
+- Exporta todas las operaciones filtradas, no solo la página visible.
+- 27 columnas con modo DEMO, referencia/fecha, pago/entrega, elegibilidad, bruto de referencia/aprobado, base, costos netos/IVA/totales, responsable, estimaciones y parámetros aplicados.
+- Parámetros legibles: porcentajes con formato es-CL, base y modalidad en español. El costo fijo aplicado se indica como cero si se usa porcentaje; la tasa procesador dice No aplica cuando se usa fijo.
+- CLP enteros numéricos; los negativos legítimos se preservan. Cadenas con comas/comillas/saltos se escapan; se neutralizan prefijos de fórmula de planillas, incluso tras espacios.
+- Descarga mediante Blob y URL temporal que se revoca. No hay POST, endpoints ni almacenamiento de archivos en backend.
+- Rango inválido o selección vacía deshabilitan la exportación.
+No se denomina boleta, factura, documento tributario o conciliación oficial.
+
+Sección informativa, no operativa:
+- Boleta de la discoteca al cliente por la venta, con modelo de emisión por validar.
+- Factura Codetec a la discoteca por el servicio tecnológico, pendiente de validación contractual.
+- Información de Fintoc al SII, diferenciada de emitir la factura de Codetec; alcance por confirmar según medio de pago. No se afirma que esta aplicación reporte ventas al SII ni que un proveedor sustituya automáticamente documentos en todos los casos.
+- Advertencia solicitada: “El modelo tributario y contractual está pendiente de validación con Fintoc y el contador. Los cálculos son demostrativos.”
+- Se aclara que Split Payment no determina por sí solo el tratamiento tributario.
+Referencia oficial consultada y enlazada desde la sección: SII, Boleta de Ventas y Servicios Electrónica / modelo de emisión, https://www.sii.cl/servicios_online/3532-.html . La referencia exige atender al modelo aplicable a los medios electrónicos; no valida el contrato particular VOID/Codetec/Fintoc. No se integra SII ni se emiten documentos.
+
+7. PRUEBAS, BUILDS Y RESULTADOS VISUALES
+Suite Angular completa, desde frontend:
+npm test -- --watch=false --browsers=ChromeHeadless
+- Previa a 4.5: 219/219 aprobadas.
+- Posterior y última ejecución final: 250/250 aprobadas.
+- 31 pruebas nuevas, más ampliación del test de rutas administrativas.
+
+Cobertura:
+- Porcentajes, redondeo de mitades, CLP enteros, extracción/adición de IVA, base sin IVA DEMO, tasas cero y costo fijo por pedido.
+- Costos asumidos por club/Codetec sin dobles descuentos; déficits conservados.
+- Exclusión pending/failed/refunded; igualdad de bruto y registros con Ventas.
+- Rangos Hoy/Ayer/siete días/personalizado, combinación de referencia/estado, vacío y error de fechas.
+- Copias independientes, parámetros aplicados y reinicio en nueva instancia, no mutación del origen, ausencia de HTTP y Wallet sin cambios.
+- Cuatro KPIs, paginación, detalle con ítems/IVA/estados separados, validación de borradores, porcentaje/fijo, Aplicar/Restablecer, conservación durante navegación.
+- CSV completo/filtrado, encabezados, BOM, parámetros, escape/neutralización de fórmulas y descarga Blob/revocación de URL.
+- La suite incluye regresiones existentes de cliente, Wallet/QR, eventos, tragos y Fintoc. No equivale a completar un pago real.
+
+Build de desarrollo:
+npm run build -- --configuration development
+Aprobado; inicial aproximado 2,03 MB; módulo administrativo lazy 401,50 kB.
+
+Build de despliegue:
+API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+Aprobado; inicial 719,39 kB, transferencia estimada 145,19 kB; módulo administrativo lazy 219,77 kB, transferencia 43,46 kB.
+No se publica en Vercel. La URL se usa para compilar la configuración de despliegue existente, sin iniciar una sesión de pago.
+
+Advertencias: bundle inicial >500 kB y componentes existentes >2 kB. Comisiones añade avisos no bloqueantes de estilos de página (~3,4 kB), detalle (~2,6 kB) y lista (~2,4 kB); sin superar el límite de error de 4 kB. Layout administrativo permanece en ~3,73 kB y Wallet en ~3,98 kB. Se mantienen dos selectores Bootstrap omitidos por el optimizador. No se elevaron presupuestos.
+No se ejecutó suite Flask porque no hubo cambios backend. No se ejecutó npm audit ni actualizaciones en esta etapa.
+
+Chrome Headless real:
+- Perfil temporal aislado, Angular local en 4300.
+- Informe final PASS: 17 pantallas/estados × 320, 390, 768 y 1280 px = 68 combinaciones, sin scroll horizontal.
+- Cero errores de consola/excepciones, respuestas HTTP >=400 o solicitudes de escritura observadas.
+- 44 capturas de interfaz; se inspeccionaron visualmente escritorio/móvil, lista y detalle.
+- Descarga CSV real desde el navegador: diez operaciones, aunque solo cinco se muestran por página. Datos del CSV comprobados y artefacto conservado.
+- Enter abre/cierra detalle y mantiene foco; disclosures de configuración con Enter/Tab; menú móvil con Escape.
+- Edición válida/ inválida, aplicación, tasas cero, fijo asumido por Codetec, netos más IVA, base alternativa, pendientes, reembolsados, rangos y estados vacíos.
+- Navegación real Comisiones → Ventas → Comisiones confirma parámetros retenidos y el mismo bruto semanal $156.000 en Ventas. Se restableció la configuración inicial.
+- Regresiones visuales de Dashboard, Ventas, Eventos, Tragos, Wallet y resultado Fintoc sin referencia válida. Las seis imágenes QR DEMO de Wallet cargaron correctamente.
+- Sin preparar pedidos, redirigir al proveedor, autorizar Apple Pay o completar pagos.
+- El servidor temporal se detuvo al finalizar; se conservó el servidor preexistente del usuario.
+
+Incidencias corregidas durante la verificación:
+- Se ajustó el tipo de los validadores personalizados a AbstractControl tras un error inicial de compilación; builds finales aprobados.
+- Las capturas detectaron que Comisiones perdía el resaltado de menú al añadir filtros a la URL; se corrigió y se amplió la prueba de navegación. También se eliminó un espacio vacío en filtros móviles.
+- Al repetir la descarga, el script esperaba un nombre nuevo y Chrome sobrescribió el CSV anterior. Fue un fallo de detección del artefacto, no una falta de descarga del producto. Se conserva commissions-review-download-attempt.json y se usa una carpeta aislada por ejecución. La revisión final completa pasó.
+
+8. ARCHIVOS CREADOS Y MODIFICADOS
+21 archivos nuevos en frontend/src/app/admin/commissions/:
+- admin-commission.model.ts
+- admin-commission.logic.ts / .spec.ts
+- admin-commission.csv.ts / .spec.ts
+- admin-commissions.service.ts / .spec.ts
+- admin-commissions.component.ts / .html / .scss / .spec.ts
+- admin-commission-settings.component.ts / .html / .scss
+- admin-commission-summary.component.ts
+- admin-commission-list.component.ts / .html / .scss
+- admin-commission-detail.component.ts / .html / .scss
+
+Archivos existentes modificados en 4.5:
+- frontend/src/app/admin/admin.module.ts: componentes/servicio y ruta de Comisiones, retirada únicamente de esa pantalla provisional.
+- frontend/src/app/admin/admin-layout.component.html: reutilización de la cabecera específica de Ventas para Comisiones y selección activa del enlace con filtros.
+- frontend/src/app/admin/admin-icon.component.ts: cuatro iconos SVG añadidos al sistema existente: capas, tarjeta, banco y descarga.
+- frontend/src/app/admin/admin-routing.spec.ts: Comisiones operativa, filtros y enlace activo.
+
+Documentación/evidencia:
+- docs/CHECKPOINT_4_5.txt
+- docs/visual-review/admin-45/review-commissions.cjs
+- docs/visual-review/admin-45/commissions-review.json
+- docs/visual-review/admin-45/commissions-review-download-attempt.json
+- docs/visual-review/admin-45/scope-verification.json
+- angular-before.log, angular-after.log, build-development.log y build-deployment.log.
+- PNG y CSV indicados en el informe final.
+
+Capturas principales, dentro de docs/visual-review/admin-45/:
+- commissions-default-full-1280.png / -390.png
+- commissions-detail-full-1280.png / -390.png
+- commissions-fixed-codetec-full-1280.png / -390.png
+- commissions-pending-full-1280.png / -390.png
+- commissions-all-period-full-1280.png / -390.png
+- Capturas de configuración inválida, netos/IVA, reembolsados, paginación, vacío, fechas y regresiones.
+CSV final comprobado: csv-KAPqbO/void-comisiones-DEMO-2026-11-09-2026-11-15.csv . El JSON identifica el artefacto vigente; la carpeta aislada permite repetir la revisión sin confundir sobrescrituras.
+
+Comparación contra la captura previa a 4.5: 255 archivos existentes comprobados, solo difieren los cuatro administrativos enumerados; cero eliminaciones. Dashboard/modelos del Dashboard, Ventas, Eventos, Tragos, cliente, Wallet/QR, Fintoc, Flask, credenciales, dependencias y presupuestos permanecieron iguales. Se preservaron los cambios locales previos de otras subetapas; el estado Git global no es un diff exclusivo de 4.5.
+
+9. LIMITACIONES
+- Solo DEMO en memoria, sin persistencia, autenticación o autorización. Recargar reinicia parámetros.
+- No hay liquidación, movimiento de dinero, devolución real, conciliación, Split Payment, webhook o factura/boleta.
+- IVA, bases, tarifas y responsable de costos son supuestos configurables de demostración. No acreditan condiciones comerciales, contrato, tratamiento fiscal ni obligación definitiva de cada participante.
+- No se modelan reembolsos parciales, devolución de fees, impuestos del negocio, créditos fiscales, comisiones mínimas, tramos o moneda distinta a CLP.
+- Los costes son proyecciones por parámetros, no fees consultados a Fintoc.
+- Cambiar configuración aplicada recalcula retrospectivamente la selección DEMO; no es un histórico de tarifas por fecha. En producción se necesitará conservar el contrato/tarifa aplicado a cada operación.
+- La fecha de referencia se conserva durante la sesión; sin actualización automática en medianoche.
+- No hubo prueba física iOS/Android/Safari ni auditoría completa con lector de pantalla. Teclado y tamaños se comprobaron en Chrome.
+- Los límites previos de memoria de pedidos/intentos en Vercel siguen vigentes; esta sección no consume esos registros.
+- El rendimiento/build mantiene advertencias de tamaño; no se modificó la arquitectura ni se ocultaron mediante presupuestos mayores.
+
+10. PRÓXIMO PASO RECOMENDADO
+Revisión del Product Owner de las cuatro cifras, configuración, lectura móvil y desglose; aprobación del arquitecto del alcance 4.5 antes de definir la siguiente subetapa.
+Antes de una integración comercial, validar con Fintoc/contador el modelo contractual/tributario y responsabilidad de costos; definir pedidos persistentes, tarifas históricas, cálculo en servidor, pagos verificables, idempotencia, permisos, auditoría, conciliación y reglas de reembolso. Son decisiones futuras: no se implementaron ni se autorizaron automáticamente aquí.
+
+Trabajo detenido en 4.5, a la espera de revisión del arquitecto. No se avanzó a 4.6.

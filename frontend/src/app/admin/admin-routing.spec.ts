@@ -37,12 +37,23 @@ describe('Admin navigation', () => {
     expect(toggle.getAttribute('aria-expanded')).toBe('false');
     for (const [route, title] of [['eventos','Eventos'],['tragos','Tragos'],['ventas','Ventas'],['comisiones','Comisiones'],['personal','Personal'],['configuracion','Configuración']]) {
       await router.navigateByUrl('/admin/'+route); fixture.detectChanges();
-      expect(root.textContent).toContain(route === 'eventos' ? 'Gestión local de Club VOID' : 'Pantalla provisional');
-      expect(root.querySelector('h1')?.textContent).toBe(title);
+      expect(root.textContent).toContain(route === 'eventos' ? 'Gestión local de Club VOID' : route === 'tragos' ? 'Gestiona la carta de bebidas de Club VOID' : route === 'ventas' ? 'Consulta los pedidos de Club VOID' : route === 'comisiones' ? 'Desglose de ventas' : route === 'personal' ? 'Gestiona el equipo de trabajo de Club VOID' : 'Pantalla provisional');
+      expect(root.querySelector('h1')?.textContent).toBe(route==='comisiones'?'Comisiones e informes financieros':title);
       if (route === 'eventos') for (const card of Array.from(root.querySelectorAll('.event-card'))) expect(card.querySelector<HTMLSelectElement>('.actions select')!.value).toBe(card.querySelector('.badge')!.getAttribute('data-status')!);
       expect(root.textContent).toContain('Club VOID');
       expect(root.querySelectorAll('nav [aria-current="page"]').length).toBe(1);
     }
+    await router.navigateByUrl('/admin/comisiones?period=week&payment=approved'); fixture.detectChanges();
+    expect(root.querySelector('nav [aria-current="page"]')?.getAttribute('href')).toBe('/admin/comisiones');
+    expect(root.querySelector<HTMLSelectElement>('#finance-payment')?.value).toBe('approved');
+    await router.navigateByUrl('/admin/ventas/DEMO-ORD-0001?period=week&type=ticket'); fixture.detectChanges();
+    expect(root.querySelector('h1')?.textContent).toBe('DEMO-ORD-0001');
+    expect(root.querySelector('nav [aria-current="page"]')?.getAttribute('href')).toBe('/admin/ventas');
+    const back = root.querySelector<HTMLAnchorElement>('.back')!;
+    expect(back.getAttribute('href')).toContain('period=week');
+    await router.navigateByUrl(back.getAttribute('href')!); fixture.detectChanges();
+    expect(root.querySelector('#period-week')?.getAttribute('aria-pressed')).toBe('true');
+    expect(root.querySelector<HTMLSelectElement>('#sales-type')?.value).toBe('ticket');
     await router.navigateByUrl('/'); fixture.detectChanges();
     expect(root.querySelector('app-admin-layout')).toBeNull();
     await router.navigateByUrl('/admin'); fixture.detectChanges();

@@ -1,29 +1,43 @@
-<section aria-labelledby="form-heading"><header><h1 id="form-heading">{{ id ? 'Editar evento' : 'Nuevo evento' }}</h1><p>Solo DEMO · sin publicación en el catálogo del cliente.</p></header>
-  <div *ngIf="missing; else editor" class="notice" role="alert"><h2>Evento no disponible</h2><p>Puede haberse perdido al recargar esta demostración.</p><a routerLink="/admin/eventos">Volver al listado</a></div>
-  <ng-template #editor><form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-    <div class="fields">
-      <label class="wide">Nombre del evento<input id="event-name" formControlName="name" maxlength="100" [attr.aria-invalid]="invalid(form.controls.name)" aria-describedby="name-error"><span id="name-error" class="error" *ngIf="invalid(form.controls.name)">Escribe un nombre de 1 a 100 caracteres, no solo espacios.</span></label>
-      <label class="wide">Descripción<textarea id="event-description" formControlName="description" rows="3" maxlength="1200" [attr.aria-invalid]="invalid(form.controls.description)"></textarea><span class="error" *ngIf="invalid(form.controls.description)">Máximo 1200 caracteres.</span></label>
-      <label>Fecha<input id="event-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="date" [attr.aria-invalid]="invalid(form.controls.date)"><span class="error" *ngIf="invalid(form.controls.date)">Elige una fecha válida entre 2000 y 2100.</span></label>
-      <label>Estado<select id="event-status" formControlName="status"><option *ngFor="let state of statuses" [value]="state.value">{{ state.label }}</option></select></label>
-      <label>Hora de inicio<input id="event-start" type="time" formControlName="startsAt" [attr.aria-invalid]="invalid(form.controls.startsAt)" aria-describedby="schedule-help"></label>
-      <label>Hora de término<input id="event-end" type="time" formControlName="endsAt" [attr.aria-invalid]="invalid(form.controls.endsAt)" aria-describedby="schedule-help"></label>
-      <label class="check wide"><input id="event-next-day" type="checkbox" formControlName="endsNextDay">Termina al día siguiente</label>
-      <p id="schedule-help" class="help wide">Horario local de Chile. Para 23:00–05:00, marca «Termina al día siguiente». Duración máxima: 24 horas. Los estados, incluido Finalizado, se establecen manualmente.</p>
-      <p class="error wide" *ngIf="form.hasError('schedule') && (form.controls.startsAt.touched || form.controls.endsAt.touched || form.controls.endsNextDay.touched)">El término debe ser posterior al inicio y no superar 24 horas.</p>
-      <label>Imagen local<select id="event-image" formControlName="image"><option *ngFor="let image of images" [value]="image.value">{{ image.label }}</option></select></label><img class="preview" [src]="form.controls.image.value" alt="Vista previa de imagen del evento" width="160" height="90">
-    </div>
-    <div class="ticket-heading"><h2>Tipos de entrada · DEMO</h2><button type="button" (click)="addTicket()" [disabled]="form.controls.ticketTypes.length >= limits.ticketTypes">+ Agregar tipo de entrada</button></div>
-    <p class="help">Precio entero CLP entre 0 y 10.000.000; cupo de 1 a 100.000; máximo por compra de 1 a 100, sin superar el cupo. Hasta 12 tipos, con nombres diferentes.</p>
-    <p *ngIf="!form.controls.ticketTypes.length" class="notice">Sin tipos de entrada. Añade al menos uno antes de publicar el evento DEMO.</p>
-    <div formArrayName="ticketTypes"><fieldset *ngFor="let type of form.controls.ticketTypes.controls; index as index" [formGroupName]="index"><legend>Entrada {{ index + 1 }}</legend><div class="ticket-fields">
-      <label>Nombre<input formControlName="name" maxlength="50" [attr.aria-invalid]="invalid(type.controls.name)"></label>
-      <label>Precio CLP<input type="number" formControlName="priceClp" min="0" max="10000000" step="1" [attr.aria-invalid]="invalid(type.controls.priceClp)"></label>
-      <label>Cupo disponible<input type="number" formControlName="capacity" min="1" max="100000" step="1" [attr.aria-invalid]="invalid(type.controls.capacity)"></label>
-      <label>Máximo por compra<input type="number" formControlName="maxPerPurchase" min="1" max="100" step="1" [attr.aria-invalid]="invalid(type.controls.maxPerPurchase)"></label>
-      <label>Estado<select formControlName="status"><option *ngFor="let state of ticketStatuses" [value]="state.value">{{ state.label }}</option></select></label>
-    </div><p class="error" *ngIf="type.invalid && type.touched">Revisa nombre, precio entero no negativo, cupo y máximo por compra. El máximo no puede superar el cupo.</p><button class="remove" type="button" (click)="removeTicket(index)" [attr.aria-label]="'Quitar tipo de entrada ' + (index + 1)">Quitar tipo</button></fieldset></div>
-    <p class="error" *ngIf="form.hasError('publishTickets') && form.controls.status.touched">Para publicar, agrega al menos un tipo de entrada válido.</p><p class="error" *ngIf="form.hasError('duplicateTickets')">Los tipos de entrada deben tener nombres diferentes.</p>
-    <p *ngIf="error" class="error" role="alert">{{ error }}</p><div class="form-actions"><button class="primary" type="submit">Guardar evento DEMO</button><a routerLink="/admin/eventos">Cancelar y volver</a></div>
-  </form></ng-template>
-</section>
+<section aria-labelledby="form-heading">
+<header class="wizard-header"><div><p class="eyebrow">CLUB VOID · EVENTOS</p><h1 id="form-heading">{{ id ? 'Editar evento' : 'Crear evento' }}</h1><p>Prepara tu próxima noche, paso a paso.</p></div><span class="save-state" role="status">{{ hasUnsavedChanges ? 'Cambios sin guardar' : 'Sin cambios pendientes' }}</span></header>
+<div *ngIf="missing; else wizard" class="notice" role="alert"><h2>Evento no disponible</h2><p>Puede haberse perdido al recargar la demostración.</p><a routerLink="/admin/eventos">Volver al listado</a></div>
+<ng-template #wizard><p *ngIf="requiresDateReview" class="notice">Copia DEMO en Borrador. Revisa y actualiza la programación en el paso 2 antes de publicar.</p>
+  <app-admin-event-progress [labels]="steps" [step]="step" [furthest]="furthestStep" [completed]="stepCompletion" (stepChange)="navigateStep($event)"/>
+  <div class="wizard-columns"><form [formGroup]="form" (ngSubmit)="step<3 ? next() : publish()" novalidate>
+    <section class="step-panel"><p class="eyebrow">PASO {{ step+1 }} DE 4</p><h2 id="wizard-step-heading" tabindex="-1">{{ steps[step] }}</h2>
+      <div *ngIf="step===0" class="fields">
+        <p class="help wide">Empieza por la imagen y los detalles que verán tus asistentes. <span *ngIf="!id">Estado inicial: Borrador.</span><span *ngIf="id">Estado guardado: {{ statusLabel }}. Los cambios se aplican al guardar.</span></p>
+        <label class="wide">Imagen destacada<input id="event-image" type="file" accept="image/jpeg,image/png,image/webp" (change)="onImageSelected($event)" aria-describedby="image-help image-error" [attr.aria-busy]="imageLoading"><small id="image-help">Carga una imagen JPG, PNG o WEBP de hasta 5 MB desde tu dispositivo. Solo se conserva en memoria durante esta DEMO.</small><span *ngIf="imageLoading" role="status">Cargando imagen…</span><span id="image-error" class="error" *ngIf="imageError" role="alert">{{ imageError }}</span></label>
+        <label class="wide">Nombre del evento<input id="event-name" formControlName="name" maxlength="100" placeholder="Por ejemplo, VOID Sessions" [attr.aria-invalid]="invalid(form.controls.name)" aria-describedby="name-help"><span id="name-help" class="error" *ngIf="invalid(form.controls.name)">Escribe un nombre de 1 a 100 caracteres, no solo espacios.</span></label>
+        <label class="wide">Descripción<textarea id="event-description" formControlName="description" rows="4" maxlength="1200" placeholder="Cuenta qué hará especial esta noche." [attr.aria-invalid]="invalid(form.controls.description)"></textarea><small>Hasta 1.200 caracteres.</small><span class="error" *ngIf="invalid(form.controls.description)">La descripción no puede superar 1.200 caracteres.</span></label>
+      </div>
+      <div *ngIf="step===1" class="fields">
+        <p class="help wide">Zona horaria del club: <strong>America/Santiago</strong>. Las fechas se muestran como calendario local, sin desplazar el día a UTC.</p>
+        <label>Fecha de inicio<input id="event-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="date" [attr.aria-invalid]="invalid(form.controls.date)"></label>
+        <label>Hora de inicio<input id="event-start" type="time" formControlName="startsAt" [attr.aria-invalid]="invalid(form.controls.startsAt)"></label>
+        <label>Fecha de término<input id="event-end-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="endsOn" [attr.aria-invalid]="invalid(form.controls.endsOn)"></label>
+        <label>Hora de término<input id="event-end" type="time" formControlName="endsAt" [attr.aria-invalid]="invalid(form.controls.endsAt)"></label>
+        <div class="schedule-summary wide"><strong>{{ schedule }}</strong><span>{{ dateRange }}</span></div>
+        <p class="help wide">Si el término está vacío, proponemos el mismo día o el siguiente según las horas. Cambiar el inicio no sobrescribe un término que ya hayas ingresado. Duración máxima existente: 24 horas.</p>
+        <p class="error wide" *ngIf="!periodValid && (form.controls.date.touched || form.controls.endsOn.touched || form.controls.startsAt.touched || form.controls.endsAt.touched)">Indica fechas válidas y un término posterior al inicio, dentro de 24 horas. Una hora inexistente o ambigua por cambio de horario en Chile debe corregirse.</p>
+        <div class="notice wide" *ngIf="requiresDateReview"><p>Este evento es una copia. Actualiza su programación antes de publicar.</p><label class="check"><input id="event-reviewed-date" type="checkbox" formControlName="reviewedDate">Revisé y actualicé la fecha de inicio de esta copia</label><p class="error" *ngIf="form.controls.reviewedDate.touched && !copyDateValid">Cambia la fecha de inicio y confirma la revisión.</p></div>
+      </div>
+      <div *ngIf="step===2"><p class="help">Configura tus entradas sin ventas ni reservas reales. Las opciones avanzadas están dentro de cada tipo.</p><app-admin-event-tickets [types]="form.controls.ticketTypes"/><p class="error" *ngIf="form.hasError('duplicateTickets')">Los tipos de entrada deben tener nombres diferentes.</p></div>
+      <div *ngIf="step===3" class="review">
+        <p class="help">Revisa antes de marcar el evento como publicado DEMO. Este cambio no lo publica en Noches.</p>
+        <div class="review-block"><header><h3>Información del evento</h3><button type="button" (click)="go(0)">Editar información</button></header><p><strong>{{ form.controls.name.value || 'Nombre pendiente' }}</strong></p><p>{{ form.controls.description.value || 'Sin descripción.' }}</p></div>
+        <div class="review-block"><header><h3>Programación</h3><button type="button" (click)="go(1)">Editar programación</button></header><p>{{ schedule }}</p><p>{{ dateRange }} · America/Santiago</p></div>
+        <div class="review-block"><header><h3>Entradas</h3><button type="button" (click)="go(2)">Editar entradas</button></header><ul><li *ngFor="let type of form.controls.ticketTypes.controls"><strong>{{ type.controls.name.value || 'Nombre pendiente' }}</strong><span>{{ type.controls.priceClp.valid ? (type.controls.priceClp.value | currency:'CLP':'symbol-narrow':'1.0-0':'es-CL') : 'Precio pendiente' }} · {{ type.controls.capacity.valid ? type.controls.capacity.value : 'Cupos pendientes' }} cupos</span></li></ul><p *ngIf="!form.controls.ticketTypes.length">Falta configurar al menos un tipo de entrada.</p></div>
+        <ul class="checklist" aria-label="Estado de configuración"><li><span>{{ infoValid ? 'Completo' : 'Pendiente' }}</span> Información del evento</li><li><span>{{ periodValid && copyDateValid ? 'Completo' : 'Pendiente' }}</span> Fecha y horario</li><li><span>{{ ticketsValid ? 'Completo' : 'Pendiente' }}</span> Entradas válidas y sin duplicados</li></ul>
+        <p *ngIf="!canPublish" class="notice">Hay información pendiente. Puedes volver a editarla o guardar un borrador para recuperarlo en esta sesión.</p>
+        <app-admin-event-preview [name]="form.controls.name.value" [description]="form.controls.description.value" [image]="form.controls.image.value" [schedule]="schedule"/>
+      </div>
+      <p *ngIf="error" class="error" role="alert">{{ error }}</p>
+      <div class="step-actions"><button type="button" *ngIf="step>0" (click)="go(step-1)">← Atrás</button><button id="wizard-next" class="primary" type="submit" *ngIf="step<3">Continuar →</button><button id="wizard-publish" class="primary" type="submit" *ngIf="step===3" [disabled]="!canPublish">Marcar como publicado DEMO</button></div>
+    </section>
+    <footer class="draft-actions"><button id="wizard-save-draft" type="button" (click)="saveDraft()" [disabled]="!canSaveDraft">Guardar borrador</button><a routerLink="/admin/eventos">Cancelar edición</a><p>Solo DEMO. Los cambios guardados se perderán al recargar. Guardar borrador deja el evento en estado Borrador.</p></footer>
+  </form>
+  <aside class="preview-side" *ngIf="step!==3"><h2>Vista previa</h2><app-admin-event-preview [name]="form.controls.name.value" [description]="form.controls.description.value" [image]="form.controls.image.value" [schedule]="schedule"/></aside>
+  <details class="preview-mobile" *ngIf="step!==3"><summary>Ver vista previa del evento</summary><app-admin-event-preview [name]="form.controls.name.value" [description]="form.controls.description.value" [image]="form.controls.image.value" [schedule]="schedule"/></details>
+  </div>
+</ng-template></section>

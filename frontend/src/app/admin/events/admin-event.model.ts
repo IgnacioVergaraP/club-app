@@ -2,9 +2,9 @@ export type AdminEventStatus = 'draft' | 'published' | 'cancelled' | 'finished';
 export type AdminTicketStatus = 'available' | 'inactive';
 export interface AdminTicketType {
   name: string;
-  priceClp: number;
-  capacity: number;
-  maxPerPurchase: number;
+  priceClp: number | null;
+  capacity: number | null;
+  maxPerPurchase: number | null;
   status: AdminTicketStatus;
 }
 export interface AdminEventDraft {
@@ -14,6 +14,8 @@ export interface AdminEventDraft {
   startsAt: string;
   endsAt: string;
   endsNextDay: boolean;
+  /** Fecha local explícita; opcional para leer los mocks anteriores de 4.2. */
+  endsOn?: string;
   image: string;
   status: AdminEventStatus;
   ticketTypes: AdminTicketType[];
@@ -21,6 +23,8 @@ export interface AdminEventDraft {
 export interface AdminEvent extends AdminEventDraft {
   id: string;
   isDemo: true;
+  requiresDateReview?: boolean;
+  duplicatedSchedule?: string;
 }
 export const EVENT_STATUSES: readonly { value: AdminEventStatus; label: string }[] = [
   { value: 'draft', label: 'Borrador' }, { value: 'published', label: 'Publicado' },

@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-14",
+  "existingFilesCompared": 248,
+  "unchanged": 234,
+  "modifiedExisting": [
+    "frontend/src/app/admin/admin.module.ts",
+    "frontend/src/app/admin/events/admin-event.model.ts",
+    "frontend/src/app/admin/events/admin-event-detail.component.html",
+    "frontend/src/app/admin/events/admin-event.validation.ts",
+    "frontend/src/app/admin/events/admin-events.service.ts",
+    "frontend/src/app/admin/events/admin-events.component.spec.ts",
+    "frontend/src/app/admin/events/admin-events.component.html",
+    "frontend/src/app/admin/events/admin-event-form.component.spec.ts",
+    "frontend/src/app/admin/events/admin-events.component.ts",
+    "frontend/src/app/admin/events/admin-event-detail.component.ts",
+    "frontend/src/app/admin/events/admin-event-form.component.ts",
+    "frontend/src/app/admin/events/admin-event-form.component.scss",
+    "frontend/src/app/admin/events/admin-events.service.spec.ts",
+    "frontend/src/app/admin/events/admin-event-form.component.html"
+  ],
+  "backendClientPaymentsDependenciesUnchanged": true,
+  "note": "SHA-256 comparison. No hashes or credentials published. All modified existing code is scoped to the admin module and its event components."
+}

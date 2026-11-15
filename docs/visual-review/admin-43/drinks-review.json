@@ -1,0 +1,610 @@
+{
+  "date": "2026-11-14",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "dashboard",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "drinks-list",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-list",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-list",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-list",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-empty-filter",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-empty-filter",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-empty-filter",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-empty-filter",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drink-new",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-new",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-new",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-new",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-form-valid",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-form-valid",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-form-valid",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-form-valid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-edit",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-edit",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-edit",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-edit",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-duplicate",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-duplicate",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-duplicate",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-duplicate",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drinks-saved-list",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-saved-list",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-saved-list",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-saved-list",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "event-wizard-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "event-wizard-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "event-wizard-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "event-wizard-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "drink-missing",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-missing",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-missing",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "drink-missing",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar trago"
+    },
+    {
+      "screen": "client-inicio",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-inicio",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-inicio",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-inicio",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-noches",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-noches",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-noches",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-noches",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-tragos",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-tragos",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-tragos",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-tragos",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-wallet",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-wallet",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-wallet",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-wallet",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-perfil",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "client-perfil",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "client-perfil",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "client-perfil",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "wallet-demo-qr",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-demo-qr",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-demo-qr",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-demo-qr",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "client-cart",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "client-cart",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "client-cart",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "client-cart",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "client-checkout",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "client-checkout",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "client-checkout",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "client-checkout",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Checkout"
+    }
+  ],
+  "screenshots": [
+    "dashboard-390.png",
+    "dashboard-1280.png",
+    "drinks-list-390.png",
+    "drinks-list-full-390.png",
+    "drinks-list-1280.png",
+    "drinks-list-full-1280.png",
+    "drinks-empty-filter-390.png",
+    "drinks-empty-filter-1280.png",
+    "drink-new-390.png",
+    "drink-new-1280.png",
+    "drink-form-valid-390.png",
+    "drink-form-valid-full-390.png",
+    "drink-form-valid-1280.png",
+    "drink-form-valid-full-1280.png",
+    "drink-edit-390.png",
+    "drink-edit-full-390.png",
+    "drink-edit-1280.png",
+    "drink-edit-full-1280.png",
+    "drink-duplicate-390.png",
+    "drink-duplicate-1280.png",
+    "drinks-saved-list-390.png",
+    "drinks-saved-list-full-390.png",
+    "drinks-saved-list-1280.png",
+    "drinks-saved-list-full-1280.png",
+    "events-regression-390.png",
+    "events-regression-1280.png",
+    "event-wizard-regression-390.png",
+    "event-wizard-regression-1280.png",
+    "drink-missing-390.png",
+    "drink-missing-1280.png",
+    "client-inicio-390.png",
+    "client-inicio-1280.png",
+    "client-noches-390.png",
+    "client-noches-1280.png",
+    "client-tragos-390.png",
+    "client-tragos-1280.png",
+    "client-wallet-390.png",
+    "client-wallet-1280.png",
+    "client-perfil-390.png",
+    "client-perfil-1280.png",
+    "wallet-demo-qr-390.png",
+    "wallet-demo-qr-1280.png",
+    "client-cart-390.png",
+    "client-cart-1280.png",
+    "client-checkout-390.png",
+    "client-checkout-1280.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    "CRUD DEMO, filters/order/empty, native keyboard toggle, menu/Escape, real JPEG upload + SVG rejection, duplicate isolation, navigation memory and unchanged client Piscola 6000 vs admin 32000",
+    "Reload resets new products to five mocks; lost ID controlled",
+    "Client, QR DEMO, Liquid Glass, cart and checkout reviewed without preparing orders or calling Fintoc"
+  ],
+  "paid": false,
+  "result": "PASS"
+}

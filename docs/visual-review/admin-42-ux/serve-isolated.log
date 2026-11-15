@@ -1,0 +1,54 @@
+
+> frontend@0.0.0 start
+> ng serve --host 127.0.0.1 --port 4300 --hmr=false
+
+- Building...
+
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 310.82 kB | 
+styles.css          | styles        | 265.97 kB | 
+polyfills.js        | polyfills     |  88.09 kB | 
+chunk-4WXVOEFY.js   | -             |   1.46 kB | 
+
+                    | Initial total | 666.34 kB
+
+Lazy chunk files    | Names         |  Raw size
+chunk-CVSCOP6X.js   | admin-module  | 173.31 kB | 
+
+Application bundle generation complete. [2.689 seconds]
+
+Watch mode enabled. Watching for file changes...
+  ➜  Local:   http://127.0.0.1:4300/
+- Changes detected. Rebuilding...
+
+Initial chunk files | Names        |  Raw size
+main.js             | main         | 310.82 kB | 
+
+Lazy chunk files    | Names        |  Raw size
+chunk-6ZRQQSER.js   | admin-module | 173.84 kB | 
+
+Application bundle generation complete. [1.041 seconds]
+
+Page reload sent to client(s).
+- Changes detected. Rebuilding...
+
+Initial chunk files | Names        |  Raw size
+main.js             | main         | 310.82 kB | 
+
+Lazy chunk files    | Names        |  Raw size
+chunk-IWXLWLVT.js   | admin-module | 174.96 kB | 
+
+Application bundle generation complete. [0.723 seconds]
+
+Page reload sent to client(s).
+- Changes detected. Rebuilding...
+
+Initial chunk files | Names        |  Raw size
+main.js             | main         | 310.82 kB | 
+
+Lazy chunk files    | Names        |  Raw size
+chunk-N5FHB2J2.js   | admin-module | 174.97 kB | 
+
+Application bundle generation complete. [0.562 seconds]
+
+Page reload sent to client(s).

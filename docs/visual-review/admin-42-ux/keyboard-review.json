@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-14",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [],
+  "screenshots": [
+    "wizard-keyboard-focus-390.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    "Mobile admin menu opens and closes with Escape",
+    "Native Tab/Enter: image to name, Continue submit through steps, review publication disabled without tickets, progress button back to dates, end date retained"
+  ],
+  "paid": false,
+  "result": "PASS"
+}

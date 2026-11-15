@@ -1,0 +1,205 @@
+CLUB VOID — CHECKPOINT 4.3
+Gestión administrativa de tragos DEMO
+Fecha: 14-11-2026
+Base: CHECKPOINT_4_2_UX_EVENTOS.txt. Aplicación exclusiva de Club VOID.
+
+1. OBJETIVO Y ESTADO
+Implementada exclusivamente la subetapa 4.3: /admin/tragos deja de ser provisional y permite administrar una carta de bebidas ficticia en memoria.
+Incluye listado, búsqueda/filtros/orden, creación, edición de precio/categoría/fotografía, cambios rápidos de disponibilidad y destacado, duplicación y confirmaciones visuales.
+Se siguió la referencia visual entregada por el Product Owner: lista compacta con fotos en escritorio y tarjetas en móvil, fondo oscuro, morado sólido, bordes sutiles y sin degradados. Sidebar y menú móvil existentes se conservaron.
+Terminada técnicamente dentro del alcance DEMO; pendiente revisión visual del Product Owner y aprobación del arquitecto. Trabajo detenido en 4.3; no se avanzó a 4.4.
+Sin base de datos, Supabase, autenticación, inventario real, promociones, facturación, Split Payment ni pagos adicionales.
+
+2. SITUACIÓN INICIAL
+Se inspeccionaron repositorio, rutas, configuración de VOID y componentes/modelos/servicios de 4.2.
+Existían cambios locales de la mejora UX de eventos sin commit. Se conservaron; el inventario y la comparación de archivos de esta entrega se realizan contra el estado efectivo al comenzar 4.3, no contra main.
+/admin/tragos era una pantalla provisional. La carga de imágenes de eventos ya validaba JPG/PNG/WEBP, firma, decodificación y límite de 5 MB.
+Suite Angular completa antes de cambios: 168/168 aprobadas.
+No se detectó una regresión inicial que impidiera implementar 4.3.
+
+3. FUNCIONALIDADES IMPLEMENTADAS
+Listado:
+- Fotografía, nombre, descripción breve, categoría, precio CLP, disponibilidad, destacado y acciones Editar/Duplicar.
+- Buscador por nombre sin distinción de mayúsculas.
+- Filtros combinables por categoría y disponibilidad: todos, disponibles o no disponibles.
+- Orden por nombre A–Z/Z–A o precio ascendente/descendente; empates de precio se ordenan por nombre.
+- Mostrando N de M tragos DEMO; vacío por búsqueda/filtros con Limpiar filtros y estado inicial vacío con Nuevo trago.
+- Botón Nuevo trago accesible desde la cabecera.
+- Disponibilidad y destacado se modifican con una sola pulsación en sus controles del listado, con estado aria-pressed y confirmación role=status.
+- TrackBy por ID conserva la identidad de las filas y sus botones al cambiar datos; no se reconstruyen todos los controles al alternar disponibilidad.
+No se implementaron paginación artificial, borrado de productos o funciones no solicitadas a partir de la imagen de referencia.
+
+Crear/editar:
+- /admin/tragos/nuevo y /admin/tragos/:id/editar usan el mismo AdminDrinkFormComponent con Reactive Forms.
+- Fotografía desde dispositivo, nombre, descripción, categoría, precio CLP, disponibilidad y destacado.
+- Vista previa reactiva de imagen, nombre, categoría, precio y estados.
+- Confirmación al regresar al listado después de guardar; servicio conserva el aviso durante la sesión.
+- Editor responde al cambio de ID; un registro perdido o inexistente muestra Trago no disponible y regreso a la carta.
+- Cambios sin guardar / Sin cambios pendientes; confirmación al descartar una edición y aviso beforeunload para cambios pendientes.
+- No se altera el original mientras se editan controles; solo Guardar trago DEMO modifica el servicio.
+
+4. MODELOS, SERVICIO Y CATÁLOGO DEMO
+AdminDrinkDraft:
+name, description, category, priceClp, available, featured e image.
+AdminDrink añade ID estable local e isDemo:true.
+Las categorías administrativas son independientes de las comerciales: Clásicos, Cócteles, Autorales y Sin alcohol.
+No hay campos de stock real, ventas, impuestos, promociones o pedidos en el modelo.
+
+AdminDrinksService, provisto en el módulo administrativo:
+- BehaviorSubject privado y drinks$ con un array nuevo y copias de cada producto por emisión.
+- save crea o reemplaza por ID, valida también en el servicio y normaliza nombre/descripción.
+- setAvailability y setFeatured actualizan un registro y emiten una confirmación visible.
+- duplicate crea un ID nuevo y un nombre editable con sufijo (copia). Conserva los demás datos como punto de partida, incluida disponibilidad/destacado, y fuerza isDemo:true.
+- Los campos se copian explícitamente; propiedades extra como inventario, pedidos o estadísticas no se retienen.
+- Datos independientes: editar la copia o una instantánea recibida no cambia el original ni futuras suscripciones.
+- Los IDs nuevos comienzan en admin-demo-drink-006. IDs inexistentes producen errores controlados.
+- message$ expone el aviso de la última modificación. No es un sistema de notificaciones ni un registro duradero de auditoría.
+- Sin HttpClient, storage del navegador, cookies, escritura de archivos o endpoints. Recargar restablece los mocks.
+
+Cinco registros iniciales, todos ficticios:
+- admin-demo-drink-001: Piscola, Clásicos, $5.000, Disponible, Destacado.
+- admin-demo-drink-002: Gin Tonic, Clásicos, $7.000, Disponible, Destacado.
+- admin-demo-drink-003: Mojito, Cócteles, $7.000, Disponible, Sin destacar.
+- admin-demo-drink-004: Pisco Sour, Autorales, $7.000, Disponible, Destacado.
+- admin-demo-drink-005: Ron Cola, Clásicos, $5.000, No disponible, Sin destacar.
+Fotografías locales existentes de assets/drinks. Los precios se eligieron para el escenario de la referencia; no representan precios del checkout y no se sincronizan con CatalogService ni Flask.
+El orden inicial es Nombre A–Z, por lo que Gin Tonic aparece primero aunque la imagen de referencia liste Piscola primero.
+
+5. FORMULARIO, IMÁGENES Y VALIDACIONES
+Nombre obligatorio, no solo espacios, hasta 100 caracteres; descripción opcional hasta 1.200.
+Categoría dentro de las cuatro opciones tipadas. Precio entero CLP entre 0 y 10.000.000; los límites son guardas de interfaz DEMO coherentes con el proyecto y no una política comercial aprobada.
+Disponibilidad y destacado son booleanos, no cantidades de inventario.
+La creación requiere una fotografía válida; un producto existente conserva la suya si no se cambia.
+Mensajes de campo/grupo, labels, aria-invalid en campos de texto/precio, errores role=alert, foco visible y controles táctiles.
+
+Reutilización de imágenes:
+- La implementación probada de 4.2 se extrajo a frontend/src/app/admin/admin-image.ts.
+- isAdminImageReference admite una lista de recursos locales permitidos por cada catálogo y data URLs raster válidas.
+- readAdminImage mantiene el comportamiento existente: JPG/PNG/WEBP, máximo 5 MB, MIME/firma coherentes y decodificación real en navegador. SVG, URLs externas, archivos vacíos, demasiado grandes o corruptos se rechazan.
+- admin-event-image.ts conserva sus nombres exportados, límite y lista específica de imágenes de eventos mediante un adaptador. No se reescribió el formulario de eventos ni se alteró su comportamiento.
+- La carga de Tragos muestra Preparando fotografía; Guardar se bloquea durante la lectura. Un error conserva la fotografía anterior.
+- Una lectura que termine después de cambiar de registro o destruir el editor no aplica su resultado al registro equivocado.
+- Imagen como data URL en memoria, conservada al guardar, editar y duplicar durante la SPA. No se sube a servidor ni se guarda en localStorage. Se pierde al recargar junto al nuevo registro.
+Sin recorte, compresión, edición de imagen ni librerías añadidas.
+
+6. DISEÑO, MÓVIL Y ACCESIBILIDAD BÁSICA
+Escritorio ancho: cabecera con Nuevo trago, filtros en fila y lista con seis columnas visuales. Se usa una única presentación de filas con artículos y encabezados, sin duplicar un catálogo móvil paralelo.
+Debajo de 1150 px se transforma en tarjetas: foto/nombre/categoría/precio, estados y dos acciones. En móvil estrecho los filtros se apilan y Nuevo trago ocupa el ancho disponible.
+Formulario en dos columnas con vista previa lateral cuando hay espacio; en móvil una columna con vista previa inferior y acciones dentro del flujo, sin tapar campos.
+Disponibilidad verde/gris, destacado morado, precio legible y estados DEMO explícitos. No se modificaron estilos globales ni Liquid Glass.
+Se comprobaron teclado Tab/Enter, estado pulsado del control y permanencia del foco al cambiar disponibilidad; menú móvil y cierre por Escape.
+Estas comprobaciones no equivalen a auditoría WCAG integral ni a lector de pantalla o dispositivos físicos.
+
+7. PRUEBAS EJECUTADAS
+Angular inicial completo:
+npm test -- --watch=false --browsers=ChromeHeadless
+168/168 aprobadas.
+
+Angular final completo:
+npm test -- --watch=false --browsers=ChromeHeadless
+197/197 aprobadas: 29 pruebas nuevas y adaptación de la prueba existente de rutas para la sección Tragos real.
+- Servicio: creación, edición/precio, copias, flags, duplicación independiente, reinicio, IDs ausentes, entradas inválidas, precio cero, exclusión de inventario/pedidos/estadísticas y ausencia de HTTP/cambios al catálogo del cliente.
+- Listado: filtros combinados y limpieza, orden en ambos sentidos, duplicación/ruta, render de vacío inicial y sin resultados y conservación de la identidad del control de disponibilidad.
+- Formulario: validaciones/foto requerida, guardado con confirmación, edición sin mutación previa, cambio de ID, estado ausente, descarte/reload, SVG inválido, PNG real y lectura tardía tras destruir el editor.
+- Las pruebas anteriores de eventos/imágenes, dashboard, cliente, Wallet, QR y checkout/servicios Fintoc siguen aprobadas. Sus respuestas HTTP de pago se simulan en la suite; no equivalen a una transacción real.
+
+Build de desarrollo:
+npm run build -- --configuration development
+Aprobado. Inicial aproximado 2,03 MB; chunk administrativo lazy 233,43 kB.
+
+Build de despliegue:
+API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+Aprobado. Inicial 718,72 kB / transferencia estimada 145,15 kB; chunk administrativo lazy 128,23 kB / 26,69 kB estimados.
+Compilaciones locales; no se desplegó a Vercel, no se aumentaron presupuestos y no se modificaron dependencias.
+git diff --check: aprobado.
+No se volvió a ejecutar Flask ni npm audit porque no se modificaron backend/dependencias y no forman parte del alcance de pruebas nuevo.
+
+8. NAVEGADOR REAL Y REGRESIONES
+Chrome Headless real, perfil temporal aislado, Angular local en 127.0.0.1:4300 sin HMR.
+76 combinaciones verificadas a 320, 390, 768 y 1280 px; altura de referencia 844 px. Cero scroll horizontal de página y cero overlays de compilación.
+Pantallas:
+- Dashboard; listado inicial de tragos; vacío filtrado; creación vacía; formulario válido con imagen; edición; duplicación; listado después de guardar; ID perdido: 9 × 4 = 36.
+- Listado de eventos y asistente de eventos: 2 × 4 = 8.
+- Inicio, Noches, Tragos, Wallet y Perfil: 5 × 4 = 20.
+- Wallet con QR DEMO abiertos, Carrito y Checkout: 3 × 4 = 12.
+Total: 76.
+
+Acciones reales en el navegador:
+- Combinar nombre/categoría/disponibilidad, mostrar cero resultados, limpiar y ordenar por precio.
+- Activar/desactivar disponibilidad y destacado. Tab desde buscador a categoría y Enter sobre disponibilidad conservando el foco. Menú móvil/Escape.
+- Crear Trago QA; rechazar guardado vacío, precio negativo/fraccionario y SVG. Seleccionar un JPG real, mostrar preview, guardar y ver confirmación.
+- Editar precio a $8.500 y desactivar disponibilidad; duplicar con ID nuevo, renombrar a Variante QA y guardar $9.500 sin cambiar el original.
+- Editar de nuevo y cancelar: Permanecer y después Descartar mediante los diálogos del guard. Original mantiene $8.500.
+- Ir a Eventos y volver: se conservan los productos nuevos y sus cambios.
+- Carga de una imagen JPEG en el editor de eventos mediante el adaptador compartido, seguida de descarte; el flujo de eventos conserva su funcionamiento.
+- Comprobación de aislamiento en la MISMA SPA: Piscola administrativa cambió a $32.000 y no disponible; el enlace al cliente y su pestaña Tragos mostraron Piscola comercial a $6.000 con botón de selección. Volver por historial a administración conservó $32.000 y los nuevos registros.
+- Recargar mediante acceso directo a un ID creado: desaparece la variante y aparece Trago no disponible.
+- Abrir tres QR DEMO de entradas y tres de consumos: imágenes cargadas, sin validación/canje.
+- Carrito y Checkout con selección conservada; no se pulsó Preparar pedido. Se usó un error visual controlado en el resumen de Tragos para acceder al enlace existente Revisar carrito, sin solicitud de pago.
+Cero errores de consola/excepciones capturados, cero HTTP >=400 y cero solicitudes de escritura en todo el recorrido.
+No se creó un pedido, sesión de Fintoc ni pago; la regresión Fintoc se sustenta en la suite existente, recorrido de resumen/checkout y ausencia de cambios de sus archivos, no en una nueva prueba del proveedor.
+Liquid Glass se observó en las cinco pestañas con cinco enlaces, uno activo y blur. Su código y diseño permanecen idénticos; no se repitió la matriz específica de fallbacks/área segura de 4.2.
+
+9. EVIDENCIA VISUAL Y RESULTADOS
+Directorio docs/visual-review/admin-43/:
+- review-drinks.cjs: recorrido reproducible con Chrome local en puerto 4300.
+- drinks-review.json: matriz 76, flujos, diálogos, consola y métodos de red.
+- angular-before.log y angular-after.log.
+- build-development.log y build-deployment.log.
+- scope-verification.json.
+- 46 PNG locales, incluyendo vistas y páginas completas de lista/formularios a 390/1280 px y regresiones.
+Capturas recomendadas:
+- drinks-list-full-1280.png: listado de escritorio completo.
+- drinks-list-390.png: tarjetas y filtros móviles.
+- drinks-list-full-390.png: carta móvil completa.
+- drink-form-valid-full-390.png: fotografía, formulario y preview móvil.
+- drink-form-valid-full-1280.png: formulario con preview lateral.
+- drinks-saved-list-full-1280.png: registros creados/duplicados y confirmación.
+- drink-edit-full-390.png: edición móvil.
+Las capturas se inspeccionaron visualmente. No son evidencia de Safari/iOS/Android físicos ni de publicación remota.
+
+10. ARCHIVOS CREADOS EN 4.3
+frontend/src/app/admin/admin-image.ts
+frontend/src/app/admin/drinks/admin-drink.model.ts
+frontend/src/app/admin/drinks/admin-drinks.data.ts
+frontend/src/app/admin/drinks/admin-drink.validation.ts
+frontend/src/app/admin/drinks/admin-drinks.service.ts
+frontend/src/app/admin/drinks/admin-drinks.service.spec.ts
+frontend/src/app/admin/drinks/admin-drinks.component.ts
+frontend/src/app/admin/drinks/admin-drinks.component.html
+frontend/src/app/admin/drinks/admin-drinks.component.scss
+frontend/src/app/admin/drinks/admin-drinks.component.spec.ts
+frontend/src/app/admin/drinks/admin-drink-row.component.ts
+frontend/src/app/admin/drinks/admin-drink-row.component.html
+frontend/src/app/admin/drinks/admin-drink-row.component.scss
+frontend/src/app/admin/drinks/admin-drink-form.component.ts
+frontend/src/app/admin/drinks/admin-drink-form.component.html
+frontend/src/app/admin/drinks/admin-drink-form.component.scss
+frontend/src/app/admin/drinks/admin-drink-form.component.spec.ts
+frontend/src/app/admin/drinks/admin-drink-unsaved.guard.ts
+Documentación: docs/CHECKPOINT_4_3.txt y evidencia en docs/visual-review/admin-43/ descrita arriba.
+
+ARCHIVOS EXISTENTES MODIFICADOS EN 4.3
+- frontend/src/app/admin/admin.module.ts: componentes, servicio y rutas del catálogo administrativo.
+- frontend/src/app/admin/admin-routing.spec.ts: espera Tragos real en lugar del placeholder.
+- frontend/src/app/admin/events/admin-event-image.ts: adaptador compatible al lector compartido, conservando su API y restricciones de eventos.
+Comparación SHA-256 de 263 archivos existentes contra el inicio de 4.3: 260 idénticos y únicamente los tres cambios anteriores. No se publican hashes ni secretos.
+Los cambios previos de 4.2 que aparecen en git status no se atribuyen a 4.3. No se modificaron dashboard, club.config, páginas/servicios del cliente, Wallet/QR, Liquid Glass, Flask, Fintoc, credenciales, dependencias o hosting.
+
+11. PROBLEMAS DETECTADOS Y LIMITACIONES
+No se detectaron fallos bloqueantes dentro del alcance DEMO verificado. El render responsive se separó en AdminDrinkRowComponent para mantener la presentación compacta y los estilos dentro de los presupuestos existentes, sin duplicar lógica de catálogo.
+Persisten avisos: bundle inicial sobre 500 kB; SCSS del listado 2,14 kB, fila 2,93 kB y formulario 2,90 kB sobre aviso de 2 kB, todos bajo error de 4 kB; advertencias anteriores de cliente y Bootstrap. No se elevaron límites.
+Datos y fotografías solo en memoria; recargar/cerrar pierde nuevas variantes y cambios. beforeunload depende del navegador y no aporta recuperación duradera.
+Rutas públicas DEMO sin autenticación ni permisos; no deben usarse con datos sensibles u operaciones comerciales. Separar rutas no es control de seguridad.
+Disponibilidad y destacado son flags ilustrativos, no stock real, promociones programadas o autorización de venta. Una copia conserva esos flags como punto de partida porque no se conecta a la carta comercial.
+Imágenes hasta 5 MB; sin subida, compresión o almacenamiento persistente. Antes de producción se requiere un proceso de archivos de backend y una política de tamaños/precios/categorías aprobada.
+No hay sincronización con Tragos comercial, pedidos, pagos ni dashboard. Los avisos de guardado no constituyen auditoría comercial.
+Pendientes validación física Safari/iOS/Android, lector de pantalla y accesibilidad integral.
+Riesgos anteriores de dependencias, memoria de Vercel y entorno Flask reportados en otras etapas permanecen pendientes; no se reconsultaron ni corrigieron en 4.3.
+Sin commit, push o despliegue remoto.
+
+12. PRÓXIMO PASO RECOMENDADO
+Revisión visual del Product Owner y aprobación del arquitecto sobre 4.3 antes de definir el alcance de 4.4.
+Si continúa el frontend DEMO, reutilizar el patrón de consulta/filtros/edición y avisos explícitos. No conectar este servicio a ventas reales por inferencia de esta entrega.
+Antes de operación comercial: autorizar persistencia, autenticación/permisos, reglas de catálogo/disponibilidad/precios, almacenamiento de imágenes e integración controlada con el cliente. Supabase y esa persistencia siguen pendientes para una etapa posterior.
+Trabajo detenido en 4.3, a la espera de revisión. No se avanzó a 4.4.

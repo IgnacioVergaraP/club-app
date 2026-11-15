@@ -1,0 +1,3 @@
+<a class="back" routerLink="/admin/ventas" queryParamsHandling="preserve">← Volver a ventas</a>
+<ng-container *ngIf="sale$|async as sale; else missing"><h1 class="visually-hidden">{{sale.id}}</h1><app-admin-sale-panel [sale]="sale"/></ng-container>
+<ng-template #missing><section class="panel missing"><h1>Pedido no encontrado</h1><p>El identificador no corresponde a este conjunto de pedidos DEMO.</p><a routerLink="/admin/ventas" queryParamsHandling="preserve">Consultar ventas</a></section></ng-template>

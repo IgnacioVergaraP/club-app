@@ -1,0 +1,196 @@
+CLUB VOID — CHECKPOINT 4.6
+Gestión de personal y roles — Frontend exclusivamente DEMO
+Fecha: 15-11-2026
+
+1. OBJETIVO Y ESTADO
+Implementada exclusivamente la subetapa 4.6. /admin/personal sustituye la pantalla provisional por consulta, alta, edición, activación y desactivación de trabajadores ficticios.
+Se siguió la referencia visual del Product Owner: fondo oscuro, morado sólido, indicadores compactos, filas de escritorio, tarjetas móviles, detalle y formularios. Sin degradados.
+Pendiente de revisión visual del Product Owner y aprobación del arquitecto. Trabajo detenido en 4.6, sin implementar 4.7.
+Se mantienen Angular 17, NgModules, standalone:false, Reactive Forms, RxJS y dependencias existentes. No se instaló ni actualizó nada; no hubo commit, push o despliegue en Vercel.
+
+2. FUNCIONALIDADES
+Listado:
+- Avatar con iniciales, nombre, rol descriptivo, área, estado Activo/Inactivo, identificador DEMO y acciones Consultar/Editar.
+- Correo y teléfono en filas de escritorio; teléfono, área e ID visibles en tarjetas móviles. Los datos de contacto también aparecen en el detalle. Si no existe teléfono se muestra “Sin teléfono”.
+- Búsqueda por nombre, correo o ID, sin distinguir mayúsculas ni tildes en la búsqueda; filtros de rol/estado y orden por nombre A–Z/Z–A.
+- Paginación de cinco registros. La selección del trabajador lleva a la página que lo contiene, incluido al volver después de crear/editar.
+- Vacío por filtros con Limpiar filtros y presentación prevista para una fuente inicialmente vacía.
+- Filtros y trabajador seleccionado reflejados en la URL; no son controles de acceso.
+
+Indicadores:
+- Trabajadores registrados, activos, rol Barra activo y rol Puerta activo.
+- Todos se calculan desde la misma selección completa de registros, no desde cifras independientes ni solo la página visible.
+- La leyenda “Resumen de la selección” informa coincidencias respecto del total del equipo.
+- Barra/Puerta se cuentan por rol, independientemente del área organizativa elegida.
+
+Detalle:
+- Panel lateral en escritorio; expansión dentro de la tarjeta en anchos de 1150 px o menos.
+- Nombre, iniciales, ID, correo DEMO, teléfono cuando existe, rol, área y estado.
+- Descripción de funciones futuras del rol, Editar trabajador y Activar/Desactivar.
+- Rol expresamente descriptivo: no concede permisos, crea cuentas o cambia la sesión administrativa.
+
+Crear/editar:
+- /admin/personal/nuevo y /admin/personal/:id/editar.
+- Nombre, correo ficticio, teléfono opcional, rol, área y estado con Reactive Forms.
+- Formulario de dos columnas en escritorio: contacto a la izquierda; rol/área/estado a la derecha. Una columna en móvil, con el mismo orden lógico de teclado.
+- Validaciones y mensajes junto a los campos; al intentar guardar un formulario inválido se enfoca el primer campo incorrecto.
+- Guardar vuelve al listado y selecciona el registro guardado. Cancelar descarta el borrador solo después de confirmar la salida si hubo cambios.
+- Guard de salida/beforeunload para borradores; es protección UX de datos locales, no autenticación.
+- Mensajes de confirmación visual en la interfaz. Sin notificaciones externas.
+
+Estados y confirmación:
+- Desactivar desde el detalle solicita confirmación nativa antes de modificar datos.
+- Editar un trabajador activo y guardarlo como inactivo también solicita confirmación. Cancelar no guarda ningún cambio del formulario, incluido nombre o rol.
+- El servicio exige confirmación explícita para la transición active → inactive, tanto por save como por setStatus.
+- Reactivar no solicita confirmación de desactivación. Crear directamente un registro inactivo no desactiva un registro previo.
+- No se elimina el trabajador; su correo sigue reservado en el conjunto DEMO.
+- Si una desactivación hace desaparecer el detalle bajo un filtro “Activo”, el foco vuelve al buscador. Cerrar un detalle normalmente devuelve el foco al botón Consultar.
+Ninguna de estas acciones activa o revoca accesos reales.
+
+3. DATOS, MODELOS Y SERVICIO
+Fuente única: ocho trabajadores ficticios de Club VOID, IDs DEMO-EMP-001 a DEMO-EMP-008. Nombres de ejemplo y correos @void.example, sin datos del Product Owner. El teléfono de ejemplo es ilustrativo y no se verifica ni utiliza para llamadas/SMS.
+Estado inicial: 8 registrados, 7 activos, 3 Barra activos y 2 Puerta activos.
+- Catalina Morales: Administrador, Administración, activa.
+- Diego Soto: Supervisor, Operaciones, activo.
+- Martina Flores, Javier Rojas y Tomás Vega: Barra, activos.
+- Valentina Paredes y Antonia Silva: Puerta, Control de acceso, activas.
+- Felipe Reyes: Supervisor, Operaciones, inactivo.
+El orden inicial del listado es alfabético; no se copiaron cifras independientes o un orden de filas incompatible con el filtro seleccionado de la referencia.
+
+Tipos: AdminStaffRole, AdminStaffArea, AdminStaffStatus, AdminStaffDraft, AdminStaff, AdminStaffFilters y AdminStaffSummary.
+Los registros contienen únicamente datos descriptivos, id e isDemo:true. No hay contraseñas, tokens, permisos efectivos, cuentas autenticadas o historial de sesiones.
+
+AdminStaffService:
+- BehaviorSubject privado como única fuente local; staff$ y message$ mediante Observables.
+- get(id) devuelve una copia de consulta local; save crea/edita; setStatus cambia estado; emailExists comprueba unicidad.
+- Nuevas copias por emisión/suscripción y al devolver registros guardados. Todos los campos de entidad son primitivos; mutar una copia no modifica la fuente ni los mocks.
+- ID nuevo generado por el servicio al crear, comenzando por DEMO-EMP-009. Un ID perdido no crea un trabajador accidentalmente al editar.
+- Validación de servicio además de formulario y conservación solo de los campos del modelo; no retiene propiedades extra de credenciales/permisos.
+- Cambios conservados durante la navegación de la misma SPA y descartados al recargar/nueva instancia. Sin HttpClient, localStorage, sessionStorage, cookies o persistencia implementada.
+
+Normalización y reglas compartidas:
+- Nombre obligatorio, no solo espacios, hasta 80 caracteres; se recortan/collapsan espacios y se conserva Unicode normalizado. Iniciales del primer y último término.
+- Correo obligatorio, validación Angular y máximo 254 caracteres. Trim y minúsculas; unicidad sin distinguir mayúsculas, incluyendo inactivos y excluyendo el ID que se está editando.
+- Teléfono opcional de 8–15 dígitos y hasta 24 caracteres de presentación; + inicial, espacios, guiones y paréntesis. No valida titularidad o existencia telefónica.
+- Rol, área y estado deben pertenecer a las opciones tipadas admitidas.
+Área y rol son campos descriptivos independientes; no se deducen privilegios de su combinación.
+
+4. ROLES Y SEGURIDAD DE ALCANCE
+Administrador: administración general del club y futura gestión de configuración, eventos, carta, ventas, comisiones y personal.
+Supervisor: coordinación y supervisión operativa.
+Barra: preparación y futura entrega autorizada de bebidas.
+Puerta: control y futura validación autorizada de entradas.
+Las descripciones indican que las funciones operativas futuras requerirán permisos verificados en backend.
+
+No hay selector “ingresar como trabajador”, cambio de identidad administrativa, simulación de sesión del empleado ni ocultación de datos reales confiando en su rol. Se mantienen visibles las secciones del panel independientemente del rol/estado editado. Incluso desactivar el registro DEMO del Administrador no cambia la identidad “AD” de la demostración ni afecta accesos.
+La confirmación de desactivación es una protección UX y de uso correcto del servicio local; no constituye autorización de seguridad frente al control del navegador.
+
+5. ARCHIVOS CREADOS/MODIFICADOS
+21 archivos nuevos en frontend/src/app/admin/staff/:
+- admin-staff.model.ts
+- admin-staff.data.ts
+- admin-staff.validation.ts
+- admin-staff.service.ts / .spec.ts
+- admin-staff-badges.component.ts (rol y estado)
+- admin-staff-summary.component.ts
+- admin-staff.component.ts / .html / .scss / .spec.ts
+- admin-staff-list.component.ts / .html / .scss
+- admin-staff-detail.component.ts / .html / .scss
+- admin-staff-form.component.ts / .html / .scss
+- admin-staff-unsaved.guard.ts
+
+Archivos existentes modificados exclusivamente para conectar 4.6:
+- frontend/src/app/admin/admin.module.ts: componentes, proveedor y rutas Personal/nuevo/editar; retirada de Personal de las pantallas provisionales.
+- frontend/src/app/admin/admin-layout.component.html: reutilización de cabecera ya existente para Personal y enlace activo al filtrar/editar.
+- frontend/src/app/admin/admin-icon.component.ts: siete iconos SVG añadidos al sistema existente (consultar, corona, escudo, encendido, correo, teléfono y área).
+- frontend/src/app/admin/admin-routing.spec.ts: Personal operativa al recorrer las secciones.
+
+Documentación/evidencia:
+- docs/CHECKPOINT_4_6.txt
+- docs/visual-review/admin-46/review-staff.cjs
+- docs/visual-review/admin-46/staff-review.json
+- docs/visual-review/admin-46/scope-verification.json
+- angular-before.log, angular-after.log, build-development.log, build-deployment.log y capturas PNG.
+
+Comparación SHA-256 con la captura anterior a 4.6: 276 archivos existentes comprobados; solo difieren los cuatro administrativos anteriores, cero eliminaciones. Dashboard y sus datos, Eventos, Tragos, Ventas, Comisiones, cliente, Wallet/QR, Fintoc, Flask, credenciales, dependencias y configuración de presupuestos no cambiaron. Se conserva el trabajo local de las subetapas anteriores; el diff Git global no equivale al diff de 4.6.
+
+6. PRUEBAS EJECUTADAS
+Suite Angular completa:
+npm test -- --watch=false --browsers=ChromeHeadless
+- Previa a 4.6: 250/250 aprobadas.
+- Primera verificación: 284/284.
+- Final con caso adicional de retorno de foco: 285/285 aprobadas; 35 pruebas nuevas y adaptación del test de navegación existente.
+
+Cobertura de servicio/modelos/formulario:
+- Fuente ficticia y KPIs 8/7/3/2; creación e ID independiente; normalización y descarte de propiedades ajenas al modelo.
+- Edición/cambio de rol/área, correo propio válido, duplicados con espacios/mayúsculas y de trabajadores inactivos.
+- Nombre, correo, teléfono, roles/áreas/estados inválidos; opcionalidad del teléfono y límites.
+- Guardado/transición sin confirmación rechazados; confirmación/cancelación desde detalle y formulario, reactivación y alta inicialmente inactiva.
+- Filtros combinados de nombre/correo/ID/rol/estado, tildes, orden y KPIs de la selección.
+- Paginación, estados sin resultados, filtros desde URL, detalle con funciones descriptivas y registros perdidos.
+- Copias independientes, mocks originales intactos, reinicio en nueva instancia, ausencia de HTTP y Wallet sin modificaciones.
+- Aviso de cambios sin guardar, foco al primer campo inválido, foco de retorno al cerrar y al desaparecer el detalle por desactivación filtrada.
+- La suite completa también conserva las pruebas existentes de cliente, eventos, tragos, ventas, comisiones, Wallet/QR y Fintoc.
+
+Build desarrollo:
+npm run build -- --configuration development
+Aprobado; inicial aproximado 2,03 MB; módulo administrativo lazy 489,00 kB.
+
+Build despliegue:
+API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+Aprobado; inicial 719,40 kB, transferencia estimada 145,25 kB; módulo administrativo lazy 268,11 kB, transferencia 50,93 kB.
+Este comando compila la configuración; no despliega ni inicia pagos.
+
+Advertencias no bloqueantes: bundle inicial >500 kB y componentes >2 kB. Personal añade avisos de estilos de listado (~2,89 kB), página (~2,67 kB), formulario (~2,3 kB) y detalle (~2 kB), sin superar 4 kB. Layout administrativo sigue cerca de 3,73 kB y Wallet de 3,98 kB. Persisten dos selectores Bootstrap omitidos. No se aumentaron presupuestos.
+No se ejecutó suite Flask al no modificar backend; no se instalaron dependencias ni se ejecutaron correcciones npm.
+
+7. REVISIÓN VISUAL Y NAVEGADOR
+Chrome Headless real, perfil temporal aislado y Angular local en 4300.
+Resultado final PASS: 22 pantallas/estados × cuatro anchos (320, 390, 768, 1280 px) = 88 combinaciones sin scroll horizontal. Cero errores de consola/excepciones, HTTP >=400 o solicitudes de escritura observadas.
+56 capturas registradas. Se inspeccionaron visualmente escritorio, móvil, detalle y editor; se ajustó la agrupación de campos para seguir la referencia.
+
+Recorrido real:
+- Listado, detalle, paginación, búsqueda/filtros, vacío y contadores.
+- Alta con campos inválidos, teléfono incorrecto, correo duplicado inactivo, nombre de 80 caracteres y alta válida con ID009.
+- Edición de ID009, rol Barra → Puerta, teléfono y estado; cancelar la confirmación conserva todos los datos originales; confirmar aplica los cambios.
+- Activación/desactivación desde detalle, incluyendo cancelación; navegación de teclado con Enter, cierre con foco de regreso y menú móvil con Escape.
+- Desactivación bajo filtro Activo devuelve foco al buscador; los indicadores/listado reflejan inmediatamente el cambio.
+- Cancelación del editor con borrador: se probó rechazar y aceptar la salida, sin modificar la fuente.
+- Navegación real Personal → Dashboard/Eventos/Tragos/Ventas/Comisiones → Personal mantiene nueve trabajadores y el registro editado. La identidad administrativa sigue siendo la de la DEMO.
+- Recarga reinicia a ocho mocks y muestra mensajes controlados para editar/consultar el ID009 perdido.
+- Wallet y sus seis imágenes QR DEMO intactas. Ruta resultado Fintoc sin referencia válida revisada, sin preparar pedido ni sesión.
+No se completó un pago real/Sandbox, autorización Apple Pay o validación real de QR. Las regresiones automatizadas de Fintoc usan los contratos/simulaciones ya existentes.
+
+Capturas principales en docs/visual-review/admin-46/:
+- staff-list-full-1280.png / staff-list-full-390.png
+- staff-detail-full-1280.png / staff-detail-full-390.png
+- staff-deactivated-full-1280.png / staff-deactivated-full-390.png
+- staff-created-full-1280.png / staff-created-full-390.png
+- staff-edit-full-1280.png / staff-edit-full-390.png
+- staff-edited-full-1280.png / staff-edited-full-390.png
+- Capturas de filtros, vacíos, duplicados, formulario inválido, nombres largos, reinicio y regresiones.
+El servidor temporal se detuvo al finalizar; no se detuvo el servidor preexistente del usuario.
+
+8. PROBLEMAS Y LIMITACIONES
+Sin defectos bloqueantes al cerrar. Se ajustaron durante la implementación el reconocimiento del correo propio después de crear, el agrupamiento visual del formulario y el retorno de foco tras desactivar un trabajador excluido por filtros.
+- Solo registros ficticios en memoria. Recargar elimina altas/ediciones y restaura los estados originales; los nuevos IDs pueden reutilizarse tras reiniciar. No son identificadores comerciales persistentes.
+- Rol, área y estado no autentican, autorizan, invitan ni revocan acceso. No hay contraseñas, tokens, envío de correos, cuentas, auditoría real o sesiones ficticias.
+- El formulario pide usar datos ficticios y valida formato, pero no verifica titularidad/deliverabilidad del correo ni existencia del teléfono. No debe utilizarse para cargar datos personales reales en esta demostración.
+- Roles y áreas son opciones descriptivas locales; combinaciones y restricciones operativas deberán definirse posteriormente con el arquitecto.
+- La confirmación usa diálogos nativos del navegador, no representa una operación de seguridad del servidor.
+- Accesibilidad básica de teclado comprobada en Chrome; pendientes lectores de pantalla y dispositivos físicos Safari/iOS/Android. No se declara auditoría WCAG completa.
+- Sin pruebas nuevas contra API real de personal porque no existe, ni nuevos pagos o canjes. Continúan los límites anteriores de memoria de pedidos/intentos en Vercel.
+- Las advertencias de tamaño requieren seguimiento; no se modificaron arquitectura o presupuestos para ocultarlas.
+
+9. PRÓXIMA ETAPA RECOMENDADA
+Revisión visual y funcional del Product Owner/arquitecto y aprobación expresa de 4.6 antes de definir otra subetapa.
+Para el futuro acceso real: autenticación, invitaciones, persistencia, asignación de roles y permisos verificados en backend, revocación efectiva, auditoría de acciones y control de acceso específico al escáner de puerta/sistema de barra. La condición Activo del navegador no puede ser una autorización de seguridad.
+Estas necesidades quedan documentadas y no implementadas.
+
+Trabajo detenido en 4.6, a la espera de revisión del arquitecto. Sin avance automático a 4.7.
+
+AJUSTE POSTERIOR DEL PRODUCT OWNER — 15-11-2026
+Se añadió el teléfono al listado de escritorio (debajo del correo) y a las tarjetas móviles, sin abrir el detalle. Se conserva el campo opcional existente, con edición desde el formulario y “Sin teléfono” cuando está vacío. No se inventaron contactos adicionales ni se cambió la validación.
+Archivos del ajuste: admin-staff-list.component.html y .scss.
+Validación: build de despliegue aprobado y Chrome en 320/390/768/1280 px sin scroll horizontal; teléfono existente y ausencia de teléfono comprobados. Evidencia: staff-phone-review.json, review-staff-phones.cjs, staff-phones-390.png, staff-phones-1280.png y build-deployment-phones.log, bajo docs/visual-review/admin-46/. La suite 285/285 anterior no se repitió para este cambio de presentación.
+Se mantiene el cierre en 4.6 y la revisión pendiente del arquitecto.

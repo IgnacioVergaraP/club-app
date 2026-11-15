@@ -1,0 +1,162 @@
+CLUB VOID — CHECKPOINT 4.4
+Gestión administrativa de ventas y pedidos — DEMO de solo lectura
+Fecha: 14-11-2026
+
+1. OBJETIVO Y ESTADO
+Implementada exclusivamente la subetapa 4.4: /admin/ventas sustituye la pantalla provisional por consulta de pedidos, indicadores, filtros y detalle. Pendiente de revisión visual del Product Owner y aprobación del arquitecto. No se avanzó a 4.5.
+
+Se conservan Angular 17 con NgModules y standalone:false, identidad oscura, superficies compactas, morado sólido, ausencia de degradados, sidebar y menú administrativo móvil. Club VOID es la única discoteca de esta aplicación.
+No hubo despliegue, commit, push ni instalación/actualización de dependencias.
+
+2. FUNCIONALIDADES IMPLEMENTADAS
+Resumen superior:
+- Ventas aprobadas del período, cantidad de pedidos, ticket promedio, entradas y tragos vendidos.
+- Hoy, Ayer, Últimos 7 días y rango personalizado inclusivo.
+- Todos los indicadores y la lista usan exactamente la misma selección: período, búsqueda, tipo y pago.
+- “Pedidos” cuenta todos los estados seleccionados. Ventas, promedio y unidades incluyen exclusivamente pedidos cuyo estado actual es approved. Pending, failed y refunded no aportan ventas ni unidades.
+- Promedio = suma de importes aprobados / cantidad de pedidos aprobados, redondeado al peso; cero si no hay aprobados. Se explica en la interfaz. No se presenta una cifra contable neta ni un libro de ingresos/reembolsos.
+
+Listado:
+- Identificador DEMO, fecha/hora, tipo Entrada/Tragos/Mixto, productos y cantidades, total CLP, medio de pago y estados separados de pago y entrega/canje.
+- Tabla compacta en escritorio; tarjetas en anchos de hasta 1050 px, incluido móvil y tablet. No se fuerza una tabla ancha en pantallas pequeñas.
+- Buscar por número de pedido; filtrar tipo/pago y fechas; ordenar fecha o importe en ambos sentidos.
+- Estado sin resultados, mensaje de rango inválido y Limpiar filtros, que vuelve a Hoy sin otros filtros.
+- Los enlaces abren /admin/ventas/:id. Los filtros se conservan en parámetros de URL al abrir detalle y volver. Solo contienen criterios de consulta, sin datos personales.
+
+Detalle:
+- Número, fecha/hora en Chile, tipo, identificadores de productos DEMO, cantidades, precios unitarios, importes por línea, subtotal y total.
+- Medio y estado de pago; entrega/canje independiente; línea de tiempo ilustrativa ordenada.
+- Sin acciones para cambiar pagos, entregar, canjear, reembolsar o emitir documentos.
+- Pedido inexistente controlado con enlace de regreso.
+- “Ventas” permanece seleccionado en la navegación administrativa durante el detalle.
+
+Pago y operación:
+- Pago: Pendiente, Aprobado, Fallido, Reembolsado.
+- Entrega: Pendiente, Parcial, Completado, No corresponde.
+- DEMO-ORD-0001 muestra Aprobado + Pendiente; DEMO-ORD-0002 muestra Aprobado + Parcial. No existe transición automática entre estados financieros y operativos.
+
+3. MODELOS Y SERVICIO
+admin-sale.model.ts contiene AdminSale, AdminSaleItem, AdminSalePaymentStatus, AdminSaleFulfillmentStatus, AdminSaleType, AdminSalesSummary, AdminSalesFilters, AdminSalesView y tipos de período/ordenamiento.
+AdminSale conserva createdAt ISO, items, medio, estados separados, timeline e isDemo:true. No contiene identidad del comprador, tarjetas o secretos.
+El tipo de compra y el total se derivan de los ítems; no se almacenan cifras redundantes independientes. Cada línea contiene cantidad y precio unitario CLP. Subtotal = total en este escenario sin cargos ni descuentos.
+
+AdminSalesService es exclusivamente de lectura, basado en Observables:
+- getSales(): copias nuevas de cada pedido, sus ítems y su actividad por suscripción.
+- query(filters): selección, ordenamiento y resumen desde esas mismas copias.
+- find(id): consulta del detalle o undefined.
+No tiene escrituras, HttpClient, almacenamiento del navegador ni importaciones de pedidos de Flask, pagos o catálogo comercial.
+ADMIN_SALES_CLOCK permite fijar el reloj en pruebas. El escenario toma la fecha local al crear el servicio; se conserva durante la sesión y se vuelve a generar al recargar. No hay temporizador de cambio de día.
+
+Las fechas se interpretan con Intl y America/Santiago desde la configuración del club; el rango compara días de calendario chilenos. Últimos 7 días incluye Hoy y los seis días anteriores. Los rangos vacíos, imposibles o invertidos muestran error y resumen cero, sin resultados engañosos.
+
+4. ORIGEN Y COHERENCIA DE LOS DATOS
+12 pedidos sintéticos, identificados DEMO-ORD-0001 a DEMO-ORD-0012, exclusivos de VOID. Distribución: cinco hoy, tres ayer, uno hace tres días, uno hace seis, uno hace siete y uno hace veinte días. Incluyen entradas, bebidas y compras mixtas, los cuatro estados financieros y los cuatro operativos.
+No proceden de compras reales ni de sesiones Sandbox. Los precios de las líneas son ejemplos propios de esta fuente; no consultan ni modifican la carta administrativa o comercial.
+
+Resultados comprobados con reloj fijo del 14-11-2026:
+- Hoy: 5 pedidos, 2 aprobados, $69.000, promedio $34.500, 3 entradas y 3 tragos.
+- Ayer: 3 pedidos, 2 aprobados, $35.000, promedio $17.500, 1 entrada y 3 tragos.
+- Últimos 7 días: 10 pedidos, 6 aprobados, $156.000, promedio $26.000, 7 entradas y 8 tragos.
+- Rango que incluye los 12: 7 aprobados, $175.000, promedio $25.000, 8 entradas y 9 tragos.
+- Filtros week + mixed + approved + búsqueda 0006: 1 pedido por $29.000, 1 entrada y 2 tragos.
+Un reembolsado conserva su importe histórico en el listado/detalle, pero queda excluido de los indicadores aprobados. Esto es deliberado y se indica en la definición del resumen.
+
+El dashboard preexistente conserva su escenario ilustrativo independiente. No se reconcilió con este conjunto ni se cambiaron sus cifras. Su fecha fija “12 nov 2026 · DEMO” en la cabecera administrativa es decorativa; el período de Ventas y la fecha de su escenario se muestran expresamente en esta pantalla.
+
+5. ARCHIVOS CREADOS Y MODIFICADOS
+Creados en frontend/src/app/admin/sales/:
+- admin-sale.model.ts
+- admin-sales.logic.ts
+- admin-sales.data.ts
+- admin-sales.service.ts
+- admin-sales.service.spec.ts
+- admin-sales.component.ts / .html / .scss / .spec.ts
+- admin-sales-summary.component.ts
+- admin-sale-status.component.ts
+- admin-sale-detail.component.ts / .html / .scss
+
+Archivos existentes modificados por 4.4:
+- frontend/src/app/admin/admin.module.ts: declaraciones, servicio y rutas de ventas/detalle; se elimina únicamente Ventas del conjunto de pantallas provisionales.
+- frontend/src/app/admin/admin-layout.component.html: el enlace Ventas mantiene selección en rutas de detalle.
+- frontend/src/app/admin/admin-routing.spec.ts: navegación y regreso conservando período/tipo, junto con el resto de secciones.
+
+Documentación/evidencia:
+- docs/CHECKPOINT_4_4.txt
+- docs/visual-review/admin-44/review-sales.cjs
+- docs/visual-review/admin-44/sales-review.json
+- docs/visual-review/admin-44/sales-review-first-attempt.json
+- docs/visual-review/admin-44/scope-verification.json
+- Logs Angular/build y capturas PNG en ese directorio.
+
+Comparación SHA-256 con la captura previa a 4.4: 281 archivos existentes comprobados; solo cambiaron los tres archivos administrativos anteriores; cero eliminaciones. Backend, frontend del cliente, Wallet/QR, checkout, Fintoc, configuración de compilación y dependencias no presentaron diferencias. Se preservó el trabajo local previo de 4.2/4.3; el estado Git global no es un diff exclusivo de esta entrega.
+
+6. PRUEBAS EJECUTADAS
+Angular, desde frontend:
+npm test -- --watch=false --browsers=ChromeHeadless
+- Antes de 4.4: 197/197 aprobadas.
+- Después: 216/216 aprobadas; 19 pruebas nuevas, más extensión del test de navegación administrativa.
+- La ejecución final posterior a los ajustes también pasó completa, 216/216.
+
+Cobertura nueva:
+- Totales y cantidades de Hoy, Ayer, siete días, personalizado y selección combinada.
+- Promedio sobre aprobados y cero sin aprobados; exclusión de pending/failed/refunded de ventas/unidades.
+- Límites inclusivos, mismo día, fechas inválidas/invertidas, cambio de año, año bisiesto y diferencia UTC/Chile en invierno y verano.
+- Ordenamiento por importe/fecha ascendente y descendente; desempate determinista.
+- Ítems, cantidades, precios y actividad cronológica; pago aprobado con entrega pendiente/parcial.
+- Copias anidadas independientes entre suscripciones, IDs perdidos, ausencia de HTTP e igualdad de Wallet antes/después de consultas.
+- Presentación de estados, filtros, vacíos, error accesible, limpiar, detalle/importe por línea y navegación con filtros restaurados.
+
+Build de desarrollo:
+npm run build -- --configuration development
+Aprobado; inicial aproximado 2,03 MB; módulo administrativo lazy 282,31 kB.
+
+Build de despliegue:
+API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+Aprobado sobre la versión final; inicial 718,61 kB, transferencia estimada 145,12 kB; módulo administrativo lazy 154,11 kB, transferencia 32,21 kB.
+Este comando compila con la URL configurada; no publica en Vercel ni inicia pagos.
+
+Persisten advertencias de bundle inicial >500 kB y estilos existentes >2 kB; Ventas añade advertencia de estilos de lista de aproximadamente 2,6 kB, por debajo del error de 4 kB. Wallet continúa próxima a 4 kB. Bootstrap mantiene dos selectores .form-floating>~label omitidos por el optimizador. No se aumentaron presupuestos ni hubo errores bloqueantes.
+No se ejecutó suite Flask porque no se modificó backend. No se instalaron dependencias ni se aplicaron correcciones npm.
+
+7. NAVEGADOR REAL, CAPTURAS Y REGRESIONES
+Chrome Headless real, perfil temporal aislado, Angular local en puerto 4300; servidor temporal detenido al finalizar. Se conservó el servidor del usuario en 4200.
+Resultado final: PASS; 27 pantallas/estados × cuatro anchos (320, 390, 768 y 1280 px) = 108 combinaciones sin scroll horizontal. Cero errores de consola/excepciones, cero respuestas HTTP >=400 y cero solicitudes de escritura observadas.
+46 capturas registradas en el informe final, principalmente de administración y QR; las regresiones de cliente se comprobaron también por DOM/mediciones. Se inspeccionaron visualmente las capturas completas de lista móvil/escritorio y detalle escritorio.
+
+Recorrido:
+- Hoy/Ayer/semana, combinación de filtros, rangos personalizado e inválido, vacío/limpiar y cuatro ordenamientos.
+- Detalles mixto, aprobado con entrega pendiente, parcial, pago pendiente, reembolsado y pedido inexistente.
+- Enter para abrir detalle y volver, Tab entre filtros, menú móvil y Escape. Foco visible, labels nativos, texto en badges y errores role=alert; resultado de búsqueda role=status.
+- Dashboard, listado de eventos/asistente de edición y cinco tragos originales conservados.
+- Cinco pestañas del cliente, navegación activa y Liquid Glass; seis imágenes QR de Wallet cargadas en entradas/tragos.
+- Carrito y checkout revisados sin pulsar Preparar pedido. Se usó un estado de error controlado en el resumen del cliente para acceder a Revisar carrito sin iniciar una sesión Fintoc.
+- /checkout/resultado con identificador inválido y verified=true: no declara pago confirmado. No se solicitó verificación a Fintoc con ese identificador.
+Las regresiones automatizadas de Fintoc forman parte de la suite Angular completa. No se completó un pago, autorización Apple Pay ni redirección real nueva al proveedor en 4.4.
+
+Capturas principales:
+- sales-today-full-1280.png / sales-today-full-390.png
+- sales-week-full-1280.png / sales-week-full-390.png
+- sales-combined-filters-1280.png / -390.png
+- sale-approved-pending-full-1280.png / -390.png
+- sale-mixed-detail-full-1280.png / -390.png
+- sales-invalid-range-1280.png / -390.png
+- sales-empty-1280.png / -390.png
+Todas bajo docs/visual-review/admin-44/.
+
+Incidente de herramienta: la primera pasada alcanzó las pantallas administrativas y se interrumpió por timeout de Page.captureScreenshot en Noches. No registró errores de aplicación/red. Se conserva su JSON como first-attempt; se repitió con Chrome sin GPU, capturas centradas en el alcance y timeout ampliado. El informe sales-review.json corresponde al recorrido final completo PASS. Durante la revisión se corrigió el espaciado de fecha/tipo en tarjetas móviles y se verificó la selección de Ventas dentro del detalle.
+
+8. LIMITACIONES Y PENDIENTES
+- Exclusivamente consulta de datos ficticios en memoria. No hay autenticación, autorización, persistencia, HTTP de ventas, entrega/canje o reembolso real.
+- Recargar regenera el escenario respecto de la fecha local. Una sesión abierta durante la medianoche mantiene su día de referencia hasta recargar.
+- Las cifras de Ventas son coherentes internamente; otros módulos DEMO conservan fuentes independientes. No existe conciliación global ni sincronización con eventos/tragos editados.
+- La actividad del detalle es una narración ilustrativa, no un registro de auditoría ni comprobante de pago.
+- El promedio usa redondeo a CLP. Las reglas financieras comerciales futuras deben definir ingresos, reembolsos parciales, comisiones, impuestos, descuentos y conciliación; no se simulan esos cálculos aquí.
+- No se realizó auditoría completa con lector de pantalla ni validación física iOS/Android/Safari. Teclado y responsividad se comprobaron en Chrome.
+- Sin prueba nueva de API real Fintoc, pago Apple Pay o retorno con pedido persistido. Los límites anteriores de pedidos/intentos en memoria de funciones Vercel siguen vigentes; esta pantalla no los resuelve ni importa esos pedidos.
+- Sin cambios de seguridad, credenciales, dependencias, backend o infraestructura. No se declara preparación para producción.
+
+9. RECOMENDACIÓN Y SIGUIENTE DECISIÓN
+Revisar visualmente lista/detalle, definición de indicadores y estados con Product Owner/arquitecto antes de autorizar otra subetapa.
+Para una futura integración real, definir conjuntamente contratos de pedidos persistentes y sus líneas/precios del servidor, identidad y permisos, confirmación verificable de Fintoc, idempotencia global, conciliación, auditoría y transiciones operativas controladas por personal autorizado. La entrega no debe deducirse de un pago aprobado; los reembolsos necesitan reglas explícitas. Estas operaciones quedan pendientes y no se implementaron.
+
+Trabajo detenido al finalizar 4.4, a la espera de revisión del arquitecto.

@@ -1,0 +1,18 @@
+
+> frontend@0.0.0 test
+> ng test --watch=false --browsers=ChromeHeadless
+
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+14 11 2026 11:48:59.491:INFO [karma-server]: Karma v6.4.4 server started at http://localhost:9876/
+14 11 2026 11:48:59.497:INFO [launcher]: Launching browsers ChromeHeadless with concurrency unlimited
+14 11 2026 11:48:59.500:INFO [launcher]: Starting browser ChromeHeadless
+14 11 2026 11:49:04.298:INFO [Chrome Headless 157.0.0.0 (Mac OS 10.15.7)]: Connected on socket JwV-orDUK5uMYZSPAAAA with id 71508720
+TOTAL: 136 SUCCESS
+✔ Browser application bundle generation complete.
+✔ Browser application bundle generation complete.
+npm notice
+npm notice New major version of npm available! 10.9.9 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

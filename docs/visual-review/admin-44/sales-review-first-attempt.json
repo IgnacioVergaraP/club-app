@@ -1,0 +1,588 @@
+{
+  "date": "2026-11-14",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "sales-today",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-today",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-today",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-today",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-yesterday",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-yesterday",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-yesterday",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-yesterday",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-week",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-week",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-week",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-week",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-combined-filters",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-combined-filters",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-combined-filters",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-combined-filters",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sale-mixed-detail",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "DEMO-ORD-0006"
+    },
+    {
+      "screen": "sale-mixed-detail",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "DEMO-ORD-0006"
+    },
+    {
+      "screen": "sale-mixed-detail",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "DEMO-ORD-0006"
+    },
+    {
+      "screen": "sale-mixed-detail",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "DEMO-ORD-0006"
+    },
+    {
+      "screen": "sales-empty",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-empty",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-empty",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-empty",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-custom-range",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-custom-range",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-custom-range",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-custom-range",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-invalid-range",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-invalid-range",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-invalid-range",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-invalid-range",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sale-approved-pending",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "DEMO-ORD-0001"
+    },
+    {
+      "screen": "sale-approved-pending",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "DEMO-ORD-0001"
+    },
+    {
+      "screen": "sale-approved-pending",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "DEMO-ORD-0001"
+    },
+    {
+      "screen": "sale-approved-pending",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "DEMO-ORD-0001"
+    },
+    {
+      "screen": "sale-partial-detail",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "DEMO-ORD-0002"
+    },
+    {
+      "screen": "sale-partial-detail",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "DEMO-ORD-0002"
+    },
+    {
+      "screen": "sale-partial-detail",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "DEMO-ORD-0002"
+    },
+    {
+      "screen": "sale-partial-detail",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "DEMO-ORD-0002"
+    },
+    {
+      "screen": "sale-pending-detail",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "DEMO-ORD-0003"
+    },
+    {
+      "screen": "sale-pending-detail",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "DEMO-ORD-0003"
+    },
+    {
+      "screen": "sale-pending-detail",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "DEMO-ORD-0003"
+    },
+    {
+      "screen": "sale-pending-detail",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "DEMO-ORD-0003"
+    },
+    {
+      "screen": "sale-refunded-detail",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "DEMO-ORD-0005"
+    },
+    {
+      "screen": "sale-refunded-detail",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "DEMO-ORD-0005"
+    },
+    {
+      "screen": "sale-refunded-detail",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "DEMO-ORD-0005"
+    },
+    {
+      "screen": "sale-refunded-detail",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "DEMO-ORD-0005"
+    },
+    {
+      "screen": "sale-missing",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Pedido no encontrado"
+    },
+    {
+      "screen": "sale-missing",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Pedido no encontrado"
+    },
+    {
+      "screen": "sale-missing",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Pedido no encontrado"
+    },
+    {
+      "screen": "sale-missing",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Pedido no encontrado"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "events-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "event-wizard-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "event-wizard-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "event-wizard-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "event-wizard-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar evento"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-inicio",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-inicio",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-inicio",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-inicio",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-noches",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-noches",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Noches."
+    }
+  ],
+  "screenshots": [
+    "sales-today-390.png",
+    "sales-today-full-390.png",
+    "sales-today-1280.png",
+    "sales-today-full-1280.png",
+    "sales-yesterday-390.png",
+    "sales-yesterday-1280.png",
+    "sales-week-390.png",
+    "sales-week-full-390.png",
+    "sales-week-1280.png",
+    "sales-week-full-1280.png",
+    "sales-combined-filters-390.png",
+    "sales-combined-filters-1280.png",
+    "sale-mixed-detail-390.png",
+    "sale-mixed-detail-full-390.png",
+    "sale-mixed-detail-1280.png",
+    "sale-mixed-detail-full-1280.png",
+    "sales-empty-390.png",
+    "sales-empty-1280.png",
+    "sales-custom-range-390.png",
+    "sales-custom-range-1280.png",
+    "sales-invalid-range-390.png",
+    "sales-invalid-range-1280.png",
+    "sale-approved-pending-390.png",
+    "sale-approved-pending-full-390.png",
+    "sale-approved-pending-1280.png",
+    "sale-approved-pending-full-1280.png",
+    "sale-partial-detail-390.png",
+    "sale-partial-detail-1280.png",
+    "sale-pending-detail-390.png",
+    "sale-pending-detail-1280.png",
+    "sale-refunded-detail-390.png",
+    "sale-refunded-detail-1280.png",
+    "sale-missing-390.png",
+    "sale-missing-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "events-regression-390.png",
+    "events-regression-1280.png",
+    "event-wizard-regression-390.png",
+    "event-wizard-regression-1280.png",
+    "drinks-regression-390.png",
+    "drinks-regression-1280.png",
+    "client-inicio-390.png",
+    "client-inicio-1280.png"
+  ],
+  "keyboard": [
+    "Enter opens selected order and returns, restoring combined filters.",
+    "Native Tab follows period, order search, type; labels and visible focus retained.",
+    "Mobile administrative menu opens and closes with Escape."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    "12 synthetic records; today/yesterday/week/custom calculations; combined filters, empty/clear, four sort modes, detail and preserved filters; payment independent from fulfillment; no mutation actions."
+  ],
+  "paid": false,
+  "result": "INCOMPLETE",
+  "failure": {
+    "phase": "client-noches",
+    "message": "CDP timeout Page.captureScreenshot"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "checkedExistingFiles": 281,
+  "changedExistingFiles": [
+    "frontend/src/app/admin/admin-layout.component.html",
+    "frontend/src/app/admin/admin.module.ts",
+    "frontend/src/app/admin/admin-layout.component.scss",
+    "frontend/src/app/admin/admin-icon.component.ts",
+    "frontend/src/app/admin/admin-routing.spec.ts"
+  ],
+  "note": "Comparison with the pre-4.4 snapshot. No source hashes or secret contents included."
+}
