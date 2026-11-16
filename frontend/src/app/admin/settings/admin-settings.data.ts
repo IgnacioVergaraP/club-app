@@ -1,0 +1,7 @@
+import { CLUB_CONFIG } from '../club.config';
+import { AdminClubSettings } from './admin-settings.model';
+export const SETTINGS_DEFAULT_COVER='assets/events/void-dancefloor.jpg';
+export function initialClubSettings():AdminClubSettings {
+ return {isDemo:true,general:{tradeName:CLUB_CONFIG.tradeName,description:'Configuración ficticia de Club VOID para revisar la identidad y operación del club.',address:CLUB_CONFIG.address,city:'Santiago',country:CLUB_CONFIG.country==='CL'?'Chile':CLUB_CONFIG.country,timezone:CLUB_CONFIG.settings.timezone,currency:CLUB_CONFIG.currency},identity:{logo:CLUB_CONFIG.logo.src,cover:SETTINGS_DEFAULT_COVER,primary:CLUB_CONFIG.branding.primary,secondary:CLUB_CONFIG.branding.accent},commercial:{legalName:CLUB_CONFIG.legalName,taxId:CLUB_CONFIG.demoTaxId,billingAddress:CLUB_CONFIG.address,email:'contacto@void.example'},operation:{days:['fri','sat'],opensAt:'23:00',closesAt:'05:00',closesNextDay:true,entryNotice:true,responsibleConsumption:true,entryRules:'Referencia de entrada para el futuro control autorizado. Información DEMO: no valida ingresos ni aplica restricciones reales.',redemptionRules:'El futuro canje requerirá validación del backend y personal autorizado. Esta regla es informativa; no habilita canjes.'}};
+}
+export function copyClubSettings(value:AdminClubSettings):AdminClubSettings{return {isDemo:true,general:{...value.general},identity:{...value.identity},commercial:{...value.commercial},operation:{...value.operation,days:[...value.operation.days]}};}

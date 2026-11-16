@@ -1,0 +1,40 @@
+<ng-container *ngIf="view$ | async as vm">
+<p class="note">Retiro ficticio por PIN · DEMO sin entrega real. Los productos se revelan solo después del canje.</p>
+<div class="connection" role="status">{{vm.simulated?'OFFLINE SIMULADO':vm.offline?'SIN CONEXIÓN DETECTADA':'ONLINE · DEMO LOCAL'}}<small>{{vm.offline?'Un canje local no está confirmado por el servidor.':'La validación es ficticia; no se envían canjes al servidor.'}}</small></div>
+<details class="tools"><summary>Opciones de prueba DEMO</summary><label><input id="redemption-offline" type="checkbox" [checked]="vm.simulated" (change)="service.setOfflineSimulation($any($event.target).checked)"> Simular pérdida de conexión</label><p>No crea caché offline. Cerrar el navegador y abrir sin internet no está soportado.</p><p>Credenciales ficticias documentadas en el checkpoint 4.9. No uses PIN reales.</p></details>
+<p *ngIf="!vm.ready&&!vm.error" role="status">Consultando el registro local DEMO…</p><div *ngIf="vm.error" class="error" role="alert"><p>{{vm.error}}</p><button type="button" (click)="service.reload()">Reintentar lectura local</button></div>
+<p *ngIf="error&&selected===null" role="alert" class="error">{{error}}</p>
+<article class="drink-card" *ngFor="let item of vm.orders; trackBy:trackOrder" [attr.data-order]="item.order.id">
+<header><div><span class="record-demo">DEMO</span><small>CLUB VOID · PEDIDO DEMO</small><h2>{{item.order.reference}}</h2><time [attr.datetime]="item.order.event.startsAt">{{item.order.event.startsAt | date:'dd MMM yyyy · HH:mm':'-0300'}} h · UTC−3</time></div><span class="status" [class.redeemed]="!!item.receipt||item.order.status==='redeemed'">{{item.receipt?.sync==='conflict'?'Conflicto DEMO':item.receipt||item.order.status==='redeemed'?'Canjeado':item.order.status==='expired'?'Vencido':'Disponible para retirar'}}</span></header>
+<ng-container *ngIf="item.receipt as receipt">
+<p class="sync" [class.pending]="receipt.sync==='pending'">{{receipt.sync==='pending'?'Canjeado en este dispositivo · Pendiente de sincronización':receipt.sync==='conflict'?'Conflicto de sincronización SIMULADO · Sin confirmación del servidor':'Canjeado DEMO en este dispositivo · Sin confirmación del servidor'}}</p>
+<p class="hidden-products" *ngIf="!item.visible">{{receipt.sync==='conflict'?'Detalle oculto por conflicto DEMO.':'Detalle oculto: la ventana de dos minutos terminó.'}} El pedido sigue canjeado.</p>
+<button type="button" *ngIf="item.visible&&selected!==item.order.id" (click)="open(item.order.id)">Ver detalle · {{formatTime(item.remaining)}}</button>
+<button type="button" class="reset-demo" [disabled]="resetting||validating" (click)="reset(item.order)">Volver a ingresar PIN · DEMO</button>
+<details class="tools" *ngIf="receipt.sync!=='conflict'"><summary>Simular conflicto DEMO</summary><p>Representa un rechazo futuro del servidor. No contacta ningún backend ni revierte el canje.</p><button type="button" (click)="conflict(receipt)">Marcar conflicto ficticio</button></details>
+</ng-container>
+<button class="primary withdraw" *ngIf="item.available&&selected!==item.order.id" type="button" [disabled]="!vm.ready||vm.busy.includes(item.order.id)" (click)="open(item.order.id)">Retirar pedido</button>
+<dialog [id]="'withdraw-dialog-'+item.order.id" class="withdraw-dialog" [attr.aria-label]="'Retiro de tragos · '+item.order.reference" (cancel)="cancel($event)">
+<ng-container *ngIf="selected===item.order.id">
+<div class="modal-heading"><img src="assets/admin/void-logo.svg" alt="Club VOID" width="84" height="34"><button type="button" aria-label="Cerrar popup de retiro" [disabled]="validating||resetting" (click)="close()">✕</button></div>
+<section class="pin-panel" *ngIf="item.available" [attr.aria-labelledby]="'withdraw-modal-title-'+item.order.id">
+<h3 [id]="'withdraw-modal-title-'+item.order.id">Retiro de tragos</h3>
+<div class="order-summary"><div><strong>{{item.order.reference}}</strong><time>{{item.order.event.startsAt | date:'dd MMM · HH:mm':'-0300'}}</time></div><span class="status">Disponible</span></div>
+<div class="warning" [id]="'pin-warning-'+item.order.id"><span aria-hidden="true">ⓘ</span><div><strong>Importante</strong><p>Al ingresar el PIN del personal, este pedido quedará <strong>CANJEADO</strong> y no podrá retirarse nuevamente.</p></div></div>
+<label [for]="'withdraw-pin-'+item.order.id">PIN del personal</label>
+<div class="pin-entry"><div class="positions" aria-hidden="true"><span *ngFor="let slot of slots" [class.current]="pin.value.length===slot">{{pin.value.length>slot?'●':''}}</span></div><input [id]="'withdraw-pin-'+item.order.id" type="password" inputmode="none" pattern="[0-9]*" maxlength="6" autocomplete="off" [formControl]="pin" [readonly]="validating||resetting" [attr.aria-busy]="validating" [attr.aria-invalid]="!!error" [attr.aria-describedby]="'pin-warning-'+item.order.id+' pin-help-'+item.order.id" (input)="entered(item.order,$event)" (keydown.enter)="$event.preventDefault()"></div>
+<div class="keypad" role="group" aria-label="Teclado numérico del PIN"><button *ngFor="let n of digits" type="button" [disabled]="validating||resetting" (click)="digit(item.order,n)">{{n}}</button><span aria-hidden="true"></span><button type="button" [disabled]="validating||resetting" (click)="digit(item.order,0)">0</button><button type="button" aria-label="Borrar último dígito" [disabled]="validating||resetting||!pin.value.length" (click)="erase()">⌫</button></div>
+<small [id]="'pin-help-'+item.order.id">El sexto dígito canjea automáticamente · DEMO.</small><p *ngIf="validating" role="status">Validando PIN DEMO…</p><p *ngIf="error" class="error" role="alert">{{error}}</p>
+</section>
+<section class="reveal" *ngIf="item.visible&&item.receipt as receipt" [attr.aria-labelledby]="'withdraw-modal-title-'+item.order.id"><span class="check" aria-hidden="true">✓</span><h3 role="status" [id]="'withdraw-modal-title-'+item.order.id">Pedido canjeado</h3><p class="order-reference">{{item.order.reference}}</p><div class="redeemed-time"><span aria-hidden="true">◷</span> Canjeado: {{receipt.redeemedAt | date:'dd MMM · HH:mm'}}</div><div class="prepare"><h4>Preparar y entregar</h4><ul class="products"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18L12 13 3 3m9 10v8m-4 0h8"/></svg><strong>{{item.order.quantity}} × {{item.order.productName}}</strong></li></ul></div><div class="timer-box"><span>◷ El detalle se ocultará en:</span><strong class="countdown" aria-live="off">{{formatTime(item.remaining)}}</strong></div><small>DEMO · Sin entrega real.</small></section>
+
+<p *ngIf="item.receipt&&!item.visible" class="hidden-products">CANJEADO · El detalle ya no está disponible.</p>
+<p class="sync" *ngIf="item.receipt">{{item.receipt.sync==='pending'?'Pendiente de sincronización · Solo en este dispositivo':'DEMO local · Sin confirmación del servidor'}}</p>
+<button type="button" class="reset-demo" *ngIf="item.receipt" [disabled]="validating||resetting" (click)="reset(item.order)">Volver a ingresar PIN · DEMO</button>
+<p class="error" role="alert" *ngIf="error&&item.receipt">{{error}}</p>
+</ng-container></dialog>
+<p *ngIf="!item.receipt&&!item.available" class="hidden-products">{{item.order.status==='expired'?'Pedido vencido.':'Pedido canjeado de ejemplo.'}} No disponible para retiro.</p>
+<details class="qr-details"><summary>Referencia visual QR DEMO</summary><app-demo-qr [reference]="item.order.reference" [status]="item.receipt?'redeemed':item.order.status" [statusLabel]="item.receipt||item.order.status==='redeemed'?'Canjeado':item.order.status==='expired'?'Vencido':''"></app-demo-qr><p>No representa un pedido pagado ni una autorización de retiro. Este QR no realiza canjes.</p></details>
+</article>
+<div *ngIf="!vm.orders.length" class="empty" role="status"><h2>Aún no hay consumos de demostración.</h2><a routerLink="/tragos">Explorar Tragos ↗</a></div>
+</ng-container>

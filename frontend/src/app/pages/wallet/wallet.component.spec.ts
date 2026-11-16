@@ -1,3 +1,6 @@
+import { ReactiveFormsModule } from '@angular/forms';
+import { WalletDrinkOrdersComponent } from './drink-orders/wallet-drink-orders.component';
+import { DemoRedemptionService } from '../../services/redemption/demo-redemption.service';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -17,8 +20,8 @@ describe('WalletComponent', () => {
     data = structuredClone(MOCK_WALLET);
     service = jasmine.createSpyObj('WalletService', ['getWallet']);
     service.getWallet.and.returnValue(of(data));
-    await TestBed.configureTestingModule({ imports:[CommonModule, RouterTestingModule], declarations:[WalletComponent, DemoQrComponent],
-      providers:[{provide:WalletService, useValue:service}] }).compileComponents();
+    await TestBed.configureTestingModule({ imports:[CommonModule, RouterTestingModule, ReactiveFormsModule], declarations:[WalletComponent, DemoQrComponent, WalletDrinkOrdersComponent],
+      providers:[{provide:DemoRedemptionService,useValue:{view$:of({receipts:[],busy:[],ready:true,error:'',simulated:false,offline:false,now:Date.now()}),visible:()=>false}}, {provide:WalletService, useValue:service}] }).compileComponents();
   });
   function check(body:()=>void):()=>void { return fakeAsync(()=>{try {body();} finally {fixture?.destroy();}}); }
   function render():HTMLElement { fixture=TestBed.createComponent(WalletComponent); fixture.detectChanges(); return fixture.nativeElement; }
@@ -34,7 +37,7 @@ describe('WalletComponent', () => {
   it('cambia secciones y muestra cantidades, estados de consumo e historial', check(()=>{
     const page=render();tab('drinks');
     expect(page.querySelectorAll('.drink-card').length).toBe(3);
-    for(const text of ['× 2','Pendiente de canje','Canjeado','Vencido']) expect(page.textContent).toContain(text);
+    for(const text of ['Disponible para retirar','Canjeado','Vencido']) expect(page.textContent).toContain(text);
     expect(page.querySelectorAll('.drink-card .record-demo').length).toBe(3);
     tab('history');expect(page.querySelectorAll('.activity-card').length).toBe(5);
     expect(page.querySelectorAll('.activity-card .record-demo').length).toBe(5);
@@ -82,7 +85,7 @@ describe('WalletComponent', () => {
   }));
   it('abre detalles nativos para todos los tipos sin cambiar sus estados', check(()=>{
     const page=render();for(const section of ['tickets','drinks','history'] as const){tab(section);
-      const detail=page.querySelector('details')!;detail.querySelector('summary')!.click();expect(detail.open).toBeTrue();
+      const detail=page.querySelector<HTMLDetailsElement>(section==='drinks'?'.qr-details':'details')!;detail.querySelector('summary')!.click();expect(detail.open).toBeTrue();
       expect(detail.textContent).toContain(section==='tickets'?'no representa':section==='drinks'?'No representa':'Registro ficticio');
       detail.querySelector('summary')!.click();expect(detail.open).toBeFalse();
     }

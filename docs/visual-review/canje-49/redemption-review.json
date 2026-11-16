@@ -1,0 +1,807 @@
+{
+  "date": "2026-11-16",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "withdraw-before",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-before",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-before",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-before",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-pin",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-pin",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-pin",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-pin",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-incorrect-pin",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-incorrect-pin",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-incorrect-pin",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-incorrect-pin",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-redeemed-online",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-redeemed-online",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-redeemed-online",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-redeemed-online",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-reopened-within-window",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-reopened-within-window",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-reopened-within-window",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-reopened-within-window",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-conflict",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-conflict",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-conflict",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-conflict",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-offline-simulated",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-offline-simulated",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-offline-simulated",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-offline-simulated",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-network-offline",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-network-offline",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-network-offline",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-network-offline",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-reconnected-pending",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-reconnected-pending",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-reconnected-pending",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-reconnected-pending",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "events-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "admin-drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "admin-drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "admin-drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "admin-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "home-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "profile-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "wallet-ticket-qr-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-ticket-qr-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-ticket-qr-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-ticket-qr-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drink-qr-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drink-qr-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drink-qr-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drink-qr-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "withdraw-expired-reopened",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-expired-reopened",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-expired-reopened",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "withdraw-expired-reopened",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    }
+  ],
+  "screenshots": [
+    "withdraw-before-390.png",
+    "withdraw-before-full-390.png",
+    "withdraw-before-1280.png",
+    "withdraw-before-full-1280.png",
+    "withdraw-pin-390.png",
+    "withdraw-pin-full-390.png",
+    "withdraw-pin-1280.png",
+    "withdraw-pin-full-1280.png",
+    "withdraw-incorrect-pin-390.png",
+    "withdraw-incorrect-pin-1280.png",
+    "withdraw-redeemed-online-390.png",
+    "withdraw-redeemed-online-full-390.png",
+    "withdraw-redeemed-online-1280.png",
+    "withdraw-redeemed-online-full-1280.png",
+    "withdraw-reopened-within-window-390.png",
+    "withdraw-reopened-within-window-1280.png",
+    "withdraw-conflict-390.png",
+    "withdraw-conflict-full-390.png",
+    "withdraw-conflict-1280.png",
+    "withdraw-conflict-full-1280.png",
+    "withdraw-offline-simulated-390.png",
+    "withdraw-offline-simulated-full-390.png",
+    "withdraw-offline-simulated-1280.png",
+    "withdraw-offline-simulated-full-1280.png",
+    "withdraw-network-offline-390.png",
+    "withdraw-network-offline-full-390.png",
+    "withdraw-network-offline-1280.png",
+    "withdraw-network-offline-full-1280.png",
+    "withdraw-reconnected-pending-390.png",
+    "withdraw-reconnected-pending-1280.png",
+    "inventory-regression-390.png",
+    "inventory-regression-1280.png",
+    "sales-regression-390.png",
+    "sales-regression-1280.png",
+    "staff-regression-390.png",
+    "staff-regression-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "events-regression-390.png",
+    "events-regression-1280.png",
+    "admin-drinks-regression-390.png",
+    "admin-drinks-regression-1280.png",
+    "commissions-regression-390.png",
+    "commissions-regression-1280.png",
+    "settings-regression-390.png",
+    "settings-regression-1280.png",
+    "home-regression-390.png",
+    "home-regression-1280.png",
+    "nights-regression-390.png",
+    "nights-regression-1280.png",
+    "drinks-regression-390.png",
+    "drinks-regression-1280.png",
+    "profile-regression-390.png",
+    "profile-regression-1280.png",
+    "wallet-ticket-qr-regression-390.png",
+    "wallet-ticket-qr-regression-1280.png",
+    "wallet-drink-qr-regression-390.png",
+    "wallet-drink-qr-regression-1280.png",
+    "fintoc-result-regression-390.png",
+    "fintoc-result-regression-1280.png",
+    "withdraw-expired-reopened-390.png",
+    "withdraw-expired-reopened-full-390.png",
+    "withdraw-expired-reopened-1280.png",
+    "withdraw-expired-reopened-full-1280.png"
+  ],
+  "keyboard": [
+    "PIN has accessible label, numeric mobile input and six positions; Tab reaches Cancel; sixth digit submits without an extra button."
+  ],
+  "flows": {
+    "online": {
+      "status": "demo_only",
+      "fields": [
+        "orderId",
+        "redeemedAt",
+        "revealUntil",
+        "workerId",
+        "sync",
+        "isDemo"
+      ]
+    },
+    "simulatedOffline": "Pending remains pending after toggling simulation off; no server acknowledgement.",
+    "realOffline": {
+      "networkDisconnected": true,
+      "navigatorOnline": false,
+      "appAlreadyOpen": true,
+      "pending": true,
+      "revealUntil": 1794841549655
+    },
+    "expiry": "Real wall-clock two-minute deadline elapsed; a full reload keeps Canjeado and omits products and withdrawal action."
+  },
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    "Isolated test profile receipt cleared only by the harness between independent scenarios; no reset control exists in the app.",
+    "Isolated test profile receipt cleared only by the harness between independent scenarios; no reset control exists in the app.",
+    "Native IndexedDB survives a full Page.navigate reload within the two-minute window; offline pending is not confirmed by reconnecting."
+  ],
+  "paid": false,
+  "result": "PASS"
+}

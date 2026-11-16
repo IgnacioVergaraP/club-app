@@ -1,0 +1,13 @@
+{
+  "compared": 318,
+  "unchanged": 314,
+  "changed": [
+    "frontend/src/app/admin/admin-layout.component.ts",
+    "frontend/src/app/admin/admin-layout.component.html",
+    "frontend/src/app/admin/admin.module.ts",
+    "frontend/src/app/admin/admin-routing.spec.ts"
+  ],
+  "missing": [],
+  "backendUnchanged": true,
+  "dependenciesUnchanged": true
+}

@@ -1,0 +1,154 @@
+{
+  "date": "2026-11-16",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "popup-pin",
+      "width": 320,
+      "scrollWidth": 305,
+      "modalWidth": 279,
+      "modalScroll": 279,
+      "modal": true
+    },
+    {
+      "screen": "popup-pin",
+      "width": 390,
+      "scrollWidth": 375,
+      "modalWidth": 349,
+      "modalScroll": 349,
+      "modal": true
+    },
+    {
+      "screen": "popup-pin",
+      "width": 768,
+      "scrollWidth": 753,
+      "modalWidth": 478,
+      "modalScroll": 478,
+      "modal": true
+    },
+    {
+      "screen": "popup-pin",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "modalWidth": 478,
+      "modalScroll": 478,
+      "modal": true
+    },
+    {
+      "screen": "popup-wrong-pin",
+      "width": 320,
+      "scrollWidth": 305,
+      "modalWidth": 279,
+      "modalScroll": 279,
+      "modal": true
+    },
+    {
+      "screen": "popup-wrong-pin",
+      "width": 390,
+      "scrollWidth": 375,
+      "modalWidth": 349,
+      "modalScroll": 349,
+      "modal": true
+    },
+    {
+      "screen": "popup-wrong-pin",
+      "width": 768,
+      "scrollWidth": 753,
+      "modalWidth": 478,
+      "modalScroll": 478,
+      "modal": true
+    },
+    {
+      "screen": "popup-wrong-pin",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "modalWidth": 478,
+      "modalScroll": 478,
+      "modal": true
+    },
+    {
+      "screen": "popup-redeemed",
+      "width": 320,
+      "scrollWidth": 305,
+      "modalWidth": 279,
+      "modalScroll": 279,
+      "modal": true
+    },
+    {
+      "screen": "popup-redeemed",
+      "width": 390,
+      "scrollWidth": 375,
+      "modalWidth": 349,
+      "modalScroll": 349,
+      "modal": true
+    },
+    {
+      "screen": "popup-redeemed",
+      "width": 768,
+      "scrollWidth": 753,
+      "modalWidth": 478,
+      "modalScroll": 478,
+      "modal": true
+    },
+    {
+      "screen": "popup-redeemed",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "modalWidth": 478,
+      "modalScroll": 478,
+      "modal": true
+    },
+    {
+      "screen": "popup-retry",
+      "width": 320,
+      "scrollWidth": 305,
+      "modalWidth": 279,
+      "modalScroll": 279,
+      "modal": true
+    },
+    {
+      "screen": "popup-retry",
+      "width": 390,
+      "scrollWidth": 375,
+      "modalWidth": 349,
+      "modalScroll": 349,
+      "modal": true
+    },
+    {
+      "screen": "popup-retry",
+      "width": 768,
+      "scrollWidth": 753,
+      "modalWidth": 478,
+      "modalScroll": 478,
+      "modal": true
+    },
+    {
+      "screen": "popup-retry",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "modalWidth": 478,
+      "modalScroll": 478,
+      "modal": true
+    }
+  ],
+  "screenshots": [
+    "popup-pin-390.png",
+    "popup-pin-1280.png",
+    "popup-wrong-pin-390.png",
+    "popup-wrong-pin-1280.png",
+    "popup-redeemed-390.png",
+    "popup-redeemed-1280.png",
+    "popup-retry-390.png",
+    "popup-retry-1280.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    "Wrong PIN, automatic canje, mm:ss countdown, modal reset and card reset, second worker, Escape and reopening within the existing deadline."
+  ],
+  "paid": false,
+  "result": "PASS"
+}

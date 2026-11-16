@@ -1,0 +1,203 @@
+CLUB VOID — CHECKPOINT 4.7
+Configuración del club — Frontend exclusivamente DEMO
+Fecha de implementación y pruebas: 15-11-2026
+Cierre documental verificado: 16-11-2026
+
+1. OBJETIVO Y ESTADO
+Implementada exclusivamente la subetapa 4.7: /admin/configuracion sustituye la pantalla provisional por cinco secciones de consulta/edición de datos ficticios del club.
+Pendiente de revisión visual del Product Owner y aprobación del arquitecto. Trabajo detenido al finalizar 4.7, sin avanzar automáticamente a otra etapa.
+Angular 17, NgModules, standalone:false, Reactive Forms, RxJS y dependencias existentes. Sin instalaciones, actualizaciones, commit, push o despliegue.
+Se mantiene la identidad oscura del panel, morado sólido, bordes sutiles, sidebar y menú administrativo móvil; sin degradados.
+
+2. SECCIONES IMPLEMENTADAS
+General:
+- Nombre comercial, descripción, dirección ficticia, ciudad y país DEMO editables.
+- Zona horaria America/Santiago y moneda CLP de solo lectura, conservadas desde la configuración inicial del club y validadas en el servicio.
+- Vista previa lateral en escritorio y debajo del formulario en móvil.
+
+Identidad visual:
+- Logo y portada desde el dispositivo, JPG/PNG/WEBP, máximo 5 MB por archivo.
+- Se reutiliza readAdminImage: MIME admitido, tamaño, cabecera de bytes y decodificación mediante Image. No hay subida de archivos.
+- El logo inicial SVG aprobado permanece como recurso existente; no se admiten archivos SVG nuevos mediante el selector.
+- Colores principal/secundario con selector nativo y valor hexadecimal de seis dígitos.
+- Vista previa local del logo, portada, nombre, descripción, dirección y paleta. Los colores se limitan a variables CSS de esa vista previa; no cambian la página ni el tema global.
+- Archivo inválido conserva la imagen anterior y muestra mensaje. Guardar queda bloqueado mientras se prepara una imagen.
+
+Datos comerciales:
+- Razón social ficticia, RUT DEMO no válido, dirección tributaria ficticia y correo comercial de ejemplo.
+- El identificador tributario debe comenzar por DEMO-. Un RUT con formato real sin ese prefijo se rechaza.
+- Diferenciación informativa entre identidad de la discoteca, prestador tecnológico Codetec y proveedor de pagos Fintoc.
+- No se consulta, muestra ni edita el RUT real utilizado por Fintoc. El vínculo contractual/tributario queda expresamente pendiente de validación.
+- Sin emisión de documentos, datos legales definitivos de Codetec o acciones ante el SII.
+
+Operación:
+- Días habituales de la semana; al menos uno seleccionado.
+- Apertura, cierre y marca explícita de cierre al día siguiente. Duración mayor a cero y hasta 24 horas, en horario local America/Santiago.
+- Preferencias ilustrativas de aviso de ingreso y recordatorio de consumo responsable.
+- Reglas informativas de entrada y canje, hasta 800 caracteres cada una.
+- Ningún horario, preferencia o regla se aplica a eventos, entradas, catálogo, pagos, Wallet, QR o cliente.
+
+Integraciones:
+- Fintoc: “Sandbox ilustrativo”, sin comprobar conexión, disponibilidad o pagos.
+- Supabase, notificaciones push y facturación electrónica: pendientes.
+- Tarjetas informativas sin campos de credenciales ni botones de conexión, sincronización, cobro o emisión.
+- No se importan entornos de compilación o configuración privada del backend ni se leen credenciales de servicios.
+
+Navegación interna:
+- Tablist de cinco secciones en escritorio, selección, foco itinerante y teclas flecha izquierda/derecha, Home y End.
+- Selector compacto en móvil con el nombre de la sección. No es un selector de discotecas.
+- Formularios de una columna en móvil y acciones de al menos 44 px de alto.
+- Cambiar de sección conserva el mismo borrador; la interfaz avisa que sigue sin guardar.
+
+3. GUARDAR, DESCARTAR Y RESTABLECER
+Guardar configuración DEMO:
+- Valida el formulario completo y el servicio antes de actualizar la copia local.
+- Si un campo inválido está en otra sección, cambia a esa sección y enfoca el campo correspondiente.
+- Normaliza espacios, correo y formato de colores, y muestra confirmación de guardado en memoria.
+- Conserva cambios al navegar por la misma SPA; una recarga reinicia los valores iniciales.
+
+Descartar cambios:
+- Con borrador pendiente pide confirmación.
+- Restaura la última configuración DEMO guardada, no necesariamente los valores iniciales.
+
+Restablecer DEMO:
+- Pide confirmación y explica que afecta únicamente esta pantalla.
+- Restaura desde la identidad inicial del club y descarta el borrador, incluida la selección de archivos.
+
+Protección del borrador:
+- CanDeactivate y beforeunload cuando hay cambios sin guardar o lecturas de imágenes pendientes.
+- Es una protección UX, no un control de autenticación o permisos.
+- Las lecturas que terminan después de descartar, restablecer o destruir el editor se ignoran, evitando aplicar una imagen tardía sobre un estado nuevo.
+- Al devolver los días a su selección original se mantiene un orden canónico para no producir avisos falsos de cambios pendientes.
+
+4. MODELOS, SERVICIO Y ORIGEN DE IDENTIDAD
+Se inspeccionó admin/club.config.ts y se conservó intacto como fuente inicial de nombre comercial, logo, colores, dirección, país base, razón social ficticia, RUT DEMO, zona horaria y moneda.
+La descripción, ciudad, correo de ejemplo, horarios/reglas y portada se añaden como valores DEMO para campos que no existían allí. La portada reutiliza assets/events/void-dancefloor.jpg; no se creó ni reemplazó un recurso de marca publicado.
+
+AdminClubSettings contiene isDemo:true y grupos tipados general, identity, commercial y operation. AdminSettingsSection, AdminWeekDay y AdminIntegrationInfo tipan secciones, días y tarjetas informativas. Las integraciones no son campos editables del DTO.
+AdminSettingsService utiliza un BehaviorSubject privado; settings$ devuelve copias independientes, current ofrece una instantánea copiada, save valida/normaliza y reset crea una copia inicial fresca.
+Se copian los grupos y el array de días por lectura/guardado, sin referencias mutables compartidas con el formulario, otras suscripciones o CLUB_CONFIG.
+El guardado utiliza una lista explícita de campos: no conserva propiedades extra de servicios, credenciales o compilación.
+Sin HttpClient, almacenamiento del navegador, cookies o persistencia implementada.
+
+Validaciones principales:
+- Nombre hasta 80 caracteres; descripción hasta 600; direcciones hasta 180; ciudad 80; país 60; razón social 140; RUT DEMO 50; correo 254; reglas 800.
+- Campos obligatorios no vacíos ni solo espacios; correo con validación Angular.
+- Colores #RRGGBB; imágenes raster en memoria o las referencias iniciales permitidas.
+- Días válidos sin duplicados, formatos HH:mm, duración y tipos booleanos.
+- Moneda y zona horaria deben coincidir con la fuente inicial, incluso si se manipula el formulario desde el navegador.
+
+Aislamiento:
+- La configuración editable no escribe CLUB_CONFIG ni los archivos environment/Flask.
+- No se conecta con AdminDemoService, catálogos, eventos, personal, ventas, comisiones, Wallet o pagos para sincronizar cambios.
+- Editar nombre, datos legales, logo o colores solo afecta a esta copia y su vista previa.
+- La cabecera/sidebar siguen usando la identidad inicial real de esta aplicación, sin selector de clubes.
+
+5. ARCHIVOS CREADOS Y MODIFICADOS
+21 archivos nuevos en frontend/src/app/admin/settings/:
+- admin-settings.model.ts
+- admin-settings.data.ts
+- admin-settings.validation.ts
+- admin-settings.service.ts / .spec.ts
+- admin-settings.component.ts / .html / .scss / .spec.ts
+- admin-settings-tabs.component.ts
+- admin-settings-preview.component.ts
+- admin-settings-identity.component.ts / .html / .scss
+- admin-settings-fields.component.ts (General, Datos comerciales y Operación)
+- admin-settings-general.component.html
+- admin-settings-commercial.component.html
+- admin-settings-operation.component.html
+- admin-settings-fields.scss
+- admin-settings-integrations.component.ts
+- admin-settings-unsaved.guard.ts
+
+Tres archivos existentes modificados:
+- frontend/src/app/admin/admin.module.ts: componentes, servicio, ruta y guard; retirada de Configuración del enrutamiento provisional.
+- frontend/src/app/admin/admin-layout.component.html: reutiliza la cabecera específica ya existente para Configuración y conserva el enlace activo; no cambia la identidad global.
+- frontend/src/app/admin/admin-routing.spec.ts: incluye la nueva pantalla en el recorrido administrativo.
+
+Documentación/evidencia:
+- docs/CHECKPOINT_4_7.txt
+- docs/visual-review/admin-47/review-settings.cjs
+- docs/visual-review/admin-47/settings-review.json
+- docs/visual-review/admin-47/scope-verification.json
+- angular-before.log, angular-after.log, build-development.log, build-deployment.log y capturas PNG.
+
+Comparación contra la captura previa a 4.7: 297 archivos existentes comprobados; solo difieren los tres administrativos enumerados; cero eliminaciones. CLUB_CONFIG, recursos de marca, backend, credenciales, dependencias, presupuestos, cliente y módulos anteriores no presentaron diferencias. Se preservó el trabajo local previo; el diff Git global no corresponde exclusivamente a 4.7.
+
+6. PRUEBAS Y COMPILACIONES
+Suite Angular completa, desde frontend:
+npm test -- --watch=false --browsers=ChromeHeadless
+- Antes: 285/285 aprobadas.
+- Después y última ejecución final: 320/320 aprobadas; 35 pruebas nuevas y adaptación de navegación administrativa.
+
+Cobertura nueva:
+- Inicialización desde CLUB_CONFIG y separación de la identidad del panel/cliente.
+- Copias anidadas, normalización, guardado/reset y reinicio en una nueva instancia.
+- Campos inválidos, colores, zona/moneda fijas, RUT no-DEMO rechazado, correo, días, horarios nocturnos/mismo día y reglas.
+- Descarte de claves ajenas al modelo, ausencia de HTTP y Wallet sin cambios.
+- Navegación interna y teclado; conservación del borrador entre secciones y foco al error de una sección oculta.
+- Guardar, cancelar/aceptar descarte, restablecer y protección de salida.
+- Vista previa local sin alterar colores de CLUB_CONFIG.
+- Tarjetas de integraciones sin campos/acciones operativas ni valores de credenciales.
+- PNG real en logo/portada, persistencia de imagen en la sesión, rechazo SVG/MIME falso, y lecturas tardías tras descarte/destrucción ignoradas.
+- Días deseleccionados/seleccionados de nuevo sin falso aviso de cambios.
+La suite completa mantiene las pruebas anteriores de Personal, Comisiones, Ventas, Eventos, Tragos, cliente, Wallet/QR y Fintoc.
+
+Durante la primera ejecución falló una prueba de foco del tablist porque la maquetación responsive del contexto Karma ocultaba los botones de escritorio. El test muestra explícitamente la disposición de escritorio para ese caso. El teclado real se comprobó además en Chrome a 1280 px y el selector móvil en 390 px. La ejecución final completa pasó.
+
+Build desarrollo:
+npm run build -- --configuration development
+Aprobado; inicial aproximado 2,03 MB; módulo administrativo lazy 571,10 kB.
+
+Build despliegue:
+API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy
+Aprobado; inicial 719,40 kB, transferencia estimada 145,24 kB; módulo administrativo lazy 311,65 kB, transferencia 58,52 kB.
+Se compila la configuración de despliegue existente, sin publicar en Vercel o iniciar pagos.
+Persisten advertencias existentes: inicial >500 kB, estilos de otros componentes >2 kB, layout cerca de 3,73 kB, Wallet cerca de 3,98 kB y dos selectores Bootstrap omitidos. Sin errores bloqueantes ni aumentos de presupuestos.
+No se ejecutó suite Flask, al no modificar backend. No se ejecutaron actualizaciones/audit fix de dependencias.
+
+7. NAVEGADOR, CAPTURAS Y REGRESIONES
+Chrome Headless real, perfil temporal aislado y Angular local en 4300.
+Informe final PASS: 21 pantallas/estados × cuatro anchos (320, 390, 768, 1280 px) = 84 combinaciones sin scroll horizontal. 58 capturas registradas. Cero errores de consola/excepciones, HTTP >=400 o solicitudes de escritura observadas.
+
+Verificado en navegador:
+- Las cinco secciones y sus layouts, General/Identidad con vista previa, datos comerciales, horarios e integraciones.
+- Tablist con flechas/Home/End; selector móvil y Tab al primer campo; menú administrativo con Escape.
+- Formulario inválido en sección oculta cambia de sección y enfoca el nombre.
+- Modificación de nombre/colores: vista previa cambia; logo y variables del shell administrativo conservan sus valores originales.
+- Selección local PNG válido para logo y JPEG para portada; rechazo SVG y PNG falso preservando la imagen anterior. El helper admite WEBP; no se utilizó un archivo WEBP específico en este recorrido nuevo.
+- Guardado de imágenes/datos, RUT real rechazado, correo ficticio, horario inválido por cruce de medianoche y corrección explícita del día siguiente.
+- Cancelación/aceptación de descarte, guard de salida y restablecimiento.
+- Navegación real a Ventas y regreso conserva lo guardado, incluidas imágenes y horario, pero descarta el borrador al aceptar la salida.
+- Recarga restituye los valores iniciales.
+- Regresiones de Dashboard, Personal, Comisiones, Ventas, Eventos y Tragos con identidad/color del shell sin cambios.
+- Wallet conserva sus seis imágenes QR DEMO; ruta resultado Fintoc sin referencia válida revisada sin preparar pedidos ni sesiones.
+No se completó un pago, autorización Apple Pay, QR utilizable o prueba real nueva con el proveedor. No se modificaron las integraciones existentes.
+
+Capturas principales, bajo docs/visual-review/admin-47/:
+- settings-general-full-1280.png / settings-general-full-390.png
+- settings-identity-full-1280.png / settings-identity-full-390.png
+- settings-commercial-full-1280.png / settings-commercial-full-390.png
+- settings-operation-full-1280.png / settings-operation-full-390.png
+- settings-integrations-full-1280.png / settings-integrations-full-390.png
+- settings-preview-colors-full-1280.png / -390.png
+- settings-uploaded-images-full-1280.png / -390.png (archivos de prueba, no propuestas de marca)
+- settings-reset-full-1280.png / -390.png
+- Capturas de errores, reinicio y regresiones enumeradas en el JSON.
+Se inspeccionaron visualmente General escritorio, Identidad móvil y Datos comerciales escritorio. El servidor temporal se detuvo al finalizar; no se detuvo el servidor preexistente del usuario.
+
+8. LIMITACIONES Y PRÓXIMOS PASOS
+- Solo DEMO en memoria de esta SPA. No hay persistencia, autenticación, permisos, auditoría o edición concurrente real.
+- No sincroniza cambios globales. Aplicar identidad/horarios al resto del producto requiere una decisión posterior del arquitecto.
+- Los horarios son ilustrativos, no reservas, calendario efectivo de apertura ni validación de horarios de eventos. Las preferencias no aplican restricciones o envían avisos.
+- Datos comerciales exclusivamente ficticios: se valida formato, no titularidad del correo, direcciones o contratos. Se rechazan identificadores tributarios sin el prefijo DEMO-; no se valida ni edita una identidad legal real de Fintoc.
+- Estado Sandbox ilustrativo; sin comprobaciones de conexión o disponibilidad. Integraciones pendientes carecen de controles operativos.
+- Imágenes guardadas como datos en memoria, sin subida, compresión adicional o almacenamiento permanente. El tamaño máximo es el del lector administrativo existente.
+- No se realizó auditoría WCAG completa ni validación física Safari/iOS/Android o con lector de pantalla; teclado/responsividad probados en Chrome.
+- Siguen vigentes los límites anteriores de memoria de pedidos/intentos en Vercel; esta pantalla no los modifica.
+- Se mantienen las advertencias de compilación previas, sin declararlo listo para producción.
+
+Se recomienda revisión visual/funcional del Product Owner y aprobación del arquitecto de 4.7. La siguiente etapa deberá definirse expresamente. Para una futura configuración real harán falta contrato de API/persistencia, permisos verificados en servidor, control de versiones/auditoría, almacenamiento validado de imágenes, gestión de credenciales fuera del frontend y validación contractual/tributaria. No se implementó ninguno de esos puntos ni se decidió una sincronización global.
+
+Trabajo detenido en 4.7, a la espera de revisión del arquitecto.

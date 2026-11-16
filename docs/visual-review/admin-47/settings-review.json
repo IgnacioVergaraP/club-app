@@ -1,0 +1,691 @@
+{
+  "date": "2026-11-15",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "settings-general",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-general",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-general",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-general",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-identity",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-identity",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-identity",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-identity",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-commercial",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-commercial",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-commercial",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-commercial",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-operation",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-operation",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-operation",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-operation",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-integrations",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-integrations",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-integrations",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-integrations",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-general",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-general",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-general",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-general",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-preview-colors",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-preview-colors",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-preview-colors",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-preview-colors",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-images",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-images",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-images",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-images",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-uploaded-images",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-uploaded-images",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-uploaded-images",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-uploaded-images",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-commercial",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-commercial",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-commercial",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-commercial",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-hours",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-hours",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-hours",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-invalid-hours",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-reset",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-reset",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-reset",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-reset",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-reload-defaults",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-reload-defaults",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-reload-defaults",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-reload-defaults",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "events-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "wallet-qr-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-qr-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-qr-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-qr-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    }
+  ],
+  "screenshots": [
+    "settings-general-390.png",
+    "settings-general-full-390.png",
+    "settings-general-1280.png",
+    "settings-general-full-1280.png",
+    "settings-identity-390.png",
+    "settings-identity-full-390.png",
+    "settings-identity-1280.png",
+    "settings-identity-full-1280.png",
+    "settings-commercial-390.png",
+    "settings-commercial-full-390.png",
+    "settings-commercial-1280.png",
+    "settings-commercial-full-1280.png",
+    "settings-operation-390.png",
+    "settings-operation-full-390.png",
+    "settings-operation-1280.png",
+    "settings-operation-full-1280.png",
+    "settings-integrations-390.png",
+    "settings-integrations-full-390.png",
+    "settings-integrations-1280.png",
+    "settings-integrations-full-1280.png",
+    "settings-invalid-general-390.png",
+    "settings-invalid-general-1280.png",
+    "settings-preview-colors-390.png",
+    "settings-preview-colors-full-390.png",
+    "settings-preview-colors-1280.png",
+    "settings-preview-colors-full-1280.png",
+    "settings-invalid-images-390.png",
+    "settings-invalid-images-1280.png",
+    "settings-uploaded-images-390.png",
+    "settings-uploaded-images-full-390.png",
+    "settings-uploaded-images-1280.png",
+    "settings-uploaded-images-full-1280.png",
+    "settings-invalid-commercial-390.png",
+    "settings-invalid-commercial-1280.png",
+    "settings-invalid-hours-390.png",
+    "settings-invalid-hours-1280.png",
+    "settings-reset-390.png",
+    "settings-reset-full-390.png",
+    "settings-reset-1280.png",
+    "settings-reset-full-1280.png",
+    "settings-reload-defaults-390.png",
+    "settings-reload-defaults-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "staff-regression-390.png",
+    "staff-regression-1280.png",
+    "commissions-regression-390.png",
+    "commissions-regression-1280.png",
+    "sales-regression-390.png",
+    "sales-regression-1280.png",
+    "events-regression-390.png",
+    "events-regression-1280.png",
+    "drinks-regression-390.png",
+    "drinks-regression-1280.png",
+    "wallet-qr-regression-390.png",
+    "wallet-qr-regression-1280.png",
+    "fintoc-result-regression-390.png",
+    "fintoc-result-regression-1280.png"
+  ],
+  "keyboard": [
+    "Desktop tablist responds to arrows, Home and End, retaining focus. Weekday toggles restored to their original set do not create false unsaved state.",
+    "Mobile section selector preserves drafts; Tab moves into the chosen form, menu responds to Escape; invalid hidden fields bring focus to their section."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    "Saved data persists during SPA navigation. Discard restores saved values; guard cancellation preserves draft and accepted exit discards only draft. Uploaded images stay in local settings. Other header identity/colors remain unchanged.",
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    }
+  ],
+  "paid": false,
+  "result": "PASS"
+}

@@ -1,0 +1,147 @@
+CLUB VOID — CHECKPOINT 4.8
+Gestión de inventario por unidades — Alcoholes y bebidas
+Fecha: 16-11-2026
+
+1. OBJETIVO Y ESTADO
+Implementado el frontend DEMO de /admin/inventario, exclusivamente para Club VOID. Se agrega Inventario al menú administrativo, sin selector de discotecas. Angular 17 con NgModules y standalone:false; Reactive Forms y RxJS existentes.
+Se entrega para revisión del Product Owner y arquitecto. No se avanza a Promociones ni a otra subetapa. No se publica en Vercel.
+Todo se mantiene en memoria de la aplicación: navegación SPA conserva cambios; recargar restaura los datos iniciales. No hay integración comercial ni persistencia.
+
+2. FUNCIONALIDADES IMPLEMENTADAS
+- Alta y edición de ingredientes, marca opcional, mínimo y habilitación para recetas.
+- Unidades explícitas: Vasos/Porciones del alcohol y Unidades de la bebida. La presentación se construye desde el nombre del ingrediente y el tipo de unidad.
+- Stock inicial registrado mediante un movimiento, incluso cuando es cero. El saldo actual no tiene campo de edición libre.
+- Tipo y unidad quedan fijos tras el alta, para no reinterpretar movimientos existentes. Se pueden editar nombre, marca, mínimo y habilitación. Las etiquetas y unidades históricas se conservan como instantáneas.
+- Estado de existencias calculado; no se confunde con habilitado/deshabilitado para recetas. Deshabilitar no elimina ni descuenta unidades.
+- Búsqueda por nombre/marca; filtro Disponible/Stock bajo/Agotado. Movimientos con búsqueda y filtros por ingrediente/tipo. Recetas con búsqueda por nombre. Limpiar filtros y estados sin coincidencias.
+- Detalle de ingrediente con identificador DEMO, saldo, unidad, mínimo, estado y acceso al historial filtrado.
+- Ingreso, salida, merma y ajuste con motivo, fecha, identificador y saldos antes/después. Historial consultable sin acciones de editar/eliminar.
+- Recetas con referencia opcional al catálogo administrativo, líneas por ID, cantidades enteras, adición y retirada de ingredientes y capacidad estimada.
+- Confirmación de operaciones con role=status; errores con role=alert; protección de borradores al salir/recargar.
+
+3. ESTRUCTURA DE LAS CUATRO VISTAS
+Alcoholes: filas compactas en escritorio y tarjetas en móvil, nombre explícito, marca, stock destacado, mínimo, estado y acciones Detalle/Editar/Movimiento.
+Bebidas: misma estructura, siempre en unidades individuales de consumo sin equivalencias físicas.
+Movimientos: registros con etiqueta histórica, tipo, variación firmada, saldos, motivo, fecha/hora local e ID. Orden de registro descendente por secuencia; no se depende exclusivamente del reloj para ordenar.
+Recetas: tarjetas con ingredientes/unidades por preparación, capacidad, ingredientes limitantes y aviso de no sumar capacidades compartidas.
+Las cuatro vistas comparten indicadores derivados de TODO el inventario, no del subconjunto filtrado: alcoholes registrados, bebidas registradas, ingredientes bajos y agotados.
+Pestañas internas con tablist/tab/tabpanel, aria-selected, tabindex y teclado flechas/Home/End. Navegación mediante query view; las rutas de formulario conservan el acceso al inventario correspondiente.
+Rutas adicionales: /admin/inventario/ingredientes/nuevo, /ingredientes/:id/editar, /movimientos/nuevo, /recetas/nueva y /recetas/:id/editar, bajo el mismo prefijo.
+
+4. MODELOS Y SERVICIOS
+inventory.model.ts define IngredientKind, InventoryUnit, IngredientDraft/Ingredient, StockStatus/StockRow, MovementKind/InventoryMovement, RecipeLine, RecipeDraft/InventoryRecipe, InventoryState, InventorySummary y RecipeCapacity.
+AdminInventoryService contiene una única fuente privada BehaviorSubject con maestros, movimientos y recetas. view$ deriva existencias, indicadores y capacidades y entrega copias independientes de las colecciones y líneas. message$ informa resultados de las operaciones DEMO.
+El servicio valida también las mutaciones: los formularios no son la única barrera de consistencia. No expone métodos para borrar movimientos o sustituir saldos.
+AdminDrinksService se consulta mediante su Observable para referencias id/nombre. No se llama a save, setAvailability, setFeatured ni duplicate; no se transfieren precios ni se sincroniza el catálogo.
+INVENTORY_CLOCK permite un reloj controlado en tests. Los datos de ejemplo se fechan respecto del inicio de la sesión; son movimientos ficticios, no operaciones reales.
+Reglas puras y datos separados de las plantillas. Dos componentes: consulta con cuatro vistas y formulario reutilizado según ruta para ingrediente/movimiento/receta. Guard de borrador exclusivo de UX, sin función de autenticación.
+
+5. FÓRMULAS Y VALIDACIONES
+Stock actual = suma de variaciones del historial del ingrediente desde el movimiento inicial. Cada registro debe encadenar before = saldo acumulado y after = before + delta. Se verifican unidades enteras, signo según tipo, secuencia creciente, ID no repetido dentro del historial del ingrediente, inicial único, fecha válida y saldos coherentes.
+Ingreso: delta = cantidad positiva. Salida/Merma: delta = -cantidad positiva. Ajuste: delta = diferencia firmada distinta de cero; no es el nuevo saldo final.
+Estados: stock=0 Agotado; 0<stock<=mínimo Stock bajo; stock>mínimo Disponible. Un mínimo cero no convierte un saldo cero en disponible.
+Capacidad = mínimo de floor(stock / cantidad requerida) entre los ingredientes de la receta. Los empates se muestran como múltiples limitantes. Si falta un ingrediente, hay líneas repetidas, cantidades inválidas o receta vacía, capacidad cero/inválida. Un ingrediente deshabilitado o sin unidades suficientes produce capacidad cero.
+Las capacidades de Piscola y Ron Cola compiten por Coca-Cola: no se suman ni reservan unidades.
+Límite DEMO de cantidades/saldos/mínimos: 1.000.000 enteros seguros; mínimos e iniciales >=0; cantidades de receta y movimientos ordinarios >=1. Ajustes negativos admitidos sin saldo final negativo. No se admiten decimales, NaN, infinitos o cantidades de texto en el servicio.
+Nombre obligatorio hasta 80 caracteres; marca hasta 80; motivo de 3 a 240. Se rechazan nombres genéricos ambiguos, prefijos de unidad duplicados y referencias a envases/volúmenes en nombre/marca. Duplicados por tipo + nombre + marca normalizados, sin diferencias artificiales por mayúsculas, tildes o espacios. Recetas con nombre y referencia de trago únicos, 1..50 ingredientes distintos por ID.
+No se implementan litros, mililitros, botellas, conversiones, dosis automáticas ni existencias fraccionarias.
+
+6. EJEMPLOS DE STOCK AL INICIAR
+Ingrediente / presentación             Stock     Mínimo   Estado
+Vasos de pisco                        100        20       Disponible
+Vasos de ron                           80        20       Disponible
+Vasos de vodka                         60        15       Disponible
+Vasos de gin                           40        40       Stock bajo
+Unidades de Coca-Cola                  50        15       Disponible
+Unidades de Sprite                     35        10       Disponible
+Unidades de Tónica                     45        10       Disponible
+Unidades de Jugo                       30        30       Stock bajo
+Indicadores iniciales: 4 alcoholes, 4 bebidas, 2 bajos y 0 agotados. Los mínimos de Gin y Jugo permiten demostrar la alerta sin contradecir los saldos requeridos.
+Una unidad de bebida es una unidad consumible definida por el club, sin equivalencia de volumen implementada.
+
+7. RECETAS Y RESULTADOS INICIALES
+Piscola: 1 vaso de pisco + 1 unidad de Coca-Cola => 50; limita Coca-Cola.
+Ron Cola: 1 vaso de ron + 1 unidad de Coca-Cola => 50; limita Coca-Cola.
+Gin Tonic: 1 vaso de gin + 1 unidad de Tónica => 40; limita Gin.
+Vodka Sprite: 1 vaso de vodka + 1 unidad de Sprite => 35; limita Sprite.
+Piscola, Ron Cola y Gin Tonic referencian IDs del catálogo administrativo. Vodka Sprite es una receta DEMO independiente porque ese trago no existe en el catálogo actual. No se crea ni modifica un producto para incorporarla.
+La capacidad representa ingredientes físicos según receta; no activa la venta de Ron Cola ni modifica la disponibilidad administrativa/comercial del trago.
+Editar/crear recetas cambia la definición y el cálculo, sin escribir movimientos ni consumir existencias. Las líneas recibidas se copian; modificar el borrador posteriormente no altera lo guardado.
+
+8. MOVIMIENTOS DE EJEMPLO Y OPERACIÓN MANUAL
+Al iniciar existen 11 movimientos:
+- Ocho iniciales: Pisco 110, Ron 80, Vodka 60, Gin 40, Coca-Cola 45, Sprite 35, Tónica 45, Jugo 30.
+- Salida ilustrativa de pisco 10: 110 -> 100.
+- Ingreso ilustrativo de Coca-Cola 10: 45 -> 55.
+- Merma ilustrativa de Coca-Cola 5: 55 -> 50.
+IDs DEMO-MOV-1..11; ingredientes DEMO-ING-1..8 y recetas DEMO-REC-1..4. Los nuevos IDs avanzan dentro de la sesión, sin eliminación/reutilización de movimientos.
+El servicio rechaza un movimiento inválido sin alterar maestros, historial ni recetas. Los errores se compensan con otro movimiento identificable, nunca sobrescribiendo el anterior.
+Se probó consumir la última unidad y rechazar otra salida en la misma instancia. Esto NO acredita concurrencia entre dispositivos/servidores ni reemplaza una transacción futura.
+
+9. ARCHIVOS CREADOS Y MODIFICADOS
+Creados en frontend/src/app/admin/inventory/:
+- inventory.model.ts
+- inventory.rules.ts
+- inventory.data.ts
+- admin-inventory.service.ts
+- admin-inventory.component.ts/.html/.scss
+- admin-inventory-form.component.ts/.html
+- inventory-form.base.ts
+- inventory-form.scss
+- inventory.shared.scss
+- inventory.spec.ts
+Modificados exclusivamente entre los archivos existentes de aplicación:
+- frontend/src/app/admin/admin.module.ts: declaraciones, servicio y rutas.
+- frontend/src/app/admin/admin-layout.component.ts: enlace Inventario.
+- frontend/src/app/admin/admin-layout.component.html: título/contexto y enlace activo de rutas anidadas.
+- frontend/src/app/admin/admin-routing.spec.ts: ocho secciones administrativas y verificación de Inventario.
+Documentación nueva: este checkpoint y docs/visual-review/admin-48/ con harness reproducible, reporte estructurado, capturas, logs y revisión de alcance.
+Comparación SHA-256 antes/después: 318 archivos existentes, 314 sin cambios, cuatro modificaciones listadas y cero archivos eliminados. Backend, archivos del cliente, Wallet/QR, Fintoc, configuración del club, dependencias, lockfile y presupuestos de Angular sin modificaciones. Ver scope-review.json. Los archivos pendientes de 4.7 ya existían al comenzar 4.8 y no forman parte de sus cambios.
+
+10. PRUEBAS AUTOMATIZADAS Y BUILDS
+Antes: npm test -- --watch=false --browsers=ChromeHeadless => 320/320 aprobadas.
+Después: mismo comando => 350/350 aprobadas. Treinta pruebas nuevas de Inventario; la prueba existente de navegación incorpora la octava sección.
+Cobertura nueva: saldos/indicadores/estados, etiquetas, porciones, límites y enteros; historial corrupto, signos e iniciales; alta con cero/duplicados; edición sin movimientos y unidad fija; cinco tipos/signos manuales; rechazo atómico de saldos negativos y entradas inválidas; compensación/última unidad; copias independientes; recetas por ID y sin mutaciones del catálogo; capacidad compartida, cantidades múltiples, agotados/deshabilitados, recetas vacías o repetidas; reinicio de servicio; filtros/vacíos, teclado, formularios, edición/registro ausente y guard de borrador.
+Durante la implementación se corrigió el Router simulado de las pruebas nuevas y un cambio de validador nativo al alternar Salida/Ajuste negativo, que podía producir ExpressionChangedAfterItHasBeenChecked. El atributo min conserva la ayuda del navegador y la validación de enteros/signos/saldos queda controlada por formulario/servicio. La ejecución final completa pasa.
+Build desarrollo: npm run build -- --configuration development => aprobado. Inicial 2,03 MB; módulo admin lazy 664,68 kB.
+Build despliegue: API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy => aprobado. Inicial 721,55 kB; transferencia estimada 145,46 kB; admin lazy 359,50 kB/transferencia 67,63 kB. Es compilación local para despliegue, no publicación.
+Permanecen advertencias de bundle inicial >500 kB y estilos de componentes >2 kB; inventory.shared.scss suma 2,16 kB y queda bajo el error de 4 kB. Dos selectores Bootstrap .form-floating>~label omitidos por el optimizador. No se elevan presupuestos ni se cambian dependencias.
+No se repite suite Flask: no hay cambios de backend ni solicitudes de pagos reales en esta etapa. No se ejecuta npm audit ni se instalan paquetes en 4.8.
+Logs: angular-before.log, angular-after.log, build-development.log y build-deployment.log dentro de docs/visual-review/admin-48/.
+
+11. REVISIÓN VISUAL Y NAVEGADOR
+Chrome Headless real, perfil temporal aislado, Angular local. Resultado PASS: 124 combinaciones a 320, 390, 768 y 1280 px, 70 capturas. Cero scroll horizontal en las combinaciones medidas, cero errores de consola/excepciones, cero recursos HTTP >=400 y cero solicitudes HTTP de escritura durante el recorrido. Incluye ajustes positivos/negativos, ingresos y mermas desde la UI real.
+Evidencia: docs/visual-review/admin-48/inventory-review.json y review-inventory.cjs. Capturas de las cuatro vistas en 390/1280, tanto viewport como página completa, con nombres inventory-alcohols/beverages/movements/recipes[-full]-ANCHO.png. Hay capturas adicionales de formularios, errores, compensaciones y regresiones.
+Se inspeccionaron imágenes reales de la lista móvil, recetas en escritorio y edición móvil. Fondo oscuro, morado sólido, estados con texto/color, sin degradados ni cambios globales. Se corrigió la separación del CTA respecto del encabezado administrativo flotante de escritorio.
+Pruebas desde la UI: alta con validación, edición de mínimo sin campo de saldo, stock agotado, movimiento rechazado por negativo, historial filtrado, compensación, creación/edición/retirada de líneas de receta, catálogo sin cambios, guard cancelar/aceptar salida, conservación SPA y reinicio al recargar.
+Teclado: flechas/Home/End en las cuatro pestañas con foco y selección, Tab al panel seleccionado, menú móvil con Escape y formularios con controles nativos etiquetados. No equivale a una auditoría completa con lector de pantalla.
+Regresiones a los cuatro anchos: Dashboard, Eventos, Tragos, Ventas, Comisiones, Personal, Configuración; Inicio/Noches/Tragos/Perfil del cliente; Wallet con tres QR en Entradas y tres en Tragos cargados, y resultado de Fintoc sin pago confirmado. Navegación inferior del cliente conserva cinco enlaces.
+No se crean sesiones nuevas Fintoc, pedidos ni pagos. Los contratos de pagos y protección de estados pendientes siguen cubiertos por la suite Angular existente; no se declara pago extremo a extremo ni una prueba nueva de Apple Pay.
+
+12. PROBLEMAS DETECTADOS Y CORREGIDOS
+- Acoplamiento de validadores de min al cambiar el signo permitido de un ajuste: corregido y comprobado por test/formulario real.
+- Inicialmente el CTA quedaba bajo el badge/avatar del header flotante de escritorio: corregido con espacio local del componente.
+- Aserciones del harness ajustadas a las etiquetas de alcohol en minúsculas; no se cambian los nombres del catálogo para pasar pruebas.
+- Advertencias de tamaño descritas arriba. La sección crece en el módulo administrativo lazy, sin convertir inventario en parte de los flujos comerciales.
+Pendientes: revisión visual del Product Owner/arquitecto y validación en Safari/iOS/Android físicos y con lector de pantalla. Los anchos emulados en Chrome no sustituyen esos dispositivos.
+
+13. LIMITACIONES
+Frontend exclusivamente DEMO, sin autenticación/autorización, persistencia, protección frente a manipulación del navegador o registro de auditoría durable. La inmutabilidad del historial es una regla del servicio/interfaz, no una garantía de seguridad del cliente.
+Sin inventario físico por envase/volumen, conversiones, ventas sincronizadas, reservas, canjes, nuevas funciones de QR, promociones o notificaciones.
+Sin stock compartido entre sesiones/dispositivos y sin control transaccional distribuido. Los valores de esta pantalla no pueden autorizar ventas ni entregas reales. Todos los datos desaparecen al recargar.
+El catálogo administrativo y el del cliente permanecen independientes. Cambiar existencias no altera precios, disponibilidad comercial, Wallet ni pagos pendientes/confirmados. Editar recetas no prueba existencia de un derecho de consumo.
+El historial completo se conserva en memoria y se muestra sin paginación de servidor; apropiado para esta demostración, no para operación histórica a gran escala. Límite de 1.000.000 unidades y 50 líneas por receta explícito en esta etapa.
+No se prueba conectividad nueva contra Vercel/Fintoc ni un flujo comercial con backend, porque quedan fuera del alcance autorizado.
+
+14. PREPARACIÓN FUTURA PARA RESERVAS Y CANJES — DISEÑO, NO IMPLEMENTACIÓN
+Flujo previsto: cliente compra, pedido pendiente de retirar; trabajador autorizado revela detalle desde el teléfono del cliente; prepara/entrega y confirma; pedido queda canjeado.
+Con Supabase/backend se necesitarán identidades, autorización real de personal y relación autenticada con el pedido. Revelar el detalle o animar un QR no acredita entrega ni autorización.
+El backend verificará el pago con evidencia del proveedor y reservará unidades requeridas en una transacción atómica. Una reserva debe guardar líneas/cantidades y versión de receta/unidad usadas, sin depender de cambios posteriores del frontend.
+Disponibilidad comercial = existencias físicas - reservas activas. Al confirmar entrega se libera la reserva y se registra consumo definitivo en una misma transacción, evitando una segunda resta de disponibilidad por el mismo pedido. Una cancelación legítima libera únicamente la reserva correspondiente.
+Identificadores únicos e idempotencia por evento/pedido/acción, estados y transiciones verificadas, bloqueo/actualización condicional de las filas de stock o aislamiento equivalente. Dos compras simultáneas no deben reservar la misma última unidad. Validar también saldos negativos y reintentos desde servidor.
+Si un pago verificado encuentra stock insuficiente, el arquitecto debe definir compensación, atención y eventual reembolso; una pantalla de capacidad orientativa no resuelve ese caso. Deben definirse entregas parciales, anulaciones y permisos antes de integrar el canje.
+No se implementa ninguna tabla, transacción, reserva, webhook, descuento de compra, autenticación o cambio de pagos en 4.8. Pedidos/intentos Fintoc siguen con las limitaciones previas de memoria en funciones Vercel y no son un repositorio de inventario.
+
+15. PRÓXIMO PASO RECOMENDADO
+Revisar y aprobar visual/técnicamente Inventario por unidades. Mantener el frontend DEMO hasta que el arquitecto autorice persistencia, permisos, modelo transaccional y vinculación con pagos/entregas.
+Trabajo detenido en 4.8 para revisión. No se inicia Promociones ni ninguna otra funcionalidad.

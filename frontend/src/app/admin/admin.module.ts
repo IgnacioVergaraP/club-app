@@ -1,3 +1,15 @@
+import { AdminInventoryComponent } from './inventory/admin-inventory.component';
+import { AdminInventoryFormComponent } from './inventory/admin-inventory-form.component';
+import { AdminInventoryService } from './inventory/admin-inventory.service';
+import { inventoryUnsavedGuard } from './inventory/inventory-form.base';
+import { AdminSettingsComponent } from './settings/admin-settings.component';
+import { AdminSettingsService } from './settings/admin-settings.service';
+import { AdminSettingsTabsComponent } from './settings/admin-settings-tabs.component';
+import { AdminSettingsPreviewComponent } from './settings/admin-settings-preview.component';
+import { AdminSettingsIdentityComponent } from './settings/admin-settings-identity.component';
+import { AdminSettingsIntegrationsComponent } from './settings/admin-settings-integrations.component';
+import { AdminSettingsGeneralComponent, AdminSettingsCommercialComponent, AdminSettingsOperationComponent } from './settings/admin-settings-fields.component';
+import { adminSettingsUnsavedGuard } from './settings/admin-settings-unsaved.guard';
 import { AdminStaffComponent } from './staff/admin-staff.component';
 import { AdminStaffFormComponent } from './staff/admin-staff-form.component';
 import { AdminStaffListComponent } from './staff/admin-staff-list.component';
@@ -48,7 +60,7 @@ import { AdminDemoService } from './admin-demo.service';
 registerLocaleData(localeEsCl);
 
 @NgModule({
-  declarations: [AdminStaffComponent, AdminStaffFormComponent, AdminStaffListComponent, AdminStaffDetailComponent, AdminStaffSummaryComponent, AdminStaffRoleComponent, AdminStaffStatusComponent, AdminCommissionsComponent, AdminCommissionSettingsComponent, AdminCommissionSummaryComponent, AdminCommissionListComponent, AdminCommissionDetailComponent, AdminSalePanelComponent, AdminSalesListComponent, AdminSalesComponent, AdminSaleDetailComponent, AdminSaleStatusComponent, AdminSalesSummaryComponent, AdminDrinksComponent,AdminDrinkRowComponent,AdminDrinkFormComponent,AdminEventProgressComponent,AdminEventPreviewComponent, AdminEventTicketsComponent,AdminEventsComponent, AdminEventFormComponent, AdminEventDetailComponent, AdminOverviewComponent, AdminIconComponent, AdminLayoutComponent, AdminDashboardComponent, AdminPlaceholderComponent],
+  declarations: [AdminInventoryComponent, AdminInventoryFormComponent, AdminSettingsComponent, AdminSettingsTabsComponent, AdminSettingsPreviewComponent, AdminSettingsIdentityComponent, AdminSettingsIntegrationsComponent, AdminSettingsGeneralComponent, AdminSettingsCommercialComponent, AdminSettingsOperationComponent, AdminStaffComponent, AdminStaffFormComponent, AdminStaffListComponent, AdminStaffDetailComponent, AdminStaffSummaryComponent, AdminStaffRoleComponent, AdminStaffStatusComponent, AdminCommissionsComponent, AdminCommissionSettingsComponent, AdminCommissionSummaryComponent, AdminCommissionListComponent, AdminCommissionDetailComponent, AdminSalePanelComponent, AdminSalesListComponent, AdminSalesComponent, AdminSaleDetailComponent, AdminSaleStatusComponent, AdminSalesSummaryComponent, AdminDrinksComponent,AdminDrinkRowComponent,AdminDrinkFormComponent,AdminEventProgressComponent,AdminEventPreviewComponent, AdminEventTicketsComponent,AdminEventsComponent, AdminEventFormComponent, AdminEventDetailComponent, AdminOverviewComponent, AdminIconComponent, AdminLayoutComponent, AdminDashboardComponent, AdminPlaceholderComponent],
   imports: [CommonModule, ReactiveFormsModule, RouterModule.forChild([{ path: '', component: AdminLayoutComponent, children: [
     { path: '', component: AdminDashboardComponent, pathMatch: 'full' },
     { path: 'eventos', component: AdminEventsComponent },
@@ -58,15 +70,23 @@ registerLocaleData(localeEsCl);
     {path:'tragos',component:AdminDrinksComponent},
     {path:'tragos/nuevo',component:AdminDrinkFormComponent,canDeactivate:[adminDrinkUnsavedGuard]},
     {path:'tragos/:id/editar',component:AdminDrinkFormComponent,canDeactivate:[adminDrinkUnsavedGuard]},
+    {path:'inventario',component:AdminInventoryComponent},
+    ...[
+      {path:'inventario/ingredientes/nuevo',mode:'ingredient'},
+      {path:'inventario/ingredientes/:id/editar',mode:'ingredient'},
+      {path:'inventario/movimientos/nuevo',mode:'movement'},
+      {path:'inventario/recetas/nueva',mode:'recipe'},
+      {path:'inventario/recetas/:id/editar',mode:'recipe'}
+    ].map(route=>({path:route.path,component:AdminInventoryFormComponent,data:{mode:route.mode},canDeactivate:[inventoryUnsavedGuard]})),
     {path:'ventas',component:AdminSalesComponent},
     {path:'ventas/:id',component:AdminSaleDetailComponent},
     {path:'comisiones',component:AdminCommissionsComponent},
     {path:'personal',component:AdminStaffComponent},
     {path:'personal/nuevo',component:AdminStaffFormComponent,canDeactivate:[adminStaffUnsavedGuard]},
     {path:'personal/:id/editar',component:AdminStaffFormComponent,canDeactivate:[adminStaffUnsavedGuard]},
-    ...[['configuracion','Configuración']].map(([path,title]) => ({path, component: AdminPlaceholderComponent, data: {title}})),
+    {path:'configuracion',component:AdminSettingsComponent,canDeactivate:[adminSettingsUnsavedGuard]},
     { path: '**', redirectTo: '' }
   ] }])],
-  providers: [AdminDemoService, AdminEventsService, AdminDrinksService, AdminSalesService, AdminCommissionsService, AdminStaffService]
+  providers: [AdminInventoryService, AdminDemoService, AdminEventsService, AdminDrinksService, AdminSalesService, AdminCommissionsService, AdminStaffService, AdminSettingsService]
 })
 export class AdminModule {}

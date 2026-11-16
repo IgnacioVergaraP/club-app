@@ -1,0 +1,970 @@
+{
+  "date": "2026-11-16",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "inventory-alcohols",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-alcohols",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-alcohols",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-alcohols",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-beverages",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-beverages",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-beverages",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-beverages",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-movements",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-movements",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-movements",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-movements",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-recipes",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-recipes",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-recipes",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-recipes",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-empty",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-empty",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-empty",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-empty",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-detail",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-detail",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-detail",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-detail",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "ingredient-edit",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Editar ingrediente"
+    },
+    {
+      "screen": "ingredient-edit",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Editar ingrediente"
+    },
+    {
+      "screen": "ingredient-edit",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar ingrediente"
+    },
+    {
+      "screen": "ingredient-edit",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar ingrediente"
+    },
+    {
+      "screen": "ingredient-invalid",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Nuevo ingrediente"
+    },
+    {
+      "screen": "ingredient-invalid",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Nuevo ingrediente"
+    },
+    {
+      "screen": "ingredient-invalid",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Nuevo ingrediente"
+    },
+    {
+      "screen": "ingredient-invalid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nuevo ingrediente"
+    },
+    {
+      "screen": "ingredient-create",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Nuevo ingrediente"
+    },
+    {
+      "screen": "ingredient-create",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Nuevo ingrediente"
+    },
+    {
+      "screen": "ingredient-create",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Nuevo ingrediente"
+    },
+    {
+      "screen": "ingredient-create",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nuevo ingrediente"
+    },
+    {
+      "screen": "movement-negative",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-negative",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-negative",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-negative",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-create",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-create",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-create",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-create",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "ingredient-exhausted",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "ingredient-exhausted",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "ingredient-exhausted",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "ingredient-exhausted",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "movement-filter",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "movement-filter",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "movement-filter",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "movement-filter",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "movement-compensation",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "movement-compensation",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "movement-compensation",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "movement-compensation",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "movement-negative-adjustment",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-negative-adjustment",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-negative-adjustment",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "movement-negative-adjustment",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Registrar movimiento"
+    },
+    {
+      "screen": "recipe-create",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Nueva receta"
+    },
+    {
+      "screen": "recipe-create",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Nueva receta"
+    },
+    {
+      "screen": "recipe-create",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Nueva receta"
+    },
+    {
+      "screen": "recipe-create",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nueva receta"
+    },
+    {
+      "screen": "recipe-edit",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Editar receta"
+    },
+    {
+      "screen": "recipe-edit",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Editar receta"
+    },
+    {
+      "screen": "recipe-edit",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar receta"
+    },
+    {
+      "screen": "recipe-edit",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar receta"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "events-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "client-home-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-home-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-home-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-home-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "client-events-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-events-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-events-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-events-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-profile-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "client-profile-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "client-profile-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "client-profile-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    }
+  ],
+  "screenshots": [
+    "inventory-alcohols-390.png",
+    "inventory-alcohols-full-390.png",
+    "inventory-alcohols-1280.png",
+    "inventory-alcohols-full-1280.png",
+    "inventory-beverages-390.png",
+    "inventory-beverages-full-390.png",
+    "inventory-beverages-1280.png",
+    "inventory-beverages-full-1280.png",
+    "inventory-movements-390.png",
+    "inventory-movements-full-390.png",
+    "inventory-movements-1280.png",
+    "inventory-movements-full-1280.png",
+    "inventory-recipes-390.png",
+    "inventory-recipes-full-390.png",
+    "inventory-recipes-1280.png",
+    "inventory-recipes-full-1280.png",
+    "inventory-empty-390.png",
+    "inventory-empty-1280.png",
+    "inventory-detail-390.png",
+    "inventory-detail-1280.png",
+    "ingredient-edit-390.png",
+    "ingredient-edit-1280.png",
+    "ingredient-invalid-390.png",
+    "ingredient-invalid-1280.png",
+    "ingredient-create-390.png",
+    "ingredient-create-1280.png",
+    "movement-negative-390.png",
+    "movement-negative-1280.png",
+    "movement-create-390.png",
+    "movement-create-1280.png",
+    "ingredient-exhausted-390.png",
+    "ingredient-exhausted-1280.png",
+    "movement-filter-390.png",
+    "movement-filter-1280.png",
+    "movement-compensation-390.png",
+    "movement-compensation-1280.png",
+    "movement-negative-adjustment-390.png",
+    "movement-negative-adjustment-1280.png",
+    "recipe-create-390.png",
+    "recipe-create-1280.png",
+    "recipe-edit-390.png",
+    "recipe-edit-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "events-regression-390.png",
+    "events-regression-1280.png",
+    "drinks-regression-390.png",
+    "drinks-regression-1280.png",
+    "sales-regression-390.png",
+    "sales-regression-1280.png",
+    "commissions-regression-390.png",
+    "commissions-regression-1280.png",
+    "staff-regression-390.png",
+    "staff-regression-1280.png",
+    "settings-regression-390.png",
+    "settings-regression-1280.png",
+    "client-home-regression-390.png",
+    "client-home-regression-1280.png",
+    "client-events-regression-390.png",
+    "client-events-regression-1280.png",
+    "client-drinks-regression-390.png",
+    "client-drinks-regression-1280.png",
+    "client-profile-regression-390.png",
+    "client-profile-regression-1280.png",
+    "wallet-tickets-regression-390.png",
+    "wallet-tickets-regression-1280.png",
+    "wallet-drinks-regression-390.png",
+    "wallet-drinks-regression-1280.png",
+    "fintoc-result-regression-390.png",
+    "fintoc-result-regression-1280.png"
+  ],
+  "keyboard": [
+    "Four tab views respond to arrows, Home and End with focus/selection.",
+    "Mobile admin menu closes with Escape; tab order enters the selected panel."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    "Ingredient survives SPA navigation; stock initial is recorded; edit exposes no free current-stock input.",
+    "Positive/negative adjustments, ingress, loss and exhaustion executed through the UI; final compensated balance remains two whole units.",
+    "Inventory movements and recipe changes do not modify administrative drink catalog, prices or availability.",
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    "Full reload restores the eight seeded ingredients and original ledger; no persistence."
+  ],
+  "paid": false,
+  "result": "PASS"
+}

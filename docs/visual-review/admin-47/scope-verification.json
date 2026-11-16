@@ -1,0 +1,10 @@
+{
+  "checkedExistingFiles": 297,
+  "changedExistingFiles": [
+    "frontend/src/app/admin/admin-layout.component.html",
+    "frontend/src/app/admin/admin.module.ts",
+    "frontend/src/app/admin/admin-routing.spec.ts"
+  ],
+  "missingExistingFiles": [],
+  "note": "Compared against the workspace before 4.7. No secret contents or source hashes exported."
+}

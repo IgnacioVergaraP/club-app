@@ -1,3 +1,4 @@
+import { WalletDrinkOrdersComponent } from './pages/wallet/drink-orders/wallet-drink-orders.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -39,6 +40,7 @@ import { DemoQrComponent } from './components/demo-qr/demo-qr.component';
     TicketSummaryComponent,
     TragosComponent,
     WalletComponent,
+    WalletDrinkOrdersComponent,
     PerfilComponent,
     DevHealthComponent,
     ProductCardComponent,

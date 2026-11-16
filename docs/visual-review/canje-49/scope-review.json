@@ -1,0 +1,14 @@
+{
+  "compared": 331,
+  "unchanged": 328,
+  "changed": [
+    "frontend/src/app/app.module.ts",
+    "frontend/src/app/pages/wallet/wallet.component.html",
+    "frontend/src/app/pages/wallet/wallet.component.spec.ts"
+  ],
+  "missing": [],
+  "inventoryUnchanged": true,
+  "backendUnchanged": true,
+  "paymentsUnchanged": true,
+  "dependenciesUnchanged": true
+}

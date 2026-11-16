@@ -1,0 +1,178 @@
+CLUB VOID — CHECKPOINT 4.9
+Canje de tragos mediante PIN — Online y offline DEMO
+Fecha: 16-11-2026
+Actualización UX vigente: popup, contador mm:ss y reinicio explícito de prueba; ver apartado 16. Los resultados iniciales de 377 pruebas se conservan como evidencia histórica; la última suite pasa 383; diseño vigente en apartado 17.
+
+1. OBJETIVO Y ESTADO
+Implementado exclusivamente el prototipo 4.9 de retiro de tragos desde Wallet usando el teléfono del cliente y un PIN ficticio del personal. El sexto dígito válido realiza el canje automáticamente; no existe segundo botón de confirmación, gesto de aprobación ni escaneo desde otro dispositivo.
+Angular 17, NgModules, standalone:false, Reactive Forms y RxJS existentes. Sin dependencias nuevas, endpoints, cambios Flask/Fintoc, descuentos de inventario, commit/push ni despliegue.
+Entrega para revisión del Product Owner/arquitecto. No se inicia otra subetapa.
+
+2. FLUJO EXACTO IMPLEMENTADO
+Wallet -> Tragos:
+- Cada tarjeta muestra referencia, estado y fecha asociada al evento DEMO. No hay fecha de compra real en los datos existentes; no se inventa una.
+- Nombre y cantidad de los productos están ausentes del DOM antes de autorizar, también de los detalles nativos. Los totales globales de consumos de Wallet siguen siendo ilustrativos.
+- Retirar pedido abre un popup modal nativo con el PIN, sin canjear. Un clic en la tarjeta no tiene acción de canje.
+- El panel muestra Club VOID, referencia, estado disponible, seis posiciones y un campo password con inputmode numeric/maxlength6. Se usa el teclado nativo del dispositivo; los dígitos no se muestran en texto abierto.
+- Advertencia visible: ATENCIÓN: Al ingresar correctamente el PIN del personal, este pedido quedará CANJEADO y no podrá retirarse nuevamente.
+- Al completar seis dígitos se limpia el campo, se bloquean eventos repetidos y aparece Validando PIN DEMO… No hay botón de enviar/Confirmar entrega. Enter no agrega una segunda acción.
+- PIN inválido: mensaje genérico PIN no válido, campo vacío y productos ocultos. Se puede reintentar.
+- PIN válido: el registro local se escribe en una transacción y solo después de completarse se muestra PEDIDO CANJEADO, referencia, trabajador ficticio, productos/cantidades, hora y estado de sincronización.
+- El popup pasa del PIN al detalle revelado sin otro paso y por encima del header/navegación inferior. Al cerrarlo vuelve el foco a Wallet.
+- Al expirar, se retiran los productos del DOM, se mantiene Canjeado y desaparece la acción normal de retiro. Los pedidos canjeados de ejemplo y vencidos no son elegibles.
+
+Se reutilizan los tres consumos precargados existentes, cada referencia tratada como un pedido DEMO para esta demostración:
+DEMO-CON-001 / demo-drink-001: disponible inicialmente; revela 2 × Piscola tras el PIN.
+DEMO-CON-002: canjeado histórico de ejemplo; detalle oculto y sin retiro.
+DEMO-CON-003: vencido de ejemplo; detalle oculto y sin retiro.
+No se convierte una compra, pedido pending_payment ni respuesta Fintoc en un pedido canjeable. Las fechas/estados de estos fixtures son ilustrativos, no reglas de vigencia de ventas reales.
+WalletService, sus mocks, indicadores e historial previo no se convierten en registros transaccionales. El canje nuevo se superpone como estado local por ID; no reescribe el historial ficticio anterior.
+
+3. EVIDENCIA VISUAL
+Chrome Headless real con perfil temporal aislado, Angular local: PASS. 100 combinaciones a 320/390/768/1280 px y 64 capturas. Sin scroll horizontal en los casos medidos, errores de consola/excepciones, recursos HTTP>=400 ni solicitudes HTTP de escritura.
+Directorio: docs/visual-review/canje-49/.
+Capturas antes/después en 390 y 1280 px: withdraw-before[-full]-ANCHO.png, withdraw-pin[-full]-ANCHO.png y withdraw-redeemed-online[-full]-ANCHO.png.
+También hay evidencia de PIN incorrecto, reapertura dentro del plazo, offline simulado, red desconectada, reconexión pendiente, conflicto y plazo vencido/reapertura, además de regresiones.
+review-redemption.cjs reproduce el recorrido en Chrome con perfil temporal independiente. redemption-review.json registra matriz, capturas, estados, errores y solicitudes.
+Fondo oscuro/morado sólido, sin degradados nuevos. Productos grandes con cantidades y estado en texto, controles táctiles y foco visible. No se modifica la navegación inferior Liquid Glass ni el header del cliente.
+Las capturas de página completa incluyen la barra inferior fija en la posición del viewport de captura; no es una barra insertada entre pedidos.
+
+4. PIN DEMO Y VALIDACIÓN
+Credenciales públicas ficticias para probar esta entrega:
+- Martina Flores · DEMO-EMP-003 · PIN 123456.
+- Javier Rojas · DEMO-EMP-004 · PIN 654321.
+Estos nombres/IDs coinciden con trabajadores ficticios precargados en Personal. Es una asociación estática de fixtures; editar estado/rol/nombre en Personal no constituye administración de credenciales ni cambia estos PIN. No se añaden campos de PIN al panel administrativo.
+DemoPinService simula una respuesta local breve de 180 ms. Las constantes públicas del código no son secretos ni autenticación; no deben reutilizarse en una aplicación comercial.
+El PIN solo se usa como argumento transitorio para validar. No se añade a URL, query, IndexedDB, registro de canje, historial, logs ni localStorage. El campo y sus seis posiciones se limpian al iniciar la validación, tanto en éxito como en error. La ayuda de interfaz remite a este documento, sin mantener PIN visibles tras el canje.
+Bloqueo inmediato del componente y mapa de acciones en curso por pedido en el servicio evitan envíos repetidos en una misma instancia. Dos vistas/instancias del mismo origen compiten además por una transacción IndexedDB readwrite con clave única orderId. Solo una crea el registro; la otra recupera el existente y rechaza el nuevo canje.
+Esto protege coherencia de la DEMO local, no demuestra identidad del trabajador ni evita fraude entre dispositivos.
+
+5. VISUALIZACIÓN DE DOS MINUTOS
+Al canjear se guardan redeemedAt y revealUntil = redeemedAt + 120.000 ms.
+La función pura canReveal exige redeemedAt <= ahora < revealUntil y ausencia de conflicto. El reloj se consulta al renderizar, cada segundo, al volver al foco/visibilidad y tras leer el registro al reabrir el documento.
+El contador visual no es la fuente de expiración y navegar/recargar no reinicia la ventana. A los 120.000 ms el detalle deja de renderizarse, incluso tras reabrir la aplicación. Si el reloj local retrocede por debajo de la fecha del canje, tampoco se revela el detalle.
+La comprobación usa el reloj del cliente: no es una garantía de seguridad frente a manipulación. La ocultación no borra el pedido, no borra capturas y no impide grabaciones. No se afirma que Safari o Chrome bloqueen pantallazos.
+
+6. ESTADOS DEL PEDIDO
+El contrato tipado contempla available, validating, local_pending, demo_redeemed, server_confirmed y conflict para la integración futura.
+Implementación actual:
+- Disponible: fixture pending y sin recibo local.
+- Validando: acción en curso; campo bloqueado.
+- Canjeado DEMO online: recibo con sync=demo_only. Texto explícito Sin confirmación del servidor.
+- Canjeado en este dispositivo · Pendiente de sincronización: sync=pending si se canjea offline real detectado o simulado.
+- Conflicto de sincronización SIMULADO: sync=conflict; detalle oculto y sin nuevo retiro.
+- server_confirmed solo está en el contrato futuro: no se puede escribir como estado válido del recibo ni hay acción para simular una confirmación auténtica.
+Reconexionar o desactivar el interruptor de simulación no cambia pending a confirmado. La opción Simular conflicto DEMO está separada del retiro, explica su naturaleza ficticia y no revierte ni elimina el registro.
+
+7. ALMACENAMIENTO LOCAL
+Se incorpora IndexedDB nativo, encapsulado en DemoRedemptionStore, sin biblioteca adicional.
+Base: club-void-canje-demo-v1; versión 1; object store receipts con keyPath orderId.
+Únicos campos persistidos: orderId, redeemedAt, revealUntil, workerId, sync e isDemo:true. La presencia del recibo implica canje local. No se almacenan productos, cantidades, importes, PIN, hashes verificadores, credenciales ni prueba de pago.
+El pedido y sus productos siguen siendo fixtures incluidos en el código; solo se revelan en interfaz cuando la ventana local lo permite. Por eso no existe confidencialidad frente a inspeccionar el bundle o el navegador.
+La escritura se considera completada al evento complete de la transacción, no al éxito individual de una solicitud. Lectura+alta atómicas evitan sobrescribir otro recibo de la misma clave. El conflicto simulado preserva fechas/identidad; el único borrado permitido por la interfaz es el reinicio individual de prueba DEMO autorizado posteriormente, descrito en el apartado 16.
+Se contemplan ausencia de IndexedDB, bloqueo de apertura, registro incompatible, timeout y error de lectura/escritura o cuota. Si no se lee el registro, se deshabilita el retiro y se ofrece reintentar. Si no se completa la escritura, no se anuncia canje exitoso ni se revelan productos; se permite reintentar de forma idempotente.
+Validación estricta del esquema al leer/escribir: campos extra, PIN, fechas incompatibles y estados confirmados se rechazan. No sustituye validación comercial del servidor.
+No se usa localStorage. Modo privado, políticas del navegador, limpieza manual o expulsión de almacenamiento pueden eliminar los recibos y hacer que el fixture vuelva a estar disponible. Este límite impide usar el prototipo como control comercial.
+El harness borra registros únicamente en su perfil temporal para separar escenarios de prueba. Posteriormente se autorizó el reinicio individual de prueba desde la aplicación; no es un borrado global de datos (apartado 16).
+
+8. ANÁLISIS DE VIABILIDAD OFFLINE REAL — ANTES DE IMPLEMENTAR
+La inspección de frontend/src, package.json y angular.json no encontró ServiceWorkerModule, registro de service worker, configuración ngsw, manifest PWA, IndexedDB, caché de aplicación, persistencia de Wallet ni detección propia de conectividad.
+El build es una SPA con recursos HTTP y rutas reescritas. El proyecto no tenía un mecanismo probado para servir el arranque sin conexión.
+Caso A: app/documento cargado y después pérdida de internet. El código y los fixtures ya están en memoria; PIN ficticio e IndexedDB son locales. Es el caso soportado y probado por esta entrega.
+Caso B: cierre completo del navegador y apertura en frío sin conexión. No está soportado ni se declara operativo. No se añadió service worker/caché PWA ni se alteró la configuración global de despliegue. La caché HTTP incidental del navegador no constituye una garantía de arranque offline.
+Reabrir con conectividad permite cargar el código y recuperar el recibo IndexedDB si el navegador lo conserva. Reabrir un documento dentro/fuera del plazo se distingue del arranque en frío sin red.
+
+9. OFFLINE SIMULADO Y PROBADO
+Interruptor Simular pérdida de conexión: permite representar la interfaz offline sin desconectar internet; está rotulado OFFLINE SIMULADO y no constituye una prueba de red.
+Detección real: navigator.onLine más eventos online/offline. Online es solo una señal de conectividad del navegador; no acredita disponibilidad de un servidor ni verificación comercial.
+Prueba ejecutada con Network.emulateNetworkConditions de Chrome DevTools Protocol: red realmente desconectada para la página ya cargada, navigator.onLine=false y sin activar la simulación de interfaz. Se ingresó PIN, se guardó un único recibo IndexedDB pending y se revelaron los productos. Tras restablecer la red se mantuvo pending. Se comprobó una recarga dentro del plazo y otra después de transcurrir los 120 segundos de reloj real: no se reinició el vencimiento ni apareció otro retiro. No se falseó Date.now para esa prueba de navegador. El arranque en frío sin red no se implementó ni se afirma probado como operativo.
+La reconexión conserva Pendiente de sincronización. No existe cola que se envíe efectivamente, reintento de backend, verificación de servidor o confirmación durable global. La información local prepara ese futuro contrato, sin enviar fixtures a Flask.
+Errores de cuota/lectura se probaron con fuentes controladas; no se agotó físicamente la cuota del navegador ni se certificó almacenamiento en Safari privado.
+
+10. MODELOS, SERVICIOS Y ARCHIVOS
+Nuevos:
+- frontend/src/app/services/redemption/demo-redemption.model.ts: recibo, estados, contrato futuro, trabajadores ficticios, plazo y funciones puras de esquema/visibilidad.
+- frontend/src/app/services/redemption/demo-pin.service.ts: validación ficticia de PIN.
+- frontend/src/app/services/redemption/demo-redemption-store.service.ts: IndexedDB nativo y transacciones.
+- frontend/src/app/services/redemption/demo-redemption.service.ts: coordinación de validación/escritura/estado, conectividad/simulación, reloj inyectable, rechazo de duplicados y conflicto ficticio.
+- frontend/src/app/services/redemption/demo-redemption.spec.ts: reglas, servicio, fixtures y pruebas nativas de IndexedDB.
+- frontend/src/app/pages/wallet/drink-orders/wallet-drink-orders.component.ts/.html/.scss/.spec.ts: tarjetas sin productos previos, panel PIN, revelación temporal, estados y pruebas de presentación.
+- docs/CHECKPOINT_4_9_CANJE_PIN.txt y docs/visual-review/canje-49/.
+Modificados:
+- frontend/src/app/app.module.ts: declaración del componente con Reactive Forms ya disponible.
+- frontend/src/app/pages/wallet/wallet.component.html: Tragos delega al nuevo componente; Entradas/Historial se conservan.
+- frontend/src/app/pages/wallet/wallet.component.spec.ts: adapta expectativas de productos ocultos, estado disponible y referencia QR a la nueva presentación; mantiene pruebas anteriores de Wallet.
+Revisión de alcance SHA-256: 331 archivos existentes comparados, 328 intactos, tres modificados listados, cero eliminados. Inventario 4.8, Personal, Ventas, backend, claves, pagos, WalletService/mocks, componente QR, rutas, navegación inferior, dependencias y configuración de compilación/despliegue sin cambios. Ver scope-review.json. Cambios previos pendientes de 4.7/4.8 no se atribuyen a 4.9.
+
+11. PRUEBAS Y BUILDS
+Suite Angular inicial: npm test -- --watch=false --browsers=ChromeHeadless => 350/350 aprobadas.
+Suite final: mismo comando => 377/377 aprobadas; 27 pruebas nuevas y adaptación de las pruebas existentes de Wallet al nuevo flujo.
+Cobertura:
+- Disponible, productos ausentes antes del PIN, advertencia, seis posiciones y teclado numérico.
+- PIN incompleto/incorrecto/válido, envío automático del sexto dígito, bloqueo de eventos repetidos, limpieza de campo y una sola transición.
+- Dos solicitudes en curso y dos servicios compartiendo almacenamiento; transacciones IndexedDB reales concurrentes por clave única.
+- Productos revelados, límite exacto de 120 segundos, reapertura dentro/fuera del plazo, reloj retrocedido y registro ya canjeado.
+- Offline simulado, persistencia pendiente tras reconexión, conflicto y bloqueo del segundo canje.
+- Fallos de lectura/escritura simulados, recuperación, copias independientes, rechazo de campos extra/secretos/estado confirmado y validación de fixtures.
+- Pruebas nativas de IndexedDB en Chrome: persistencia entre instancias, lectura/alta concurrentes, conflicto sin sobrescribir fechas y rechazo de esquema.
+- Foco/identidad del campo y PIN parcial conservados al actualizar el reloj.
+Problemas corregidos durante desarrollo: adaptación del selector de details de la prueba antigua; tipado de apertura IndexedDB; conservación de DOM mediante trackBy por ID para que el intervalo no saque el foco del PIN; desplazamiento/margen del panel respecto del header.
+Build desarrollo: npm run build -- --configuration development => aprobado. Inicial 2,06 MB; módulo admin lazy 664,68 kB.
+Build de despliegue local: API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy => aprobado. Inicial 740,62 kB, transferencia estimada 150,07 kB; admin lazy 359,50 kB/67,64 kB. Hoja nueva de canje 2,66 kB, bajo el límite de error de 4 kB. No se publica en Vercel. Logs antes/después y de builds conservados en el directorio de evidencia.
+Advertencias de tamaño sin cambios de presupuestos: bundle inicial sobre 500 kB, SCSS de varios componentes sobre 2 kB, nueva hoja de canje sobre el umbral de advertencia y bajo el error de 4 kB. Se conservan los avisos de los dos selectores Bootstrap omitidos. No se instalan ni actualizan dependencias ni se ejecuta audit fix.
+No se repite suite Flask ni se crea un pago real/Sandbox: backend y Fintoc no se modifican en 4.9. Las pruebas existentes de pagos Angular continúan dentro de la suite completa.
+
+12. REGRESIONES
+Wallet conserva tres pestañas y cinco enlaces principales; Entradas e Historial mantienen sus fixtures. QR DEMO de entradas y consumos continúan dentro de detalles; estados Canjeado/Vencido siguen superpuestos, sin convertirse en QR comerciales ni autorizar canjes de entradas.
+Revisión en navegador: Inicio, Noches, Tragos, Perfil, Wallet/QR; Dashboard, Eventos, Tragos administrativos, Inventario, Ventas, Comisiones, Personal y Configuración. Inventario conserva 100 vasos de pisco y capacidades iniciales de 50 Piscolas: ningún canje llama a sus mutaciones.
+Resultado de Fintoc consultado con verified=true sin evidencia de pago no se transforma en confirmación. No se abren sesiones de pago, crean pedidos ni envían registros de canje.
+No se afirma una nueva prueba de Apple Pay ni una entrega comercial real. Pendiente revisión en Safari/iOS y Android físicos y lector de pantalla; anchos emulados en Chrome no certifican esos entornos.
+
+13. RIESGOS DE SEGURIDAD Y LÍMITES
+La aplicación no autentica al trabajador ni al cliente. Los PIN públicos del frontend pueden leerse/reproducirse y no sirven para producción. Enviar un PIN real por este flujo sería incorrecto.
+IndexedDB y reloj del cliente son manipulables y borrables. Clave única local impide duplicados cooperativos en el mismo origen, pero no entre dispositivos, perfiles, incógnito u orígenes de preview distintos. No hay garantía antifraude ni reconciliación global.
+Los productos existen en fixtures/bundle y pueden inspeccionarse aunque la interfaz los oculte. La ventana de dos minutos solo limita la presentación normal. Pantallazos/grabaciones y extracción de datos siguen siendo posibles.
+Offline pendiente no acredita aceptación del servidor. Conflicto es una simulación explícita, no la respuesta de un backend. No se firman comprobantes ni se inventa seguridad criptográfica.
+La aplicación no se sirve en frío offline y no solicita instalación PWA. El prototipo no puede utilizarse para entregar bebidas cobradas.
+
+14. REQUISITOS PENDIENTES DE BACKEND Y RELACIÓN CON INVENTARIO
+RedemptionSyncRequest/Response define un contrato de transporte futuro, sin llamadas HTTP. Será necesario generar un identificador único de evento/acción e idempotencia por pedido/evento, verificar identidad/estado/rol del trabajador desde servidor y comprobar que el pedido corresponde a una compra autorizada del cliente.
+El servidor deberá validar si ya se canjeó en otro dispositivo, serializar la transición, resolver conflictos y guardar una auditoría confiable con hora del servidor. Los reintentos no deben duplicar entrega ni consumo. Una respuesta confirmada debe proceder de ese servidor, no del navegador ni de volver a estar online.
+Inventario futuro: pago verificado reserva ingredientes; PIN autorizado y canje aceptado convierten reserva en consumo definitivo en una transacción. No descontar dos veces. Fallo/cancelación legítima requiere política coherente con reservas y estado comercial. Un canje offline no garantiza descuento global hasta aceptación del servidor.
+No hay reservas, consumo, cambios de saldo, webhooks, Supabase, autenticación ni endpoints implementados aquí. Las limitaciones previas de pedidos en memoria de Vercel siguen vigentes y no constituyen un backend de canjes.
+
+15. RECOMENDACIONES Y CIERRE
+Revisar el flujo de sexto dígito automático, claridad de advertencia, lectura de productos y ventana de dos minutos con el Product Owner.
+Antes de cualquier uso comercial, aprobar autenticación/gestión de credenciales, transacciones y persistencia de pedidos/canjes/inventario, idempotencia, auditoría, política de conflictos/entregas y sincronización verificable. Definir por separado el alcance PWA y distribución segura para offline; requiere autorización y pruebas específicas.
+No reutilizar PIN DEMO, no confiar en IndexedDB para derechos comerciales y no presentar offline pendiente como canje aceptado globalmente.
+Trabajo detenido en 4.9, pendiente de aprobación del arquitecto. No se inicia otra funcionalidad.
+
+
+16. CORRECCIÓN UX SOLICITADA POR EL PRODUCT OWNER — 16-11-2026
+Esta actualización es el comportamiento vigente y prevalece sobre la descripción histórica del panel inline y la ausencia inicial de reinicio.
+- Retiro y resultado dentro de un popup nativo HTML dialog/showModal. Fondo atenuado, foco en el PIN, navegación de teclado contenida por el navegador y cierre con botón o Escape. Mientras se valida no se permite cerrar ni repetir la acción.
+- El sexto dígito mantiene el canje automático. Dentro del mismo popup aparece PEDIDO CANJEADO, productos y trabajador, sin una segunda confirmación.
+- Contador en mm:ss: 02:00, 01:59, 01:00, 00:09. La fecha de vencimiento sigue siendo la fuente de verdad; abrir/cerrar el popup no reinicia los dos minutos. Ver detalle permite reabrir solo dentro de esa ventana, sin canjear otra vez.
+- Botón Volver a ingresar PIN · DEMO tanto en el resultado como en la tarjeta del pedido canjeado local. Por autorización explícita del Product Owner, borra exclusivamente el recibo IndexedDB de ese pedido ficticio pendiente original y vuelve a abrir el PIN vacío. Oculta inmediatamente los productos. Un nuevo PIN válido crea un nuevo canje de prueba y una nueva ventana de dos minutos.
+- El reinicio no admite pedidos reales, históricos vencidos ni canjeados de los fixtures originales; no borra los demás registros y no llama a Flask, Fintoc ni Inventario. Un error al borrar conserva el recibo y comunica el fallo. Nunca debe incluirse esta herramienta de repetición en el flujo comercial.
+- Se conserva validación, protección de duplicados y almacenamiento mínimo del prototipo. La excepción de reinicio es explícitamente para pruebas; no modifica las restricciones futuras de canje único comercial.
+Archivos modificados en esta corrección: wallet-drink-orders.component.ts/.html/.scss/.spec.ts; demo-redemption-store.service.ts; demo-redemption.service.ts; demo-redemption.spec.ts; este documento. Sin dependencias, rutas, backend, pagos ni cambios de navegación.
+Pruebas finales: 382/382 Angular aprobadas. Cinco pruebas adicionales: formato mm:ss, modal/Escape, reinicio desde presentación, reinicio con fallo/recuperación en servicio y borrado individual nativo IndexedDB que permite un nuevo intento conservando el otro pedido. Se adapta la prueba de expiración a la apertura del popup.
+Build desarrollo aprobado: inicial 2,07 MB; admin lazy 664,68 kB. Build despliegue local aprobado: inicial 744,98 kB/transferencia 150,75 kB; admin lazy 359,50 kB/67,64 kB. Hoja del popup 3,33 kB: advertencia sobre 2 kB y bajo el error de 4 kB. Sin cambio de presupuestos ni publicación.
+Chrome real: 16 combinaciones de popup PIN/error/resultado/reinicio a 320/390/768/1280, ocho capturas y cero errores de consola, recursos HTTP>=400 o solicitudes de escritura. Se prueba PIN inválido, envío automático, cierre Escape, reapertura sin renovar el plazo, reinicio dentro del popup y desde tarjeta, y segundo canje ficticio con Javier Rojas. Sin scroll horizontal, tanto del documento como del popup.
+Evidencia vigente de la corrección: docs/visual-review/canje-49-popup/popup-review.json, review-popup.cjs, capturas y logs. La evidencia original canje-49/ conserva el recorrido previo y su prueba de desconexión/expiración real; no se atribuye una nueva prueba de red o espera real de 120 segundos a esta corrección. La expiración sigue cubierta por la suite automatizada.
+Trabajo detenido para revisión. No se avanza a otra subetapa.
+
+
+17. AJUSTE A REFERENCIA VISUAL — 16-11-2026
+Comportamiento visual vigente solicitado por el Product Owner:
+- Popup oscuro con marca VOID, título Retiro de tragos, resumen de referencia/fecha/Disponible, aviso Importante, seis casillas y teclado táctil 1..9/0/borrar, manteniendo los morados sólidos existentes.
+- Un único campo de PIN accesible sigue admitiendo teclado físico/paste; las seis casillas son su representación enmascarada. inputmode=none evita solicitar otro teclado móvil sobre el teclado propio. Sexto dígito canjea automáticamente, con bloqueo durante validación.
+- Resultado con círculo morado de confirmación, Pedido canjeado, referencia, hora/fecha, sección Preparar y entregar, icono de bebida, cantidades/productos y contador mm:ss en un bloque separado.
+- Se retira el nombre del barman de la pantalla de resultado. workerId se mantiene en el recibo local mínimo para trazabilidad ficticia; esta modificación es de presentación, no de almacenamiento ni credenciales.
+- Se conservan cierre Escape, vencimiento por marca temporal, estados offline y botón Volver a ingresar PIN · DEMO.
+Archivos: wallet-drink-orders.component.ts/.html/.scss/.spec.ts; nueva withdraw-dialog.scss para estilos del popup; este documento y evidencia. Sin cambios en servicios, backend, Fintoc, Inventario, datos comerciales ni dependencias.
+Verificación: 383/383 Angular aprobadas. Nueva prueba de teclas táctiles/borrar/envío automático y ausencia de nombre/ID del trabajador en el resultado. Builds desarrollo y despliegue aprobados; despliegue compilado localmente, sin publicar: inicial 748,69 kB/transferencia 151,46 kB. Hoja del popup 3,15 kB, con advertencia sobre 2 kB y bajo el límite de error de 4 kB, sin modificar presupuestos.
+Chrome real: 16 combinaciones a 320/390/768/1280, ocho capturas; PIN incorrecto, canje desde teclado propio, reinicio/repetición, cierre y reapertura. Cero scroll horizontal, errores de consola, recursos HTTP>=400 o solicitudes de escritura. Capturas de PIN y resultado 390/1280 inspeccionadas contra la referencia suministrada.
+Evidencia: docs/visual-review/canje-49-reference/ (popup-review.json, review-reference.cjs, capturas y logs). No se repite prueba de red ni espera real de 120 segundos para este cambio visual; reglas y expiración siguen cubiertas por la suite.
+Trabajo detenido para revisión, sin despliegue ni avance de subetapa.
