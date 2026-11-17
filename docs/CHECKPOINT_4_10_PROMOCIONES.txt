@@ -1,0 +1,286 @@
+CLUB VOID — CHECKPOINT 4.10
+Promociones y centro de notificaciones — Frontend DEMO
+Fecha: 16-11-2026
+ENTREGA VIGENTE: corrección UX con wizard de seis pasos. Ver bloque final CORRECCIÓN UX — WIZARD. Los apartados anteriores conservan el historial de 4.10 y sus resultados por versión.
+Corrección posterior del Product Owner: promociones y avisos comerciales siempre para clientes; selección de destinatarios únicamente en avisos internos. Ver cierre de corrección.
+
+1. OBJETIVO Y ESTADO
+Implementada /admin/promociones, exclusivamente para Club VOID, con Promociones, Notificaciones e Historial. Angular 17 con NgModules/standalone:false, Reactive Forms y RxJS existentes.
+Se pueden preparar promociones, precios propios de simulación, fechas, audiencias y mensajes, consultar alertas de Inventario y visualizar cómo se presentaría un aviso. Todo permanece en memoria: navegar en la misma SPA conserva cambios; recargar restaura los ejemplos.
+No se publican promociones ni se solicitan permisos o envían notificaciones. No hay modificaciones de precios comerciales, pedidos, Wallet, canje, Fintoc, inventario ni Flask. No se incorporan dependencias, persistencia o endpoints.
+Resultado: 425/425 pruebas Angular, builds desarrollo/despliegue aprobados y evidencia real de navegador. La entrega queda pendiente de revisión visual/técnica del Product Owner/arquitecto. Sin commit, push o despliegue; no se avanza de subetapa.
+
+2. VISTAS IMPLEMENTADAS
+Se añade Promociones al menú administrativo, novena sección, sin selector de discotecas. Sidebar, menú móvil, header y navegación inferior del cliente se conservan. La marca/logo se consulta desde CLUB_CONFIG, sin modificarla.
+Ruta /admin/promociones con query view=promotions/notifications/history y selección de registros para consulta/vista previa. Pestañas tablist/tab/tabpanel con flechas, Home, End, selección y foco.
+Promociones:
+- Tabla compacta de escritorio y filas convertidas en tarjetas en móvil/tablet.
+- Nombre, ID, producto, referencia normal, precio promocional CLP, porcentaje, inicio/término, estado y audiencia.
+- Consultar, Editar, Duplicar y Cancelar. Las canceladas solo se consultan/duplican; no se reactivan editándolas.
+- Cuatro KPIs derivados del mismo conjunto completo: registradas, programadas, activas y finalizadas. Son globales, no cambian al filtrar. Borradores/canceladas explican que los tres estados contabilizados no sumen siempre el total registrado.
+- Buscar por nombre/producto/ID, filtrar por estado, producto y período. Hoy, últimos 7 días de calendario de Santiago, todas las fechas y rango personalizado. Rango inválido produce error y no filas.
+Notificaciones:
+- Mensajes comerciales y operativos, ID, título, texto, audiencia, fecha prevista, tipo y estado.
+- Vista previa, edición de avisos independientes, cancelación y Finalizar simulación solo al alcanzar la fecha programada.
+- Filtros por texto/ID, estado, tipo, audiencia y período.
+- Consulta de ingredientes bajos/agotados y acceso a preparar un aviso operativo, sin modificar saldos.
+Historial:
+- Referencia, fecha, tipo, audiencia, estado capturado al registrar y detalle de acciones locales/fixtures.
+- Búsqueda, tipo, audiencia y período. No es auditoría comercial ni constancia de envío.
+Rutas de formulario: /admin/promociones/nueva, /admin/promociones/:id/editar, /admin/promociones/notificaciones/nueva y /admin/promociones/notificaciones/:id/editar. Los registros no encontrados tras recarga y los no editables muestran estados controlados.
+
+3. MODELOS Y SERVICIOS
+promotion.model.ts separa PromotionDraft/Promotion, LocalSchedule, AudienceId/AudiencePlan, OfferSnapshot, NoticeDraft/DemoNotice, estados/tipos, PromotionHistory, PromotionData, PromotionSummary y NoticePreview.
+AdminPromotionsService utiliza un BehaviorSubject privado con promociones, avisos e historial. view$ combina copias de estos datos con las consultas de catálogo/Inventario y un reloj; no expone referencias mutables a la fuente. message$ comunica resultados DEMO.
+PROMOTIONS_CLOCK es inyectable. El reloj de presentación actualiza clasificaciones cada segundo mientras hay suscriptores; no escribe datos, no genera envíos ni incorpora eventos automáticos al historial.
+Se reutilizan eventInstant y las reglas existentes de fechas de Eventos, con America/Santiago; STAFF_ROLES de Personal para identificadores/descripciones de perfiles; DRINK_LIMITS para límites de referencia CLP; CLUB_CONFIG para marca; AdminDrinksService e InventoryService exclusivamente como consultas.
+Las reglas de precio, descuento, período, audiencia y estados están centralizadas en promotion.rules.ts. Los componentes coordinan formularios/filtros, no implementan cálculos complejos en HTML.
+No se utiliza HttpClient, Notification API, SwPush, almacenamiento local ni IndexedDB para esta nueva funcionalidad.
+
+4. PROMOCIONES, PRECIOS Y EJEMPLO PRINCIPAL
+Ejemplo precargado Piscola Flash:
+- Producto admin-demo-drink-001 / Piscola.
+- Precio normal de referencia $5.000; promocional $3.000 CLP.
+- Descuento 40% = redondeo a dos decimales de ((normal-promocional)/normal)*100.
+- Próxima fecha de calendario con 02:00 futura respecto del reloj, término 02:30 del mismo día. Al iniciar esta ejecución corresponde al 17-11-2026; no se fija una fecha pasada que contradiga el estado programado.
+- Audiencia clients-consented: criterio futuro de adultos con consentimiento, sin verificación implementada.
+- Título ¡Piscola Flash en VOID!; mensaje Piscola a $3.000 durante 30 minutos.
+La referencia de precio pertenece a la promoción y se precarga desde el catálogo administrativo al elegir producto. No se confunde con un precio autorizado de Flask ni con un descuento aplicado al cliente.
+Nombre 1..80 caracteres; descripción hasta 300; precios enteros positivos, promocional inferior al normal y máximo $10.000.000 reutilizando el límite administrativo. ID de producto existente y estados/audiencias válidos. Título hasta 80 y mensaje hasta 240, obligatorios si se prepara aviso al inicio.
+Los borradores requieren información base válida para guardarse; Borrador nunca se activa por el reloj. Duplicar crea otro ID, nombre editable y datos independientes, modo Borrador y aviso al inicio desactivado. No modifica original ni genera otro aviso por defecto.
+Cancelar marca el registro como cancelado de forma permanente y cancela su aviso pendiente. Duplicar permite otro escenario; no existe reactivación silenciosa del cancelado.
+Semillas adicionales: Gin Tonic activo, Pisco Sour finalizado con cruce explícito de medianoche, Mojito borrador y Ron Cola cancelada. KPIs iniciales en el reloj de prueba: 5 registradas, 1 programada, 1 activa, 1 finalizada; además 1 borrador y 1 cancelada. Todos derivan de esos cinco registros.
+
+5. PROGRAMACIÓN HORARIA
+Todas las entradas de fecha/hora se interpretan en America/Santiago, sin depender de la zona del navegador. Se guardan fecha/hora explícitas y los instantes calculados conjuntamente por el servicio.
+Se rechazan fechas inexistentes, horas inválidas, horas estacionales inexistentes o ambiguas, y término igual/anterior al inicio. Para 23:50→00:20 se debe indicar el día siguiente como término. No se infiere equivocadamente un intervalo negativo o una fecha distinta.
+Reglas exactas: antes del inicio Programada; inicio <= ahora < término Activa; ahora >= término Finalizada. Borrador y Cancelada prevalecen sobre el reloj. Las canceladas no vuelven a activarse cuando llega su hora.
+Los filtros usan días de Santiago y solapamiento con el período; el término es exclusivo, por lo que una promoción que termina exactamente a medianoche no ocupa el día siguiente.
+Las semillas se construyen con fechas del reloj. Ante una hora estacional ambigua se usa un intervalo DEMO válido alternativo; el estado se deriva igualmente, sin forzar cifras independientes.
+No hay scheduler backend. Los estados temporales solo representan cómo se clasifica un escenario local; no disparan avisos, descuentos, reservas ni cambios de inventario.
+
+6. AUDIENCIAS Y PERFILES
+Opciones: Clientes; Clientes adultos con consentimiento (criterio futuro); Administrador; Supervisor; Barra y Puerta. Los cuatro roles internos reutilizan los IDs/definiciones de Personal, sin leer destinatarios reales ni conceder permisos.
+AudiencePlan deriva adultOnly/consentRequired y mantiene verified:false para las audiencias de clientes. La interfaz y la vista previa indican expresamente que la edad y el consentimiento no se verifican en esta etapa.
+Los avisos comerciales se validan con audiencia de clientes; los operativos con perfil de personal. Las promociones preparan únicamente avisos comerciales para clientes. Los avisos internos se crean de forma independiente en Notificaciones.
+No hay recuentos de receptores, segmentación real, permisos o conexión a preferencias/contactos. La publicidad comercial de alcohol y sus requisitos de audiencia/textos deben revisarse conforme a las normas aplicables en Chile antes de activarla; esta DEMO no acredita cumplimiento ni autorización comercial.
+
+7. NOTIFICACIONES Y VISTA PREVIA
+Tipos comerciales: Promoción, Oferta relámpago e Información de evento. Tipos operativos: Barra, Puerta, Stock bajo, Supervisores e Incidencia.
+Estados: Borrador, Programada, Simulación finalizada y Cancelada. Llegar a la fecha habilita una acción manual de simulación, pero no cambia por sí solo a finalizada ni realiza un envío.
+Crear un borrador/programación independiente exige título, mensaje, fecha/hora válidos, audiencia compatible y referencias válidas si existen. Se permite editar solo pendientes independientes. No se editan avisos cancelados/finalizados ni se reprograman silenciosamente.
+El aviso al inicio de una promoción se vincula por ID, con snapshot del producto/precios/período. Mientras está pendiente, editar la promoción actualiza ese aviso, sin duplicarlo. Retirar la opción de aviso lo cancela. Un aviso ya cancelado o simulado conserva su snapshot e historial; para otro escenario se duplica la promoción o se crea un mensaje independiente.
+La vista previa muestra logo VOID, nombre del club, título, mensaje, producto, precio promocional cuando corresponde, horario y audiencia prevista. Es una tarjeta de notificación moderna oscura/morada, identificada Vista previa · No enviada. Los avisos operativos sin precio no inventan una oferta.
+No se solicita permiso push ni se construye una notificación del navegador; no hay WhatsApp, SMS, correo, estadísticas de apertura/recepción/conversión o confirmaciones ficticias de entrega.
+Cinco avisos precargados ilustran programación vinculada a Flash, aviso de barra con fecha alcanzada, borrador informativo, simulación histórica y cancelación operativa. Las acciones posteriores agregan registros locales sin pretender una audiencia efectiva.
+
+8. CONSULTA CON INVENTARIO Y CATÁLOGO
+AdminInventoryService.view$ aporta solo los ingredientes cuyo estado es bajo/agotado: en los fixtures iniciales, Vasos de gin 40/mínimo 40 y Unidades de Jugo 30/mínimo 30. La sección Consulta de stock bajo no crea un aviso automáticamente.
+Preparar aviso abre un borrador operativo con ID del ingrediente y mensaje editable basado en esa instantánea. El nombre explicita vasos/unidades. Los cambios posteriores del stock no reescriben ese mensaje ni activan/cancelan promociones.
+No se llaman recordMovement, saveIngredient o saveRecipe; no hay reservas, descuentos, canjes ni eventos de compra. Se verifican saldos y texto antes/después desde la misma SPA, además de spies de mutaciones y hashes.
+AdminDrinksService se consulta para IDs/nombres/precios de referencia y validación. Guardar promoción/aviso no llama a save/setAvailability/setFeatured/duplicate del catálogo. La referencia y la oferta simulada no se sincronizan con Flask, el carrito ni Fintoc.
+Una futura campaña comercial necesitará precio y disponibilidad verificables en servidor, consulta de reservas/recetas y validación antes de aceptar compras. Nada de eso se implementa aquí.
+
+9. ARCHIVOS CREADOS/MODIFICADOS
+Nuevos en frontend/src/app/admin/promotions/:
+- promotion.model.ts
+- promotion.rules.ts
+- promotion.data.ts
+- admin-promotions.service.ts
+- promotion-preview.component.ts
+- admin-promotions.component.ts/.html/.scss
+- admin-promotion-form.component.ts/.html
+- promotions.shared.scss
+- promotion-form.scss
+- promotion.spec.ts
+Modificados entre los archivos preexistentes de aplicación:
+- frontend/src/app/admin/admin.module.ts: componentes, servicio y rutas/guard.
+- frontend/src/app/admin/admin-layout.component.ts: enlace Promociones.
+- frontend/src/app/admin/admin-layout.component.html: título/contexto y enlace activo en rutas anidadas.
+- frontend/src/app/admin/admin-routing.spec.ts: novena sección y navegación.
+Documentación: este checkpoint y docs/visual-review/promotions-410/ con harness, capturas, reportes y logs.
+Comparación SHA-256 previa/posterior: 352 archivos existentes, 348 intactos, cuatro modificados listados, cero eliminados. Backend, Inventario, catálogo, Wallet/canje, PWA/service worker/manifest, Fintoc, dependencias, lockfile y presupuestos intactos. Ver scope-review.json.
+Los cambios pendientes de 4.9.1 ya existían al iniciar esta subetapa y no se atribuyen a 4.10. No se publica ni realiza commit/push.
+
+10. PRUEBAS AUTOMATIZADAS
+Suite Angular inicial: npm test -- --watch=false --browsers=ChromeHeadless => 394/394 aprobadas.
+Suite final: mismo comando => 425/425 aprobadas. 31 pruebas nuevas, además de ampliar el test existente de navegación administrativa.
+Reglas: 40%, redondeo, precios inválidos/decimales/texto/equivalentes, IDs, límites de mensajes, fechas/calendario/cruce de medianoche, horas estacionales ambiguas/inexistentes, fronteras exactas de estados, cancelaciones/borradores, audiencias futuras y filtros por días de Santiago.
+Servicios: KPIs coherentes, alta/edición, aviso vinculado único, duplicación independiente, cancelación permanente, reloj sin envíos/finalización automática, simulación explícita, avisos comerciales/operativos, validaciones atómicas, snapshots terminales, retirada de aviso, copias independientes, historial ilustrativo, reinicio al recargar y ausencia de HTTP/mutaciones de catálogo/Inventario.
+Presentación/formularios: búsqueda/filtros/vacíos, tres pestañas y teclado, rango inválido, alta y errores, precio precargado sin modificar catálogo, vista previa con criterios no verificados, borrador desde alerta de stock, registros ausentes/read-only y protección de cambios sin guardar.
+Se reutilizan las pruebas existentes de Wallet, QR, PIN, IndexedDB, vencimiento, PWA y Fintoc dentro de la suite completa. No se declara una nueva ejecución de Flask, porque su código no cambia.
+No se instala/actualiza ningún paquete ni se aplica audit fix.
+
+11. BUILDS
+Desarrollo: npm run build -- --configuration development => aprobado; inicial 2,10 MB, admin lazy 783,18 kB.
+Despliegue local: API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy => aprobado; inicial 761,04 kB, transferencia 154,29 kB; admin lazy 422,15 kB/transferencia 77,96 kB.
+Persisten advertencias de bundle inicial >500 kB, SCSS de componentes >2 kB y dos selectores Bootstrap omitidos. Nuevas hojas: admin-promotions.component.scss 2,79 kB y promotions.shared.scss 2,15 kB, bajo el error de 4 kB; no se elevan presupuestos.
+El service worker se sigue generando por la configuración previa, sin cambios en sus reglas. La verificación del build revisa 30 hashes, iconos 192/512, cero dataGroups/patrones externos y exclusión de API/pagos del fallback. Comprueba también que package.json/lockfile son idénticos al inicio de4.10.
+Es compilación para despliegue, no publicación en Vercel. Logs en el directorio de evidencia.
+
+12. EVIDENCIA DESKTOP Y MÓVIL
+Chrome Headless real, perfil temporal aislado y Angular local:
+116 combinaciones a 320, 390, 768 y 1280 px; 72 capturas viewport/página completa. Cero scroll horizontal, errores de consola/excepciones, recursos HTTP>=400 o solicitudes HTTP de escritura durante el recorrido.
+Capturas requeridas 390/1280:
+- promotions-list[-full]-ANCHO.png
+- notifications-list[-full]-ANCHO.png
+- history-list[-full]-ANCHO.png
+- promotion-create[-full]-ANCHO.png
+También hay evidencia de Flash/vista previa, rangos/validaciones, duplicación/edición/cancelación, avisos operativos/comerciales y regresiones.
+Se inspeccionaron la tabla de escritorio, creación móvil y centro de avisos móvil. Se conserva fondo casi negro/morado sólido, sin degradados, y formularios de una columna en móvil. Las tablas pasan a tarjetas por debajo del ancho disponible del panel; no se ensancha el documento.
+El harness instrumenta Notification: 0 solicitudes de permiso y 0 instancias de notificación. Ver promotions-review.json y review-promotions.cjs. No se simula un envío HTTP ni una recepción.
+Pruebas de teclado: flechas/Home/End con selección y foco en las tres pestañas, controles nativos etiquetados y guard de borrador cancelar/aceptar. No equivale a una auditoría completa con lector de pantalla.
+Las capturas de página completa muestran la barra inferior fija del cliente en la posición del viewport original cuando corresponde; no es una barra insertada entre registros.
+
+13. REGRESIONES Y PWA
+Navegador en los cuatro anchos: Dashboard, Eventos, Tragos administrativos, Inventario, Ventas, Comisiones, Personal y Configuración; cliente Inicio/Noches/Tragos/Perfil; Wallet con tres QR de entradas y tres de consumos cargados; popup de PIN y resultado Fintoc con verified=true sin prueba de pago.
+Se compara el catálogo y los saldos de Inventario antes/después de crear promociones, avisos y finalizar una simulación, dentro de la misma SPA. Se conservan los cinco enlaces del cliente. Navegación administrativa incorpora solo Promociones.
+Regresión adicional con el build production local, caché HTTP deshabilitado: precaché preparado, cierre de todas las pestañas del origen, servidor estático apagado y nueva pestaña con red desconectada -> Wallet arranca desde el worker; PIN DEMO canjea y guarda pending. Reconectar/recargar conserva pending, sin confirmación ficticia.
+Esta regresión PWA cubre 12 combinaciones y seis capturas adicionales; pwa-regression.json/review-pwa-regression.cjs. No se repite una espera real de 120 segundos ni todo el ensayo de versiones fallidas de 4.9.1; expiración/guard de actualizaciones siguen cubiertos por la suite y su evidencia anterior.
+Total de esta entrega:128 combinaciones y78 capturas entre ambos recorridos. No se modifican reglas del worker, esquema de recibos ni flujo de canje. La PWA cachea código/fixtures, no conserva las ediciones en memoria de promociones al recargar.
+No se abre una nueva sesión Fintoc ni se prueba un pago Apple Pay. No se crean pedidos o descuentos reales.
+
+14. RIESGOS Y PROBLEMAS DETECTADOS
+Reloj del cliente manipulable: los estados son clasificación DEMO, no autorización comercial ni scheduler confiable.
+Audiencias/perfiles no autentican, no verifican edad/consentimiento y no representan receptores reales. Los textos comerciales requieren validación normativa/contractual antes de activarse.
+Sin protección transaccional, control de concurrencia entre dispositivos, cupos o comprobación comercial de stock. Una promoción activa en esta pantalla no habilita ventas ni garantiza disponibilidad.
+Historial en memoria, ilustrativo y editable indirectamente por el entorno del navegador; no es auditoría de negocio. Las notificaciones históricas precargadas no prueban envíos.
+Durante la revisión se corrigieron textos de ayuda/espaciado y se aseguró registro explícito del locale en las pruebas. El primer build funcional y la suite nueva pasaron; no se ocultaron límites aumentando presupuestos.
+La lógica de fechas reutiliza el rechazo de horas ambiguas/inexistentes de Eventos. La construcción de fixtures usa un intervalo válido alternativo si el reloj cae en una transición estacional, evitando fallos al abrir el panel.
+
+15. LIMITACIONES
+Sin Supabase, persistencia, autenticación, push, email, WhatsApp/SMS, scheduler backend, precios comerciales, promociones públicas del cliente, reservas, descuentos Fintoc o cambios Flask.
+No existe entrega/recepción ni métricas de apertura/conversión. Finalizar simulación es una acción explícita de prueba, no un envío ni una confirmación del proveedor.
+Los formularios guardan borradores válidos, no formularios incompletos. Las notificaciones vinculadas se editan desde la promoción solo mientras pendientes; las finalizadas/canceladas conservan su snapshot. No se reactivan silenciosamente.
+Los listados/historial se conservan íntegros en memoria y sin paginación de servidor; adecuados para el volumen DEMO. Recargar restaura las semillas, incluso si el código arranca desde la PWA offline. No se garantiza arranque en frío offline de rutas administrativas, que permanecen fuera del fallback configurado anteriormente.
+No se certifican instalación standalone física, Safari/iOS/Android, cuotas/suspensión ni lector de pantalla. Los anchos de Chrome no sustituyen esa matriz de equipos.
+Los límites de caché/actualizaciones fallidas documentados en 4.9.1 permanecen: no se corrigen mediante borrado de pendientes ni se convierten en garantías comerciales.
+
+16. PRÓXIMA ETAPA RECOMENDADA Y CIERRE
+Revisar y aprobar el frontend de Promociones/Notificaciones y su vista previa, sin activar comunicaciones reales.
+Antes de integrar comercialmente: definir backend/autenticación, criterios verificables de audiencia/edad/consentimiento, cumplimiento aplicable, programación con reloj de servidor, historial/auditoría durable, idempotencia, políticas de cancelación, límites de stock/reservas y precio autorizado en compras. Diseñar permisos/revocación push y tratamiento de datos aparte de esta DEMO.
+El arquitecto debe autorizar expresamente la próxima subetapa. No se inicia Supabase, producción, otra funcionalidad o despliegue.
+Trabajo detenido al finalizar 4.10 para revisión.
+
+
+CORRECCIÓN — DESTINATARIOS FIJOS PARA PROMOCIONES
+Por decisión del Product Owner, las promociones siempre se dirigen a clientes. Se elimina el selector del formulario y la repetición de audiencia en las filas de promociones. Se mantiene el texto Para clientes y los criterios futuros de edad/consentimiento, sin afirmar verificaciones reales.
+El servicio rechaza promociones dirigidas a roles de personal y sus avisos vinculados son siempre comerciales. El identificador interno clients-consented se conserva como criterio de diseño futuro, no como acreditación de consentimiento.
+Los avisos comerciales independientes también muestran clientes como destino fijo. Solo los avisos operativos permiten seleccionar Administrador/Supervisor/Barra/Puerta; no ofrecen clientes entre esos destinatarios.
+Se simplifica la vista previa a Clientes con la aclaración separada de criterios no verificados. Sin cambios a precios comerciales, Inventario, Wallet, Fintoc, PWA, backend o dependencias.
+Verificación posterior: 427/427 Angular aprobadas (dos pruebas adicionales de regla de negocio y presentación). Build desarrollo aprobado. Los resultados 425 y las capturas anteriores corresponden a la entrega inicial; no se atribuyen al nuevo formulario sin selector.
+Archivos de corrección: promotion.rules.ts, admin-promotions.service.ts, admin-promotion-form.component.ts/.html, admin-promotions.component.html, promotion-preview.component.ts y promotion.spec.ts. Se actualiza el harness para reflejar el destino fijo.
+
+
+CORRECCIÓN UX — WIZARD DE PROMOCIONES INSTANTÁNEAS Y PROGRAMADAS
+Fecha: 16-11-2026. Esta corrección es la entrega vigente de 4.10.
+
+OBJETIVO Y RESULTADO
+Se reemplaza la creación/edición mediante formulario largo por un asistente de seis pasos en /admin/promociones/nueva y /admin/promociones/:id/editar. Se conservan los listados, avisos independientes, historial y alcance exclusivamente DEMO de las entregas anteriores.
+Resultado técnico: 427/427 pruebas Angular antes; 445/445 después. Builds de desarrollo y despliegue local aprobados. Navegador: 104 combinaciones de pantalla/ancho y 70 capturas; regresión PWA/PIN: otras 12 combinaciones y 6 capturas. Sin scroll horizontal en los cuatro anchos revisados.
+Pendiente revisión visual y técnica del Product Owner/arquitecto. No hay commit, push, despliegue ni avance de subetapa.
+
+REFERENCIAS Y DISEÑO
+Se inspeccionó Crear eventos antes de modificar código. Se reutiliza AdminEventProgressComponent con títulos y cantidad de columnas configurables; Eventos conserva sus cuatro pasos. Se aplican sus patrones de Atrás/Siguiente, datos conservados entre pasos, revisión, borrador y protección de salida.
+La imagen Flujo de promociones Club VOID.png orienta las tarjetas de modalidad, seis pasos, producto y vista previa lateral. Se conserva la identidad existente: negro, morado sólido, fotos locales, tarjetas compactas, sidebar/menú móvil y ausencia de degradados. Las frases de push real de la imagen se sustituyen por textos explícitos de preparación DEMO.
+Escritorio presenta formulario y vista previa de producto/precio/horario. En móvil hay una columna, seis indicadores numéricos y Paso X de 6, sin una segunda barra inferior. La notificación se previsualiza en sus pasos pertinentes. Las acciones participan del flujo de la página y no cubren campos.
+
+SEIS PASOS
+1. Tipo: tarjetas Instantánea/Programada con una única selección, navegación con flechas y descripción de la diferencia. Nombre de borrador y descripción opcional; el nombre se propone al seleccionar producto.
+2. Producto: una bebida del catálogo administrativo DEMO, foto, nombre y precio. Se conserva el ID y no se escribe en el producto original.
+3. Precio: referencia de solo lectura tomada del catálogo al seleccionar, precio promocional CLP, descuento porcentual y ahorro en pesos. Entero positivo inferior al precio normal, con límite existente de $10.000.000.
+4. Horario: duración para Instantánea; fechas y horas de inicio/término para Programada. No se piden fechas para activar una instantánea nueva.
+5. Notificación: título, mensaje, preparar aviso al inicio y vista previa VOID. Destino fijo Para clientes, según la corrección previa del Product Owner. No se reintroduce selector de audiencia comercial. Edad y consentimiento siguen siendo criterios futuros no verificados.
+6. Revisar: modalidad, producto/ID, precios, descuento/ahorro, horario o duración, clientes y aviso. Cada bloque permite volver al paso pertinente.
+CTA final nueva instantánea: Activar promoción ahora · DEMO.
+CTA final nueva programada: Programar promoción · DEMO.
+Edición de una promoción ya publicada en el escenario: Guardar cambios · DEMO, sin activar un nuevo intervalo.
+
+INSTANTÁNEAS Y PROGRAMADAS
+Instantánea ofrece 15, 30 y 60 minutos, o duración personalizada de 1 a 1.440 minutos enteros (máximo 24 horas).
+El servicio lee el reloj inyectado al ejecutar la operación de activación. startAt y activatedAt se fijan entonces; endAt = startAt + duración × 60.000. Abrir el formulario o preparar una llamada Observable no consume la duración. Antes de activar, el borrador instantáneo no tiene inicio/término ni activación.
+La programada usa fechas completas de America/Santiago, con inicio futuro al confirmar. Permite cruzar medianoche indicando el día siguiente. Reutiliza eventInstant, que rechaza fechas inválidas y horas estacionales inexistentes o ambiguas.
+Modalidad, estado, horario y duración son campos distintos. La compatibilidad de registros anteriores conserva su modalidad Programada por fecha.
+
+ESTADOS Y EDICIÓN
+Borrador y Cancelada son estados explícitos; Programada/Activa/Finalizada se calculan por timestamps. En el inicio exacto pasa a Activa; en el término exacto pasa a Finalizada. Cancelada permanece cancelada aunque cambie el reloj.
+Los estados se recalculan en cada consulta y al recuperar foco/visibilidad, además del refresco de presentación. Los temporizadores no activan precios comerciales ni realizan envíos.
+Una instantánea ya activada conserva su inicio, término y duración al editar. No se reinicia el contador. Una programada activa conserva su intervalo; una programada futura admite corregir sus fechas futuras.
+El servicio impide convertir una publicación a borrador, cambiar su modalidad o reactivar una cancelada/finalizada. Estas últimas no ofrecen edición desde el listado y su ruta directa es de consulta protegida.
+La duplicación crea otro ID en Borrador, copia producto, precio, duración y texto, y no hereda activación, publicación, aviso pendiente ni historial del original. Se generan únicamente los registros nuevos de creación/duplicación. Sus datos son independientes. El aviso al inicio queda desactivado hasta decidirlo en la copia.
+Cambiar la modalidad después de avanzar solicita confirmación; cancelar conserva los datos. Aceptar limpia solamente fechas/duración incompatibles, conservando producto, precio y texto.
+
+BORRADORES Y VALIDACIÓN
+Guardar borrador admite ahora una promoción incompleta con nombre, incluso sin producto/precio/fechas/aviso. Sustituye la limitación histórica de guardar solo formularios completos indicada antes en este documento. No crea avisos vinculados a borradores parciales.
+Datos y paso/progreso se guardan en el servicio en memoria y se recuperan al editar durante la misma SPA. Atrás conserva campos; hay confirmación al abandonar con cambios y protección beforeunload. Recargar restaura los mocks: no hay nueva persistencia de promociones.
+Cada paso valida antes de avanzar y muestra mensajes junto a los controles. Se lleva el foco al primer error y al título del nuevo paso. La revisión final vuelve a validar todos los pasos y el servicio valida de nuevo al guardar/activar, incluido el inicio futuro.
+
+NOTIFICACIÓN E INVENTARIO
+Instantánea: Se preparará al activar. Programada: Programada para el inicio. Antes de publicar, la vista previa no afirma un envío ni una activación efectiva.
+Al confirmar se prepara el registro DEMO según la opción elegida. Alcanzar su horario no envía ni finaliza automáticamente la simulación. Los avisos independientes y las simulaciones manuales existentes se conservan.
+No se usa Notification API, push, correo, SMS o WhatsApp. No existen receptores, estadísticas de entrega ni verificaciones de edad/consentimiento reales.
+Se consulta la capacidad de la receta asociada al producto: por ejemplo, 50 Piscola con el inventario inicial. Es información DEMO; no reserva, descuenta ni bloquea la promoción. No se modifica catálogo administrativo, catálogo del cliente, pedidos, Wallet ni Fintoc.
+
+ARCHIVOS DE ESTA CORRECCIÓN
+Creados en frontend/src/app/admin/promotions/:
+- promotion-wizard.component.ts
+- promotion-wizard.component.html
+- promotion-wizard.scss
+- promotion-wizard-preview.component.ts
+- promotion-wizard.spec.ts
+Modificados en ese directorio:
+- promotion.model.ts: modalidad, duración, activación, fechas opcionales para borradores y contratos de progreso/vista previa.
+- promotion.rules.ts: validación contextual, duración, reloj de activación y tratamiento de horarios pendientes.
+- promotion.data.ts: modalidad explícita de fixtures existentes.
+- admin-promotions.service.ts: borradores parciales/progreso, activación, edición, duplicación, foco/visibilidad y capacidad informativa.
+- admin-promotions.component.ts/.html: modalidad, precios/producto pendientes, horario de borrador y edición contextual.
+- promotion.spec.ts: adaptación de tipos nullable en una prueba de intervalo ya validado.
+Otros cambios:
+- frontend/src/app/admin/admin.module.ts: declaraciones y rutas del nuevo wizard. Los formularios de avisos independientes conservan sus rutas.
+- frontend/src/app/admin/events/admin-event-progress.component.ts: contexto accesible y columnas según cantidad de pasos; sin cambiar la lógica de Eventos.
+- docs/CHECKPOINT_4_10_PROMOCIONES.txt y docs/visual-review/promotions-410-wizard/ (harnesses, logs, JSON y capturas).
+La rama de compatibilidad del formulario anterior conserva sus pruebas; las rutas de promociones usan el nuevo wizard.
+
+PRUEBAS ANGULAR Y BUILDS
+Suite completa antes: npm test -- --watch=false --browsers=ChromeHeadless, 427/427.
+Suite completa final: mismo comando, 445/445. Dieciocho pruebas nuevas cubren flujo de seis pasos, modalidades, validaciones, descuento/ahorro, duración, hora de activación al suscribir, borradores parciales y recuperación, confirmación de modalidad, duplicación, edición, reloj/foco/visibilidad, estados y ausencia de escrituras en catálogo/inventario.
+Se conservan las pruebas previas de Eventos, Inventario, Wallet, PIN offline, PWA y Fintoc. Los tests de horarios también mantienen rechazo de fechas inválidas y transiciones estacionales.
+Build desarrollo: npm run build -- --configuration development, aprobado; inicial 2,10 MB, módulo admin diferido 858,62 kB.
+Build despliegue local: API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy, aprobado; inicial 761,04 kB, transferencia estimada 154,36 kB; módulo admin diferido 462,18 kB, transferencia 84,81 kB.
+Continúan advertencias de bundle inicial sobre 500 kB y estilos sobre 2 kB, incluidas promotions.shared.scss (2,15 kB) y promotion-wizard.scss (2,83 kB). Ninguno supera el límite de error de estilos de 4 kB. Persisten dos selectores Bootstrap omitidos. No se elevaron presupuestos.
+Los primeros dos fallos de las nuevas pruebas se debían al orden de simulación del control editado: se ajustó markAsDirty antes del cambio programático para reproducir el orden de Reactive Forms al escribir. La ejecución final completa pasó.
+
+NAVEGADOR REAL, CAPTURAS Y REGRESIONES
+Chrome Headless real con perfiles temporales aislados; Angular local en puerto de prueba. 320, 390, 768 y 1280 px; 104 combinaciones y 70 capturas. Sin scroll horizontal, excepciones, errores de consola, recursos HTTP >=400 o escrituras HTTP durante el recorrido final.
+Se verificó en la UI: selección de modalidad/producto, precio inválido y foco, duración personalizada inválida, aviso, revisión, Atrás, activación con timestamp entre el clic y su respuesta, edición sin cambiar inicio/término, copia independiente, borrador parcial recuperado, guard de salida rechazado/aceptado y programación 23:50 → 00:20 del día siguiente.
+Prueba específica de teclado real adicional: flechas seleccionan modalidad; Tab llega al nombre; entrada de texto, Enter para avanzar/seleccionar producto y retroceder; foco de título y aria-pressed correctos.
+Crear eventos recorrió sus cuatro pasos: validación inicial, información, fecha cruzando medianoche, entrada General y revisión/publicación DEMO. Su indicador mantiene cuatro columnas. Se compararon visualmente capturas de Eventos y Promociones con la referencia del Product Owner.
+Regresiones de navegador: dashboard, inventario, ventas, Inicio, Noches, Tragos, Perfil, Wallet Entradas/Tragos con QR en detalles, popup PIN y resultado Fintoc con verified=true sin pedido válido. Se conservan cinco enlaces inferiores del cliente. Ese parámetro no acredita un pago. No se creó una sesión de pago ni se probó Fintoc externo otra vez.
+En el harness se retiró una expectativa incorrecta de foco automático en el primer error de Eventos: su implementación previa muestra error pero no enfoca dicho campo. No se cambió ese comportamiento en esta corrección; el nuevo wizard sí verifica el foco en sus errores.
+
+Capturas finales a 390 y 1280 px en docs/visual-review/promotions-410-wizard/:
+- wizard-type-[ancho].png
+- wizard-product-[ancho].png
+- wizard-price-[ancho].png
+- wizard-instant-schedule-[ancho].png
+- wizard-scheduled-schedule-[ancho].png
+- wizard-notification-[ancho].png
+- wizard-review-[ancho].png
+- wizard-scheduled-review-[ancho].png
+También se guardan versiones full, estados de validación y regresiones de Eventos/cliente. La programación se captura editando una copia DEMO; por eso su cabecera dice Editar promoción.
+Evidencia estructurada: wizard-review.json y keyboard-review.json. Scripts: review-wizard.cjs y review-keyboard.cjs. Logs Angular/builds conservados junto a las capturas.
+
+PWA/PIN OFFLINE Y PROTECCIÓN DE ALCANCE
+Build de producción servido localmente con caché HTTP desactivada. Se esperó al worker/precarga, se cerraron todas las pestañas de la aplicación, se apagó físicamente el servidor de prueba y se abrió un documento nuevo offline en /wallet. Wallet arrancó y permitió el PIN DEMO; el comprobante quedó pending. Al reconectar y recargar siguió pending, sin fingir sincronización.
+Otras 12 combinaciones a los cuatro anchos y 6 capturas. Cero errores inesperados o escrituras HTTP. No se repitió la espera real de 120 segundos ni todos los escenarios de actualización fallida de 4.9.1: los límites históricos y las pruebas unitarias se conservan.
+verify-build.cjs verificó los 30 hashes del manifiesto generado, iconos 192/512, cero dataGroups y patrones de caché externos, exclusión de API/checkout/carrito/admin del fallback de navegación y dependencias intactas.
+Comparación SHA-256 contra captura previa a esta corrección de 365 archivos: 9 archivos existentes cambiados, 5 fuentes nuevas, cero eliminaciones. Sin diferencias en 35 archivos backend, 2 de dependencias, 14 de Wallet/PIN/PWA, 59 de lógica de Eventos/catálogo/inventario y 16 relacionados con pagos (grupos parcialmente solapados). Única modificación compartida de Eventos: indicador configurable, excluido de esos 59.
+Evidencia: scope-verification.json, pwa-build-verification.json y pwa-regression.json. El árbol ya contenía trabajo de entregas anteriores; este inventario se basa en la captura previa al wizard, no en git diff desde HEAD.
+
+LÍMITES Y REVISIÓN DEL ARQUITECTO
+Promociones, borradores/progreso, historial y avisos siguen en memoria y se pierden al recargar. Las promociones publicadas aquí no aparecen comercialmente en la aplicación cliente ni cambian precios autorizados por Flask.
+El reloj y los datos del navegador son manipulables. Estos estados no autorizan ventas ni constituyen un programador fiable. La lectura de stock no es una reserva y los importes son ejemplos.
+No se modificaron backend, credenciales, pagos, canje, PWA o dependencias. No hay Supabase, autenticación, scheduler, persistencia nueva ni comunicaciones reales.
+No se certifican equipos físicos Safari/iOS/Android, lector de pantalla ni auditoría completa de accesibilidad. Los cuatro anchos de Chrome no equivalen a esos dispositivos. La aplicación administrativa sigue fuera de la garantía de arranque offline.
+Antes de producción siguen pendientes backend/autenticación, reloj de servidor, persistencia/auditoría durable, consentimiento/edad verificables, precio autorizado y coordinación de inventario, programación fiable y diseño de comunicaciones reales. Requieren alcance y autorización propios.
+Se entrega exclusivamente la corrección UX de 4.10 y se detiene para revisión del arquitecto. Sin nueva subetapa ni despliegue.

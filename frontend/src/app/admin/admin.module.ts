@@ -1,3 +1,9 @@
+import { PromotionWizardComponent, promotionWizardUnsavedGuard } from './promotions/promotion-wizard.component';
+import { PromotionWizardPreviewComponent } from './promotions/promotion-wizard-preview.component';
+import { AdminPromotionsComponent } from './promotions/admin-promotions.component';
+import { AdminPromotionFormComponent, promotionUnsavedGuard } from './promotions/admin-promotion-form.component';
+import { PromotionPreviewComponent } from './promotions/promotion-preview.component';
+import { AdminPromotionsService } from './promotions/admin-promotions.service';
 import { AdminInventoryComponent } from './inventory/admin-inventory.component';
 import { AdminInventoryFormComponent } from './inventory/admin-inventory-form.component';
 import { AdminInventoryService } from './inventory/admin-inventory.service';
@@ -60,7 +66,7 @@ import { AdminDemoService } from './admin-demo.service';
 registerLocaleData(localeEsCl);
 
 @NgModule({
-  declarations: [AdminInventoryComponent, AdminInventoryFormComponent, AdminSettingsComponent, AdminSettingsTabsComponent, AdminSettingsPreviewComponent, AdminSettingsIdentityComponent, AdminSettingsIntegrationsComponent, AdminSettingsGeneralComponent, AdminSettingsCommercialComponent, AdminSettingsOperationComponent, AdminStaffComponent, AdminStaffFormComponent, AdminStaffListComponent, AdminStaffDetailComponent, AdminStaffSummaryComponent, AdminStaffRoleComponent, AdminStaffStatusComponent, AdminCommissionsComponent, AdminCommissionSettingsComponent, AdminCommissionSummaryComponent, AdminCommissionListComponent, AdminCommissionDetailComponent, AdminSalePanelComponent, AdminSalesListComponent, AdminSalesComponent, AdminSaleDetailComponent, AdminSaleStatusComponent, AdminSalesSummaryComponent, AdminDrinksComponent,AdminDrinkRowComponent,AdminDrinkFormComponent,AdminEventProgressComponent,AdminEventPreviewComponent, AdminEventTicketsComponent,AdminEventsComponent, AdminEventFormComponent, AdminEventDetailComponent, AdminOverviewComponent, AdminIconComponent, AdminLayoutComponent, AdminDashboardComponent, AdminPlaceholderComponent],
+  declarations: [PromotionWizardComponent, PromotionWizardPreviewComponent, AdminPromotionsComponent, AdminPromotionFormComponent, PromotionPreviewComponent, AdminInventoryComponent, AdminInventoryFormComponent, AdminSettingsComponent, AdminSettingsTabsComponent, AdminSettingsPreviewComponent, AdminSettingsIdentityComponent, AdminSettingsIntegrationsComponent, AdminSettingsGeneralComponent, AdminSettingsCommercialComponent, AdminSettingsOperationComponent, AdminStaffComponent, AdminStaffFormComponent, AdminStaffListComponent, AdminStaffDetailComponent, AdminStaffSummaryComponent, AdminStaffRoleComponent, AdminStaffStatusComponent, AdminCommissionsComponent, AdminCommissionSettingsComponent, AdminCommissionSummaryComponent, AdminCommissionListComponent, AdminCommissionDetailComponent, AdminSalePanelComponent, AdminSalesListComponent, AdminSalesComponent, AdminSaleDetailComponent, AdminSaleStatusComponent, AdminSalesSummaryComponent, AdminDrinksComponent,AdminDrinkRowComponent,AdminDrinkFormComponent,AdminEventProgressComponent,AdminEventPreviewComponent, AdminEventTicketsComponent,AdminEventsComponent, AdminEventFormComponent, AdminEventDetailComponent, AdminOverviewComponent, AdminIconComponent, AdminLayoutComponent, AdminDashboardComponent, AdminPlaceholderComponent],
   imports: [CommonModule, ReactiveFormsModule, RouterModule.forChild([{ path: '', component: AdminLayoutComponent, children: [
     { path: '', component: AdminDashboardComponent, pathMatch: 'full' },
     { path: 'eventos', component: AdminEventsComponent },
@@ -78,6 +84,11 @@ registerLocaleData(localeEsCl);
       {path:'inventario/recetas/nueva',mode:'recipe'},
       {path:'inventario/recetas/:id/editar',mode:'recipe'}
     ].map(route=>({path:route.path,component:AdminInventoryFormComponent,data:{mode:route.mode},canDeactivate:[inventoryUnsavedGuard]})),
+    {path:'promociones',component:AdminPromotionsComponent},
+    {path:'promociones/nueva',component:PromotionWizardComponent,canDeactivate:[promotionWizardUnsavedGuard]},
+    {path:'promociones/notificaciones/nueva',component:AdminPromotionFormComponent,data:{mode:'notice'},canDeactivate:[promotionUnsavedGuard]},
+    {path:'promociones/notificaciones/:id/editar',component:AdminPromotionFormComponent,data:{mode:'notice'},canDeactivate:[promotionUnsavedGuard]},
+    {path:'promociones/:id/editar',component:PromotionWizardComponent,canDeactivate:[promotionWizardUnsavedGuard]},
     {path:'ventas',component:AdminSalesComponent},
     {path:'ventas/:id',component:AdminSaleDetailComponent},
     {path:'comisiones',component:AdminCommissionsComponent},
@@ -87,6 +98,6 @@ registerLocaleData(localeEsCl);
     {path:'configuracion',component:AdminSettingsComponent,canDeactivate:[adminSettingsUnsavedGuard]},
     { path: '**', redirectTo: '' }
   ] }])],
-  providers: [AdminInventoryService, AdminDemoService, AdminEventsService, AdminDrinksService, AdminSalesService, AdminCommissionsService, AdminStaffService, AdminSettingsService]
+  providers: [AdminPromotionsService, AdminInventoryService, AdminDemoService, AdminEventsService, AdminDrinksService, AdminSalesService, AdminCommissionsService, AdminStaffService, AdminSettingsService]
 })
 export class AdminModule {}

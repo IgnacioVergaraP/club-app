@@ -1,0 +1,13 @@
+{"phase":"A-real-expiry","waitingRealMilliseconds":119132}
+{"phase":"A-real-expiry","waitingRealMilliseconds":99122}
+{"phase":"A-real-expiry","waitingRealMilliseconds":79109}
+{"phase":"A-real-expiry","waitingRealMilliseconds":59107}
+{"phase":"A-real-expiry","waitingRealMilliseconds":39102}
+{"phase":"A-real-expiry","waitingRealMilliseconds":19098}
+{"phase":"C-reconnection","waitingRealMilliseconds":119530}
+{"phase":"C-reconnection","waitingRealMilliseconds":99527}
+{"phase":"C-reconnection","waitingRealMilliseconds":79523}
+{"phase":"C-reconnection","waitingRealMilliseconds":59517}
+{"phase":"C-reconnection","waitingRealMilliseconds":39503}
+{"phase":"C-reconnection","waitingRealMilliseconds":19498}
+{"result":"PASS","matrix":60,"screenshots":34}

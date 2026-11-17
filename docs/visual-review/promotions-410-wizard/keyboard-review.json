@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-16",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [],
+  "screenshots": [],
+  "keyboard": [
+    "Real Tab/Enter progression: type → name entry → product selection → price → schedule → Back; heading focus and product aria-pressed correct."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [],
+  "paid": false,
+  "result": "PASS"
+}

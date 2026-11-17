@@ -1,0 +1,17 @@
+{
+  "compared": 352,
+  "unchanged": 348,
+  "changed": [
+    "frontend/src/app/admin/admin-layout.component.ts",
+    "frontend/src/app/admin/admin-layout.component.html",
+    "frontend/src/app/admin/admin.module.ts",
+    "frontend/src/app/admin/admin-routing.spec.ts"
+  ],
+  "missing": [],
+  "backendUnchanged": true,
+  "inventoryUnchanged": true,
+  "paymentsUnchanged": true,
+  "walletUnchanged": true,
+  "pwaUnchanged": true,
+  "dependenciesUnchanged": true
+}

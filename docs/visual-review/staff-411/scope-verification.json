@@ -1,0 +1,46 @@
+{
+  "baselineFiles": 369,
+  "changed": [
+    "frontend/src/app/app-routing.module.ts"
+  ],
+  "newSourceFiles": [
+    "frontend/src/app/staff/staff-scan.model.ts",
+    "frontend/src/app/staff/staff-scan.data.ts",
+    "frontend/src/app/staff/staff-scan-result.component.scss",
+    "frontend/src/app/staff/qr-camera.component.ts",
+    "frontend/src/app/staff/staff.module.ts",
+    "frontend/src/app/staff/qr-camera.service.ts",
+    "frontend/src/app/staff/staff-scan-result.component.ts",
+    "frontend/src/app/staff/staff-scan.component.scss",
+    "frontend/src/app/staff/staff-scan.spec.ts",
+    "frontend/src/app/staff/staff-scan.component.ts",
+    "frontend/src/app/staff/staff-scan.component.html",
+    "frontend/src/app/staff/qr-camera.spec.ts",
+    "frontend/src/app/staff/qr-camera.component.scss",
+    "frontend/src/app/staff/staff-scan.rules.ts",
+    "frontend/src/app/staff/staff-scan.service.ts"
+  ],
+  "missing": [],
+  "protected": {
+    "backend": {
+      "files": 34,
+      "differences": []
+    },
+    "dependencies": {
+      "files": 2,
+      "differences": []
+    },
+    "walletPinPwa": {
+      "files": 20,
+      "differences": []
+    },
+    "adminInventoryPromotions": {
+      "files": 180,
+      "differences": []
+    },
+    "payments": {
+      "files": 16,
+      "differences": []
+    }
+  }
+}

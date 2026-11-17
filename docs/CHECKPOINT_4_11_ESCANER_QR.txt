@@ -1,0 +1,169 @@
+CLUB VOID — CHECKPOINT 4.11
+Frontend de escáner QR para Barra y Puerta — DEMO
+Fecha: 17-11-2026
+
+1. OBJETIVO Y ESTADO
+Implementadas las interfaces operativas /staff/barra y /staff/puerta, independientes de la aplicación del cliente y del panel administrativo. Ambas comparten presentación de cámara, lectura/entrada manual y resultados; sus reglas y registros de uso permanecen separados.
+Angular 17, NgModules, standalone:false, Reactive Forms y APIs nativas existentes. Sin nuevas dependencias.
+Resultado técnico: 445/445 pruebas Angular antes; 477/477 después. Builds de desarrollo y despliegue local aprobados. Navegador: 120 combinaciones pantalla/ancho y 70 capturas; regresión PWA/PIN: 12 combinaciones adicionales y 6 capturas. Sin scroll horizontal en 320, 390, 768 o 1280 px.
+Entrega exclusivamente DEMO, pendiente de revisión del Product Owner/arquitecto. Sin commit, push, despliegue ni avance de subetapa.
+
+2. RUTAS Y PRESENTACIÓN
+/staff/barra: Escanear pedido.
+/staff/puerta: Control de acceso.
+/staff redirige a Barra. Las rutas desconocidas dentro de staff vuelven a Barra.
+StaffModule se carga de forma diferida fuera de MainLayout y AdminLayout. No se añadieron enlaces al menú administrativo ni a la navegación inferior de clientes. Se conservan sus cinco pestañas.
+Logo y nombre desde CLUB_CONFIG. Fondo casi negro, morado sólido, controles de al menos 48 px, tipografía grande, tarjetas compactas, foco visible y sin degradados. No se añade navegación Liquid Glass ni selector de identidad.
+El indicador PERSONAL · DEMO y los textos aclaran que no hay identidad/permisos reales. El resultado usa texto e icono además del color, con foco programático en el título y mensaje de estado accesible.
+
+3. BARRA
+Pantalla inicial con cámara apagada, marco visual QR, instrucción Coloca el QR dentro del recuadro, estado de cámara, activar/desactivar y código manual.
+Al resolver un código conocido se muestran referencia, evento, fecha ilustrativa, estado, productos y cantidades. El ejemplo disponible contiene 2 × Piscola.
+Leer un código no canjea. Se requiere Canjear pedido · DEMO. La confirmación consulta nuevamente el estado y vencimiento, y registra el uso solo en memoria.
+Resultados: disponible, canjeado, ya utilizado, vencido, QR no válido o tipo incorrecto. Tras confirmar desaparece la acción de canje. Leer otro código vuelve a la captura/entrada manual.
+Releer el mismo código, usar su alias o repetir la confirmación no permite un segundo canje dentro del mismo servicio de la SPA.
+No se modifica el pedido de PIN, Wallet, stock o pagos.
+
+4. PUERTA
+Pantalla inicial con cámara/entrada manual y evento de control explícito: VOID Sessions del escenario de Wallet.
+Al resolver una entrada se muestran referencia DEMO, tipo General/VIP, evento, fecha y estado.
+Registrar ingreso · DEMO es una acción explícita; revalida antes de registrar el uso local.
+Resultados: Entrada válida · DEMO, ingreso registrado, entrada ya utilizada, vencida, QR no válido, tipo incorrecto y Evento no correspondiente.
+Un código de tragos nunca permite registrar ingreso y una entrada de otro evento no ofrece confirmación. El registro local de Puerta es independiente del de Barra.
+
+5. DATOS, RELOJ Y VALIDACIÓN
+Se reutilizan identificadores, referencias, nombres y snapshots de MOCK_WALLET mediante copias exclusivas del escáner. No se mutan sus registros originales.
+Códigos y estados iniciales:
+- VOID:DEMO:CON:001 / DEMO-CON-001: pedido disponible; 2 Piscolas.
+- VOID:DEMO:CON:002 / DEMO-CON-002: pedido utilizado; 1 Mojito.
+- VOID:DEMO:CON:003 / DEMO-CON-003: pedido vencido; 1 Gin Tonic.
+- VOID:DEMO:ENT:001 / DEMO-ENT-001: entrada General disponible para VOID Sessions.
+- VOID:DEMO:ENT:002 / DEMO-ENT-002: entrada VIP utilizada de octubre.
+- VOID:DEMO:ENT:003 / DEMO-ENT-003: entrada General vencida de septiembre.
+- VOID:DEMO:ENT:004 / DEMO-ENT-004: registro nuevo exclusivo de Staff, correspondiente a otro evento DEMO (After Hours), para probar rechazo de evento.
+Los ejemplos se consultan en Códigos de prueba dentro de cada pantalla. Los rótulos corresponden al estado inicial ilustrativo; no prometen disponibilidad después de utilizarlos.
+Solo se resuelven códigos/referencias de esta lista. Se recortan espacios exteriores y se valida formato/tamaño (máximo 80 caracteres), seguido de búsqueda exacta. URLs, JSON, números arbitrarios, códigos desconocidos o formatos alterados no crean entradas/pedidos.
+Los tipos se comprueban antes de exponer productos o habilitar acciones. Los resultados devuelven copias, incluidos productos/cantidades.
+
+Para conservar las fechas históricas de Wallet sin hacer aparecer sus ejemplos como derechos actuales, STAFF_SCAN_CLOCK usa un escenario que comienza el 08-11-2026 a las 00:30 America/Santiago y avanza con el tiempo transcurrido desde su inicialización en la SPA. Se indica expresamente en la pantalla; no se presenta como fecha actual.
+El ejemplo disponible vence el 08-11-2026 a las 06:00 de Santiago. Las confirmaciones en el límite exacto se rechazan como vencidas. Los utilizados siguen utilizados aunque transcurra el reloj. Las pruebas pueden inyectar otro reloj.
+Este reloj es una herramienta de demostración, no una autorización comercial ni un control de fecha confiable. Recargar restablece el estado QR y el reloj del escenario.
+
+6. CÁMARA NATIVA Y COMPATIBILIDAD
+Antes de implementar se revisaron package.json, DemoQrComponent y los SVG locales: Wallet ya contiene payloads VOID:DEMO:ENT/CON, y no hay decodificador QR instalado.
+Se usa BarcodeDetector solo si existe y getSupportedFormats incluye qr_code. No se instaló una biblioteca adicional. Cuando no hay lector nativo compatible se muestra la limitación y permanece el recorrido manual.
+La solicitud getUserMedia ocurre únicamente al pulsar Activar cámara y después de comprobar el soporte QR. Se solicita video con preferencia de cámara trasera y audio:false. Requiere contexto seguro (HTTPS o localhost).
+Se asigna el MediaStream a un video muted/playsinline y se pasa ese video directamente al decodificador. No se graban, guardan ni suben imágenes de cámara. Las capturas de evidencia con cámara activa usan exclusivamente el dispositivo virtual de Chrome.
+La lectura se limita a una detección pendiente por vez. Al obtener un código se detienen tracks/temporizador antes de presentar el resultado, evitando confirmaciones automáticas o emisiones repetidas del mismo ciclo.
+La cámara también se detiene al desactivarla, cambiar de canal/ruta, destruir el componente, ocultarse el documento o salir de la página. Si un permiso pendiente entrega el stream después de salir, ese stream se detiene sin adjuntarlo. Se ignoran respuestas tardías del decodificador.
+Se manejan permiso denegado, contexto inseguro, ausencia de cámara, dispositivo ocupado, restricciones no disponibles, fallo de reproducción/lectura y lector nativo no compatible. No se pide permiso en la carga inicial.
+
+Soporte efectivamente observado:
+- Chrome Headless 157 en macOS, localhost seguro: BarcodeDetector disponible, qr_code entre los formatos y getUserMedia disponible.
+- Lectura NATIVA del archivo SVG original assets/qr-demo/drink-001.svg: devolvió VOID:DEMO:CON:001. Es una imagen local original, sin cámara física ni overlay de captura de pantalla del cliente.
+- Ciclo de cámara: getUserMedia real con el dispositivo virtual de Chrome (--use-fake-device-for-media-stream y --use-fake-ui-for-media-stream), video reproducido y tracks detenidos al apagar, detectar y navegar.
+- Para hacer determinista la detección durante ese ciclo se inyectó un decodificador controlado en el harness, exclusivamente en el perfil de prueba. Permiso denegado y cámara ausente se representaron con respuestas DOMException controladas. No se atribuyen a un ensayo de permisos/cámara físicos.
+No se probó un QR mostrado en otro teléfono ante cámara física. No se certifican Safari/iOS, Android, lectores físicos, poca luz, enfoque, brillo, logo/overlay central o velocidad de lectura en puerta/barra.
+
+Documentación consultada (compatibilidad limitada, consulta del 17-11-2026):
+- https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector
+- https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector/getSupportedFormats_static
+- https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+- https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack/stop
+No se afirma compatibilidad universal: la capacidad se comprueba al activar y el código manual es la alternativa DEMO.
+
+7. RELACIÓN CON PIN, INVENTARIO Y SEGURIDAD
+NO se modificó el sistema PIN ni su IndexedDB. Los registros QR son memoria independiente. El aviso QR y PIN no comparten estado en esta DEMO está visible en ambas pantallas.
+Existe riesgo de doble canje entre PIN y QR, entre pestañas/dispositivos y después de recargar. La protección local de esta subetapa solo impide repetir una operación QR dentro del estado de una misma SPA; no es idempotencia global ni transacción de backend.
+No se descuenta inventario, no se verifican pagos y no se emiten derechos desde un código. Los QR conocidos son públicos/ficticios y no incluyen firmas, autorización ni protección contra copias.
+Las rutas no autentican personal. Los nombres de canal son presentación y separación de reglas, no permisos efectivos. Manipular el frontend puede modificar la DEMO.
+No se incorporó almacenamiento nuevo para Staff, sincronización, API Flask, Supabase, credenciales, pagos, promociones o notificaciones.
+
+8. ARCHIVOS
+Único archivo existente modificado:
+- frontend/src/app/app-routing.module.ts: ruta lazy staff, separada de los layouts previos.
+Fuentes creadas en frontend/src/app/staff/:
+- staff.module.ts
+- staff-scan.model.ts
+- staff-scan.data.ts
+- staff-scan.rules.ts
+- staff-scan.service.ts: servicios separados StaffDrinksScanService y StaffTicketsScanService, con reloj inyectable.
+- staff-scan.component.ts
+- staff-scan.component.html
+- staff-scan.component.scss
+- staff-scan-result.component.ts
+- staff-scan-result.component.scss
+- qr-camera.service.ts: adaptador nativo inyectable y ciclo de vida.
+- qr-camera.component.ts
+- qr-camera.component.scss
+- staff-scan.spec.ts
+- qr-camera.spec.ts
+Documentación/evidencia:
+- docs/CHECKPOINT_4_11_ESCANER_QR.txt
+- docs/visual-review/staff-411/: scripts de revisión, logs, JSON y capturas.
+Los datos compartidos se consultan por importación de fixtures/configuración; no se cambian Wallet, QR existentes, panel administrativo o PIN.
+
+9. PRUEBAS ANGULAR
+Desde frontend: npm test -- --watch=false --browsers=ChromeHeadless.
+Antes: 445/445 aprobadas. Después: 477/477 aprobadas. Se añadieron 32 pruebas, sin eliminar pruebas anteriores.
+Reglas/servicios: códigos conocidos/alias, formato/tamaño, desconocidos y URLs, separación de tipos, datos de productos, utilizados/vencidos, evento incorrecto, confirmación separada, doble clic/relectura/alias, separación Barra/Puerta, vencimiento exacto, copias independientes y reinicio del estado solo en un nuevo servicio.
+Vistas/rutas: carga Barra/Puerta, logo, DEMO y ausencia de menús; entrada manual, productos/referencia/tipo, resultados con texto/icono, confirmación, foco, siguiente lectura, cambio de canal y conservación del uso al navegar en la misma SPA.
+Cámara con plataforma controlada: sin petición al construir, falta de lector/qr_code, contexto inseguro, media inexistente, permiso denegado, cámara ausente/ocupada/restricciones, reproducción/lectura fallidas, video sin audio, detener polling/tracks, emitir solo un código, permiso tardío y respuesta del detector tardía, destrucción/pagehide/visibilidad.
+Las pruebas de no efectos verifican Wallet intacta, ausencia de aperturas IndexedDB y de solicitudes HTTP por las operaciones Staff. El escáner no depende de un servicio de Inventario.
+Se conservaron las pruebas previas de PIN, PWA, Wallet, Inventario, Eventos, Promociones y Fintoc. No se ejecutó la suite Flask: no hubo cambios backend y no se presenta como validación comercial de pagos.
+
+10. NAVEGADOR, TECLADO Y RESPONSIVIDAD
+Chrome Headless real, perfil temporal aislado, Angular local. 120 combinaciones a 320/390/768/1280 px y 70 capturas, incluyendo versiones de página completa donde resultan útiles. Sin scroll horizontal.
+Recorrido Barra/Puerta: cámara apagada, lector no compatible, cámara virtual activa, denegación/ausencia controladas, códigos válidos y de tipo incorrecto, canje/ingreso, duplicados, vencidos, desconocidos y otro evento. Se comprobó que la operación de Barra se conserva al ir a Puerta y volver por navegación SPA; recargar restaura fixtures.
+Teclado real: escribir el código, Tab al botón, Enter para validar, foco en el resultado, Tab/Enter para registrar ingreso y retorno del foco al campo al leer otro código.
+Regresiones: dashboard, Inventario, Promociones, Inicio, Noches, Tragos, Perfil, Wallet Entradas/Tragos con sus tres QR por sección, popup PIN de once teclas y /checkout/resultado?verified=true sin pedido. El parámetro de retorno no acredita un pago. No se abrió ni completó un pago Fintoc en esta subetapa.
+No aparecen enlaces Staff en los menús administrativo o del cliente. Se mantienen las cinco pestañas inferiores.
+Recorrido final: cero excepciones/errores de consola, cero recursos HTTP >=400 y cero escrituras HTTP. El primer intento del harness se detuvo por el escape de un selector de prueba; se corrigió el script, sin cambiar la aplicación por ello, y se repitió el recorrido completo hasta PASS.
+La comprobación básica de teclado no sustituye una auditoría completa de accesibilidad ni pruebas con lector de pantalla.
+
+11. BUILD Y PWA OFFLINE
+Build desarrollo: npm run build -- --configuration development, aprobado; inicial 2,10 MB y módulo Staff diferido 43,63 kB.
+Build despliegue local: API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy, aprobado; inicial 761,20 kB, transferencia estimada 154,61 kB; Staff diferido 23,68 kB, transferencia 6,97 kB.
+Permanecen advertencias de bundle inicial sobre 500 kB, estilos sobre 2 kB y dos selectores Bootstrap omitidos. staff-scan.component.scss queda en 2,19 kB, bajo el límite de error de 4 kB. No se aumentaron presupuestos ni se cambiaron dependencias/configuraciones para ocultar advertencias.
+Se comprobaron los 33 hashes del manifiesto del build, iconos 192/512, cero dataGroups/patrones externos y exclusión de API, pagos, carrito, admin y staff del fallback de navegación PWA. No se cambió ngsw-config.json.
+Regresión PWA con build local y caché HTTP desactivada: se esperó al worker/precarga, se cerraron todas las pestañas de la aplicación, se apagó el servidor y se abrió un documento nuevo en /wallet sin red. Wallet arrancó, el PIN DEMO permitió canjear y el comprobante quedó pending. Reconectar y recargar conservó pending, sin fingir sincronización.
+Otras 12 combinaciones y 6 capturas, sin scroll horizontal, errores inesperados o escrituras HTTP. No se repitieron todos los ensayos de actualización fallida ni la espera real de 120 segundos de etapas anteriores; sus límites siguen vigentes.
+Staff no recibe una garantía nueva de arranque offline: sus rutas están fuera del fallback. No hay sincronización entre PIN y QR, incluso si ambos se consultan sin red.
+
+12. EVIDENCIA Y PROTECCIÓN DE ALCANCE
+Directorio docs/visual-review/staff-411/:
+- staff-review.json y review-staff.cjs: 120 combinaciones/70 capturas, capacidades nativas observadas, ciclo virtual y resultados/teclado/regresiones.
+- pwa-regression.json y review-pwa-regression.cjs: 12 combinaciones/6 capturas, arranque offline y PIN pending.
+- pwa-build-verification.json y verify-build.cjs: manifiesto/hashes/caché y dependencias.
+- scope-verification.json: SHA-256 de 369 archivos previos, un único existente cambiado, 15 fuentes nuevas y cero eliminaciones.
+- angular-before.log, angular-after.log, build-development.log y build-deployment.log.
+Capturas a 390 y 1280 px: bar-scanner, bar-valid, bar-redeemed, bar-duplicate, bar-expired, bar-wrong-type, bar-invalid; door-scanner, door-valid, door-entered, door-duplicate, door-expired, door-wrong-event, door-wrong-type, door-invalid. Incluye estados controlados de cámara, regresiones y versiones full.
+Sin diferencias en los grupos protegidos de la captura previa: 34 archivos backend (excluyendo .env y entornos), 2 de dependencias, 20 de Wallet/PIN/PWA/QR, 180 del panel administrativo/Inventario/Promociones y 16 relacionados con pagos. Los grupos se solapan parcialmente.
+No se editaron credenciales ni se imprimió su contenido. El árbol ya tenía trabajo previo sin commit; el inventario de 4.11 se compara con la captura inicial de esta tarea, no con todo git diff desde HEAD.
+
+13. PENDIENTES Y PREPARACIÓN PARA BACKEND
+Antes de uso comercial se requiere identidad autenticada/autorizada del trabajador y separación efectiva de permisos Barra/Puerta; comprobación del pedido/entrada y del pago confirmado; fecha/evento válido; registro canjeable único compartido entre PIN y QR; transición atómica; idempotencia y manejo de escaneos concurrentes; auditoría durable y política de revocación/expiración; integración de stock autorizada, si corresponde.
+La validación deberá ejecutarse en backend. Los códigos DEMO públicos y los Sets en memoria no pueden convertirse en autorizaciones comerciales ni protección contra pantallazos.
+Pendientes pruebas físicas de cámara y lectura en la matriz objetivo, HTTPS/despliegue autorizado, accesibilidad completa y evaluación técnica de un decodificador alternativo si se requiere compatibilidad adicional. No se instaló uno anticipadamente.
+Se entrega exclusivamente 4.11 — Escáner QR para Barra y Puerta. Trabajo detenido para revisión del arquitecto, sin despliegue ni nueva subetapa.
+
+
+CORRECCIÓN POSTERIOR — WALLET TRAS CANJE QR Y RECHAZO ROJO
+Fecha: 17-11-2026. Este bloque actualiza el comportamiento de presentación descrito antes.
+El Product Owner reportó que el lector de tragos funciona en su prueba y muestra si el pedido se utilizó. Se registra como validación manual reportada; no se certifica una matriz de dispositivos físicos por ese reporte.
+Se añadió DemoQrUseStateService, en memoria y compartido por la misma SPA. Confirmar el canje QR de Barra marca el ID del consumo. La Wallet reacciona mostrando Canjeado, aviso de QR obsoleto y el badge Canjeado sobre el logo del QR; oculta Retirar pedido. La simple lectura, un código inválido o un rechazo no marcan un consumo.
+El estado se conserva al navegar dentro de esa SPA y se pierde al recargar. Dos instancias del servicio Staff dentro de la misma aplicación consultan el mismo indicador; recrear solo el servicio ya no reinicia ese uso. No se modifica el mock de Wallet ni se fabrica un comprobante PIN.
+Si el formulario PIN estaba abierto cuando cambió ese indicador, deja de ofrecer ingreso del PIN y muestra el rechazo. También se bloquea el botón de reinicio PIN para ese consumo en la presentación. No se cambia DemoRedemptionService, DemoPinService, IndexedDB ni sus comprobantes/ventanas de revelación. Esta protección de interfaz no equivale a una transacción común entre métodos.
+Los resultados ya utilizado, vencido, código inválido, tipo incorrecto y evento incorrecto usan fondo rojo intenso #570b20, borde #ff405b, icono rojo y texto claro. Disponible y la confirmación recién realizada conservan verde para distinguir éxito de un intento rechazado. Se mantienen texto e icono; no se depende solo del color.
+LÍMITE ESENCIAL: no hay sincronización entre teléfono del trabajador y teléfono del cliente, pestañas distintas ni dispositivos. La actualización descrita es solo de la misma SPA. La arquitectura de backend compartido, transición atómica y reconciliación de PIN/QR sigue pendiente y no se implementó. El aviso histórico de independencia PIN/QR se refiere a sus registros/transacciones, que continúan separados.
+Archivos de corrección:
+- frontend/src/app/services/redemption/demo-qr-use-state.service.ts (nuevo).
+- frontend/src/app/staff/staff-scan.service.ts y staff-scan.spec.ts.
+- frontend/src/app/staff/staff-scan-result.component.scss.
+- frontend/src/app/pages/wallet/drink-orders/wallet-drink-orders.component.ts/.html/.spec.ts.
+- Este checkpoint y evidencia adicional en docs/visual-review/staff-411/.
+Pruebas finales: 480/480 Angular, incluidas tres nuevas pruebas de actualización Wallet tras confirmar QR, ausencia de cambio al leer/rechazar y bloqueo de formulario PIN/reinicio obsoletos. La ejecución inicial de esta corrección descubrió cero pruebas; se descartó como validación y se repitió la suite completa hasta ejecutar las 480.
+Builds desarrollo y despliegue local aprobados. Persisten advertencias de tamaño/Bootstrap; sin cambios de presupuestos, dependencias, backend o Fintoc.
+Navegador real: canjear en Barra, releer y ver rojo, navegar a Wallet en la misma SPA y comprobar aviso, badge y ausencia de retiro. Ocho combinaciones a 320/390/768/1280 px y seis capturas, sin scroll horizontal ni errores HTTP/consola o escrituras HTTP. Evidencia: wallet-qr-correction.json, review-wallet-correction.cjs, bar-used-red-[ancho].png y wallet-qr-obsolete-[ancho].png (incluye full).
+Se conservan las pruebas de regresión anteriores como históricas. En esta corrección no se repitió el recorrido completo PWA offline con servidor apagado; la suite sí mantiene las pruebas de PIN/PWA. No se cambió su implementación.
+Sin commit, push o despliegue. Entrega detenida para revisión.

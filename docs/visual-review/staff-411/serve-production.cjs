@@ -1,0 +1,8 @@
+// Local production test server only. No HTTP cache; the worker must provide offline files.
+const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
+const base='/private/tmp/void411-site',control='/private/tmp/void411-control.json';let listening=false;
+const types={'.html':'text/html','.js':'text/javascript','.json':'application/json','.css':'text/css','.webmanifest':'application/manifest+json','.png':'image/png','.svg':'image/svg+xml','.jpg':'image/jpeg','.ico':'image/x-icon'};
+const mode=()=>JSON.parse(fs.readFileSync(control,'utf8'));
+const server=http.createServer((req,res)=>{const config=mode(),url=new URL(req.url,'http://127.0.0.1:4400');let name=decodeURIComponent(url.pathname);if(name.includes('..')){res.writeHead(400);res.end();return;}if(config.missing?.includes(name)){res.writeHead(404);res.end('fixture missing');return;}const root=path.join(base,'v'+config.version);let file=path.join(root,name);if(name==='/'||!path.extname(name)&&!name.startsWith('/api/'))file=path.join(root,'index.html');if(!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);res.end('Not found');return;}res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'});fs.createReadStream(file).pipe(res);});
+function reconcile(){const should=mode().listening;if(should&&!listening){listening=true;server.listen(4400,'127.0.0.1');}else if(!should&&listening){listening=false;server.closeAllConnections();server.close();}}
+reconcile();setInterval(reconcile,100);process.on('SIGINT',()=>{server.closeAllConnections();server.close();process.exit(0);});

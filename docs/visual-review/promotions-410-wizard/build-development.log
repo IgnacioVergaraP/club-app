@@ -1,0 +1,21 @@
+
+> frontend@0.0.0 build
+> ng build --configuration development
+
+- Building...
+
+Initial chunk files | Names         |  Raw size
+chunk-PYEXJIFV.js   | -             |   1.40 MB | 
+main.js             | main          | 365.17 kB | 
+styles.css          | styles        | 265.97 kB | 
+polyfills.js        | polyfills     |  88.09 kB | 
+
+                    | Initial total |   2.10 MB
+
+Lazy chunk files    | Names         |  Raw size
+chunk-F6BOTG3Z.js   | admin-module  | 858.62 kB | 
+
+Output location: /Users/nacho/Desktop/club-app/frontend/dist/frontend
+
+Application bundle generation complete. [6.795 seconds]
+

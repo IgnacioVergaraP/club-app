@@ -1,0 +1,172 @@
+CLUB VOID — CHECKPOINT 4.9.1
+PWA y funcionamiento offline de Wallet y canje por PIN DEMO
+Fecha: 16-11-2026
+
+1. OBJETIVO Y ESTADO
+Se incorpora el service worker oficial de Angular para preparar los recursos del frontend y permitir arrancar Wallet offline después de una visita online cuyo precaché haya terminado.
+Se mantiene el canje exclusivamente DEMO de 4.9: PIN ficticio de seis dígitos, popup/teclado propio, envío automático al sexto dígito, productos visibles durante dos minutos, contador mm:ss, registro local IndexedDB y estado pendiente al canjear sin conexión. No existe confirmación comercial de servidor.
+La aplicación sigue siendo únicamente Club VOID. No se modifican header, cinco pestañas inferiores Liquid Glass, inventario ni pagos. Sin autenticación, Supabase, nuevos endpoints Flask, notificaciones push, sincronización comercial, commit/push o despliegue.
+Resultado final: 394/394 pruebas Angular aprobadas, builds desarrollo/despliegue aprobados y Chrome real PASS con 60 combinaciones responsive y 34 capturas. El arranque en frío offline normal pasa después de preparar la PWA. Los fallos deliberados y sus límites se detallan en 11/12; PASS no significa que recursos eliminados o despliegues incompletos puedan recuperarse sin red.
+Trabajo limitado a 4.9.1 y detenido para revisión del arquitecto.
+
+2. INSPECCIÓN INICIAL
+Al comenzar no había service worker instalado/registrado, ngsw-config, manifest ni precaché de recursos. El caso offline de 4.9 solo cubría el documento ya cargado. Había IndexedDB nativo para recibos, fixtures Wallet incluidos en JavaScript y detección online/offline/simulación.
+Angular core/common instalados: 17.3.12. @angular/service-worker no estaba disponible. Se verificaron package.json, lockfile, angular.json y esquema del builder application existente; se añadió únicamente @angular/service-worker 17.3.12, versión exacta compatible con sus peers. No se instaló @angular/pwa ni se ejecutaron migraciones/ng add o actualizaciones generales.
+Fonts: se usa la pila system-ui del dispositivo. No hay fuentes web externas necesarias. Assets locales originales: eventos, bebidas, logo SVG VOID y seis QR DEMO. Aproximadamente 1,3 MB de assets antes de incorporar variantes PNG.
+Rutas: Wallet dentro del layout cliente; checkout/carrito/resultados independientes. Vercel sirve el frontend estático desde dist/frontend/browser y reescribe rutas SPA; frontend y Flask son proyectos separados.
+DemoRedemptionStore mantiene su base/esquema de 4.9. No se cambia ese servicio, sus recibos ni se duplica el pedido como otra fuente persistida.
+
+3. ARCHIVOS CREADOS Y MODIFICADOS
+Nuevos:
+- frontend/ngsw-config.json
+- frontend/src/manifest.webmanifest
+- frontend/src/assets/pwa/icon-192.png, icon-512.png y apple-touch-icon.png
+- frontend/src/app/pwa/pwa-interaction.service.ts
+- frontend/src/app/pwa/pwa.service.ts
+- frontend/src/app/pwa/pwa-status.component.ts
+- frontend/src/app/pwa/pwa.service.spec.ts
+- docs/CHECKPOINT_4_9_1_PWA_OFFLINE.txt
+- docs/visual-review/pwa-491/: scripts, reportes, capturas y logs.
+Modificados:
+- frontend/package.json y package-lock.json: un solo paquete nuevo, versión exacta 17.3.12.
+- frontend/angular.json: manifest como asset; serviceWorker ngsw-config.json en production y false en development. Presupuestos sin cambios.
+- frontend/src/index.html: nombre Club VOID, idioma es-CL, manifest, color de tema, icono Apple y metadatos standalone.
+- frontend/src/app/app.module.ts: ServiceWorkerModule y PwaStatusComponent.
+- frontend/src/app/layout/main-layout/main-layout.component.html: aviso discreto de conectividad/PWA, sin sustituir header ni navegación inferior.
+- frontend/src/app/pages/wallet/drink-orders/wallet-drink-orders.component.ts: señal de popup activo para proteger las actualizaciones; libera el bloqueo al cerrar/destruir el componente. Sin cambios del PIN ni del canje.
+- frontend/src/app/pages/wallet/drink-orders/wallet-drink-orders.component.html: corrige la ayuda que antes decía que el arranque offline no estaba soportado; conexión descrita como aparente.
+- frontend/vercel.json y vercel.json de raíz: cabeceras no-cache/no-store para ngsw-worker.js, ngsw.json y manifest. Se conservan sus rutas/comandos/output. El proyecto operativo usa la raíz frontend; el de raíz es la alternativa anterior, mantenida coherente.
+Revisión de alcance: 342 archivos existentes comparados mediante SHA-256, 333 intactos, nueve modificados en el ámbito comparado, cero eliminados; se registra aparte vercel.json de raíz. Backend, Inventario, pagos/Fintoc, store IndexedDB, mocks Wallet y logo original sin cambios. Ver scope-review.json.
+Verificación del lockfile: ningún paquete existente cambia; solo se añade node_modules/@angular/service-worker 17.3.12. Instalación con --save-exact --ignore-scripts --no-audit --no-fund, sin audit fix.
+
+4. CONFIGURACIÓN PWA
+ServiceWorkerModule.register('ngsw-worker.js') habilitado con environment.production. Registro registerImmediately: los temporizadores de Wallet no retrasan el registro esperando estabilización.
+Production/deployment generan ngsw-worker.js y ngsw.json mediante el builder oficial. Development no genera esos archivos; comprobado en un build aislado. npm start normal conserva el flujo de desarrollo sin worker.
+PwaService utiliza SwUpdate para eventos de versión y checks. Preparación online: se espera la instalación del worker, se consulta el manifest estático y se comprueba la presencia de los recursos prefetched en CacheStorage antes de indicar disponibles. En una reapertura offline controlada por el worker, el documento puede utilizar su copia instalada sin descargar ngsw.json.
+El estado no verifica pagos ni disponibilidad del backend. El aviso distingue Conexión aparente / Sin conexión y Servidor no verificado. navigator.onLine es solo una señal de red.
+La detección de nuevas versiones se realiza al iniciar/recuperar conexión y en las comprobaciones de navegación del worker; no se implementa una notificación instantánea ni sondeo periódico continuo de publicaciones.
+La PWA requiere HTTPS en despliegue; localhost/127.0.0.1 son el contexto seguro usado en las pruebas locales. Las cabeceras evitan una copia HTTP obsoleta del worker/manifest. No se publica nada en Vercel en esta entrega.
+
+5. MANIFEST E ICONOS
+Nombre Club VOID; nombre corto VOID; idioma es-CL; start_url /wallet; scope /; display standalone; background_color y theme_color #0B0B0F.
+Iconos PNG 192x192 y 512x512, purpose any maskable, con margen seguro y fondo oscuro; Apple touch icon 180x180.
+Se rasteriza el SVG existente con Chrome/canvas, sin instalar herramientas ni alterar el logo original. Se conservan el logotipo y colores aprobados. No se generan marcas nuevas por IA ni se modifican imágenes comerciales.
+Se verifican tamaño real del PNG, rutas, contenido del manifest y copia al build. No se prueba instalación física en un iPhone/Android ni se afirma que un navegador haya instalado automáticamente la app por tener manifest.
+
+6. ESTRATEGIA DE CACHÉ
+Dos assetGroups con installMode/updateMode prefetch:
+- app-shell: index.html, favicon, manifest y bundles JavaScript/CSS del build.
+- void-local-assets: eventos, bebidas, QR DEMO, logo y variantes PWA; patrones para fuentes locales si se incorporan después.
+El build actual contiene 30 archivos con hash verificado. Se comprueba SHA-1 de cada archivo contra el hashTable generado por Angular. También se precarga el chunk administrativo estático, que contiene únicamente el frontend DEMO público, no respuestas de ventas/personas de un backend.
+Sin dataGroups y sin patrones de caché de URLs externas. No se cachean respuestas API, pedidos, tokens, sesiones Fintoc, confirmaciones de pago ni datos comerciales privados.
+Navigation fallback limitado a /, /wallet, /noches y sus detalles, /tragos y /perfil. Se verifica que /api/orders, /checkout, /checkout/resultado, /carrito, /admin y archivos no entren en ese fallback. Esas rutas no se convierten en supuestas pantallas comerciales offline. Su comportamiento online y sus contratos no se modifican.
+Los PIN DEMO públicos están en el código del prototipo y, por tanto, en su bundle cacheado. No son secretos comerciales ni una excepción que permita incluir credenciales reales en recursos PWA. Los recibos IndexedDB siguen sin guardar PIN/verificadores.
+La comprobación de caché acredita recursos locales del prototipo, no compras pagadas. CacheStorage se utiliza para archivos estáticos; IndexedDB sigue siendo el registro de canjes local. No se usa el caché HTTP como prueba de disponibilidad offline.
+
+7. WALLET OFFLINE
+Se conservan Entradas/Tragos/Historial y los fixtures existentes. No se crean compras, no se emiten entradas ni se deriva un derecho de consumo desde pending_payment o un retorno Fintoc.
+Los datos DEMO forman parte del bundle precargado; no se introduce otra base persistida de pedidos/productos. Las referencias e indicadores siguen siendo demostrativos. Los seis QR son muestras sin validez comercial.
+Después de preparar la PWA, Wallet puede arrancar en una pestaña nueva sin red, siempre que el navegador conserve el worker y los archivos necesarios. Una primera visita sin internet no puede descargar el prototipo.
+Para compras comerciales futuras será necesario descargar datos autenticados y autorizaciones verificadas desde backend, definir su tratamiento offline y excluirlos de un precaché público indiscriminado.
+
+8. PIN OFFLINE
+Se conserva el popup aprobado, teclado propio, seis casillas, aviso irreversible, sexto dígito automático y ausencia de segunda confirmación. Los productos y el contador se muestran sin nombre del barman.
+Credenciales públicas de prueba existentes: 123456/Martina Flores y 654321/Javier Rojas. No se cambian ni se incorporan credenciales reales.
+Sin conexión real detectada, el recibo se guarda con sync=pending y se muestra Canjeado en este dispositivo · Pendiente de sincronización. Al volver la conexión no se convierte en server_confirmed ni se envía nada a Flask.
+La simulación offline sigue disponible y se identifica como tal. Su ayuda explica que no demuestra la red y que el arranque offline requiere precaché completado.
+El botón explícito Volver a ingresar PIN · DEMO se conserva por autorización anterior del Product Owner. Se utiliza en escenarios independientes de pruebas, no como política comercial de reversión.
+
+9. INDEXEDDB Y PERSISTENCIA
+No se cambia DemoRedemptionStore ni su esquema: orderId, redeemedAt, revealUntil, workerId, sync, isDemo. No se almacenan PIN, productos, precios ni prueba de pago.
+La clave única del pedido y la transacción readwrite conservan la protección de duplicados dentro del mismo origen/dispositivo. Los servicios siguen usando una sola fuente de recibos y copias de consulta.
+El plazo deriva de redeemedAt/revealUntil, no de un contador reiniciado al abrir. Volver a foco/visibilidad relee el registro. Cambiar de vista, recargar o abrir una pestaña nueva no amplía la ventana. Después de 120 segundos el flujo normal no vuelve a mostrar productos.
+Si IndexedDB se deniega/falla, el retiro se deshabilita y se muestra un error controlado. No se ocultan errores simulando éxito ni se borran recibos para recuperar conexión o actualizar la PWA.
+No se certifica retención indefinida: modo privado, limpieza o expulsión por cuota/SO pueden eliminar tanto cachés como datos locales. La PWA no convierte el navegador en una base comercial confiable.
+
+10. ACTUALIZACIONES DE VERSIÓN
+Angular administra versiones completas de recursos. Se escucha VERSION_READY y se muestra Nueva versión disponible con un botón Actualizar. Nunca se llama a activateUpdate ni se recarga automáticamente al detectar una versión.
+El botón se bloquea cuando:
+- hay un popup de PIN abierto, incluso con PIN parcial;
+- hay una validación/escritura en curso;
+- un recibo mantiene abierta su ventana de revelación de dos minutos, aunque se cierre el popup;
+- no hay conexión aparente.
+El estado del popup solo contiene IDs de operación, nunca PIN. La protección por recibos deriva del Observable existente y del reloj, no de una copia de productos o derechos.
+Actualizar explícitamente recarga el documento para adoptar una versión completa, evitando activar código nuevo sobre una página vieja. No borra IndexedDB. Si el usuario recarga/cierra desde el propio navegador, la aplicación no puede impedirlo de forma absoluta; las fechas y recibos siguen protegiendo la presentación normal tras cargar de nuevo.
+Los fallos de instalación/unrecoverable muestran una indicación y mantienen la decisión de recarga explícita, con las mismas protecciones. No se borra el almacenamiento como solución.
+Compatibilidad actual: código nuevo con el mismo esquema de recibos de 4.9. Un cambio futuro de esquema necesita migración compatible y versionada, pruebas con versiones coexistiendo y política de recuperación. No se presume compatibilidad universal entre versiones arbitrarias.
+
+11. ARRANQUE OFFLINE EN FRÍO Y PROCEDIMIENTO REPRODUCIBLE
+El build production,deployment se sirve localmente en http://127.0.0.1:4400 mediante serve-production.cjs. El servidor envía Cache-Control:no-store y Chrome tiene el caché HTTP deshabilitado en cada sesión CDP. Solo CacheStorage/service worker proporcionan los archivos offline.
+La prueba apaga el servidor estático de verdad y cierra sus conexiones. Se confirma que una petición de Node a index.html falla. Además se desconecta la red de las páginas mediante CDP y se comprueba navigator.onLine=false.
+Se cierran TODOS los targets de página del origen y se espera su destrucción. Solo se conserva una pestaña about:blank ajena a la app para mantener Chrome vivo. Se crea un target nuevo, con ID diferente, se configura offline antes de navegar y se abre /wallet.
+Se comprueba arranque, controlador ngsw-worker.js, recibo IndexedDB recuperado y vencimiento idéntico. No se reutiliza un documento que permaneció abierto; el worker sí permanece disponible como mecanismo PWA.
+Para probar otro canje desde esa apertura en frío se usa el reinicio de fixture autorizado, tras verificar el vencimiento original. No se inserta una compra supuestamente confirmada.
+No se afirma una prueba de reinicio completo del proceso Chrome, instalación nativa física o expulsión/recuperación por el SO. El caso exigido de todas las pestañas cerradas y una pestaña nueva del mismo origen se registra con IDs y servidor apagado.
+Casos reales finales:
+A — Página abierta: servidor apagado y red de página offline; PIN incorrecto no escribe, PIN correcto crea pending, cierre/reapertura dentro del plazo conserva productos; se esperan 120 segundos reales y una recarga posterior mantiene Canjeado sin productos ni nueva acción de retiro.
+B — Arranque en frío: todas las páginas del origen destruidas, nuevo target con red desconectada y servidor detenido; Wallet arranca desde el worker y recupera el recibo con el mismo vencimiento. Después de expirar ese primer fixture se reinicia explícitamente la DEMO para un segundo canje offline desde la app arrancada en frío. Se vuelve a esperar el plazo real.
+C — Reconexión: pending no cambia a confirmado. Una versión B realmente preparada por el worker no recarga el documento ni borra el PIN parcial. Actualizar permanece bloqueado durante ese PIN y durante la ventana posterior, incluso al cerrar el popup. Al terminar el plazo se pulsa Actualizar; cambia el documento/versionado y permanecen recibo pending y fechas exactas.
+D — Fallos aislados: IndexedDB denegado bloquea el canje; dos páginas con PIN concurrente generan un único recibo; un QR borrado de todos los cachés no se muestra offline pero la aplicación arranca, y el recurso se recupera al reconectar; una publicación con un archivo precargado ausente provoca aviso de instalación fallida sin recargar o borrar el pedido del cliente abierto.
+La matriz final tiene 60 combinaciones a 320/390/768/1280 px y 34 capturas. No hay scroll horizontal, excepciones/errores de consola inesperados ni solicitudes HTTP de escritura. Los fallos HTTP/console deliberados del caso D se separan en expectedFailures del reporte, no se presentan como un recorrido sin recursos fallidos.
+
+12. RECONEXIÓN Y FALLOS
+La reconexión no confirma ni borra registros pending. El servidor sigue sin protocolo transaccional de canjes; el aviso de conectividad no altera ese hecho.
+Se prueban dos instancias del mismo origen con PIN concurrente y un único recibo durable. La garantía es local cooperativa, no entre dispositivos/perfiles u orígenes distintos.
+Prueba de IndexedDB bloqueado: se deniega su acceso en un documento aislado y se comprueba botón deshabilitado/error, sin eliminar la base real de pruebas.
+Los fallos de caché y publicación incompleta se prueban por separado. Un QR eliminado no puede reconstruirse sin conexión: se ve ausente hasta reconectar y obtenerlo de nuevo. La aplicación y los recibos permanecen disponibles; no se borra IndexedDB para repararlo.
+Exploración adicional conservada en exploratory-failed-release-cold-start.json/.log: después de una instalación fallida por un recurso ausente, el cliente abierto siguió operativo, pero un arranque offline nuevo NO pasó. El worker oficial 17.3.12 puede pasar a EXISTING_CLIENTS_ONLY tras ese fallo. No se modifica el worker para eludir esa protección ni se promete que la versión vieja siempre arranque para clientes nuevos en ese estado. Requiere recuperación con una publicación íntegra/conectividad y validación posterior. Esta limitación es distinta del arranque normal con precaché íntegro, que sí pasó.
+El primer harness mezcló esa publicación fallida y la expulsión de un recurso en una misma secuencia; el reporte exploratorio mantiene INCOMPLETE para ese arranque. El reporte final separa los fallos y verifica los resultados esperados de cada escenario; no oculta la exploración fallida.
+Los dos intentos simultáneos pueden mostrar en una vista que el pedido ya se canjeó en otra vista. Solo existe un recibo y una transición durable; no se acredita una segunda entrega. Ningún mensaje de error acredita un pago ni autoriza un segundo canje comercial.
+No se implementan reintentos comerciales de servidor, sincronización efectiva, resolución real de conflictos ni descargas de compras privadas.
+
+13. PRUEBAS ANGULAR Y BUILDS
+Antes: npm test -- --watch=false --browsers=ChromeHeadless => 383/383 aprobadas.
+Después: mismo comando => 394/394 aprobadas, once pruebas nuevas de PWA. Incluyen preparación/verificación de caché, versión disponible sin recarga automática, bloqueo por PIN parcial y ventana activa, múltiples operaciones, reconexión sin estado confirmado, errores/fallos de instalación, recuperación explícita y botón accesible/deshabilitado cuando corresponde.
+Se mantiene toda la regresión de 4.9: sexto dígito, limpieza de PIN, duplicados, IndexedDB nativo, ventanas temporales, teclado propio, popup, reinicio DEMO, ausencia de nombre del trabajador y estados de Wallet/pagos.
+Build desarrollo: npm run build -- --configuration development => aprobado, inicial 2,10 MB; admin lazy 664,68 kB.
+Build adicional aislado en /private/tmp/void491-development confirma ausencia de ngsw-worker.js/ngsw.json con configuración development.
+Build despliegue: API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy => aprobado; inicial 760,23 kB/transferencia 154,21 kB; admin lazy 359,51 kB/67,68 kB. Solo compilación local; no publicación.
+verify-build.cjs: 30 hashes correctos, iconos 192/512 verificados, cero dataGroups/patrones externos, rutas de API/pagos excluidas del fallback y único paquete añadido. Ver build-verification.json.
+Se conservan advertencias de bundle inicial >500 kB, SCSS de componentes >2 kB y selectores Bootstrap omitidos. Sin aumento de presupuestos ni actualización de dependencias existentes.
+No se ejecuta suite Flask, al no cambiar backend. No se realiza ningún pago ni se abre Fintoc en esta entrega.
+
+14. EVIDENCIA VISUAL Y SCRIPTS
+Directorio docs/visual-review/pwa-491/:
+- pwa-review.json y review-pwa.cjs: casos reales A/B/C/D, targets, estados, matriz, capturas y errores esperados.
+- serve-production.cjs: servidor local controlable, sin caché HTTP y con fixtures de publicaciones A/B/incompleta.
+- verify-build.cjs y build-verification.json: comprobación del resultado compilado.
+- generate-icons.cjs: conversión reproducible del SVG original a PNG, sin dependencias nuevas.
+- scope-review.json: comparación de archivos protegidos.
+- Logs de suites/builds/navegador y capturas 390/1280; cada pantalla de la matriz se mide también a 320/768.
+El harness usa versiones de prueba en /private/tmp: la versión B cambia solo un comentario de index.html, su hash y appData; no modifica el código fuente entregado. La versión fallida referencia intencionalmente un recurso que el servidor no tiene. Son pruebas reales del worker frente a una publicación controlada, no una notificación VERSION_READY inventada desde la UI.
+Las denegaciones de IndexedDB y eliminación de un recurso cacheado son fallos deliberados del contexto de pruebas, no acciones de la aplicación.
+
+15. REGRESIONES Y ALCANCE CONSERVADO
+Header y navegación inferior Liquid Glass conservados, cinco enlaces sin pestañas adicionales. El aviso de PWA es una franja discreta del layout, no un rediseño de Wallet.
+Entradas, Tragos e Historial mantienen fixtures; QR de entradas y consumos conservan sus muestras y estados. No se generan QR comerciales ni se modifica el canje de entradas.
+Inventario/movimientos, Personal, Ventas, backend y claves sin cambios, verificados por hash. La suite completa conserva sus pruebas administrativas y de checkout/Fintoc. No se presentan esas pruebas como una nueva autorización/pago Apple Pay.
+PWA offline cubre los recursos/fixtures del cliente indicados; no promete un panel administrativo comercial offline. El build precarga código público DEMO, no datos privados.
+
+16. RIESGOS DE SEGURIDAD
+Los PIN DEMO son públicos y la validación frontend no autentica a nadie. Ni service worker ni IndexedDB evitan fraude, pantallazos, grabaciones, manipulación del reloj o borrado de registros.
+La PWA puede retener recursos hasta su actualización/expulsión. No se deben introducir secretos, PIN comerciales o autorizaciones reutilizables en bundles/precaché. Futuras compras deben tener un diseño de privacidad y sincronización distinto del de fixtures públicos.
+Sin autenticación real, integridad comercial firmada, servidor transaccional, auditoría durable o control de duplicados global. La clave local solo protege dentro de su ámbito de navegador. El botón Reiniciar DEMO debe retirarse antes de cualquier uso comercial.
+Un recibo pending sigue sin aceptación de servidor. navigator.onLine no acredita backend/Fintoc ni convierte un pago pendiente en aprobado.
+
+17. LÍMITES DE SAFARI/IOS/ANDROID
+Pruebas ejecutadas en Chrome Headless real de macOS con viewport emulado. No se certifican instalación Añadir a pantalla de inicio, modo standalone físico, suspensión por SO, teclado/almacenamiento privado de Safari ni cuotas/evicción en iOS/Android.
+Service workers requieren un contexto seguro; la primera preparación necesita red. Borrar datos del sitio, modo privado o políticas de almacenamiento pueden perder recursos y recibos. Una PWA no garantiza retención ilimitada ni disponibilidad offline después de una limpieza.
+La prueba de pestaña nueva no equivale a un reinicio físico del dispositivo. Es necesaria una matriz real de equipos/versiones antes de afirmar compatibilidad comercial.
+
+18. RECOMENDACIONES Y PRÓXIMO PASO
+Revisar técnicamente la PWA y ejecutar la matriz física iOS/Android, instalación standalone, suspensión/reanudación y políticas de almacenamiento. Validar los headers/rutas en un despliegue autorizado posterior, sin asumir que la prueba local acredita Vercel publicado.
+Mantener el prototipo claramente DEMO. Antes de comercio real hacen falta autenticación/roles, autorización de compras pagadas, transacciones de canje/inventario, reservas/idempotencia global, reloj/auditoría de servidor y reconciliación verificable con política de conflictos.
+Definir compatibilidad entre versiones y despliegues atómicos con integridad de assets; nunca solucionar una actualización borrando pendientes ni activar una versión a mitad de un PIN.
+No se inicia Promociones, Supabase ni ninguna otra etapa. Trabajo detenido para revisión del arquitecto.
+
+REFERENCIAS TÉCNICAS CONSULTADAS
+Documentación oficial Angular sobre configuración y comunicaciones del service worker:
+https://angular.dev/ecosystem/service-workers/config
+https://angular.dev/ecosystem/service-workers/communications
+https://angular.dev/ecosystem/service-workers/devops
+Se contrastó el comportamiento con el código y los tipos instalados de @angular/service-worker 17.3.12 y el esquema local del builder Angular 17.3. Las referencias explican la estrategia; los resultados reportados corresponden a las ejecuciones locales conservadas.

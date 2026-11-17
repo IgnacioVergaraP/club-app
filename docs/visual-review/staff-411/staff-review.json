@@ -1,0 +1,966 @@
+{
+  "date": "2026-11-17",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "bar-scanner",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-scanner",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-scanner",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-scanner",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-native-unsupported",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-native-unsupported",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-native-unsupported",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-native-unsupported",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-active-synthetic",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-active-synthetic",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-active-synthetic",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-active-synthetic",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-valid",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-valid",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-valid",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-valid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-redeemed",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-redeemed",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-redeemed",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-redeemed",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-duplicate",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-duplicate",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-duplicate",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-duplicate",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-expired",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-expired",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-expired",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-expired",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-wrong-type",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-wrong-type",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-wrong-type",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-wrong-type",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-invalid",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-invalid",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-invalid",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-invalid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-permission-denied-controlled",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-permission-denied-controlled",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-permission-denied-controlled",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-permission-denied-controlled",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-unavailable-controlled",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-unavailable-controlled",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-unavailable-controlled",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "camera-unavailable-controlled",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "door-scanner",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-scanner",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-scanner",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-scanner",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-valid",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-valid",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-valid",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-valid",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-entered",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-entered",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-entered",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-entered",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-duplicate",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-duplicate",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-duplicate",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-duplicate",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-expired",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-expired",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-expired",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-expired",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-wrong-event",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-wrong-event",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-wrong-event",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-wrong-event",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-wrong-type",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-wrong-type",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-wrong-type",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-wrong-type",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-invalid",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-invalid",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-invalid",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-invalid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "promotions-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotions-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotions-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotions-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "home-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "profile-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "pin-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "pin-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "pin-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "pin-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    }
+  ],
+  "screenshots": [
+    "bar-scanner-390.png",
+    "bar-scanner-full-390.png",
+    "bar-scanner-1280.png",
+    "bar-scanner-full-1280.png",
+    "camera-native-unsupported-390.png",
+    "camera-native-unsupported-1280.png",
+    "camera-active-synthetic-390.png",
+    "camera-active-synthetic-1280.png",
+    "bar-valid-390.png",
+    "bar-valid-full-390.png",
+    "bar-valid-1280.png",
+    "bar-valid-full-1280.png",
+    "bar-redeemed-390.png",
+    "bar-redeemed-full-390.png",
+    "bar-redeemed-1280.png",
+    "bar-redeemed-full-1280.png",
+    "bar-duplicate-390.png",
+    "bar-duplicate-1280.png",
+    "bar-expired-390.png",
+    "bar-expired-1280.png",
+    "bar-wrong-type-390.png",
+    "bar-wrong-type-1280.png",
+    "bar-invalid-390.png",
+    "bar-invalid-1280.png",
+    "camera-permission-denied-controlled-390.png",
+    "camera-permission-denied-controlled-1280.png",
+    "camera-unavailable-controlled-390.png",
+    "camera-unavailable-controlled-1280.png",
+    "door-scanner-390.png",
+    "door-scanner-full-390.png",
+    "door-scanner-1280.png",
+    "door-scanner-full-1280.png",
+    "door-valid-390.png",
+    "door-valid-full-390.png",
+    "door-valid-1280.png",
+    "door-valid-full-1280.png",
+    "door-entered-390.png",
+    "door-entered-1280.png",
+    "door-duplicate-390.png",
+    "door-duplicate-1280.png",
+    "door-expired-390.png",
+    "door-expired-1280.png",
+    "door-wrong-event-390.png",
+    "door-wrong-event-1280.png",
+    "door-wrong-type-390.png",
+    "door-wrong-type-1280.png",
+    "door-invalid-390.png",
+    "door-invalid-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "inventory-regression-390.png",
+    "inventory-regression-1280.png",
+    "promotions-regression-390.png",
+    "promotions-regression-1280.png",
+    "home-regression-390.png",
+    "home-regression-1280.png",
+    "nights-regression-390.png",
+    "nights-regression-1280.png",
+    "client-drinks-regression-390.png",
+    "client-drinks-regression-1280.png",
+    "profile-regression-390.png",
+    "profile-regression-1280.png",
+    "wallet-tickets-regression-390.png",
+    "wallet-tickets-regression-1280.png",
+    "wallet-drinks-regression-390.png",
+    "wallet-drinks-regression-1280.png",
+    "pin-regression-390.png",
+    "pin-regression-1280.png",
+    "fintoc-result-regression-390.png",
+    "fintoc-result-regression-1280.png"
+  ],
+  "keyboard": [
+    "Manual code typed, Tab/Enter submits, result heading focus, Tab/Enter confirms entry."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    "Bar and door are independent; previously redeemed Bar order remains used after SPA route changes. Full reload restores fixtures."
+  ],
+  "paid": false,
+  "native": {
+    "secure": true,
+    "barcodeDetector": true,
+    "formats": [
+      "aztec",
+      "code_128",
+      "code_39",
+      "code_93",
+      "data_matrix",
+      "ean_13",
+      "ean_8",
+      "itf",
+      "pdf417",
+      "qr_code",
+      "upc_e"
+    ],
+    "mediaDevices": true,
+    "physicalCameraTested": false,
+    "staticWalletRead": {
+      "codes": [
+        "VOID:DEMO:CON:001"
+      ],
+      "source": "Existing local SVG; no physical camera"
+    }
+  },
+  "camera": {
+    "source": "Chrome fake media device; controlled decoder for lifecycle tests",
+    "actualGetUserMedia": true,
+    "noPermissionAtBoot": true,
+    "noPermissionWhenUnsupported": true,
+    "videoSource": true,
+    "stopButtonEndsTracks": true,
+    "detectedCodeStopsTracks": true,
+    "physicalQrScan": false,
+    "routeExitEndsTracks": true
+  },
+  "result": "PASS"
+}

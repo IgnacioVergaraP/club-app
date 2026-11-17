@@ -1,0 +1,16 @@
+{"phase":"A-real-expiry","waitingRealMilliseconds":118874}
+{"phase":"A-real-expiry","waitingRealMilliseconds":98872}
+{"phase":"A-real-expiry","waitingRealMilliseconds":78867}
+{"phase":"A-real-expiry","waitingRealMilliseconds":58864}
+{"phase":"A-real-expiry","waitingRealMilliseconds":38862}
+{"phase":"A-real-expiry","waitingRealMilliseconds":18862}
+{"phase":"C-reconnection","waitingRealMilliseconds":119623}
+{"phase":"C-reconnection","waitingRealMilliseconds":99622}
+{"phase":"C-reconnection","waitingRealMilliseconds":79615}
+{"phase":"C-reconnection","waitingRealMilliseconds":59607}
+{"phase":"C-reconnection","waitingRealMilliseconds":39598}
+{"phase":"C-reconnection","waitingRealMilliseconds":19593}
+Error: Timeout Wallet boot /wallet
+    at until (/Users/nacho/Desktop/club-app/docs/visual-review/pwa-491/review-pwa.cjs:7:142)
+    at async nav (/Users/nacho/Desktop/club-app/docs/visual-review/pwa-491/review-pwa.cjs:12:91)
+    at async /Users/nacho/Desktop/club-app/docs/visual-review/pwa-491/review-pwa.cjs:41:453

@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-17",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "bar-used-red",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-used-red",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-used-red",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-used-red",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "wallet-qr-obsolete",
+      "width": 320,
+      "scrollWidth": 305,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-qr-obsolete",
+      "width": 390,
+      "scrollWidth": 375,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-qr-obsolete",
+      "width": 768,
+      "scrollWidth": 753,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-qr-obsolete",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "overlay": false,
+      "title": "Mi Wallet."
+    }
+  ],
+  "screenshots": [
+    "bar-used-red-390.png",
+    "bar-used-red-1280.png",
+    "wallet-qr-obsolete-390.png",
+    "wallet-qr-obsolete-full-390.png",
+    "wallet-qr-obsolete-1280.png",
+    "wallet-qr-obsolete-full-1280.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [],
+  "paid": false,
+  "result": "PASS"
+}

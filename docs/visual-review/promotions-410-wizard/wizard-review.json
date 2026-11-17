@@ -1,0 +1,863 @@
+{
+  "date": "2026-11-16",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "promotions-list",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotions-list",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotions-list",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotions-list",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "wizard-type",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-type",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-type",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-type",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "product-required",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "product-required",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "product-required",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "product-required",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-product",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-product",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-product",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-product",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-price",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-price",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-price",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-price",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-instant-schedule",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-instant-schedule",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-instant-schedule",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-instant-schedule",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-notification",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-notification",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-notification",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-notification",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-review",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-review",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-review",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "wizard-review",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "instant-active",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "instant-active",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "instant-active",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "instant-active",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "wizard-scheduled-schedule",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "wizard-scheduled-schedule",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "wizard-scheduled-schedule",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "wizard-scheduled-schedule",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "wizard-scheduled-review",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "wizard-scheduled-review",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "wizard-scheduled-review",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "wizard-scheduled-review",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "events-information",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-information",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-information",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-information",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-schedule",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-schedule",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-schedule",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-schedule",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-tickets",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-tickets",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-tickets",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-tickets",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-review",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-review",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-review",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "events-review",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "home-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "profile-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    }
+  ],
+  "screenshots": [
+    "promotions-list-390.png",
+    "promotions-list-1280.png",
+    "wizard-type-390.png",
+    "wizard-type-full-390.png",
+    "wizard-type-1280.png",
+    "wizard-type-full-1280.png",
+    "product-required-390.png",
+    "product-required-1280.png",
+    "wizard-product-390.png",
+    "wizard-product-full-390.png",
+    "wizard-product-1280.png",
+    "wizard-product-full-1280.png",
+    "wizard-price-390.png",
+    "wizard-price-full-390.png",
+    "wizard-price-1280.png",
+    "wizard-price-full-1280.png",
+    "wizard-instant-schedule-390.png",
+    "wizard-instant-schedule-full-390.png",
+    "wizard-instant-schedule-1280.png",
+    "wizard-instant-schedule-full-1280.png",
+    "wizard-notification-390.png",
+    "wizard-notification-full-390.png",
+    "wizard-notification-1280.png",
+    "wizard-notification-full-1280.png",
+    "wizard-review-390.png",
+    "wizard-review-full-390.png",
+    "wizard-review-1280.png",
+    "wizard-review-full-1280.png",
+    "instant-active-390.png",
+    "instant-active-1280.png",
+    "wizard-scheduled-schedule-390.png",
+    "wizard-scheduled-schedule-full-390.png",
+    "wizard-scheduled-schedule-1280.png",
+    "wizard-scheduled-schedule-full-1280.png",
+    "wizard-scheduled-review-390.png",
+    "wizard-scheduled-review-full-390.png",
+    "wizard-scheduled-review-1280.png",
+    "wizard-scheduled-review-full-1280.png",
+    "events-information-390.png",
+    "events-information-1280.png",
+    "events-schedule-390.png",
+    "events-schedule-1280.png",
+    "events-tickets-390.png",
+    "events-tickets-1280.png",
+    "events-review-390.png",
+    "events-review-full-390.png",
+    "events-review-1280.png",
+    "events-review-full-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "inventory-regression-390.png",
+    "inventory-regression-1280.png",
+    "sales-regression-390.png",
+    "sales-regression-1280.png",
+    "home-regression-390.png",
+    "home-regression-1280.png",
+    "nights-regression-390.png",
+    "nights-regression-1280.png",
+    "client-drinks-regression-390.png",
+    "client-drinks-regression-1280.png",
+    "profile-regression-390.png",
+    "profile-regression-1280.png",
+    "wallet-tickets-regression-390.png",
+    "wallet-tickets-regression-1280.png",
+    "wallet-drinks-regression-390.png",
+    "wallet-drinks-regression-1280.png",
+    "wallet-pin-regression-390.png",
+    "wallet-pin-regression-1280.png",
+    "fintoc-result-regression-390.png",
+    "fintoc-result-regression-1280.png"
+  ],
+  "keyboard": [
+    "Type radiogroup arrows select modality and focus selected option."
+  ],
+  "flows": {
+    "instant": {
+      "id": "DEMO-PRO-6",
+      "startAt": 1794881058012,
+      "endAt": 1794882858012,
+      "publishedAtClick": true
+    },
+    "scheduled": {
+      "id": "DEMO-PRO-7",
+      "crossMidnight": true,
+      "modalityChangeConfirmed": true,
+      "priceAndMessagePreserved": true
+    },
+    "drafts": {
+      "partialRecovery": true,
+      "currentStepRecovered": true,
+      "unsavedGuardCancelledAndAccepted": true
+    },
+    "events": {
+      "fourSteps": true,
+      "validations": true,
+      "crossMidnight": true,
+      "ticketConfigured": true,
+      "publishedDemo": true
+    }
+  },
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    "Catalog and inventory unchanged after activation, editing, duplication and scheduling."
+  ],
+  "paid": false,
+  "push": {
+    "permissionRequests": 0,
+    "notificationsConstructed": 0
+  },
+  "result": "PASS"
+}

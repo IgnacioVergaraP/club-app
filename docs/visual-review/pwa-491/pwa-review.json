@@ -1,0 +1,531 @@
+{
+  "date": "2026-11-16",
+  "browser": "Real Chrome Headless, isolated persistent profile, production build, HTTP disk cache disabled and static origin physically stopped for offline cases",
+  "cases": {
+    "manifest": {
+      "name": "Club VOID",
+      "display": "standalone",
+      "installedWorker": "http://127.0.0.1:4400/ngsw-worker.js"
+    },
+    "cache": {
+      "entries": 33,
+      "urls": [
+        "http://127.0.0.1:4400/manifests",
+        "http://127.0.0.1:4400/assignments",
+        "http://127.0.0.1:4400/latest",
+        "http://127.0.0.1:4400/favicon.ico",
+        "http://127.0.0.1:4400/chunk-DDFBSW2N.js",
+        "http://127.0.0.1:4400/chunk-IFKW7N47.js",
+        "http://127.0.0.1:4400/index.html",
+        "http://127.0.0.1:4400/main-THB4OCAB.js",
+        "http://127.0.0.1:4400/manifest.webmanifest",
+        "http://127.0.0.1:4400/polyfills-FFHMD2TL.js",
+        "http://127.0.0.1:4400/styles-ZPDGUOW4.css",
+        "http://127.0.0.1:4400/assets/pwa/icon-192.png",
+        "http://127.0.0.1:4400/assets/qr-demo/drink-001.svg",
+        "http://127.0.0.1:4400/assets/qr-demo/drink-002.svg",
+        "http://127.0.0.1:4400/assets/qr-demo/drink-003.svg",
+        "http://127.0.0.1:4400/assets/admin/void-logo.svg",
+        "http://127.0.0.1:4400/assets/drinks/agua-mineral.jpg",
+        "http://127.0.0.1:4400/assets/drinks/cuba-libre.jpg",
+        "http://127.0.0.1:4400/assets/drinks/gin-tonic.jpg",
+        "http://127.0.0.1:4400/assets/drinks/mojito.jpg",
+        "http://127.0.0.1:4400/assets/drinks/pisco-sour.jpg",
+        "http://127.0.0.1:4400/assets/drinks/piscola.jpg",
+        "http://127.0.0.1:4400/assets/drinks/ron-cola.jpg",
+        "http://127.0.0.1:4400/assets/drinks/vodka-tonica.jpg",
+        "http://127.0.0.1:4400/assets/events/void-dancefloor.jpg",
+        "http://127.0.0.1:4400/assets/events/void-dj.jpg",
+        "http://127.0.0.1:4400/assets/events/void-orbit.svg",
+        "http://127.0.0.1:4400/assets/events/void-urban.jpg",
+        "http://127.0.0.1:4400/assets/pwa/apple-touch-icon.png",
+        "http://127.0.0.1:4400/assets/pwa/icon-512.png",
+        "http://127.0.0.1:4400/assets/qr-demo/ticket-001.svg",
+        "http://127.0.0.1:4400/assets/qr-demo/ticket-002.svg",
+        "http://127.0.0.1:4400/assets/qr-demo/ticket-003.svg"
+      ]
+    },
+    "A": {
+      "pending": true,
+      "deadline": 1794872844109,
+      "staticServerStopped": true,
+      "expiredAfterRealTwoMinutes": true
+    },
+    "B": {
+      "allAppTabsClosed": [
+        "B8DA5BD95179C6BC50B68E1EA30F1F7F"
+      ],
+      "newTarget": "FC369C45086EC5DB9BEB458A6583670B",
+      "serverStopped": true,
+      "booted": true,
+      "workerControlled": true,
+      "receiptRestored": true
+    },
+    "storageFailure": "Controlled IndexedDB denial: withdrawal disabled and receipt not deleted.",
+    "update": {
+      "actualNewWorkerManifest": true,
+      "blockedDuringPartialPin": true,
+      "noAutomaticReload": true,
+      "blockedAfterClosingActiveReveal": true,
+      "appliedExplicitlyAfterRevealExpiry": true
+    },
+    "twoInstances": {
+      "receipts": 1,
+      "parallelPinAttempts": 2
+    },
+    "C": {
+      "pendingAfterReconnect": true,
+      "pendingAfterExplicitUpdateReload": true,
+      "deadlineUnchanged": true
+    },
+    "missingCache": {
+      "deletedEntries": 2,
+      "appBoots": true,
+      "evictedQrUnavailableOffline": true,
+      "limitation": "Evicted/missing resources require connectivity; cache is not permanent.",
+      "restoredOnReconnect": true
+    },
+    "failedUpdate": "Real worker installation failed for an absent prefetched resource; previous app and IndexedDB remain usable."
+  },
+  "matrix": [
+    {
+      "screen": "pwa-ready",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-ready",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-ready",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-ready",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "A-offline-redeemed",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": {
+        "width": 279,
+        "scrollWidth": 279
+      }
+    },
+    {
+      "screen": "A-offline-redeemed",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": {
+        "width": 349,
+        "scrollWidth": 349
+      }
+    },
+    {
+      "screen": "A-offline-redeemed",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": {
+        "width": 388,
+        "scrollWidth": 388
+      }
+    },
+    {
+      "screen": "A-offline-redeemed",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": {
+        "width": 388,
+        "scrollWidth": 388
+      }
+    },
+    {
+      "screen": "B-cold-offline",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "B-cold-offline",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "B-cold-offline",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "B-cold-offline",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "A-expired-after-cold-reopen",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "A-expired-after-cold-reopen",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "A-expired-after-cold-reopen",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "A-expired-after-cold-reopen",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "update-blocked-pin",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": {
+        "width": 279,
+        "scrollWidth": 279
+      }
+    },
+    {
+      "screen": "update-blocked-pin",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": {
+        "width": 349,
+        "scrollWidth": 349
+      }
+    },
+    {
+      "screen": "update-blocked-pin",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": {
+        "width": 388,
+        "scrollWidth": 388
+      }
+    },
+    {
+      "screen": "update-blocked-pin",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": {
+        "width": 388,
+        "scrollWidth": 388
+      }
+    },
+    {
+      "screen": "B-cold-offline-canje",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": {
+        "width": 279,
+        "scrollWidth": 279
+      }
+    },
+    {
+      "screen": "B-cold-offline-canje",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": {
+        "width": 349,
+        "scrollWidth": 349
+      }
+    },
+    {
+      "screen": "B-cold-offline-canje",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": {
+        "width": 388,
+        "scrollWidth": 388
+      }
+    },
+    {
+      "screen": "B-cold-offline-canje",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": {
+        "width": 388,
+        "scrollWidth": 388
+      }
+    },
+    {
+      "screen": "C-reconnected-pending",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "C-reconnected-pending",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "C-reconnected-pending",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "C-reconnected-pending",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "C-updated-receipt-preserved",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "C-updated-receipt-preserved",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "C-updated-receipt-preserved",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "C-updated-receipt-preserved",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "home-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "home-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "home-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "home-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "nights-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "nights-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "nights-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "nights-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "profile-regression",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "profile-regression",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "profile-regression",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "profile-regression",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-ticket-qr",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-ticket-qr",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-ticket-qr",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-ticket-qr",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-drink-qr",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-drink-qr",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-drink-qr",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-drink-qr",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-history",
+      "width": 320,
+      "scrollWidth": 305,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-history",
+      "width": 390,
+      "scrollWidth": 375,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-history",
+      "width": 768,
+      "scrollWidth": 753,
+      "dialog": null
+    },
+    {
+      "screen": "wallet-history",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "dialog": null
+    }
+  ],
+  "screenshots": [
+    "pwa-ready-390.png",
+    "pwa-ready-1280.png",
+    "A-offline-redeemed-390.png",
+    "A-offline-redeemed-1280.png",
+    "B-cold-offline-390.png",
+    "B-cold-offline-1280.png",
+    "D-indexeddb-blocked.png",
+    "A-expired-after-cold-reopen-390.png",
+    "A-expired-after-cold-reopen-1280.png",
+    "update-blocked-pin-390.png",
+    "update-blocked-pin-1280.png",
+    "B-cold-offline-canje-390.png",
+    "B-cold-offline-canje-1280.png",
+    "C-reconnected-pending-390.png",
+    "C-reconnected-pending-1280.png",
+    "C-updated-receipt-preserved-390.png",
+    "C-updated-receipt-preserved-1280.png",
+    "home-regression-390.png",
+    "home-regression-1280.png",
+    "nights-regression-390.png",
+    "nights-regression-1280.png",
+    "drinks-regression-390.png",
+    "drinks-regression-1280.png",
+    "profile-regression-390.png",
+    "profile-regression-1280.png",
+    "wallet-ticket-qr-390.png",
+    "wallet-ticket-qr-1280.png",
+    "wallet-drink-qr-390.png",
+    "wallet-drink-qr-1280.png",
+    "wallet-history-390.png",
+    "wallet-history-1280.png",
+    "D-evicted-qr-offline.png",
+    "D-evicted-qr-restored-online.png",
+    "D-failed-version-keeps-app.png"
+  ],
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "expectedFailures": [],
+  "checks": [],
+  "paid": false,
+  "result": "PASS"
+}

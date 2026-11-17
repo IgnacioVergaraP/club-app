@@ -1,0 +1,922 @@
+{
+  "date": "2026-11-16",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "promotions-list",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotions-list",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotions-list",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotions-list",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notifications-list",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notifications-list",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notifications-list",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notifications-list",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "history-list",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "history-list",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "history-list",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "history-list",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "history-empty",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "history-empty",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "history-empty",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "history-empty",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "period-invalid",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "period-invalid",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "period-invalid",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "period-invalid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "flash-preview",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "flash-preview",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "flash-preview",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "flash-preview",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotion-invalid",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Nueva promoción"
+    },
+    {
+      "screen": "promotion-invalid",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Nueva promoción"
+    },
+    {
+      "screen": "promotion-invalid",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Nueva promoción"
+    },
+    {
+      "screen": "promotion-invalid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nueva promoción"
+    },
+    {
+      "screen": "promotion-create",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Nueva promoción"
+    },
+    {
+      "screen": "promotion-create",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Nueva promoción"
+    },
+    {
+      "screen": "promotion-create",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Nueva promoción"
+    },
+    {
+      "screen": "promotion-create",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nueva promoción"
+    },
+    {
+      "screen": "promotion-duplicate-edit",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "promotion-duplicate-edit",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "promotion-duplicate-edit",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "promotion-duplicate-edit",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Editar promoción"
+    },
+    {
+      "screen": "promotion-cancelled",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotion-cancelled",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotion-cancelled",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotion-cancelled",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notification-stock-create",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Nuevo aviso DEMO"
+    },
+    {
+      "screen": "notification-stock-create",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Nuevo aviso DEMO"
+    },
+    {
+      "screen": "notification-stock-create",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Nuevo aviso DEMO"
+    },
+    {
+      "screen": "notification-stock-create",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nuevo aviso DEMO"
+    },
+    {
+      "screen": "notification-preview",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notification-preview",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notification-preview",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notification-preview",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notification-commercial-draft",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Nuevo aviso DEMO"
+    },
+    {
+      "screen": "notification-commercial-draft",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Nuevo aviso DEMO"
+    },
+    {
+      "screen": "notification-commercial-draft",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Nuevo aviso DEMO"
+    },
+    {
+      "screen": "notification-commercial-draft",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nuevo aviso DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "dashboard-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Club VOID DEMO"
+    },
+    {
+      "screen": "events-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "events-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Eventos"
+    },
+    {
+      "screen": "admin-drinks-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "admin-drinks-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "admin-drinks-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "admin-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "home-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "client-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "profile-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-tickets-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-drinks-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-result-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    }
+  ],
+  "screenshots": [
+    "promotions-list-390.png",
+    "promotions-list-full-390.png",
+    "promotions-list-1280.png",
+    "promotions-list-full-1280.png",
+    "notifications-list-390.png",
+    "notifications-list-full-390.png",
+    "notifications-list-1280.png",
+    "notifications-list-full-1280.png",
+    "history-list-390.png",
+    "history-list-full-390.png",
+    "history-list-1280.png",
+    "history-list-full-1280.png",
+    "history-empty-390.png",
+    "history-empty-1280.png",
+    "period-invalid-390.png",
+    "period-invalid-1280.png",
+    "flash-preview-390.png",
+    "flash-preview-full-390.png",
+    "flash-preview-1280.png",
+    "flash-preview-full-1280.png",
+    "promotion-invalid-390.png",
+    "promotion-invalid-1280.png",
+    "promotion-create-390.png",
+    "promotion-create-full-390.png",
+    "promotion-create-1280.png",
+    "promotion-create-full-1280.png",
+    "promotion-duplicate-edit-390.png",
+    "promotion-duplicate-edit-1280.png",
+    "promotion-cancelled-390.png",
+    "promotion-cancelled-1280.png",
+    "notification-stock-create-390.png",
+    "notification-stock-create-full-390.png",
+    "notification-stock-create-1280.png",
+    "notification-stock-create-full-1280.png",
+    "notification-preview-390.png",
+    "notification-preview-full-390.png",
+    "notification-preview-1280.png",
+    "notification-preview-full-1280.png",
+    "notification-commercial-draft-390.png",
+    "notification-commercial-draft-1280.png",
+    "dashboard-regression-390.png",
+    "dashboard-regression-1280.png",
+    "events-regression-390.png",
+    "events-regression-1280.png",
+    "admin-drinks-regression-390.png",
+    "admin-drinks-regression-1280.png",
+    "inventory-regression-390.png",
+    "inventory-regression-1280.png",
+    "sales-regression-390.png",
+    "sales-regression-1280.png",
+    "commissions-regression-390.png",
+    "commissions-regression-1280.png",
+    "staff-regression-390.png",
+    "staff-regression-1280.png",
+    "settings-regression-390.png",
+    "settings-regression-1280.png",
+    "home-regression-390.png",
+    "home-regression-1280.png",
+    "nights-regression-390.png",
+    "nights-regression-1280.png",
+    "client-drinks-regression-390.png",
+    "client-drinks-regression-1280.png",
+    "profile-regression-390.png",
+    "profile-regression-1280.png",
+    "wallet-tickets-regression-390.png",
+    "wallet-tickets-regression-1280.png",
+    "wallet-drinks-regression-390.png",
+    "wallet-drinks-regression-1280.png",
+    "wallet-pin-regression-390.png",
+    "wallet-pin-regression-1280.png",
+    "fintoc-result-regression-390.png",
+    "fintoc-result-regression-1280.png"
+  ],
+  "keyboard": [
+    "Tabs: arrows, Home and End keep selection/focus and panel relation."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    "Offers survive SPA navigation, duplicate is independent, catalog text and inventory balances/minima/states are unchanged.",
+    {
+      "dialog": "confirm",
+      "accepted": false
+    },
+    {
+      "dialog": "confirm",
+      "accepted": true
+    },
+    "Unsaved draft cancellation preserves editing; accepted exit discards only draft. Manual simulation changes no recipients/statistics.",
+    "Full reload restores initial fixtures; no promotion/notification persistence."
+  ],
+  "paid": false,
+  "push": {
+    "permissionRequests": 0,
+    "notificationsConstructed": 0
+  },
+  "result": "PASS"
+}

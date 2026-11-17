@@ -1,3 +1,6 @@
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { PwaStatusComponent } from './pwa/pwa-status.component';
 import { WalletDrinkOrdersComponent } from './pages/wallet/drink-orders/wallet-drink-orders.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -30,6 +33,7 @@ import { DemoQrComponent } from './components/demo-qr/demo-qr.component';
 
 @NgModule({
   declarations: [
+    PwaStatusComponent,
     AppComponent,
     MainLayoutComponent,
     HeaderComponent,
@@ -55,6 +59,7 @@ import { DemoQrComponent } from './components/demo-qr/demo-qr.component';
   ],
   imports: [
     BrowserModule,
+    ServiceWorkerModule.register('ngsw-worker.js',{enabled:environment.production,registrationStrategy:'registerImmediately'}),
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule

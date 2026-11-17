@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "appData": {"name": "Club VOID", "scope": "PWA DEMO 4.9.1"},
+  "assetGroups": [
+    {"name": "app-shell", "installMode": "prefetch", "updateMode": "prefetch", "resources": {"files": ["/index.html", "/favicon.ico", "/manifest.webmanifest", "/*.js", "/*.css"]}},
+    {"name": "void-local-assets", "installMode": "prefetch", "updateMode": "prefetch", "resources": {"files": ["/assets/events/**", "/assets/drinks/**", "/assets/qr-demo/**", "/assets/admin/void-logo.svg", "/assets/pwa/**", "/assets/**/*.woff", "/assets/**/*.woff2"]}}
+  ],
+  "dataGroups": [],
+  "navigationUrls": ["/", "/wallet", "/noches", "/noches/**", "/tragos", "/perfil", "!/**/*.*", "!/**/*__*"],
+  "navigationRequestStrategy": "performance"
+}

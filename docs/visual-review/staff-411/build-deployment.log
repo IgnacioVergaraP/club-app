@@ -1,0 +1,125 @@
+
+> frontend@0.0.0 build:deploy
+> node scripts/build-deploy.mjs
+
+- Building...
+
+Initial chunk files   | Names         |  Raw size | Estimated transfer size
+chunk-ME4DMUID.js     | -             | 316.35 kB |                81.04 kB
+styles-ZPDGUOW4.css   | styles        | 220.77 kB |                22.21 kB
+main-WDTPWFQM.js      | main          | 185.43 kB |                38.99 kB
+polyfills-FFHMD2TL.js | polyfills     |  33.71 kB |                11.02 kB
+chunk-WGFWOLKQ.js     | -             |   4.94 kB |                 1.35 kB
+
+                      | Initial total | 761.20 kB |               154.61 kB
+
+Lazy chunk files      | Names         |  Raw size | Estimated transfer size
+chunk-5U2MZ7IS.js     | admin-module  | 461.80 kB |                84.53 kB
+chunk-ADTAJTTT.js     | staff-module  |  23.68 kB |                 6.97 kB
+chunk-MQL4BAYR.js     | -             | 448 bytes |               448 bytes
+
+Output location: /Users/nacho/Desktop/club-app/frontend/dist/frontend
+
+Application bundle generation complete. [7.590 seconds]
+
+▲ [WARNING] bundle initial exceeded maximum budget. Budget 500.00 kB was not met by 261.20 kB with a total of 761.20 kB.
+
+
+▲ [WARNING] src/app/pages/inicio/inicio.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.67 kB with a total of 3.67 kB.
+
+
+▲ [WARNING] src/app/pages/wallet/drink-orders/withdraw-dialog.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.15 kB with a total of 3.15 kB.
+
+
+▲ [WARNING] src/app/admin/commissions/admin-commission-list.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 411 bytes with a total of 2.40 kB.
+
+
+▲ [WARNING] src/app/pages/perfil/perfil.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 700 bytes with a total of 2.68 kB.
+
+
+▲ [WARNING] src/app/admin/commissions/admin-commission-detail.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 613 bytes with a total of 2.60 kB.
+
+
+▲ [WARNING] src/app/admin/promotions/admin-promotions.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 814 bytes with a total of 2.79 kB.
+
+
+▲ [WARNING] src/app/admin/sales/admin-sale-panel.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.25 kB with a total of 3.25 kB.
+
+
+▲ [WARNING] src/app/admin/commissions/admin-commission-settings.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 78 bytes with a total of 2.08 kB.
+
+
+▲ [WARNING] src/app/admin/commissions/admin-commissions.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.38 kB with a total of 3.38 kB.
+
+
+▲ [WARNING] src/app/admin/staff/admin-staff-detail.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 4 bytes with a total of 2.00 kB.
+
+
+▲ [WARNING] src/app/admin/events/admin-event-form.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.48 kB with a total of 3.48 kB.
+
+
+▲ [WARNING] src/app/admin/drinks/admin-drink-form.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 917 bytes with a total of 2.90 kB.
+
+
+▲ [WARNING] src/app/admin/events/admin-events.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 898 bytes with a total of 2.88 kB.
+
+
+▲ [WARNING] src/app/admin/drinks/admin-drinks.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 143 bytes with a total of 2.14 kB.
+
+
+▲ [WARNING] src/app/pages/noches/noches.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 824 bytes with a total of 2.80 kB.
+
+
+▲ [WARNING] src/app/pages/wallet/wallet.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.98 kB with a total of 3.98 kB.
+
+
+▲ [WARNING] src/app/pages/carrito/carrito.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.45 kB with a total of 3.45 kB.
+
+
+▲ [WARNING] src/app/pages/event-detail/event-detail.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.30 kB with a total of 3.30 kB.
+
+
+▲ [WARNING] src/app/pages/checkout/checkout.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.16 kB with a total of 3.16 kB.
+
+
+▲ [WARNING] src/app/admin/inventory/inventory.shared.scss exceeded maximum budget. Budget 2.00 kB was not met by 161 bytes with a total of 2.16 kB.
+
+
+▲ [WARNING] src/app/admin/admin-layout.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.73 kB with a total of 3.73 kB.
+
+
+▲ [WARNING] src/app/admin/drinks/admin-drink-row.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.04 kB with a total of 3.04 kB.
+
+
+▲ [WARNING] src/app/staff/staff-scan.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 193 bytes with a total of 2.19 kB.
+
+
+▲ [WARNING] src/app/admin/promotions/promotion-wizard.scss exceeded maximum budget. Budget 2.00 kB was not met by 848 bytes with a total of 2.83 kB.
+
+
+▲ [WARNING] src/app/admin/promotions/promotions.shared.scss exceeded maximum budget. Budget 2.00 kB was not met by 150 bytes with a total of 2.15 kB.
+
+
+▲ [WARNING] src/app/admin/sales/admin-sales-list.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 549 bytes with a total of 2.54 kB.
+
+
+▲ [WARNING] src/app/admin/sales/admin-sales.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.03 kB with a total of 3.03 kB.
+
+
+▲ [WARNING] src/app/admin/staff/admin-staff.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 687 bytes with a total of 2.67 kB.
+
+
+▲ [WARNING] src/app/admin/admin-dashboard.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.47 kB with a total of 3.47 kB.
+
+
+▲ [WARNING] src/app/admin/staff/admin-staff-form.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 416 bytes with a total of 2.41 kB.
+
+
+▲ [WARNING] src/app/admin/staff/admin-staff-list.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.14 kB with a total of 3.14 kB.
+
+
+▲ [WARNING] 2 rules skipped due to selector errors:
+  .form-floating>~label -> Did not expect successive traversals.
+  .form-floating>~label -> Did not expect successive traversals.
+
+

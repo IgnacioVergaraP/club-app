@@ -1,0 +1,21 @@
+{
+  "compared": 342,
+  "unchanged": 333,
+  "changed": [
+    "frontend/src/index.html",
+    "frontend/src/app/app.module.ts",
+    "frontend/src/app/layout/main-layout/main-layout.component.html",
+    "frontend/src/app/pages/wallet/drink-orders/wallet-drink-orders.component.ts",
+    "frontend/src/app/pages/wallet/drink-orders/wallet-drink-orders.component.html",
+    "frontend/angular.json",
+    "frontend/package.json",
+    "frontend/package-lock.json",
+    "frontend/vercel.json"
+  ],
+  "missing": [],
+  "backendUnchanged": true,
+  "inventoryUnchanged": true,
+  "paymentsUnchanged": true,
+  "redemptionStoreUnchanged": true,
+  "logoUnchanged": true
+}

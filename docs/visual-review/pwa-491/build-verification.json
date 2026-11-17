@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "hashedFiles": 30,
+  "icons": [
+    "192x192",
+    "512x512"
+  ],
+  "cacheDataGroups": 0,
+  "externalCachePatterns": 0,
+  "paymentAndApiNavigationExcluded": true,
+  "onlyAddedPackage": "@angular/service-worker@17.3.12"
+}

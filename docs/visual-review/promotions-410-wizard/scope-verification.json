@@ -1,0 +1,44 @@
+{
+  "baselineFiles": 365,
+  "changed": [
+    "frontend/src/app/admin/admin.module.ts",
+    "frontend/src/app/admin/promotions/promotion.spec.ts",
+    "frontend/src/app/admin/promotions/admin-promotions.component.html",
+    "frontend/src/app/admin/promotions/admin-promotions.service.ts",
+    "frontend/src/app/admin/promotions/promotion.rules.ts",
+    "frontend/src/app/admin/promotions/promotion.model.ts",
+    "frontend/src/app/admin/promotions/promotion.data.ts",
+    "frontend/src/app/admin/promotions/admin-promotions.component.ts",
+    "frontend/src/app/admin/events/admin-event-progress.component.ts"
+  ],
+  "newSourceFiles": [
+    "frontend/src/app/admin/promotions/promotion-wizard.scss",
+    "frontend/src/app/admin/promotions/promotion-wizard.component.ts",
+    "frontend/src/app/admin/promotions/promotion-wizard.component.html",
+    "frontend/src/app/admin/promotions/promotion-wizard.spec.ts",
+    "frontend/src/app/admin/promotions/promotion-wizard-preview.component.ts"
+  ],
+  "missing": [],
+  "protected": {
+    "backend": {
+      "files": 35,
+      "differences": []
+    },
+    "dependencies": {
+      "files": 2,
+      "differences": []
+    },
+    "walletPinPwa": {
+      "files": 14,
+      "differences": []
+    },
+    "inventoryCatalogEventsLogic": {
+      "files": 59,
+      "differences": []
+    },
+    "payments": {
+      "files": 16,
+      "differences": []
+    }
+  }
+}
