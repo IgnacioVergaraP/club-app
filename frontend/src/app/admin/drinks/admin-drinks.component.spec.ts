@@ -13,13 +13,15 @@ import { AdminDrinksService } from './admin-drinks.service';
 registerLocaleData(esCl);
 describe('Admin drinks list',()=>{
   const router={navigate:()=>Promise.resolve(true)} as unknown as Router;
-  it('combines search/category/availability and resets empty matches',async()=>{
-    const component=new AdminDrinksComponent(new AdminDrinksService(),router);component.search.setValue('ron');component.category.setValue('clasicos');component.availability.setValue('unavailable');
-    expect((await firstValueFrom(component.view$)).drinks[0].name).toBe('Ron Cola');component.availability.setValue('available');expect((await firstValueFrom(component.view$)).drinks.length).toBe(0);component.clearFilters();expect((await firstValueFrom(component.view$)).drinks.length).toBe(5);
+  it('searches names and resets empty matches',async()=>{
+    const component=new AdminDrinksComponent(new AdminDrinksService(),router);component.search.setValue('ron');
+    expect((await firstValueFrom(component.view$)).drinks[0].name).toBe('Ron Cola');component.search.setValue('missing');expect((await firstValueFrom(component.view$)).drinks.length).toBe(0);component.clearFilters();expect((await firstValueFrom(component.view$)).drinks.length).toBe(5);
   });
-  it('orders both price and name in both directions',async()=>{
-    const component=new AdminDrinksComponent(new AdminDrinksService(),router);expect((await firstValueFrom(component.view$)).drinks[0].name).toBe('Gin Tonic');component.order.setValue('name-desc');expect((await firstValueFrom(component.view$)).drinks[0].name).toBe('Ron Cola');
-    component.order.setValue('price-asc');expect((await firstValueFrom(component.view$)).drinks[0].priceClp).toBe(5000);component.order.setValue('price-desc');expect((await firstValueFrom(component.view$)).drinks[0].priceClp).toBe(7000);
+  it('keeps catalogue order and removes category, status and sort selectors',()=>{
+    const fixture=TestBed.createComponent(AdminDrinksComponent);fixture.detectChanges();
+    expect(fixture.nativeElement.querySelectorAll('.filters select').length).toBe(0);
+    expect(fixture.nativeElement.querySelector('.admin-create-fab')?.getAttribute('aria-label')).toBe('Nuevo trago');
+    expect(fixture.nativeElement.querySelector('.drink-row').textContent).toContain('Piscola');
   });
   it('duplicates and opens the editor for the new variant',async()=>{
     const service=new AdminDrinksService();const component=new AdminDrinksComponent(service,router);const navigate=spyOn(router,'navigate').and.resolveTo(true);component.duplicate((await firstValueFrom(service.drinks$))[0]);expect(navigate).toHaveBeenCalledWith(['/admin/tragos','admin-demo-drink-006','editar']);

@@ -188,3 +188,23 @@ Los contratos de Session, ConsumptionEvidence y solicitudes/respuestas futuras d
 
 20. CIERRE
 Se entrega exclusivamente 4.12 como frontend de revisión integrado y auditado. El arquitecto debe revisar la experiencia y los límites antes de autorizar otra fase. No se inicia Supabase, producción, otra subetapa, commit, push o despliegue.
+
+
+21. AJUSTE VISUAL ADMINISTRATIVO — 18-11-2026
+Solicitud posterior del Product Owner, manteniendo los datos y servicios existentes:
+- Dashboard: retirados los paneles Ventas recientes y Actividad reciente.
+- Eventos: retirado el aviso de duración de la sesión y los filtros. Abre en Próximos; Pasados reúne registros Finalizados o cuya programación ya terminó. Incluye noches en curso en Próximos; fechas sin completar quedan allí para poder editar borradores. La clasificación se actualiza cada 30 segundos sin cambiar el estado guardado.
+- Acciones de creación: burbuja morada circular con signo +, fija abajo a la derecha en listados de Eventos, Tragos, Personal, Inventario y Promociones/avisos. Conserva nombres accesibles, rutas originales, foco visible y espacio al final de la página.
+- Tragos: retirados los selectores de categoría, disponibilidad y orden. Se conserva búsqueda por nombre, orden del catálogo y acciones por producto.
+- Inventario: retirados avisos de cambios durante la sesión, advertencia de mínimos, tarjetas de resumen y selector de existencias. Pestañas visibles: Alcoholes, Bebidas y Bajo stock. Esta última incluye ambos tipos de ingrediente en estado Bajo o Agotado; la regla existente considera bajo un saldo positivo menor o igual al mínimo. Se conservan edición, movimientos y recetas existentes; Movimientos y Recetas dejan de ser pestañas principales. Consultar movimientos sigue disponible en el detalle de cada ingrediente.
+- Los cambios siguen siendo locales en memoria; retirar avisos no incorpora persistencia. No cambia Flask, Fintoc, credenciales, dependencias ni cálculo de inventario.
+
+Verificación posterior a este ajuste:
+- Suite Angular completa: 515/515 aprobadas en Chrome Headless.
+- Compilación de producción: aprobada con las advertencias de tamaño y Bootstrap ya conocidas; sin aumentar presupuestos.
+- Chrome real a 320, 390, 768 y 1280 px: nueve vistas por ancho, 36 combinaciones y 36 capturas. Incluye Próximos/Pasados, inventario por tipo/Bajo stock y burbujas en las distintas secciones.
+- Verificado teclado de pestañas de Eventos e Inventario, Enter en burbuja de evento y apertura de formularios desde las demás burbujas.
+- Sin scroll horizontal, excepciones, errores de consola, respuestas HTTP >=400 ni escrituras HTTP durante el recorrido. La burbuja mantiene 60 × 60 px y posición fija.
+- Pruebas de clasificación por fecha, cruce de medianoche, búsqueda, bajo stock reactivo, agotados y reposición. Se conservan las pruebas de movimientos y recetas.
+Evidencia: docs/visual-review/admin-simplification-412/admin-review.json, review-admin.cjs, capturas PNG y logs de pruebas/build.
+Sin commit, push o despliegue. Pendiente revisión del Product Owner/arquitecto.

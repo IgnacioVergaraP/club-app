@@ -5,17 +5,27 @@ import { AdminEventsService } from './admin-events.service';
 
 describe('AdminEventsComponent list', () => {
   const router={navigate:()=>Promise.resolve(true)} as unknown as Router;
-  it('combines name search and status filters, including empty results and reset', async () => {
+  beforeEach(() => spyOn(Date, 'now').and.returnValue(Date.parse('2026-11-18T12:00:00Z')));
+  it('opens upcoming events and separates the past without filters', async () => {
     const component = new AdminEventsComponent(new AdminEventsService(),router);
-    component.search.setValue('sessions'); component.status.setValue('published');
-    expect((await firstValueFrom(component.view$)).events.length).toBe(1);
-    component.status.setValue('cancelled'); expect((await firstValueFrom(component.view$)).events.length).toBe(0);
-    component.clearFilters(); expect((await firstValueFrom(component.view$)).events.length).toBe(4);
+    const upcoming = await firstValueFrom(component.view$);
+    expect(upcoming.period).toBe('upcoming'); expect(upcoming.events.length).toBe(3);
+    expect(upcoming.events.map(e=>e.status)).not.toContain('finished');
+    component.selectPeriod('past');
+    expect((await firstValueFrom(component.view$)).events.map(e=>e.status)).toEqual(['finished']);
   });
-  it('orders dates in both directions', async () => {
+  it('moves expired dates to the past even without a manual status change', async () => {
+    (Date.now as jasmine.Spy).and.returnValue(Date.parse('2026-12-01T12:00:00Z'));
     const component = new AdminEventsComponent(new AdminEventsService(),router);
-    expect((await firstValueFrom(component.view$)).events[0].status).toBe('finished');
-    component.order.setValue('desc');expect((await firstValueFrom(component.view$)).events[0].status).toBe('cancelled');
+    expect((await firstValueFrom(component.view$)).events.length).toBe(0);
+    component.selectPeriod('past'); expect((await firstValueFrom(component.view$)).events.length).toBe(4);
+  });
+  it('keeps an overnight event in upcoming until it ends', async () => {
+    (Date.now as jasmine.Spy).and.returnValue(Date.parse('2026-11-21T06:00:00Z'));
+    const component = new AdminEventsComponent(new AdminEventsService(),router);
+    expect((await firstValueFrom(component.view$)).events[0].name).toBe('VOID Sessions');
+    (Date.now as jasmine.Spy).and.returnValue(Date.parse('2026-11-21T08:00:00Z'));
+    expect((await firstValueFrom(component.view$)).events.map(e=>e.name)).not.toContain('VOID Sessions');
   });
   it('exposes a distinct initial empty state', async () => {
     const service = {events$:of([])} as unknown as AdminEventsService;

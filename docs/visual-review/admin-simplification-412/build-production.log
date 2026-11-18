@@ -1,0 +1,130 @@
+
+> frontend@0.0.0 build
+> ng build
+
+- Building...
+
+Initial chunk files   | Names         |  Raw size | Estimated transfer size
+chunk-W6OZS3OM.js     | -             | 327.62 kB |                84.36 kB
+styles-ANJOUK5J.css   | styles        | 221.48 kB |                22.30 kB
+main-FKKGYMPP.js      | main          | 175.53 kB |                36.99 kB
+polyfills-FFHMD2TL.js | polyfills     |  33.71 kB |                11.02 kB
+chunk-2HWFCI6R.js     | -             |  13.21 kB |                 3.82 kB
+chunk-XFCQNBIB.js     | -             |   3.00 kB |                 1.32 kB
+
+                      | Initial total | 774.55 kB |               159.80 kB
+
+Lazy chunk files      | Names         |  Raw size | Estimated transfer size
+chunk-AEZUF4A6.js     | admin-module  | 450.41 kB |                82.42 kB
+chunk-57LXW2PI.js     | staff-module  |  24.39 kB |                 6.99 kB
+chunk-G5CJF7WB.js     | auth-module   |  11.51 kB |                 3.61 kB
+chunk-4URYQQC7.js     | -             | 446 bytes |               446 bytes
+
+Output location: /Users/nacho/Desktop/club-app/frontend/dist/frontend
+
+Application bundle generation complete. [9.317 seconds]
+
+▲ [WARNING] bundle initial exceeded maximum budget. Budget 500.00 kB was not met by 274.55 kB with a total of 774.55 kB.
+
+
+▲ [WARNING] src/app/admin/commissions/admin-commission-list.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 411 bytes with a total of 2.40 kB.
+
+
+▲ [WARNING] src/app/pages/checkout/checkout.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.16 kB with a total of 3.16 kB.
+
+
+▲ [WARNING] src/app/admin/sales/admin-sales.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.03 kB with a total of 3.03 kB.
+
+
+▲ [WARNING] src/app/admin/events/admin-event-form.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.48 kB with a total of 3.48 kB.
+
+
+▲ [WARNING] src/app/admin/staff/admin-staff-list.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.14 kB with a total of 3.14 kB.
+
+
+▲ [WARNING] src/app/admin/drinks/admin-drinks.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 117 bytes with a total of 2.11 kB.
+
+
+▲ [WARNING] src/app/admin/commissions/admin-commission-detail.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 613 bytes with a total of 2.60 kB.
+
+
+▲ [WARNING] src/app/pages/noches/noches.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 376 bytes with a total of 2.37 kB.
+
+
+▲ [WARNING] src/app/admin/promotions/promotion-wizard.scss exceeded maximum budget. Budget 2.00 kB was not met by 848 bytes with a total of 2.83 kB.
+
+
+▲ [WARNING] src/app/admin/staff/admin-staff.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 687 bytes with a total of 2.67 kB.
+
+
+▲ [WARNING] src/app/admin/events/admin-events.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.07 kB with a total of 3.07 kB.
+
+
+▲ [WARNING] src/app/admin/inventory/inventory.shared.scss exceeded maximum budget. Budget 2.00 kB was not met by 161 bytes with a total of 2.16 kB.
+
+
+▲ [WARNING] src/app/admin/staff/admin-staff-form.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 416 bytes with a total of 2.41 kB.
+
+
+▲ [WARNING] src/app/admin/promotions/admin-promotions.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 814 bytes with a total of 2.79 kB.
+
+
+▲ [WARNING] src/app/pages/wallet/wallet.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.48 kB with a total of 3.48 kB.
+
+
+▲ [WARNING] src/app/pages/inicio/inicio.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.30 kB with a total of 3.30 kB.
+
+
+▲ [WARNING] src/app/auth/access.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 114 bytes with a total of 2.11 kB.
+
+
+▲ [WARNING] src/app/pages/wallet/drink-orders/withdraw-dialog.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.15 kB with a total of 3.15 kB.
+
+
+▲ [WARNING] src/app/admin/commissions/admin-commissions.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.38 kB with a total of 3.38 kB.
+
+
+▲ [WARNING] src/app/staff/staff-scan.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 193 bytes with a total of 2.19 kB.
+
+
+▲ [WARNING] src/app/admin/admin-layout.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.73 kB with a total of 3.73 kB.
+
+
+▲ [WARNING] src/app/admin/commissions/admin-commission-settings.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 78 bytes with a total of 2.08 kB.
+
+
+▲ [WARNING] src/app/pages/event-detail/event-detail.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.30 kB with a total of 3.30 kB.
+
+
+▲ [WARNING] src/app/admin/drinks/admin-drink-row.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.04 kB with a total of 3.04 kB.
+
+
+▲ [WARNING] src/app/pages/carrito/carrito.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.45 kB with a total of 3.45 kB.
+
+
+▲ [WARNING] src/app/pages/perfil/perfil.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 700 bytes with a total of 2.68 kB.
+
+
+▲ [WARNING] src/app/admin/promotions/promotions.shared.scss exceeded maximum budget. Budget 2.00 kB was not met by 150 bytes with a total of 2.15 kB.
+
+
+▲ [WARNING] src/app/admin/admin-dashboard.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.47 kB with a total of 3.47 kB.
+
+
+▲ [WARNING] src/app/admin/drinks/admin-drink-form.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 917 bytes with a total of 2.90 kB.
+
+
+▲ [WARNING] src/app/admin/sales/admin-sale-panel.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 1.25 kB with a total of 3.25 kB.
+
+
+▲ [WARNING] src/app/admin/staff/admin-staff-detail.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 4 bytes with a total of 2.00 kB.
+
+
+▲ [WARNING] src/app/admin/sales/admin-sales-list.component.scss exceeded maximum budget. Budget 2.00 kB was not met by 549 bytes with a total of 2.54 kB.
+
+
+▲ [WARNING] 2 rules skipped due to selector errors:
+  .form-floating>~label -> Did not expect successive traversals.
+  .form-floating>~label -> Did not expect successive traversals.
+
+

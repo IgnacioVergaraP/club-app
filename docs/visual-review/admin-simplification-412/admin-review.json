@@ -1,0 +1,791 @@
+{
+  "date": "2026-11-18",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "phase": "dashboard-320",
+      "width": 320,
+      "overflow": false,
+      "heading": "Club VOID ",
+      "fab": null,
+      "filterSelects": 0,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "events-320",
+      "width": 320,
+      "overflow": false,
+      "heading": "Eventos",
+      "fab": {
+        "label": "Nuevo evento",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Próximos",
+        "Pasados"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "events-past-320",
+      "width": 320,
+      "overflow": false,
+      "heading": "Eventos",
+      "fab": {
+        "label": "Nuevo evento",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Próximos",
+        "Pasados"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "drinks-320",
+      "width": 320,
+      "overflow": false,
+      "heading": "Tragos",
+      "fab": {
+        "label": "Nuevo trago",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "inventory-320",
+      "width": 320,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 4
+    },
+    {
+      "phase": "inventory-beverages-320",
+      "width": 320,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 4
+    },
+    {
+      "phase": "inventory-low-320",
+      "width": 320,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 2
+    },
+    {
+      "phase": "staff-320",
+      "width": 320,
+      "overflow": false,
+      "heading": "Personal",
+      "fab": {
+        "label": "Agregar trabajador",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 3,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "promotions-320",
+      "width": 320,
+      "overflow": false,
+      "heading": "Promociones",
+      "fab": {
+        "label": "Nueva promoción",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 3,
+      "tabs": [
+        "Promociones",
+        "Notificaciones",
+        "Historial"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "dashboard-390",
+      "width": 390,
+      "overflow": false,
+      "heading": "Club VOID ",
+      "fab": null,
+      "filterSelects": 0,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "events-390",
+      "width": 390,
+      "overflow": false,
+      "heading": "Eventos",
+      "fab": {
+        "label": "Nuevo evento",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Próximos",
+        "Pasados"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "events-past-390",
+      "width": 390,
+      "overflow": false,
+      "heading": "Eventos",
+      "fab": {
+        "label": "Nuevo evento",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Próximos",
+        "Pasados"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "drinks-390",
+      "width": 390,
+      "overflow": false,
+      "heading": "Tragos",
+      "fab": {
+        "label": "Nuevo trago",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "inventory-390",
+      "width": 390,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 4
+    },
+    {
+      "phase": "inventory-beverages-390",
+      "width": 390,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 4
+    },
+    {
+      "phase": "inventory-low-390",
+      "width": 390,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 2
+    },
+    {
+      "phase": "staff-390",
+      "width": 390,
+      "overflow": false,
+      "heading": "Personal",
+      "fab": {
+        "label": "Agregar trabajador",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 3,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "promotions-390",
+      "width": 390,
+      "overflow": false,
+      "heading": "Promociones",
+      "fab": {
+        "label": "Nueva promoción",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 3,
+      "tabs": [
+        "Promociones",
+        "Notificaciones",
+        "Historial"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "dashboard-768",
+      "width": 768,
+      "overflow": false,
+      "heading": "Club VOID ",
+      "fab": null,
+      "filterSelects": 0,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "events-768",
+      "width": 768,
+      "overflow": false,
+      "heading": "Eventos",
+      "fab": {
+        "label": "Nuevo evento",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Próximos",
+        "Pasados"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "events-past-768",
+      "width": 768,
+      "overflow": false,
+      "heading": "Eventos",
+      "fab": {
+        "label": "Nuevo evento",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Próximos",
+        "Pasados"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "drinks-768",
+      "width": 768,
+      "overflow": false,
+      "heading": "Tragos",
+      "fab": {
+        "label": "Nuevo trago",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "inventory-768",
+      "width": 768,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 4
+    },
+    {
+      "phase": "inventory-beverages-768",
+      "width": 768,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 4
+    },
+    {
+      "phase": "inventory-low-768",
+      "width": 768,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 2
+    },
+    {
+      "phase": "staff-768",
+      "width": 768,
+      "overflow": false,
+      "heading": "Personal",
+      "fab": {
+        "label": "Agregar trabajador",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 3,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "promotions-768",
+      "width": 768,
+      "overflow": false,
+      "heading": "Promociones",
+      "fab": {
+        "label": "Nueva promoción",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 3,
+      "tabs": [
+        "Promociones",
+        "Notificaciones",
+        "Historial"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "dashboard-1280",
+      "width": 1280,
+      "overflow": false,
+      "heading": "Club VOID ",
+      "fab": null,
+      "filterSelects": 0,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "events-1280",
+      "width": 1280,
+      "overflow": false,
+      "heading": "Eventos",
+      "fab": {
+        "label": "Nuevo evento",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Próximos",
+        "Pasados"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "events-past-1280",
+      "width": 1280,
+      "overflow": false,
+      "heading": "Eventos",
+      "fab": {
+        "label": "Nuevo evento",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Próximos",
+        "Pasados"
+      ],
+      "rows": 0
+    },
+    {
+      "phase": "drinks-1280",
+      "width": 1280,
+      "overflow": false,
+      "heading": "Tragos",
+      "fab": {
+        "label": "Nuevo trago",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "inventory-1280",
+      "width": 1280,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 4
+    },
+    {
+      "phase": "inventory-beverages-1280",
+      "width": 1280,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 4
+    },
+    {
+      "phase": "inventory-low-1280",
+      "width": 1280,
+      "overflow": false,
+      "heading": "Inventario",
+      "fab": {
+        "label": "Nuevo ingrediente",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 0,
+      "tabs": [
+        "Alcoholes",
+        "Bebidas",
+        "Bajo stock"
+      ],
+      "rows": 2
+    },
+    {
+      "phase": "staff-1280",
+      "width": 1280,
+      "overflow": false,
+      "heading": "Personal",
+      "fab": {
+        "label": "Agregar trabajador",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 3,
+      "tabs": [],
+      "rows": 0
+    },
+    {
+      "phase": "promotions-1280",
+      "width": 1280,
+      "overflow": false,
+      "heading": "Promociones",
+      "fab": {
+        "label": "Nueva promoción",
+        "width": 60,
+        "height": 60,
+        "right": 35,
+        "bottom": 20,
+        "position": "fixed",
+        "radius": "50%",
+        "hit": true
+      },
+      "filterSelects": 3,
+      "tabs": [
+        "Promociones",
+        "Notificaciones",
+        "Historial"
+      ],
+      "rows": 0
+    }
+  ],
+  "screenshots": [
+    "dashboard-320.png",
+    "events-320.png",
+    "events-past-320.png",
+    "drinks-320.png",
+    "inventory-320.png",
+    "inventory-beverages-320.png",
+    "inventory-low-320.png",
+    "staff-320.png",
+    "promotions-320.png",
+    "dashboard-390.png",
+    "events-390.png",
+    "events-past-390.png",
+    "drinks-390.png",
+    "inventory-390.png",
+    "inventory-beverages-390.png",
+    "inventory-low-390.png",
+    "staff-390.png",
+    "promotions-390.png",
+    "dashboard-768.png",
+    "events-768.png",
+    "events-past-768.png",
+    "drinks-768.png",
+    "inventory-768.png",
+    "inventory-beverages-768.png",
+    "inventory-low-768.png",
+    "staff-768.png",
+    "promotions-768.png",
+    "dashboard-1280.png",
+    "events-1280.png",
+    "events-past-1280.png",
+    "drinks-1280.png",
+    "inventory-1280.png",
+    "inventory-beverages-1280.png",
+    "inventory-low-1280.png",
+    "staff-1280.png",
+    "promotions-1280.png"
+  ],
+  "keyboard": [
+    "Event tabs arrows/Home; floating action Enter opens event wizard",
+    "Inventory End selects Bajo stock and retains focus"
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [],
+  "paid": false,
+  "result": "PASS"
+}
