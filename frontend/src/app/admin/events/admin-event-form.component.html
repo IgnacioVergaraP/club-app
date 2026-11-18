@@ -14,12 +14,12 @@
       <div *ngIf="step===1" class="fields">
         <p class="help wide">Define cuándo empieza y termina tu noche.</p>
         <fieldset class="schedule-group"><legend>Inicio</legend>
-          <label>Fecha de inicio<input id="event-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="date" [attr.aria-invalid]="invalid(form.controls.date)" aria-describedby="schedule-zone schedule-error"></label>
-          <label>Hora de inicio<input id="event-start" type="time" formControlName="startsAt" [attr.aria-invalid]="invalid(form.controls.startsAt)" aria-describedby="schedule-zone schedule-error"></label>
+          <label>Fecha<input aria-label="Fecha de inicio" id="event-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="date" [attr.aria-invalid]="invalid(form.controls.date)" aria-describedby="schedule-zone schedule-error"></label>
+          <label>Hora<input aria-label="Hora de inicio" id="event-start" type="time" formControlName="startsAt" [attr.aria-invalid]="invalid(form.controls.startsAt)" aria-describedby="schedule-zone schedule-error"></label>
         </fieldset>
         <fieldset class="schedule-group"><legend>Término</legend>
-          <label>Fecha de término<input id="event-end-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="endsOn" [attr.aria-invalid]="invalid(form.controls.endsOn)" aria-describedby="schedule-zone schedule-error"></label>
-          <label>Hora de término<input id="event-end" type="time" formControlName="endsAt" [attr.aria-invalid]="invalid(form.controls.endsAt)" aria-describedby="schedule-zone schedule-error"></label>
+          <label>Fecha<input aria-label="Fecha de término" id="event-end-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="endsOn" [attr.aria-invalid]="invalid(form.controls.endsOn)" aria-describedby="schedule-zone schedule-error"></label>
+          <label>Hora<input aria-label="Hora de término" id="event-end" type="time" formControlName="endsAt" [attr.aria-invalid]="invalid(form.controls.endsAt)" aria-describedby="schedule-zone schedule-error"></label>
         </fieldset>
         <div class="schedule-summary notice wide" role="status" aria-live="polite" aria-atomic="true"><strong>{{ schedule }}</strong><span>{{ dateRange }}</span></div>
         <div class="wide"><p id="schedule-zone" class="help schedule-zone">Zona horaria: America/Santiago · Máximo 24 h</p>

@@ -242,3 +242,14 @@ Sin commit, push o despliegue. Pendiente revisión visual del Product Owner.
 - Chrome real en 320/390/768/1280 px: cuatro recorridos y cuatro capturas. Campos dentro de sus grupos, altura de 44 px y cero scroll horizontal. Verificados propuesta automática al día siguiente, conservación de término explícito al cambiar inicio, error para período mayor a 24 horas, resumen en vivo, Continuar y Atrás con valores conservados, ayuda con Enter. Sin errores de consola, excepciones, recursos HTTP >=400 o escrituras HTTP. No sustituye comprobación física en Safari/iOS.
 Evidencia: docs/visual-review/event-schedule-412/.
 Sin nueva subetapa, commit, push ni despliegue.
+
+
+25. SEGUNDO AJUSTE RESPONSIVO DE FECHA Y HORARIO — 18-11-2026
+Tras nueva observación del Product Owner se comprobó un defecto a 320 px: etiquetas largas de hora se partían y el control nativo podía recortar el indicador de 12 horas aunque no hubiera scroll horizontal.
+- Etiquetas visibles Fecha/Hora dentro de Inicio/Término, con aria-label completo para distinguir cada campo.
+- Grilla interna adaptable: dos campos en paralelo cuando caben; apilados si cada campo no alcanza 130 px. Evita recortar fechas/horas nativas sin reducir la fuente de 16 px ni quitar los selectores.
+- Menor espacio bajo el título y entre etiqueta/campo. Altura táctil de 44 px y lógica existente conservadas.
+- Archivos de aplicación: admin-event-form.component.html y admin-event-form.component.scss. Sin cambios TypeScript o de negocio.
+- Build aprobado; SCSS 3,97 kB sin elevar presupuestos. Suite Angular 518/518 aprobada. Chrome real, cuatro anchos 320/390/768/1280: controles dentro de sus grupos, sin scroll horizontal; capturas inspeccionadas de 320 y 390 muestran los valores completos. Se repitieron propuesta de término, validación de 24 horas, resumen, Atrás/Continuar y ayuda por teclado; cero errores o escrituras HTTP.
+- Evidencia: docs/visual-review/event-schedule-refit-412/. No se comprobó físicamente Safari/iOS.
+Sin despliegue ni avance a otra subetapa.
