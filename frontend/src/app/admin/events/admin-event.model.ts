@@ -31,7 +31,7 @@ export const EVENT_STATUSES: readonly { value: AdminEventStatus; label: string }
   { value: 'cancelled', label: 'Cancelado' }, { value: 'finished', label: 'Finalizado' }
 ];
 export const TICKET_STATUSES: readonly { value: AdminTicketStatus; label: string }[] = [
-  { value: 'available', label: 'Disponible DEMO' }, { value: 'inactive', label: 'Inactivo' }
+  { value: 'available', label: 'Disponible' }, { value: 'inactive', label: 'Inactivo' }
 ];
 export const EVENT_IMAGES = [
   { value: 'assets/events/void-dancefloor.jpg', label: 'Pista VOID' },

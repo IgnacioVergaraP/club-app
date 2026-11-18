@@ -17,6 +17,9 @@ import { ticketSelectionGuard } from './guards/ticket-selection.guard';
 import { PaymentResultComponent } from './pages/payment-result/payment-result.component';
 
 const routes: Routes = [
+  {path:'acceso',loadChildren:()=>import('./auth/auth.module').then(m=>m.AuthModule)},
+  {path:'registro',redirectTo:'acceso/registro',pathMatch:'full'},
+  {path:'recuperar',redirectTo:'acceso/recuperar',pathMatch:'full'},
   { path: 'staff', loadChildren: () => import('./staff/staff.module').then(m => m.StaffModule) },
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
   {

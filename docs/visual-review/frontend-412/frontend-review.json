@@ -1,0 +1,1462 @@
+{
+  "date": "2026-11-17",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "screen": "login",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Bienvenido a VOID"
+    },
+    {
+      "screen": "login",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Bienvenido a VOID"
+    },
+    {
+      "screen": "login",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Bienvenido a VOID"
+    },
+    {
+      "screen": "login",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Bienvenido a VOID"
+    },
+    {
+      "screen": "login-unavailable",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Bienvenido a VOID"
+    },
+    {
+      "screen": "login-unavailable",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Bienvenido a VOID"
+    },
+    {
+      "screen": "login-unavailable",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Bienvenido a VOID"
+    },
+    {
+      "screen": "login-unavailable",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Bienvenido a VOID"
+    },
+    {
+      "screen": "register",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crea tu cuenta"
+    },
+    {
+      "screen": "register",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crea tu cuenta"
+    },
+    {
+      "screen": "register",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crea tu cuenta"
+    },
+    {
+      "screen": "register",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crea tu cuenta"
+    },
+    {
+      "screen": "recovery",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Recupera tu acceso"
+    },
+    {
+      "screen": "recovery",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Recupera tu acceso"
+    },
+    {
+      "screen": "recovery",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Recupera tu acceso"
+    },
+    {
+      "screen": "recovery",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Recupera tu acceso"
+    },
+    {
+      "screen": "home-client",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-client",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-client",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "home-client",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tu noche comienza aquí."
+    },
+    {
+      "screen": "nights-client",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-client",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-client",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-client",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "event-detail-client",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "VOID Sessions"
+    },
+    {
+      "screen": "event-detail-client",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "VOID Sessions"
+    },
+    {
+      "screen": "event-detail-client",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "VOID Sessions"
+    },
+    {
+      "screen": "event-detail-client",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "VOID Sessions"
+    },
+    {
+      "screen": "drinks-client",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-client",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-client",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-client",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "profile-client",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-client",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-client",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "profile-client",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi perfil."
+    },
+    {
+      "screen": "cart",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "cart",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "cart",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "cart",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Carrito"
+    },
+    {
+      "screen": "checkout",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "checkout",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "checkout",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "checkout",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Checkout"
+    },
+    {
+      "screen": "wallet-choice",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-choice",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-choice",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-choice",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-show-qr",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-show-qr",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-show-qr",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-show-qr",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-entry",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-entry",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-entry",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-entry",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-result",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-result",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-result",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-result",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-expired",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-expired",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-expired",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-pin-expired",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "bar-pin-reuse-rejected",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-pin-reuse-rejected",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-pin-reuse-rejected",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-pin-reuse-rejected",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-qr-success",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-qr-success",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-qr-success",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-qr-success",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-qr-reuse",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-qr-reuse",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-qr-reuse",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "bar-qr-reuse",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Escanear pedido"
+    },
+    {
+      "screen": "wallet-qr-consumed",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-qr-consumed",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-qr-consumed",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-qr-consumed",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "door-valid",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-valid",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-valid",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-valid",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-reuse",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-reuse",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-reuse",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "door-reuse",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Control de acceso"
+    },
+    {
+      "screen": "wallet-entry-used",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-entry-used",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-entry-used",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "wallet-entry-used",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Mi Wallet."
+    },
+    {
+      "screen": "dashboard",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Club VOID "
+    },
+    {
+      "screen": "dashboard",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Club VOID "
+    },
+    {
+      "screen": "dashboard",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Club VOID "
+    },
+    {
+      "screen": "dashboard",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Club VOID "
+    },
+    {
+      "screen": "event-wizard-info",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "event-wizard-info",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "event-wizard-info",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "event-wizard-info",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "event-wizard-review",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "event-wizard-review",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "event-wizard-review",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "event-wizard-review",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear evento"
+    },
+    {
+      "screen": "nights-shared-event",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-shared-event",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-shared-event",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "nights-shared-event",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Noches."
+    },
+    {
+      "screen": "drink-create",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-create",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-create",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drink-create",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Nuevo trago"
+    },
+    {
+      "screen": "drinks-shared-presentation",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-shared-presentation",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-shared-presentation",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "drinks-shared-presentation",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "promotion-instant-type",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-instant-type",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-instant-type",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-instant-type",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-instant-time",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-instant-time",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-instant-time",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-instant-time",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-notification-instant",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-notification-instant",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-notification-instant",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-notification-instant",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-review-instant",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-review-instant",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-review-instant",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-review-instant",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-scheduled-type",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-scheduled-type",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-scheduled-type",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-scheduled-type",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-scheduled-time",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-scheduled-time",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-scheduled-time",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-scheduled-time",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-notification-scheduled",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-notification-scheduled",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-notification-scheduled",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-notification-scheduled",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-review-scheduled",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-review-scheduled",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-review-scheduled",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-review-scheduled",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Crear promoción"
+    },
+    {
+      "screen": "promotion-client-preview",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "promotion-client-preview",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "promotion-client-preview",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "promotion-client-preview",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Tragos"
+    },
+    {
+      "screen": "inventory",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "inventory",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Inventario"
+    },
+    {
+      "screen": "sales",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "sales",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "commissions",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "commissions",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Comisiones e informes financieros"
+    },
+    {
+      "screen": "staff",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "staff",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Personal"
+    },
+    {
+      "screen": "settings",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "settings",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Configuración"
+    },
+    {
+      "screen": "notifications",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notifications",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notifications",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "notifications",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotion-history",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotion-history",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotion-history",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "promotion-history",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Promociones"
+    },
+    {
+      "screen": "supervisor",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "supervisor",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "supervisor",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "supervisor",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Ventas"
+    },
+    {
+      "screen": "fintoc-return",
+      "width": 320,
+      "scrollWidth": 320,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-return",
+      "width": 390,
+      "scrollWidth": 390,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-return",
+      "width": 768,
+      "scrollWidth": 768,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    },
+    {
+      "screen": "fintoc-return",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "overlay": false,
+      "title": "Resultado de Fintoc Sandbox"
+    }
+  ],
+  "screenshots": [
+    "login-390.png",
+    "login-full-390.png",
+    "login-1280.png",
+    "login-full-1280.png",
+    "login-unavailable-390.png",
+    "login-unavailable-1280.png",
+    "register-390.png",
+    "register-full-390.png",
+    "register-1280.png",
+    "register-full-1280.png",
+    "recovery-390.png",
+    "recovery-1280.png",
+    "home-client-390.png",
+    "home-client-1280.png",
+    "nights-client-390.png",
+    "nights-client-1280.png",
+    "event-detail-client-390.png",
+    "event-detail-client-1280.png",
+    "drinks-client-390.png",
+    "drinks-client-1280.png",
+    "profile-client-390.png",
+    "profile-client-1280.png",
+    "cart-390.png",
+    "cart-1280.png",
+    "checkout-390.png",
+    "checkout-1280.png",
+    "wallet-choice-390.png",
+    "wallet-choice-full-390.png",
+    "wallet-choice-1280.png",
+    "wallet-choice-full-1280.png",
+    "wallet-show-qr-390.png",
+    "wallet-show-qr-full-390.png",
+    "wallet-show-qr-1280.png",
+    "wallet-show-qr-full-1280.png",
+    "wallet-pin-entry-390.png",
+    "wallet-pin-entry-1280.png",
+    "wallet-pin-result-390.png",
+    "wallet-pin-result-1280.png",
+    "wallet-pin-expired-390.png",
+    "wallet-pin-expired-1280.png",
+    "bar-pin-reuse-rejected-390.png",
+    "bar-pin-reuse-rejected-1280.png",
+    "bar-qr-success-390.png",
+    "bar-qr-success-1280.png",
+    "bar-qr-reuse-390.png",
+    "bar-qr-reuse-1280.png",
+    "wallet-qr-consumed-390.png",
+    "wallet-qr-consumed-1280.png",
+    "door-valid-390.png",
+    "door-valid-1280.png",
+    "door-reuse-390.png",
+    "door-reuse-1280.png",
+    "wallet-entry-used-390.png",
+    "wallet-entry-used-1280.png",
+    "dashboard-390.png",
+    "dashboard-1280.png",
+    "event-wizard-info-390.png",
+    "event-wizard-info-1280.png",
+    "event-wizard-review-390.png",
+    "event-wizard-review-full-390.png",
+    "event-wizard-review-1280.png",
+    "event-wizard-review-full-1280.png",
+    "nights-shared-event-390.png",
+    "nights-shared-event-1280.png",
+    "drink-create-390.png",
+    "drink-create-1280.png",
+    "drinks-shared-presentation-390.png",
+    "drinks-shared-presentation-1280.png",
+    "promotion-instant-type-390.png",
+    "promotion-instant-type-1280.png",
+    "promotion-instant-time-390.png",
+    "promotion-instant-time-1280.png",
+    "promotion-notification-instant-390.png",
+    "promotion-notification-instant-1280.png",
+    "promotion-review-instant-390.png",
+    "promotion-review-instant-full-390.png",
+    "promotion-review-instant-1280.png",
+    "promotion-review-instant-full-1280.png",
+    "promotion-scheduled-type-390.png",
+    "promotion-scheduled-type-1280.png",
+    "promotion-scheduled-time-390.png",
+    "promotion-scheduled-time-1280.png",
+    "promotion-notification-scheduled-390.png",
+    "promotion-notification-scheduled-1280.png",
+    "promotion-review-scheduled-390.png",
+    "promotion-review-scheduled-full-390.png",
+    "promotion-review-scheduled-1280.png",
+    "promotion-review-scheduled-full-1280.png",
+    "promotion-client-preview-390.png",
+    "promotion-client-preview-1280.png",
+    "inventory-390.png",
+    "inventory-1280.png",
+    "sales-390.png",
+    "sales-1280.png",
+    "commissions-390.png",
+    "commissions-1280.png",
+    "staff-390.png",
+    "staff-1280.png",
+    "settings-390.png",
+    "settings-1280.png",
+    "notifications-390.png",
+    "notifications-1280.png",
+    "promotion-history-390.png",
+    "promotion-history-1280.png",
+    "supervisor-390.png",
+    "supervisor-1280.png",
+    "fintoc-return-390.png",
+    "fintoc-return-1280.png"
+  ],
+  "keyboard": [],
+  "flows": {
+    "access": {
+      "noFalseAuth": true,
+      "registrationAndRecoveryUnavailable": true,
+      "passwordCleared": true
+    },
+    "wallet": {
+      "sameOrderBothMethods": true,
+      "realTwoMinuteExpiry": true,
+      "pinReceiptRestoredAfterReload": true,
+      "pinBlocksQr": true,
+      "qrBlocksPin": true,
+      "developmentResetExplicit": true,
+      "noServerConfirmation": true
+    }
+  },
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [],
+  "paid": false,
+  "native": {
+    "supported": true,
+    "codes": [
+      "VOID:DEMO:CON:001"
+    ],
+    "physicalCameraTested": false
+  },
+  "result": "PASS"
+}

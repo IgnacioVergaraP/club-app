@@ -1,5 +1,6 @@
+import { DemoQrUseStateService } from './redemption/demo-qr-use-state.service';
 import { Injectable } from '@angular/core';
-import { Observable, defer, of } from 'rxjs';
+import { Observable, defer, map, of } from 'rxjs';
 import { MOCK_WALLET } from '../data/mock-wallet';
 import { WalletData } from '../models/wallet.model';
 
@@ -8,12 +9,13 @@ import { WalletData } from '../models/wallet.model';
  */
 @Injectable({ providedIn: 'root' })
 export class WalletService {
+  constructor(private readonly consumption:DemoQrUseStateService){}
   getWallet(): Observable<WalletData> {
-    return defer(() => of({
-      tickets: MOCK_WALLET.tickets.map(item => ({ ...item, event: { ...item.event } })),
-      drinks: MOCK_WALLET.drinks.map(item => ({ ...item, event: { ...item.event } })),
+    return this.consumption.used$.pipe(map(used=>({
+      tickets: MOCK_WALLET.tickets.map(item => ({ ...item, status:used.has(item.id)?'used' as const:item.status,event: { ...item.event } })),
+      drinks: MOCK_WALLET.drinks.map(item => ({ ...item,status:used.has(item.id)?'redeemed' as const:item.status,event: { ...item.event } })),
       activities: MOCK_WALLET.activities.map(item => ({ ...item, event: item.event ? { ...item.event } : undefined }))
         .sort((a, b) => Date.parse(b.occurredAt) - Date.parse(a.occurredAt))
-    }));
+    })));
   }
 }

@@ -13,19 +13,19 @@ const DEMO_QRS: Readonly<Record<string, { image: string; payload: string }>> = {
 @Component({
   selector: 'app-demo-qr',
   standalone: false,
-  template: `<figure *ngIf="sample as qr" class="demo-qr">
+  template:`<figure *ngIf="sample as qr" class="demo-qr">
     <div class="qr-frame">
       <svg class="qr-border" viewBox="0 0 234 234" aria-hidden="true" focusable="false">
         <rect class="qr-track" x="2" y="2" width="230" height="230" rx="10" />
         <rect class="qr-orbit" x="2" y="2" width="230" height="230" rx="10" pathLength="100" />
       </svg>
       <img [src]="qr.image" width="222" height="222"
-        [alt]="'QR de demostración ' + reference + (statusLabel ? '. Estado: ' + statusLabel : ' con logo VOID') + '. Sin validez real.'">
+        [alt]="'QR ' + reference.replace('DEMO-','') + (statusLabel ? '. Estado: ' + statusLabel : ' con logo VOID') + '. Sin validez real.'">
       <span *ngIf="statusLabel" class="qr-status" [class.used]="status === 'used'"
         [class.redeemed]="status === 'redeemed'" [class.expired]="status === 'expired'">{{ statusLabel }}</span>
     </div>
-    <figcaption><strong>QR de demostración</strong><code>{{ qr.payload }}</code>
-      <span>DEMO · Sin validez para ingresar o retirar bebidas</span>
+    <figcaption><strong>Código QR</strong>
+      <span> · Preséntalo al personal para continuar</span>
     </figcaption>
   </figure>`,
   styles: [`

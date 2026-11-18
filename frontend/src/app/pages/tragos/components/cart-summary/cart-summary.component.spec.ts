@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../../../shared/shared-presentation.module';
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
@@ -18,7 +19,7 @@ describe('Pago directo desde Tragos', () => {
   beforeEach(async () => {
     redirect = jasmine.createSpyObj('redirect', ['open']);
     await TestBed.configureTestingModule({
-      imports: [CommonModule, HttpClientTestingModule, RouterTestingModule],
+      imports: [SharedPresentationModule,CommonModule, HttpClientTestingModule, RouterTestingModule],
       declarations: [CartSummaryComponent],
       providers: [{ provide: FintocRedirectService, useValue: redirect }]
     }).compileComponents();

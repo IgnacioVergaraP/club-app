@@ -1,10 +1,10 @@
 <section class="wallet" aria-labelledby="wallet-title" *ngIf="view$ | async as view">
-  <header class="wallet-heading"><div><h1 id="wallet-title">Mi Wallet<span>.</span></h1><p>Entradas, consumos y tus noches en un solo lugar.</p></div><span class="demo-badge">DEMO</span></header>
-  <p class="demo-notice">Vista de demostración. Ningún registro permite ingresar a eventos ni retirar bebidas.</p>
+  <header class="wallet-heading"><div><h1 id="wallet-title">Mi Wallet<span>.</span></h1><p>Entradas, consumos y tus noches en un solo lugar.</p></div></header>
+  
 
-  <section *ngIf="!view.loading && !view.error" class="overview" aria-label="Resumen de registros de demostración">
-    <div><strong data-metric="tickets">{{ view.overview.ticketCount }}</strong><span>Entradas demo</span></div>
-    <div><strong data-metric="drinks">{{ view.overview.drinkUnits }}</strong><span>Consumos demo</span></div>
+  <section *ngIf="!view.loading && !view.error" class="overview" aria-label="Resumen de registros">
+    <div><strong data-metric="tickets">{{ view.overview.ticketCount }}</strong><span>Entradas</span></div>
+    <div><strong data-metric="drinks">{{ view.overview.drinkUnits }}</strong><span>Consumos</span></div>
     <div class="next-event"><span>Próxima noche asociada</span><strong>{{ view.overview.nextEvent?.name || 'Sin próximas fechas' }}</strong>
       <time *ngIf="view.overview.nextEvent as event" [attr.datetime]="event.startsAt">{{ event.startsAt | date:'dd MMM · HH:mm':'-0300' }} h · UTC−3</time></div>
   </section>
@@ -19,7 +19,7 @@
 
   <section class="wallet-panel" role="tabpanel" tabindex="0" [id]="'wallet-panel-' + view.section"
     [attr.aria-labelledby]="'wallet-tab-' + view.section">
-    <p *ngIf="view.loading" role="status" class="state">Cargando tu Wallet de demostración…</p>
+    <p *ngIf="view.loading" role="status" class="state">Cargando tu Wallet…</p>
     <div *ngIf="view.error" class="empty-state" role="alert"><h2>No pudimos cargar la Wallet.</h2><p>Inténtalo nuevamente en un momento.</p><button type="button" class="void-btn-primary" (click)="retry()">Reintentar</button></div>
 
     <ng-container *ngIf="view.data as data">
@@ -27,28 +27,28 @@
         <div *ngSwitchCase="'tickets'" class="record-list">
           <p class="section-note">Estados ilustrativos · referencias visuales sin validez de acceso.</p>
           <article *ngFor="let ticket of data.tickets; trackBy: trackRecord" class="ticket-card" [class.available-ticket]="ticket.status === 'available'">
-            <div class="ticket-cover"><img [src]="ticket.event.imageUrl || 'assets/events/void-orbit.svg'" alt="" width="640" height="180" loading="lazy"><span class="demo-badge">DEMO · SIN VALIDEZ DE ACCESO</span></div>
+            <div class="ticket-cover"><img [src]="ticket.event.imageUrl || 'assets/events/void-orbit.svg'" alt="" width="640" height="180" loading="lazy"><span class="demo-badge">CLUB VOID</span></div>
             <div class="ticket-body">
               <div class="record-heading"><h2>{{ ticket.event.name }}</h2><span class="status" [ngClass]="ticket.status">{{ ticketLabels[ticket.status] }}</span></div>
               <p class="ticket-type">Entrada {{ ticket.ticketType }}</p><time [attr.datetime]="ticket.event.startsAt">{{ ticket.event.startsAt | date:'dd MMM yyyy · HH:mm':'-0300' }} h · UTC−3</time>
-              <div class="visual-reference"><span>Referencia visual DEMO</span><strong>{{ ticket.reference }}</strong></div>
-              <details><summary>Ver detalles de demostración</summary><app-demo-qr *ngIf="ticket.isDemo" [reference]="ticket.reference" [status]="ticket.status" [statusLabel]="ticket.status === 'available' ? '' : ticketLabels[ticket.status]"></app-demo-qr><dl><div><dt>Tipo</dt><dd>{{ ticket.ticketType }}</dd></div><div><dt>Estado ilustrativo</dt><dd>{{ ticketLabels[ticket.status] }}</dd></div><div><dt>Referencia del evento</dt><dd>{{ ticket.event.id }}</dd></div></dl><p>Este ejemplo no representa una entrada emitida ni acredita un pago o ingreso.</p></details>
+              <div class="visual-reference"><span>Referencia visual </span><strong>{{ticket.reference|referenceLabel}}</strong></div>
+              <details><summary>Ver detalles</summary><app-demo-qr *ngIf="ticket.isDemo" [reference]="ticket.reference" [status]="ticket.status" [statusLabel]="ticket.status === 'available' ? '' : ticketLabels[ticket.status]"></app-demo-qr><dl><div><dt>Tipo</dt><dd>{{ ticket.ticketType }}</dd></div><div><dt>Estado ilustrativo</dt><dd>{{ ticketLabels[ticket.status] }}</dd></div><div><dt>Referencia del evento</dt><dd>{{ticket.event.id|referenceLabel}}</dd></div></dl><p>Este ejemplo no representa una entrada emitida ni acredita un pago o ingreso.</p></details>
             </div>
           </article>
-          <div *ngIf="!data.tickets.length" class="empty-state" role="status"><h2>Aún no hay entradas de demostración.</h2><p>Explora las noches para conocer la experiencia.</p><a routerLink="/noches">Explorar Noches ↗</a></div>
+          <div *ngIf="!data.tickets.length" class="empty-state" role="status"><h2>Aún no hay entradas.</h2><p>Explora las noches para conocer la experiencia.</p><a routerLink="/noches">Explorar Noches ↗</a></div>
         </div>
 
         <div *ngSwitchCase="'drinks'" class="record-list"><app-wallet-drink-orders [drinks]="data.drinks"></app-wallet-drink-orders></div>
 
         <div *ngSwitchCase="'history'" class="record-list">
-          <p class="section-note">Historial ficticio · no es un comprobante de compra o documento tributario.</p>
+          <p class="section-note">Historial locales · no es un comprobante de compra o documento tributario.</p>
           <article *ngFor="let activity of data.activities; trackBy: trackRecord" class="activity-card">
-            <div class="record-heading"><span class="activity-type">{{ activityTypes[activity.type] }}</span><span class="record-demo">DEMO</span></div>
+            <div class="record-heading"><span class="activity-type">{{ activityTypes[activity.type] }}</span></div>
             <h2>{{ activity.title }}</h2><time [attr.datetime]="activity.occurredAt">{{ activity.occurredAt | date:'dd MMM yyyy · HH:mm':'-0300' }} h · UTC−3</time>
             <span class="status" [ngClass]="activity.status">{{ activityLabels[activity.status] }}</span>
-            <details><summary>Ver detalles de demostración</summary><p>{{ activity.description }}</p><dl><div><dt>Referencia visual</dt><dd>{{ activity.reference }}</dd></div><div *ngIf="activity.event"><dt>Evento asociado</dt><dd>{{ activity.event.name }}</dd></div></dl></details>
+            <details><summary>Ver detalles</summary><p>{{ activity.description }}</p><dl><div><dt>Referencia visual</dt><dd>{{activity.reference|referenceLabel}}</dd></div><div *ngIf="activity.event"><dt>Evento asociado</dt><dd>{{ activity.event.name }}</dd></div></dl></details>
           </article>
-          <div *ngIf="!data.activities.length" class="empty-state" role="status"><h2>Aún no hay movimientos de demostración.</h2><p>Este espacio mostrará el historial cuando esté disponible.</p></div>
+          <div *ngIf="!data.activities.length" class="empty-state" role="status"><h2>Aún no hay movimientos.</h2><p>Este espacio mostrará el historial cuando esté disponible.</p></div>
         </div>
       </ng-container>
     </ng-container>

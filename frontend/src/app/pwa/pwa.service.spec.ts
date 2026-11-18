@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../shared/shared-presentation.module';
 import { TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { SwUpdate } from '@angular/service-worker';
@@ -7,7 +8,7 @@ import { PwaStatusComponent } from './pwa-status.component';
 import { CommonModule } from '@angular/common';
 describe('PWA preparation and safe updates',()=>{
  let events:Subject<any>,unrecoverable:Subject<any>,lock:BehaviorSubject<boolean>,platform:any,updates:any,online:boolean;
- beforeEach(()=>{online=true;events=new Subject();unrecoverable=new Subject();lock=new BehaviorSubject(false);platform={online:()=>online,prepare:jasmine.createSpy().and.resolveTo(true),reload:jasmine.createSpy()};updates={isEnabled:true,versionUpdates:events,unrecoverable,checkForUpdate:jasmine.createSpy().and.resolveTo(false)};TestBed.configureTestingModule({imports:[CommonModule],declarations:[PwaStatusComponent],providers:[{provide:SwUpdate,useValue:updates},{provide:PWA_PLATFORM,useValue:platform},{provide:PWA_REDEMPTION_LOCK,useValue:lock}]});});
+ beforeEach(()=>{online=true;events=new Subject();unrecoverable=new Subject();lock=new BehaviorSubject(false);platform={online:()=>online,prepare:jasmine.createSpy().and.resolveTo(true),reload:jasmine.createSpy()};updates={isEnabled:true,versionUpdates:events,unrecoverable,checkForUpdate:jasmine.createSpy().and.resolveTo(false)};TestBed.configureTestingModule({imports:[SharedPresentationModule,CommonModule],declarations:[PwaStatusComponent],providers:[{provide:SwUpdate,useValue:updates},{provide:PWA_PLATFORM,useValue:platform},{provide:PWA_REDEMPTION_LOCK,useValue:lock}]});});
  function read(service:PwaService){let result:any;service.state$.subscribe(v=>result=v).unsubscribe();return result;}
  function readyEvent(){events.next({type:'VERSION_READY',currentVersion:{hash:'A'},latestVersion:{hash:'B'}});}
  it('checks the official worker and verifies cached resources before saying ready',fakeAsync(()=>{const s=TestBed.inject(PwaService);expect(read(s).ready).toBeFalse();flushMicrotasks();expect(updates.checkForUpdate).toHaveBeenCalled();expect(platform.prepare).toHaveBeenCalled();expect(read(s).ready).toBeTrue();}));

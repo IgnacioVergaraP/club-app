@@ -1,3 +1,5 @@
+import { DemoRedemptionService } from '../services/redemption/demo-redemption.service';
+import { ReviewToolsService } from '../auth/session.service';
 import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -9,6 +11,7 @@ import { StaffDrinksScanService, StaffTicketsScanService, STAFF_SCAN_CLOCK } fro
 import { staffRecords } from './staff-scan.data';
 @Component({selector:'app-staff-scan',standalone:false,templateUrl:'./staff-scan.component.html',styleUrls:['./staff-scan.component.scss']})
 export class StaffScanComponent {
+ readonly pinRecords=inject(DemoRedemptionService);readonly tools=inject(ReviewToolsService);
  readonly club=CLUB_CONFIG;private readonly drinks=inject(StaffDrinksScanService);readonly tickets=inject(StaffTicketsScanService);private readonly clock=inject(STAFF_SCAN_CLOCK);
  @ViewChild(QrCameraComponent) scanner?:QrCameraComponent;
  channel:ScanChannel='bar';result:ScanResult|null=null;private scanned='';private focusTimer:ReturnType<typeof setTimeout>|undefined;

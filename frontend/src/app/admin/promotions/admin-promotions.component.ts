@@ -22,8 +22,8 @@ export class AdminPromotionsComponent {
  key(event:KeyboardEvent,index:number){let next=index;if(event.key==='ArrowRight')next=(index+1)%3;else if(event.key==='ArrowLeft')next=(index+2)%3;else if(event.key==='Home')next=0;else if(event.key==='End')next=2;else return;event.preventDefault();this.chooseTab(tabs[next]);document.getElementById('promotion-tab-'+tabs[next])?.focus();}
  select(id:string|null,view:string){void this.router.navigate([],{relativeTo:this.route,queryParams:{view,selection:id}});}
  duplicate(id:string){this.error='';try{this.service.duplicate(id).subscribe({next:copy=>void this.router.navigate(['/admin/promociones',copy,'editar']),error:e=>this.error=e.message});}catch(e){this.error=(e as Error).message;}}
- cancelPromotion(id:string){if(window.confirm('¿Cancelar esta promoción y su aviso pendiente en la DEMO?'))this.run(()=>this.service.cancelPromotion(id));}
- cancelNotice(id:string){if(window.confirm('¿Cancelar este aviso DEMO? No se realizará ningún envío.'))this.run(()=>this.service.cancelNotice(id));}
+ cancelPromotion(id:string){if(window.confirm('¿Cancelar esta promoción y su aviso pendiente en la ?'))this.run(()=>this.service.cancelPromotion(id));}
+ cancelNotice(id:string){if(window.confirm('¿Cancelar este aviso ? No se realizará ningún envío.'))this.run(()=>this.service.cancelNotice(id));}
  finish(id:string){this.run(()=>this.service.finishSimulation(id));}
  private run(action:()=>void){this.error='';try{action();}catch(e){this.error=(e as Error).message;}}
  promotionPreview(p:Promotion):NoticePreview{return {title:p.noticeTitle||p.name,message:p.noticeMessage||p.description,productName:p.productName,priceClp:p.promoPriceClp,schedule:p.modality==='instant'&&p.mode==='draft'?`Se activará al publicar · ${p.durationMinutes||'Duración pendiente'} min`:scheduleLabel(p.startAt,p.endAt),audience:p.audience};}

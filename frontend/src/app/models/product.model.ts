@@ -7,6 +7,7 @@ export type ProductCategory =
   | 'sin-alcohol';
 
 export interface Product {
+  presentationOnly?:boolean;
   id: string;
   name: string;
   description: string;

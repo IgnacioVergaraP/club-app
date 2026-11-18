@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -16,7 +17,7 @@ describe('InicioComponent', () => {
     spyOn(Date, 'now').and.returnValue(Date.parse('2026-10-30T18:00:00Z'));
     events = jasmine.createSpyObj<EventsService>('EventsService', ['getEvents']);
     await TestBed.configureTestingModule({
-      imports: [CommonModule, RouterTestingModule.withRoutes([
+      imports: [SharedPresentationModule,CommonModule, RouterTestingModule.withRoutes([
         { path: 'noches', component: InicioComponent },
         { path: 'noches/:eventId', component: InicioComponent },
         { path: 'tragos', component: InicioComponent },
@@ -42,7 +43,7 @@ describe('InicioComponent', () => {
     expect(page.querySelector('.next-event h3')?.textContent).toBe('VOID Sessions');
     expect(page.querySelector('.event-date')?.textContent).toContain('23:00');
     expect(page.querySelectorAll('.featured-card').length).toBe(3);
-    expect(page.textContent).toContain('Evento de demostración');
+    expect(page.textContent).toContain('Evento');
     expect(page.textContent).toContain('no están a la venta');
     expect(page.textContent).toContain('Los pagos todavía no están habilitados');
   });

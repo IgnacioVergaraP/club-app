@@ -18,7 +18,7 @@ export class AdminPromotionFormComponent {
  readonly notification=new FormGroup({title:new FormControl('',{nonNullable:true,validators:[requiredText,Validators.maxLength(80)]}),message:new FormControl('',{nonNullable:true,validators:[requiredText,Validators.maxLength(240)]}),kind:new FormControl<NoticeKind>('promotion',{nonNullable:true}),audience:new FormControl<AudienceId>('clients-consented',{nonNullable:true}),date:new FormControl('',{nonNullable:true,validators:[Validators.required]}),time:new FormControl('',{nonNullable:true,validators:[Validators.required]}),mode:new FormControl<'draft'|'scheduled'>('draft',{nonNullable:true}),productId:new FormControl('',{nonNullable:true}),ingredientId:new FormControl('',{nonNullable:true})});
  get form():FormGroup{return this.mode==='promotion'?this.promotion:this.notification;}
  get commercialNotice(){return this.kinds.find(k=>k.value===this.notification.controls.kind.value)?.commercial===true;}
- get title(){return this.mode==='promotion'?(this.id?'Editar promoción':'Nueva promoción'):(this.id?'Editar aviso DEMO':'Nuevo aviso DEMO');}
+ get title(){return this.mode==='promotion'?(this.id?'Editar promoción':'Nueva promoción'):(this.id?'Editar aviso ':'Nuevo aviso ');}
  get percentage(){const p=this.promotion.getRawValue();return discount(p.referencePriceClp,p.promoPriceClp);}
  get preview():NoticePreview {
   if(this.mode==='promotion'){const p=this.promotion.getRawValue(),from=eventInstant(p.startDate,p.startTime),to=eventInstant(p.endDate,p.endTime);return {title:p.noticeTitle||p.name,message:p.noticeMessage||p.description,productName:this.catalog.find(c=>c.id===p.productId)?.name||'',priceClp:p.promoPriceClp>0?p.promoPriceClp:null,schedule:from!==null&&to!==null?scheduleLabel(from,to):'Programación pendiente · America/Santiago',audience:p.audience};}
@@ -43,7 +43,7 @@ export class AdminPromotionFormComponent {
  }
  noticeDraft():NoticeDraft{const n=this.notification.getRawValue();return {...n,productId:n.productId||null,ingredientId:n.ingredientId||null};}
  signature(){return JSON.stringify(this.form.getRawValue());}private capture(){this.baseline=this.signature();}
- confirmLeave(){return this.missing||this.readonlyRecord||this.signature()===this.baseline||window.confirm('Hay cambios DEMO sin guardar. ¿Quieres descartarlos?');}
+ confirmLeave(){return this.missing||this.readonlyRecord||this.signature()===this.baseline||window.confirm('Hay cambios sin guardar. ¿Quieres descartarlos?');}
  @HostListener('window:beforeunload',['$event']) unload(e:BeforeUnloadEvent){if(!this.missing&&!this.readonlyRecord&&this.signature()!==this.baseline){e.preventDefault();e.returnValue='';}}
 }
 export const promotionUnsavedGuard:CanDeactivateFn<AdminPromotionFormComponent>=component=>component.confirmLeave();

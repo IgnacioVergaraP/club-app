@@ -16,6 +16,7 @@ export interface WalletTicket {
 }
 
 export interface WalletDrink {
+  paymentStatus?:'sample'|'confirmed'|'pending_payment';
   id: string;
   event: WalletEvent;
   productId: string;

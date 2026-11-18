@@ -80,7 +80,7 @@ export class FintocExpressCheckoutComponent implements AfterViewInit, OnChanges,
       if (!this.current(generation)) { return; }
       if (!config.enabled || config.mode !== 'test' || !config.public_key?.startsWith('pk_test_')) {
         this.state = 'disabled';
-        this.message = 'Apple Pay Sandbox está pendiente de configurar con claves de prueba.';
+        this.message = 'Apple Pay Sandbox está pendiente de configurar con claves de revisión.';
         return;
       }
       const sdk = await this.sdk.load();

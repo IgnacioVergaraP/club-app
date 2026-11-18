@@ -1,5 +1,6 @@
+import { PresentationBridgeService } from './presentation-bridge.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Product } from '../models/product.model';
 import { MOCK_PRODUCTS } from '../data/mock-products';
@@ -28,6 +29,7 @@ const CLP_FORMATTER = new Intl.NumberFormat('es-CL');
   providedIn: 'root'
 })
 export class CartSelectionService {
+  constructor(private readonly presentation:PresentationBridgeService=new PresentationBridgeService()){}
   private readonly state$ = new BehaviorSubject<CartSelectionState>({
     quantities: {}
   });
@@ -50,8 +52,8 @@ export class CartSelectionService {
     map((units) => units === 0)
   );
 
-  readonly items$: Observable<CartItem[]> = this.state$.pipe(
-    map((s) => this.buildItems(s.quantities))
+  readonly items$: Observable<CartItem[]> = combineLatest([this.state$,this.presentation.drinks$]).pipe(
+    map(([s]) => this.buildItems(s.quantities))
   );
 
   /** Formatea un valor numérico como CLP usando Intl. */
@@ -110,8 +112,9 @@ export class CartSelectionService {
     for (const product of MOCK_PRODUCTS) {
       const quantity = quantities[product.id] ?? 0;
       if (quantity > 0) {
+        const edit=this.presentation.drinkFor(product.id);
         items.push({
-          product,
+          product:edit?{...product,name:edit.name,description:edit.description,imageUrl:edit.image}:{...product},
           quantity,
           subtotalClp: product.priceClp * quantity
         });

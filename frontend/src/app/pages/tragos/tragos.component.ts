@@ -1,3 +1,5 @@
+import { inject } from '@angular/core';
+import { PresentationBridgeService } from '../../services/presentation-bridge.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
@@ -13,6 +15,7 @@ import { CartSelectionService } from '../../services/cart-selection.service';
   standalone: false
 })
 export class TragosComponent implements OnInit, OnDestroy {
+  readonly offers$=inject(PresentationBridgeService).offers$;
   readonly searchControl = new FormControl<string>('', { nonNullable: true });
   readonly selectedCategory$ = new BehaviorSubject<ProductCategory | 'all'>('all');
 

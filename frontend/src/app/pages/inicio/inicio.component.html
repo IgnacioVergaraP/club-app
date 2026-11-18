@@ -15,7 +15,7 @@
         <div class="event-art">
           <img [src]="event.imageUrl || 'assets/events/void-orbit.svg'" alt="" width="960" height="640">
           <span class="art-label">PRÓXIMA NOCHE</span>
-          <span class="demo-tag" *ngIf="event.isDemo">Evento de demostración</span>
+          <span class="demo-tag" *ngIf="event.isDemo">Evento</span>
         </div>
         <div class="event-body">
           <p class="eyebrow">{{ event.category }}</p>
@@ -45,7 +45,7 @@
         <h2 id="featured-title">Próximas noches</h2>
         <a routerLink="/noches">Ver noches <span aria-hidden="true">↗</span></a>
       </div>
-      <p class="demo-note">Programación de demostración. Estos eventos son ficticios y no están a la venta.</p>
+      <p class="demo-note">Programación. Estos eventos son locales y no están a la venta.</p>
       <div class="featured-grid" *ngIf="home.featured.length; else noFeatured">
         <article class="featured-card" *ngFor="let event of home.featured; let index = index">
           <div class="featured-visual"><img [src]="event.imageUrl" alt="" width="240" height="160" loading="lazy"></div>
@@ -79,7 +79,7 @@
     <h2 id="experience-title">Todo empieza en tu celular.</h2>
     <div class="benefits">
       <div><h3>Elige tu noche</h3><p>Descubre eventos desde el celular. La compra de entradas estará disponible más adelante.</p></div>
-      <div><h3>Encuentra tu trago</h3><p>Explora el catálogo y prepara tu pedido de demostración, sin realizar cobros.</p></div>
+      <div><h3>Encuentra tu trago</h3><p>Explora el catálogo y prepara tu pedido, sin realizar cobros.</p></div>
       <div><h3>Tenlo a mano</h3><p>Wallet será tu lugar para acceder a tus entradas y compras cuando estén habilitadas.</p></div>
     </div>
     <p class="availability-note">Estamos preparando la experiencia. Los pagos todavía no están habilitados.</p>

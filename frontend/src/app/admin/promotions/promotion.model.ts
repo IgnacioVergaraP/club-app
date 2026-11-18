@@ -17,7 +17,7 @@ export interface PromotionData {promotions:Promotion[];notices:DemoNotice[];hist
 export interface PromotionSummary {registered:number;scheduled:number;active:number;finished:number;}
 export interface NoticePreview {title:string;message:string;productName:string;priceClp:number|null;schedule:string;audience:AudienceId;}
 export const PROMOTION_LABELS:Record<PromotionStatus,string>={draft:'Borrador',scheduled:'Programada',active:'Activa',finished:'Finalizada',cancelled:'Cancelada'};
-export const NOTICE_LABELS:Record<NoticeState,string>={draft:'Borrador',scheduled:'Programada',simulated:'Simulación finalizada',cancelled:'Cancelada'};
+export const NOTICE_LABELS:Record<NoticeState,string>={draft:'Borrador',scheduled:'Programada',simulated:'Preparación finalizada',cancelled:'Cancelada'};
 export const NOTICE_KINDS:{value:NoticeKind;label:string;commercial:boolean}[]=[{value:'promotion',label:'Promoción',commercial:true},{value:'flash',label:'Oferta relámpago',commercial:true},{value:'event',label:'Información de evento',commercial:true},{value:'bar',label:'Aviso para barra',commercial:false},{value:'door',label:'Aviso para puerta',commercial:false},{value:'stock',label:'Stock bajo',commercial:false},{value:'supervisor',label:'Aviso para supervisores',commercial:false},{value:'incident',label:'Incidencia',commercial:false}];
 
 export interface PromotionDraftProgress {step:number;furthest:number;}

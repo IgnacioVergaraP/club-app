@@ -9,7 +9,7 @@
   </header>
 
   <div class="demo-banner" role="status">
-    Demostración con Fintoc Sandbox. Los intentos de prueba no representan cobros reales.
+    Revisión con Fintoc Sandbox. Los intentos de revisión no representan cobros reales.
   </div>
 
   <ng-container *ngIf="items$ | async as items">
@@ -45,7 +45,7 @@
     </section>
 
     <section class="summary-card" aria-label="Preparación del pedido">
-      <h2 class="section-title">Preparar pedido de demostración</h2>
+      <h2 class="section-title">Preparar pedido</h2>
       <button type="button" class="prepare-btn" (click)="prepareOrder()"
               [disabled]="loading || paymentBusy || paymentAttempted || hostedAttempted || sandboxVerified || items.length === 0" [attr.aria-busy]="loading">
         {{ loading ? 'Preparando…' : 'Preparar pedido' }}
@@ -72,7 +72,7 @@
           El importe del servidor difiere del estimado en {{ formatClp(priceDifference) }}.
           Revisa los importes. Este pedido no está listo para autorizar un pago.
         </p>
-        <p>Esta demostración no produce cobros reales. Tu carrito se conserva.</p>
+        <p>Esta Revisión no produce cobros reales. Tu carrito se conserva.</p>
       </div>
     </section>
 

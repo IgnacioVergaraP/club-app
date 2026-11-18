@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -15,7 +16,7 @@ describe('TicketSummaryComponent', () => {
   beforeEach(async () => {
     spyOn(Date, 'now').and.returnValue(Date.parse('2026-11-02T18:00:00Z'));
     await TestBed.configureTestingModule({
-      imports: [CommonModule, RouterTestingModule], declarations: [TicketSummaryComponent]
+      imports: [SharedPresentationModule,CommonModule, RouterTestingModule], declarations: [TicketSummaryComponent]
     }).compileComponents();
     tickets = TestBed.inject(TicketSelectionService);
     navigate = spyOn(TestBed.inject(Router), 'navigate').and.resolveTo(true);

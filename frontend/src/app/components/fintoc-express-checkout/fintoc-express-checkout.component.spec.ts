@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
 import { of, Subject, throwError } from 'rxjs';
@@ -32,7 +33,7 @@ describe('Fintoc Express Checkout (SDK y proveedor simulados)', () => {
     sdk = jasmine.createSpyObj<FintocSdkService>('SDK', ['load']);
     sdk.load.and.resolveTo({ create });
     await TestBed.configureTestingModule({
-      imports: [CommonModule], declarations: [FintocExpressCheckoutComponent],
+      imports: [SharedPresentationModule,CommonModule], declarations: [FintocExpressCheckoutComponent],
       providers: [{ provide: FintocPaymentsService, useValue: payments }, { provide: FintocSdkService, useValue: sdk }]
     }).compileComponents();
   });

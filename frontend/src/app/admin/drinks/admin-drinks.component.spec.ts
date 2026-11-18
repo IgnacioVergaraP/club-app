@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import esCl from '@angular/common/locales/es-CL';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,9 +24,9 @@ describe('Admin drinks list',()=>{
   it('duplicates and opens the editor for the new variant',async()=>{
     const service=new AdminDrinksService();const component=new AdminDrinksComponent(service,router);const navigate=spyOn(router,'navigate').and.resolveTo(true);component.duplicate((await firstValueFrom(service.drinks$))[0]);expect(navigate).toHaveBeenCalledWith(['/admin/tragos','admin-demo-drink-006','editar']);
   });
-  beforeEach(async()=>{await TestBed.configureTestingModule({imports:[CommonModule,ReactiveFormsModule,RouterTestingModule],declarations:[AdminDrinksComponent,AdminDrinkRowComponent,AdminIconComponent],providers:[AdminDrinksService]}).compileComponents();});
+  beforeEach(async()=>{await TestBed.configureTestingModule({imports:[SharedPresentationModule,CommonModule,ReactiveFormsModule,RouterTestingModule],declarations:[AdminDrinksComponent,AdminDrinkRowComponent,AdminIconComponent],providers:[AdminDrinksService]}).compileComponents();});
   it('renders a distinct initial empty state',()=>{
-    TestBed.overrideProvider(AdminDrinksService,{useValue:{drinks$:of([]),message$:of('')}});const fixture=TestBed.createComponent(AdminDrinksComponent);fixture.detectChanges();expect(fixture.nativeElement.textContent).toContain('Tu carta DEMO está vacía');expect(fixture.nativeElement.querySelector('a.new-drink')).toBeTruthy();
+    TestBed.overrideProvider(AdminDrinksService,{useValue:{drinks$:of([]),message$:of('')}});const fixture=TestBed.createComponent(AdminDrinksComponent);fixture.detectChanges();expect(fixture.nativeElement.textContent).toContain('Tu carta está vacía');expect(fixture.nativeElement.querySelector('a.primary')).toBeTruthy();
   });
   it('renders no results and a clear-filter action',()=>{
     const fixture=TestBed.createComponent(AdminDrinksComponent);fixture.componentInstance.search.setValue('no existe');fixture.detectChanges();expect(fixture.nativeElement.textContent).toContain('No encontramos tragos');fixture.componentInstance.clearFilters();fixture.detectChanges();expect(fixture.nativeElement.querySelectorAll('.drink-row').length).toBe(5);

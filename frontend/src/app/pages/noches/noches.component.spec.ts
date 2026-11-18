@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,7 +17,7 @@ describe('NochesComponent', () => {
     events = jasmine.createSpyObj<EventsService>('EventsService', ['getEvents']);
     events.getEvents.and.returnValue(of(MOCK_EVENTS.map(event => ({ ...event }))));
     await TestBed.configureTestingModule({
-      imports: [CommonModule, RouterTestingModule],
+      imports: [SharedPresentationModule,CommonModule, RouterTestingModule],
       declarations: [NochesComponent],
       providers: [{ provide: EventsService, useValue: events }]
     }).compileComponents();

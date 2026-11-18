@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
@@ -14,7 +15,7 @@ describe('PaymentResultComponent',()=>{
     params=new BehaviorSubject(convertToParamMap({order_id:ID,result:'returned',verified:'true'}));
     payments=jasmine.createSpyObj('payments',['verifyHosted','createHostedSession']);
     payments.verifyHosted.and.returnValue(of({order_id:ID,mode:'test',verified:false,status:'created'}));
-    await TestBed.configureTestingModule({imports:[CommonModule,RouterTestingModule],declarations:[PaymentResultComponent],providers:[
+    await TestBed.configureTestingModule({imports:[SharedPresentationModule,CommonModule,RouterTestingModule],declarations:[PaymentResultComponent],providers:[
       {provide:ActivatedRoute,useValue:{queryParamMap:params}},{provide:FintocPaymentsService,useValue:payments},
       {provide:FintocRedirectService,useValue:jasmine.createSpyObj('redirect',['open'])}]}).compileComponents();
   });

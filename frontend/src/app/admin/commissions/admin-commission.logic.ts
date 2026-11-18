@@ -22,7 +22,7 @@ export function feeBreakdown(amount:number,mode:AdminCommissionConfig['vatMode']
  const vatClp=roundedRatio(amount,DEMO_VAT_BPS,10000);const totalClp=amount+vatClp;integer(totalClp);return {netClp:amount,vatClp,totalClp};
 }
 export function calculateCommission(sale:AdminSale,config:AdminCommissionConfig):AdminFinancialOperation {
- if(!validCommissionConfig(config))throw new Error('Configuración DEMO inválida.');
+ if(!validCommissionConfig(config))throw new Error('Configuración  inválida.');
  const grossClp=saleTotal(sale);integer(grossClp);
  const eligible=sale.paymentStatus==='approved';const zero=():AdminFeeBreakdown=>({netClp:0,vatClp:0,totalClp:0});
  if(!eligible)return {sale,eligible:false,grossClp,recognizedGrossClp:0,baseClp:0,codetec:zero(),processor:zero(),clubEstimatedClp:0,codetecRetainedClp:0};

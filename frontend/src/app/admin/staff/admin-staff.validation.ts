@@ -10,10 +10,10 @@ export function staffNameValidator(control:AbstractControl){return typeof contro
 export function staffEmailValidator(control:AbstractControl){return validStaffEmail(typeof control.value==='string'?control.value.trim():'')?null:{email:true};}
 export function staffPhoneValidator(control:AbstractControl){return validStaffPhone(control.value)?null:{phone:true};}
 export function normalizeStaffDraft(input:AdminStaffDraft):AdminStaffDraft {
- if(!input||![input.name,input.email,input.phone].every(v=>typeof v==='string'))throw new Error('Revisa los datos del trabajador DEMO.');
+ if(!input||![input.name,input.email,input.phone].every(v=>typeof v==='string'))throw new Error('Revisa los datos del trabajador .');
  const value:AdminStaffDraft={name:input.name.trim().replace(/\s+/g,' ').normalize('NFC'),email:normalizeStaffEmail(input.email),phone:input.phone.trim().replace(/\s+/g,' '),role:input.role,area:input.area,status:input.status};
  if(!value.name||value.name.length>STAFF_LIMITS.name)throw new Error('El nombre es obligatorio y admite hasta 80 caracteres.');
- if(!validStaffEmail(value.email))throw new Error('Ingresa un correo DEMO con formato válido.');
+ if(!validStaffEmail(value.email))throw new Error('Ingresa un correo  con formato válido.');
  if(!validStaffPhone(value.phone))throw new Error('El teléfono debe contener de 8 a 15 dígitos y hasta 24 caracteres.');
  if(!STAFF_ROLES.some(r=>r.value===value.role)||!STAFF_AREAS.some(a=>a.value===value.area)||!['active','inactive'].includes(value.status))throw new Error('Selecciona un rol, área y estado válidos.');
  return value;

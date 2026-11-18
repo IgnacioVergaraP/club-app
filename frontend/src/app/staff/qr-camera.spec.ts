@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../shared/shared-presentation.module';
 import { TestBed, fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
 import { QrCameraService, QR_CAMERA_PLATFORM, CameraPlatform, QrDetectorConstructor } from './qr-camera.service';
 import { QrCameraComponent } from './qr-camera.component';
@@ -26,7 +27,7 @@ describe('Native QR camera adapter lifecycle (controlled media/decoder)',()=>{
  it('cancels a pending support probe before any camera permission request',async()=>{let resolve!:(v:string[])=>void;class Delayed{static getSupportedFormats(){return new Promise<string[]>(r=>resolve=r);}detect(){return Promise.resolve([]);}}platform.detector=()=>Delayed;const start=service.start(video,received);service.stop();resolve(['qr_code']);await start;expect(request).not.toHaveBeenCalled();expect(service.state).toBe('off');});
 });
 describe('Scanner frame privacy controls',()=>{
- beforeEach(()=>TestBed.configureTestingModule({imports:[CommonModule],declarations:[QrCameraComponent],providers:[{provide:QR_CAMERA_PLATFORM,useValue:{secure:()=>true,detector:()=>undefined,getStream:undefined}}]}));
+ beforeEach(()=>TestBed.configureTestingModule({imports:[SharedPresentationModule,CommonModule],declarations:[QrCameraComponent],providers:[{provide:QR_CAMERA_PLATFORM,useValue:{secure:()=>true,detector:()=>undefined,getStream:undefined}}]}));
  it('starts only on a button action and stops on component destruction/page hiding',()=>{const f=TestBed.createComponent(QrCameraComponent);f.detectChanges();const c=f.componentInstance,start=spyOn(c.camera,'start').and.resolveTo(),stop=spyOn(c.camera,'stop');expect(start).not.toHaveBeenCalled();f.nativeElement.querySelector('button').click();expect(start).toHaveBeenCalled();c.pagehide();expect(stop).toHaveBeenCalled();f.destroy();expect(stop.calls.count()).toBeGreaterThanOrEqual(2);});
  it('stops when hidden and displays an accessible camera status',()=>{const f=TestBed.createComponent(QrCameraComponent);f.detectChanges();const stop=spyOn(f.componentInstance.camera,'stop');spyOnProperty(document,'hidden','get').and.returnValue(true);document.dispatchEvent(new Event('visibilitychange'));expect(stop).toHaveBeenCalled();expect(f.nativeElement.querySelector('[role=status]').textContent).toContain('desactivada');expect(f.nativeElement.querySelector('video').hasAttribute('playsinline')).toBeTrue();f.destroy();});
 });

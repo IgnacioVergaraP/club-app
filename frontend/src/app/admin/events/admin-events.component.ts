@@ -27,7 +27,7 @@ export class AdminEventsComponent {
   duplicate(event:AdminEvent):void{this.error='';try{const copy=this.service.duplicate(event.id);void this.router.navigate(['/admin/eventos',copy.id,'editar']);}catch(error){this.error=(error as Error).message;}}
   changeStatus(event: AdminEvent, target: Event): void {
     this.error = ''; this.message = '';
-    try { this.service.changeStatus(event.id, (target.target as HTMLSelectElement).value as AdminEventStatus); this.message = `Estado de ${event.name} actualizado en esta sesión DEMO.`; }
+    try { this.service.changeStatus(event.id, (target.target as HTMLSelectElement).value as AdminEventStatus); this.message = `Estado de ${event.name} actualizado en esta sesión.`; }
     catch (error) { this.error = (error as Error).message; (target.target as HTMLSelectElement).value = event.status; }
   }
   clearFilters(): void { this.search.setValue(''); this.status.setValue(''); this.order.setValue('asc'); }

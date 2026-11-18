@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -37,7 +38,7 @@ describe('Checkout con API de pedidos', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommonModule, HttpClientTestingModule],
+      imports: [SharedPresentationModule,CommonModule, HttpClientTestingModule],
       declarations: [CheckoutComponent, FintocStubComponent, HostedStubComponent],
       providers: [{ provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } }]
     }).compileComponents();

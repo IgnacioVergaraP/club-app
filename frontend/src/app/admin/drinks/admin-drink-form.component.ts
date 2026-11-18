@@ -42,7 +42,7 @@ export class AdminDrinkFormComponent implements OnDestroy {
   }
   save():void{
     if(this.saving||this.imageLoading||this.missing)return;
-    this.form.markAllAsTouched();this.error='';if(this.form.invalid){this.error='Revisa los campos marcados antes de guardar el trago DEMO.';return;}
+    this.form.markAllAsTouched();this.error='';if(this.form.invalid){this.error='Revisa los campos marcados antes de guardar el trago .';return;}
     try{this.saving=true;const value=this.form.getRawValue();const saved=this.service.save({...value,priceClp:value.priceClp!},this.id);this.id=saved.id;this.savedValue=this.signature();void this.router.navigate(['/admin/tragos']).finally(()=>this.saving=false);}
     catch(error){this.saving=false;this.error=(error as Error).message;}
   }

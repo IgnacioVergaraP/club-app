@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Subject, of, throwError } from 'rxjs';
@@ -12,7 +13,7 @@ describe('FintocHostedCheckoutComponent',()=>{
   let redirect:jasmine.SpyObj<FintocRedirectService>;
   beforeEach(async()=>{
     payments=jasmine.createSpyObj('payments',['createHostedSession']);redirect=jasmine.createSpyObj('redirect',['open']);
-    await TestBed.configureTestingModule({imports:[CommonModule],declarations:[FintocHostedCheckoutComponent],providers:[
+    await TestBed.configureTestingModule({imports:[SharedPresentationModule,CommonModule],declarations:[FintocHostedCheckoutComponent],providers:[
       {provide:FintocPaymentsService,useValue:payments},{provide:FintocRedirectService,useValue:redirect}]}).compileComponents();
     fixture=TestBed.createComponent(FintocHostedCheckoutComponent);
     fixture.componentInstance.order={order_id:'4cc803f9-f77b-4073-a5dd-6df96b92cb36',status:'pending_payment',currency:'CLP',total_clp:6000,expires_at:new Date(Date.now()+900000).toISOString()} as Order;

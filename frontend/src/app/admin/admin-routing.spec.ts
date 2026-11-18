@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../shared/shared-presentation.module';
 import { TestBed } from '@angular/core/testing';
 import { Router, RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
@@ -12,7 +13,7 @@ class ClientStubComponent {}
 describe('Admin navigation', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterModule.forRoot([
+      imports: [SharedPresentationModule,HttpClientTestingModule, RouterModule.forRoot([
         {path:'admin', loadChildren: () => Promise.resolve(AdminModule)},
         {path:'', component:ClientStubComponent, pathMatch:'full'}
       ])], declarations:[HostComponent,ClientStubComponent]
@@ -25,7 +26,7 @@ describe('Admin navigation', () => {
     const root = fixture.nativeElement as HTMLElement;
     expect(root.querySelectorAll('nav a').length).toBe(9);
     expect(root.querySelector('h1')?.textContent).toContain('Club VOID');
-    expect(root.textContent).toContain('DEMO');
+    expect(root.textContent).toContain('Entorno de revisión');
     expect(root.querySelector('select')).toBeNull();
     expect(root.querySelector<HTMLImageElement>('.brand img')?.getAttribute('src')).toBe('assets/admin/void-logo.svg');
     expect(root.querySelector('.admin-shell')?.getAttribute('style')).toContain('--admin-primary: #4b1e66');
@@ -37,7 +38,7 @@ describe('Admin navigation', () => {
     expect(toggle.getAttribute('aria-expanded')).toBe('false');
     for (const [route, title] of [['eventos','Eventos'],['tragos','Tragos'],['inventario','Inventario'],['promociones','Promociones'],['ventas','Ventas'],['comisiones','Comisiones'],['personal','Personal'],['configuracion','Configuración']]) {
       await router.navigateByUrl('/admin/'+route); fixture.detectChanges();
-      expect(root.textContent).toContain(route === 'eventos' ? 'Gestión local de Club VOID' : route === 'promociones' ? 'Promociones y avisos ficticios de Club VOID' : route === 'inventario' ? 'Existencias y recetas de Club VOID' : route === 'tragos' ? 'Gestiona la carta de bebidas de Club VOID' : route === 'ventas' ? 'Consulta los pedidos de Club VOID' : route === 'comisiones' ? 'Desglose de ventas' : route === 'personal' ? 'Gestiona el equipo de trabajo de Club VOID' : 'Configuración ficticia de Club VOID');
+      expect(root.textContent).toContain(route === 'eventos' ? 'Gestión local de Club VOID' : route === 'promociones' ? 'Promociones y avisos locales de Club VOID' : route === 'inventario' ? 'Existencias y recetas de Club VOID' : route === 'tragos' ? 'Gestiona la carta de bebidas de Club VOID' : route === 'ventas' ? 'Consulta los pedidos de Club VOID' : route === 'comisiones' ? 'Desglose de ventas' : route === 'personal' ? 'Gestiona el equipo de trabajo de Club VOID' : 'Configuración de Club VOID');
       expect(root.querySelector('h1')?.textContent).toBe(route==='comisiones'?'Comisiones e informes financieros':title);
       if (route === 'eventos') for (const card of Array.from(root.querySelectorAll('.event-card'))) expect(card.querySelector<HTMLSelectElement>('.actions select')!.value).toBe(card.querySelector('.badge')!.getAttribute('data-status')!);
       expect(root.textContent).toContain('Club VOID');
@@ -47,7 +48,7 @@ describe('Admin navigation', () => {
     expect(root.querySelector('nav [aria-current="page"]')?.getAttribute('href')).toBe('/admin/comisiones');
     expect(root.querySelector<HTMLSelectElement>('#finance-payment')?.value).toBe('approved');
     await router.navigateByUrl('/admin/ventas/DEMO-ORD-0001?period=week&type=ticket'); fixture.detectChanges();
-    expect(root.querySelector('h1')?.textContent).toBe('DEMO-ORD-0001');
+    expect(root.querySelector('h1')?.textContent).toBe('ORD-0001');
     expect(root.querySelector('nav [aria-current="page"]')?.getAttribute('href')).toBe('/admin/ventas');
     const back = root.querySelector<HTMLAnchorElement>('.back')!;
     expect(back.getAttribute('href')).toContain('period=week');

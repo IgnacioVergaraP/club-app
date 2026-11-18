@@ -47,7 +47,7 @@ export function validatePromotion(d:PromotionDraft,productIds:string[],options:P
 export function validateNotice(d:NoticeDraft,productIds:string[],ingredientIds:string[]):number{
  if(!d||!text(d.title,1,80)||!text(d.message,1,240))throw Error('Indica título de 1 a 80 caracteres y mensaje de 1 a 240.');
  const kind=NOTICE_KINDS.find(k=>k.value===d.kind);if(!kind||!AUDIENCES.some(a=>a.value===d.audience)||kind.commercial!==isClient(d.audience))throw Error('Avisos comerciales: audiencia de clientes. Avisos operativos: un perfil de personal.');
- if(!['draft','scheduled'].includes(d.mode)||!(d.productId===null||productIds.includes(d.productId))||!(d.ingredientId===null||ingredientIds.includes(d.ingredientId)))throw Error('Estado o referencia DEMO inválidos.');
+ if(!['draft','scheduled'].includes(d.mode)||!(d.productId===null||productIds.includes(d.productId))||!(d.ingredientId===null||ingredientIds.includes(d.ingredientId)))throw Error('Estado o referencia  inválidos.');
  const at=eventInstant(d.date,d.time);if(at===null)throw Error('Indica fecha y hora válidas y no ambiguas en America/Santiago.');return at;
 }
 export type PromotionPeriod='all'|'today'|'week'|'custom';

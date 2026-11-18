@@ -1,4 +1,4 @@
-<section aria-labelledby="settings-heading"><header class="heading"><p class="eyebrow">ADMINISTRACIÓN · DEMO</p><h1 id="settings-heading">Configuración</h1><p>Configuración ficticia de Club VOID. Los cambios se limitan a esta pantalla.</p></header><app-admin-settings-tabs [selected]="section" (sectionChange)="setSection($event)"/>
+<section aria-labelledby="settings-heading"><header class="heading"><p class="eyebrow">ADMINISTRACIÓN</p><h1 id="settings-heading">Configuración</h1><p>Configuración de Club VOID. Los cambios se limitan a esta pantalla.</p></header><app-admin-settings-tabs [selected]="section" (sectionChange)="setSection($event)"/>
 <form [formGroup]="form" (ngSubmit)="save()" novalidate><div class="workspace" [class.with-preview]="section==='general'||section==='identity'"><section id="settings-panel" role="tabpanel" [attr.aria-label]="sectionLabel" class="editor">
 <app-admin-settings-general *ngIf="section==='general'" [group]="form.controls.general"/>
 <app-admin-settings-identity *ngIf="section==='identity'" [group]="form.controls.identity" [loading]="loading" [errors]="imageErrors" (imageSelected)="upload($event.kind,$event.event)"/>
@@ -7,5 +7,5 @@
 <app-admin-settings-integrations *ngIf="section==='integrations'"/>
 </section><app-admin-settings-preview *ngIf="section==='general'||section==='identity'" [value]="preview"/></div>
 <p class="pending" role="status" *ngIf="hasUnsavedChanges">{{busy?'Preparando imágenes en memoria…':'Cambios sin guardar.'}} El borrador se conserva al cambiar de sección.</p><p *ngIf="error" class="error" role="alert">{{error}}</p><p *ngIf="message" class="feedback" role="status">{{message}}</p>
-<div class="actions"><button id="settings-reset" type="button" class="reset" (click)="reset()">Restablecer DEMO</button><div><button id="settings-discard" type="button" (click)="discard()">Descartar cambios</button><button id="settings-save" type="submit" class="primary" [disabled]="busy||!hasUnsavedChanges">Guardar configuración DEMO</button></div></div>
-</form><p class="demo-note">Solo memoria, sin persistencia al recargar. No altera la identidad publicada, el backend, pagos, credenciales, permisos o integraciones. No hay selector de discotecas.</p></section>
+<div class="actions"><button id="settings-reset" type="button" class="reset" (click)="reset()">Restablecer </button><div><button id="settings-discard" type="button" (click)="discard()">Descartar cambios</button><button id="settings-save" type="submit" class="primary" [disabled]="busy||!hasUnsavedChanges">Guardar configuración </button></div></div>
+</form></section>

@@ -1,0 +1,190 @@
+CLUB VOID — CHECKPOINT 4.12
+Finalización del frontend: acceso, perfiles, interconexión, Wallet QR/PIN y auditoría
+Fecha: 17-11-2026
+
+1. OBJETIVO Y ESTADO
+Implementada la subetapa 4.12 dentro del alcance de revisión del frontend. No equivale a autenticación comercial, operación transaccional ni certificación de producción.
+Resultado final: 513/513 pruebas Angular, builds desarrollo/despliegue local aprobados, recorrido integral Chrome y regresión PWA/PIN offline. Pendiente revisión visual y técnica del Product Owner/arquitecto.
+No hubo Supabase, nuevos endpoints Flask, dependencias nuevas, pagos comerciales, webhooks, push, reservas o descuentos de stock. Sin commit, push o despliegue.
+Se conserva Angular 17, NgModules/standalone:false, Reactive Forms, RxJS, identidad negra/morada sin degradados, asistentes por pasos y exactamente cinco pestañas del cliente.
+
+2. INSPECCIÓN PREVIA Y MATRIZ
+Antes de implementar se inspeccionaron rutas, modelos, servicios de cliente/administración/personal, fuentes de catálogo/eventos, perfil, Wallet, PIN, QR, ventas, comisiones y PWA. Se capturaron hashes de 385 archivos previos y se ejecutó la suite completa: 480/480 aprobadas.
+Se escribió docs/MATRIZ_INTERCONEXION_4_12.txt antes de cambiar código. Identifica fuentes, servicios, entidades, acciones, estados y límites/riesgos de doce vínculos. Al final de ese archivo se añade el resultado de la integración.
+El árbol ya contenía entregas anteriores sin commit: el inventario de esta etapa se compara con su captura inicial, no con todo git diff desde HEAD.
+
+3. ACCESO, REGISTRO Y RECUPERACIÓN
+Rutas nuevas:
+- /acceso: iniciar sesión.
+- /acceso/registro: registro de cliente; /registro redirige aquí.
+- /acceso/recuperar: recuperación; /recuperar redirige aquí.
+Login con logo VOID, correo, contraseña, mostrar/ocultar, validación, primer error enfocado, procesamiento y enlaces de registro/recuperación. Diseño de una columna móvil y composición compacta en escritorio.
+El proveedor actual UnconfiguredAuthProvider responde que la función todavía no está habilitada. Una contraseña válida en el formulario NO crea una sesión autenticada. No se comparan contraseñas con una tabla de credenciales de frontend.
+Registro contiene nombre, apellido, correo, contraseña/confirmación y espacios de términos/tratamiento de datos, sin casillas marcadas automáticamente. No crea cuenta en servidor ni verifica identidad, edad o correo. Informa expresamente que el registro no está habilitado.
+Recuperación valida correo, muestra procesamiento/error y una confirmación de funcionalidad pendiente que aclara que no se envió ningún correo.
+No se guardan contraseñas en servicios de sesión, localStorage, sessionStorage, cookies manuales o IndexedDB. Los campos de contraseña/confirmación se vacían al solicitar la operación y al destruir la pantalla. No se registran credenciales en logs ni se envían a un proveedor real.
+
+4. CONTRATOS DE SESIÓN Y PERFILES
+session.model.ts define UserRole, SessionUser, SessionState, LoginRequest, RegistrationRequest, AuthResponse y AuthProvider. Se distinguen los estados anonymous/loading/review/authenticated/error y la fuente local-review/identity-provider.
+La implementación actual solo inicia perfiles de presentación: status=review, authenticated=false, source=local-review. El estado authenticated está reservado para la integración futura, no se produce al elegir un perfil.
+SessionService ofrece estado observable, datos de perfil, destino, actualización local y cierre. La carga y errores del acceso no se convierten en autenticación.
+El mecanismo explícito Revisar perfiles del frontend está en Acceso. No necesita contraseña. Consume personal activo de AdminStaffService, sin inventar otro listado de trabajadores. Cliente utiliza un perfil de muestra controlado.
+Destinos:
+- Cliente: Inicio; desde allí Wallet y las cinco pestañas habituales.
+- Administrador: /admin.
+- Supervisor: /admin/ventas; menú de revisión con Dashboard, Eventos, Inventario y Ventas.
+- Barra: /staff/barra.
+- Puerta: /staff/puerta.
+Cambiar/desactivar un trabajador actualiza las opciones de revisión; si deja de estar activo, se elimina su perfil seleccionado de la sesión local.
+Las rutas previas siguen accesibles directamente para revisión/automatización. No se implementó seguridad de rutas ni autorización de backend. Un menú filtrado o una elección de perfil NO son permisos efectivos. La autorización real y los guards asociados al proveedor futuro quedan pendientes.
+Cerrar sesión limpia el perfil de presentación y vuelve a Acceso; no borra recibos PIN, pruebas de uso o datos de trabajo compartidos de esa SPA. No se afirma revocación de un token remoto inexistente. En personal, salir detiene la cámara.
+
+5. PERFIL DEL CLIENTE
+ProfileService proyecta el perfil cliente elegido en la sesión; las ediciones locales de nombre/teléfono también actualizan esa sesión. Correo, preferencias, validaciones y estados de consulta/error anteriores se conservan.
+Se mantienen datos locales de revisión cuando no hay proveedor real; no hay cuenta comercial ni persistencia de perfil. La identidad inicial se presenta como Alex, sin añadir un rótulo de desarrollo al nombre.
+Las preferencias no solicitan permisos del dispositivo, no suscriben ni envían comunicaciones. Términos y privacidad continúan pendientes de aprobación/publicación.
+
+6. WALLET: DOS MÉTODOS PARA UN MISMO PEDIDO
+Cada pedido disponible de Wallet → Tragos muestra referencia, evento, estado y Elige cómo retirar tus tragos, con Mostrar QR y Usar PIN.
+Mostrar QR abre los detalles existentes y enfoca su resumen. Se conservan SVG y payloads VOID:DEMO:CON/ENT compatibles con el lector; no se generan códigos nuevos desde pagos o pedidos pendientes.
+Usar PIN abre el popup oscuro aprobado, seis posiciones, teclado propio y advertencia previa. El sexto dígito ejecuta el canje sin segunda confirmación.
+Ambos controles pertenecen al mismo ID de pedido. Una evidencia local de consumo bloquea las dos alternativas. Los pedidos vencidos y los que llevan paymentStatus=pending_payment no habilitan ninguna. Una lectura QR sin confirmación no consume el pedido.
+Tras canjear se muestra Canjeado y se ocultan las acciones habituales de QR/PIN. Los QR de registros consumidos no se ofrecen como nuevo método de retiro; los detalles de revisión quedan bajo herramientas explícitas.
+Referencias visibles sin prefijo técnico: por ejemplo CON-001 y ENT-001. La entrada manual del personal acepta esas referencias solo si se resuelven a un fixture conocido. Siguen aceptándose payload y referencia interna previos. CON-999, URLs, JSON o códigos de otro tipo no crean derechos.
+
+7. CONTRATO COMÚN DE CONSUMO Y PIN/QR
+DemoQrUseStateService se amplía como registro de evidencia de presentación compartida:
+- orderId.
+- status=used.
+- method=qr/pin.
+- occurredAt.
+- workerId, nullable cuando no existe identidad verificada/conocida.
+- sync=local/pending/conflict.
+- confirmation=local-evidence.
+Nunca se transforma esta evidencia en confirmación de servidor. Los recibos PIN conservan el identificador de trabajador del fixture; un QR sin identidad de trabajador conocida no fabrica una.
+DemoRedemptionService restaura los recibos previos de IndexedDB, incluidos pendientes/conflictos, sin borrarlos ni reescribir sus fechas. Esta restauración se refleja en la evidencia compartida y bloquea un posterior intento QR.
+Se justifica modificar la coordinación del servicio PIN para resolver la inconsistencia prioritaria de dos métodos sobre el mismo pedido: comprueba la evidencia común y revalida después de esperar la validación del PIN. Durante la escritura mantiene una reserva solo en esa SPA. QR no puede ganar una segunda operación mientras se escribe ese recibo.
+Si QR ya confirmó, PIN no escribe un recibo nuevo. Si PIN ya confirmó o restauró su recibo, QR rechaza como utilizado. Si el registro local no terminó de consultarse o hay operación en curso, Barra informa consulta pendiente y no habilita el canje.
+El archivo DemoRedemptionStore y DemoPinService permanecen idénticos a la captura inicial: no se cambia esquema, nombre de base, transacciones de IndexedDB ni credenciales de prueba. No se borraron recibos para hacer la integración.
+La evidencia QR sigue en memoria. No hay transacción común entre dispositivos, sincronización global ni idempotencia de servidor. Una recarga pierde QR local; los recibos PIN permanecen. La exclusión local no debe utilizarse comercialmente.
+
+8. RESULTADO PIN Y HERRAMIENTAS DE REVISIÓN
+Se conservan Pedido canjeado, productos/cantidades, contador mm:ss de dos minutos y ocultación al vencer. Cerrar/reabrir o recargar no extiende revealUntil. No se vuelve a mostrar el detalle después de ese plazo. No se muestra el nombre del barman en el resultado del cliente.
+El botón de reinicio PIN, simulación de pérdida de conexión y conflicto quedan ocultos por defecto. Solo se habilitan desde Herramientas de revisión en el mecanismo explícito de Acceso. No se presentan como una nueva autorización de retiro.
+Las acciones de revisión no reinician un QR consumido. El reinicio PIN preserva la política explícita de prueba para el recibo seleccionado; no se ejecuta al cerrar sesión o navegar.
+Un recibo pendiente permanece pendiente al recuperar conexión. Ocultar productos es una regla visual del prototipo local, no una garantía de confidencialidad o seguridad de backend.
+
+9. BARRA, PUERTA Y WALLET ENTRADAS
+Se conserva cámara apagada al entrar, activación explícita, lector nativo, alternativa manual, confirmación separada y rechazo rojo para utilizado/vencido/inválido/tipo/evento incorrecto.
+Barra comparte evidencia con Wallet Tragos. Puerta usa IDs de entrada separados y refleja el ingreso local en Wallet Entradas, manteniendo tipo/evento/snapshot de fecha.
+Se preservan las validaciones de evento y la separación entre QR de tragos y de entrada. Ningún tipo sirve para consumir el otro derecho.
+La cámara libera tracks al apagar, salir/cerrar sesión, ocultar el documento o recibir un código. No se guardan ni suben imágenes. Se conserva el manejo de permisos denegados/cámara ausente y respuestas tardías.
+El escáner conserva el reloj histórico de los fixtures de 4.11 (08-11-2026, avanzando desde la apertura), separado de la fecha actual y del reloj de revelación PIN. No valida derechos para un evento comercial vigente.
+La validación de cámara de esta etapa usa Chrome con dispositivo virtual y decodificador controlado para el ciclo de vida. Se comprobó además decodificación nativa del SVG local original del QR disponible. No se declara lectura con cámara física ni compatibilidad universal Safari/iOS/Android.
+
+10. INTERCONEXIÓN IMPLEMENTADA
+PresentationBridgeService centraliza proyecciones reactivas de presentación, sin consultar endpoints comerciales.
+Eventos: AdminEventsService publica información de eventos guardados/publicados hacia EventsService/Noches/Detalle. Borradores o cancelaciones no publican nuevas fechas visibles. Se conserva el mapeo explícito entre el primer evento administrativo y el ID público existente. Eventos nuevos no fabrican entradas comprables, stock ni Wallet; su futura venta depende del backend.
+Tragos: AdminDrinksService comparte nombre, descripción, fotografía y disponibilidad visual conservadora con CatalogService. Los productos administrativos nuevos se muestran para consulta como Próximamente, sin botón de compra. No se añaden IDs desconocidos al flujo de pago.
+Carrito/Checkout reciben también los metadatos editados, evitando un nombre distinto al del catálogo. Los precios y subtotales siguen el catálogo original de compra; editar el precio administrativo NO autoriza otro importe en servidor.
+Promociones: una promoción guardada tiene presentación consultable desde Tragos, con precio/horario de referencia. No se aplica al carrito, no se programan cambios comerciales ni envíos. Cancelar retira su proyección.
+Personal/perfil/sesión se conectan como se describe arriba. Wallet/PIN/QR comparten evidencia local, conservando la procedencia.
+Ventas/Comisiones ya compartían AdminSalesService. Dashboard ahora deriva los totales, ticket promedio, ventas recientes y productos vendidos de esa misma fuente; se eliminan porcentajes fijos de crecimiento que no provenían de ventas. No se crean nuevas cifras financieras o liquidaciones.
+Inventario mantiene sus cálculos de unidades/capacidad/recetas. Solo se actualizan textos de ayuda/feedback; no se añade descuento por canje, reserva o vinculación transaccional.
+
+11. MATRIZ FINAL RESUMIDA
+1 Eventos administrativos ↔ Noches: proyección local reactiva; sin emisión de entradas.
+2 Tragos administrativos ↔ catálogo: metadatos compartidos; precio de compra intacto y productos nuevos sin compra.
+3 Eventos ↔ Wallet Entradas: vínculo por ID y snapshot preservado; editar presentación no reescribe derechos.
+4 Pedidos/Ventas ↔ Wallet: pendiente del backend; no se emite desde pending_payment o verified=true.
+5 Inventario ↔ recetas/capacidad: fuente y cálculos existentes; sin reservas/descuentos nuevos.
+6 Promociones ↔ catálogo: consulta de presentación; sin descuento efectivo ni envío.
+7 Personal ↔ roles: perfiles activos de presentación; sin permisos verificados.
+8 Barra ↔ Wallet Tragos: evidencia de uso de la misma SPA.
+9 Puerta ↔ Wallet Entradas: indicador de ingreso local; reglas de evento/tipo independientes.
+10 PIN ↔ QR: evidencia común, restauración de PIN y exclusión local; sin garantía entre dispositivos.
+11 Perfil ↔ sesión: identidad/edición de presentación; sin cuenta real.
+12 Comisiones/Dashboard ↔ Ventas: indicadores derivados del mismo origen; sin liquidación o aprobación comercial.
+Matriz detallada con fuentes previas, estados, acciones, dependencia y riesgos: docs/MATRIZ_INTERCONEXION_4_12.txt.
+
+12. LIMPIEZA DE PRESENTACIÓN
+Se retiran los sellos repetidos DEMO, prueba, simulación y explicaciones internas de botones, tarjetas y pantallas habituales. Se conserva una indicación discreta Entorno de revisión por contexto, con explicación desplegable de los límites.
+Los perfiles locales no se presentan como autenticación segura. Registro/recuperación, canjes pendientes y resultado de pagos usan mensajes que no afirman acciones de servidor inexistentes. Fintoc conserva la identificación Sandbox cuando corresponde.
+Se mantienen identificadores/payloads internos, tipos isDemo y contratos existentes para compatibilidad. La presentación de referencias usa ReferenceLabelPipe o su equivalente del componente. Los ejemplos técnicos de códigos y controles de reinicio quedan en revisión explícita.
+No se borran advertencias relevantes de confirmación o sincronización. Los documentos legales siguen pendientes. El CSV financiero mantiene su identificación no tributaria/de revisión para que no parezca una liquidación real. Los identificadores fiscales de configuración siguen siendo ejemplos restringidos, no RUT validados.
+Se conserva la identidad visual, los asistentes de Eventos (cuatro pasos) y Promociones (seis pasos), navegación Liquid Glass de cinco opciones y sidebar/menú móvil administrativo. Se corrigió la fecha fija del encabezado para usar la fecha de la fuente de Ventas.
+
+13. ARCHIVOS
+Inventario completo: docs/ARCHIVOS_4_12.txt y docs/visual-review/frontend-412/scope-verification.json.
+Creaciones principales:
+- frontend/src/app/auth/: modelos/contratos, proveedor no configurado y sesión local, pantallas, módulo y pruebas.
+- frontend/src/app/shared/: ReviewContextComponent, ReferenceLabelPipe y SharedPresentationModule.
+- frontend/src/app/services/presentation-bridge.service.ts y pruebas.
+Modificaciones principales:
+- app-routing.module.ts, AppModule, AdminModule y StaffModule.
+- ProfileService, EventsService, CatalogService, CartSelectionService y WalletService.
+- Servicios de eventos/tragos/personal administrativos, promociones y Dashboard.
+- DemoQrUseStateService y coordinación de DemoRedemptionService.
+- WalletDrinkOrders, QR visual, pantallas de personal y reglas de alias conocidos.
+- Plantillas/textos de cliente/administración/personal, contexto de entorno, estados y pruebas correspondientes.
+- PwaStatusComponent: textos de conectividad; sin alterar estrategia de caché.
+Comparación contra los 385 archivos iniciales: 140 existentes modificados, 12 fuentes nuevas y cero eliminaciones. Muchos cambios son plantillas, feedback y expectativas visuales de pruebas. Sin diferencias en 34 archivos backend, 2 de dependencias, 6 de servicios de pago, los 2 de almacenamiento/credenciales PIN y los 4 de caché/build/hosting protegidos. Los cálculos y modelos puros de inventario permanecen intactos.
+No se renombraron formatos QR ni se instalaron dependencias.
+
+14. PRUEBAS ANGULAR
+Comando: npm test -- --watch=false --browsers=ChromeHeadless.
+Punto de partida: 480/480. Resultado final: 513/513, con 33 pruebas adicionales y adaptación de expectativas de presentación, sin retirar los recorridos previos.
+Nuevas pruebas cubren: login/carga/error/proveedor pendiente, registro sin cuenta, recuperación sin correo, selección de cinco roles, destinos, cierre y ausencia de secretos persistidos, personal activo, perfil/sesión, QR/PIN del mismo pedido, recibos previos, exclusión en ambos sentidos y carreras de escritura, pago pendiente/vencimiento, herramientas ocultas por defecto, proyección de eventos/productos/promociones, precio y carrito intactos, ingreso de Puerta en Wallet, fuente financiera e inventario, alias manual visible y envío real del formulario de seis pasos.
+Se mantienen pruebas de IndexedDB real/controlado, plazo exacto/reapertura PIN, PWA, cámaras con plataforma controlada, clientes, eventos, selección/resumen de entradas, inventario, QR y Fintoc.
+La limpieza inicial produjo regresiones de algunas plantillas (callbacks sin invocar, incluido el submit condicional de los asistentes); se corrigieron y se añadió una prueba de envío del formulario real. También se adaptaron pruebas que exigían rótulos retirados. Las ejecuciones intermedias con fallos no se presentan como aprobación; la suite final completa pasó.
+No se ejecutó la suite Flask: no hubo cambios backend. No se presenta esta auditoría como validación comercial de identidad, pago o canje.
+
+15. BUILDS
+Desarrollo: npm run build -- --configuration development, aprobado. Inicial aproximado 2,14 MB; los módulos administrativos, Staff y Acceso continúan diferidos.
+Despliegue local: API_URL=https://club-app-cbp5.vercel.app/api npm run build:deploy, aprobado. Inicial 781,37 kB; transferencia estimada 161,17 kB. Admin diferido 453,99 kB; Staff 24,39 kB; Acceso 11,51 kB.
+Persisten advertencias por bundle inicial sobre 500 kB, estilos sobre 2 kB y dos selectores Bootstrap omitidos. Wallet conserva su stylesheet cerca de 4 kB. No se subieron presupuestos ni se cambiaron dependencias para ocultarlas; no hay errores bloqueantes en el build final.
+El script sigue generando la configuración HTTPS de despliegue local, sin publicar en Vercel. Logs conservados junto a la evidencia.
+
+16. CHROME, RESPONSIVIDAD Y EVIDENCIA
+Chrome Headless real, perfiles temporales aislados, sin cámara física. Anchos 320, 390, 768 y 1280 px. Recorrido integral: PASS, 188 combinaciones pantalla/ancho, 108 registros de captura.
+Recorridos complementarios: administración final 96 combinaciones; cámara/logout 4; Wallet QR/PIN final 12; carrito/Checkout con metadatos 8; PWA offline 12. Son ejecuciones complementarias y parcialmente repetidas, no pantallas únicas. Se guardan 126 PNG únicos; algunas capturas administrativas se actualizaron al repetir la revisión.
+Sin scroll horizontal en los recorridos aprobados. Se revisaron manualmente capturas principales de acceso, Wallet, popup, dashboard y móvil/escritorio, comparándolas con la identidad previa.
+Acceso: validación de correo, contraseña visible/oculta, registro con discrepancia de confirmación, consentimientos sin marcar, estados no habilitados y selección explícita de perfiles.
+Cliente: cinco pestañas, evento/detalle, selección de tragos, carrito, checkout sin afirmar pago, Wallet QR, popup PIN, expiración real de 120 segundos sin acelerar reloj, productos ocultos después, cierre y recibo restaurado tras recargar.
+Personal: PIN previo rechaza QR; reinicio mediante herramienta explícita permite recorrer la alternativa QR; confirmación/reutilización roja; Wallet bloquea ambos métodos. Puerta registra una entrada y Wallet la presenta utilizada. Cámara virtual iniciada por botón se detiene al cerrar sesión.
+Administrador: Dashboard, cuatro pasos de Evento con entrada y cruce de medianoche, proyección en Noches, trago con foto cargada desde archivo y consulta en cliente, promoción instantánea y programada con seis pasos, avisos/historial, inventario, ventas, comisiones, personal, configuración y cierre. Supervisor muestra su menú de revisión acotado.
+Se comprobó por separado que editar nombre/precio administrativo cambia el nombre de carrito/Checkout pero conserva el importe original. No se creó ni confirmó una compra comercial durante los recorridos.
+Prueba adicional de teclado real: Tab/Enter en campos de acceso y mostrar contraseña; foco del correo inválido; selección explícita del perfil local; flechas de pestañas Wallet; apertura QR con foco en summary; popup PIN y cierre con Escape. Evidencia keyboard-review.json y review-keyboard.cjs.
+Los recorridos finales registrados terminan en PASS, sin errores inesperados de consola, HTTP >=400 o escrituras HTTP. Los primeros intentos se detuvieron por las regresiones de plantillas mencionadas; se corrigieron antes de completar los recorridos.
+Archivos JSON y scripts en docs/visual-review/frontend-412/: frontend-review, admin-review, camera-review, wallet-final-review y cart-presentation-review; además de logs Angular/builds y sus scripts review-*.cjs.
+
+17. PWA OFFLINE Y CÁMARA
+Se verificó el manifiesto final: 35 archivos con hashes correctos, iconos 192/512, cero dataGroups/patrones de caché externos y exclusión de API, checkout, carrito, administración, personal y Acceso del fallback de navegación.
+Con build de producción servido localmente y caché HTTP desactivada, se completó precaché, se cerraron todas las pestañas de la aplicación y se apagó el servidor. Un documento nuevo de /wallet arrancó offline. PIN registró recibo pending, que siguió pending al reconectar y recargar. No se fingió confirmación o sincronización.
+Doce combinaciones y seis capturas; cero errores inesperados/escrituras HTTP. No se garantiza arranque frío offline de Acceso/Admin/Staff ni autenticación offline real. No se repitieron todos los escenarios de actualización fallida de 4.9.1; sus límites se mantienen.
+La prueba de cámara usa getUserMedia real con dispositivo virtual de Chrome y decodificador controlado para el ciclo de vida. Se comprueba permiso solo tras botón y tracks detenidos al cerrar sesión. El QR original se decodificó con la API nativa desde SVG local. No equivale a un ensayo físico en iOS/Android ni a escanear otro teléfono.
+Evidencia: pwa-regression.json, pwa-build-verification.json y camera-review.json. Los recibos y el bloqueo de actualización durante PIN/revelación se conservan.
+
+18. SEGURIDAD Y LÍMITES
+No existe autenticación comercial, token verificado, permisos efectivos o API de derechos emitidos. La revisión de perfiles no es un login seguro. No se deben usar estas pantallas como control de acceso real.
+Datos de catálogo, finanzas, Wallet y operación siguen siendo fuentes locales de revisión. Los estados aprobados de ventas son fixtures existentes; no se generan desde Fintoc ni acreditan pagos reales. Dashboard/Comisiones solo calculan sobre esos registros.
+No se usa verified=true como confirmación. pending_payment no genera Wallet. La conexión Sandbox existente se conserva, sin pagos live ni modificaciones de claves o endpoints.
+El reloj cliente, la memoria y el frontend son manipulables. La exclusión QR/PIN es local a la instancia y no puede evitar dobles canjes globales. No se reservan ni descuentan existencias por canje.
+Las fotografías administrativas cargadas y el perfil se pierden al recargar. El recibo PIN conserva IndexedDB. Cerrar sesión no borra pendientes; antes de identidades reales será necesario separar datos/caché por cuenta y definir su política segura de salida/reconciliación.
+No se certifican Safari/iOS/Android físicos, lector de pantalla ni auditoría exhaustiva de accesibilidad. Los cuatro anchos de Chrome son evidencia responsive, no una matriz de equipos.
+No se ejecutó npm audit ni se actualizaron paquetes en esta etapa; la revisión de vulnerabilidades de dependencias sigue como trabajo pendiente de la fase autorizada correspondiente.
+
+19. DEPENDENCIAS DE SUPABASE/BACKEND Y SIGUIENTE FASE
+Pendientes de autorización e implementación futura:
+- Proveedor de identidad real, cuentas, verificación de correo, recuperación, sesiones y revocación.
+- Permisos en servidor por rol y datos del cliente, sin confiar en selección o guards del navegador.
+- API autenticada de catálogo/eventos y derechos emitidos tras confirmación verificable del pago.
+- Registro transaccional único de consumo para QR/PIN, transición atómica, idempotencia, auditoría y protección de concurrencia entre dispositivos.
+- Reconciliación offline que mantenga pendientes/conflictos hasta resolución de servidor.
+- Precio/promociones autorizados, reservas/inventario e informes financieros vinculados a operaciones reales, sin cifras paralelas.
+- Confirmación Fintoc mediante mecanismos verificables de backend, webhooks/reconciliación y política de retornos; sin emitir desde callbacks o querystrings.
+- Documentos legales/consentimientos aprobados y matriz física de dispositivos/accesibilidad antes de uso comercial.
+Los contratos de Session, ConsumptionEvidence y solicitudes/respuestas futuras de sincronización existentes preparan la separación, pero no implementan esos servicios ni sus garantías.
+
+20. CIERRE
+Se entrega exclusivamente 4.12 como frontend de revisión integrado y auditado. El arquitecto debe revisar la experiencia y los límites antes de autorizar otra fase. No se inicia Supabase, producción, otra subetapa, commit, push o despliegue.

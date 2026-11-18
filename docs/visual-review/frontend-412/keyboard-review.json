@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-17",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [],
+  "screenshots": [],
+  "keyboard": [
+    "Real Tab/Enter: login fields and password visibility, first invalid email focus, explicit local profile, Wallet tab arrows, QR summary focus, PIN popup and Escape."
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [],
+  "paid": false,
+  "result": "PASS"
+}

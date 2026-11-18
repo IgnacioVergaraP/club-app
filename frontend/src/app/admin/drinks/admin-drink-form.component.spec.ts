@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
@@ -10,7 +11,7 @@ import { ADMIN_DEMO_DRINKS } from './admin-drinks.data';
 const PNG='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGOY6XL3PwAF7gK6caozUAAAAABJRU5ErkJggg==';
 describe('Admin drink form',()=>{
   let component:AdminDrinkFormComponent,service:AdminDrinksService;
-  beforeEach(async()=>{await TestBed.configureTestingModule({imports:[CommonModule,ReactiveFormsModule,RouterTestingModule],declarations:[AdminDrinkFormComponent],providers:[AdminDrinksService,{provide:ActivatedRoute,useValue:{paramMap:of(convertToParamMap({}))}}]}).compileComponents();service=TestBed.inject(AdminDrinksService);component=TestBed.createComponent(AdminDrinkFormComponent).componentInstance;});
+  beforeEach(async()=>{await TestBed.configureTestingModule({imports:[SharedPresentationModule,CommonModule,ReactiveFormsModule,RouterTestingModule],declarations:[AdminDrinkFormComponent],providers:[AdminDrinksService,{provide:ActivatedRoute,useValue:{paramMap:of(convertToParamMap({}))}}]}).compileComponents();service=TestBed.inject(AdminDrinksService);component=TestBed.createComponent(AdminDrinkFormComponent).componentInstance;});
   it('rejects empty required fields, missing photo and invalid price',()=>{
     const save=spyOn(service,'save');component.save();expect(save).not.toHaveBeenCalled();expect(component.error).toContain('Revisa');expect(component.form.controls.name.touched).toBeTrue();
     component.form.patchValue({...ADMIN_DEMO_DRINKS[0],priceClp:-1});expect(component.form.invalid).toBeTrue();component.form.controls.priceClp.setValue(0);expect(component.form.valid).toBeTrue();

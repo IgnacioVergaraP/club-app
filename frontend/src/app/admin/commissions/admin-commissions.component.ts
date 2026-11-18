@@ -22,6 +22,6 @@ export class AdminCommissionsComponent {
   if(report.error||!report.operations.length)return;
   const blob=new Blob([commissionCsv(report)],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=this.document.createElement('a');
   a.href=url;a.download='void-comisiones-DEMO-'+report.from+'-'+report.to+'.csv';this.document.body.appendChild(a);
-  try{a.click();this.exportMessage='CSV DEMO exportado: toda la selección, sin carácter tributario ni conciliación oficial.';}finally{a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  try{a.click();this.exportMessage='CSV  exportado: toda la selección, sin carácter tributario ni conciliación oficial.';}finally{a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
  }
 }

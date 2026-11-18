@@ -17,26 +17,26 @@
       <header>
         <p class="category">{{ event.category }}</p>
         <h1>{{ event.name }}</h1>
-        <div class="badges"><span *ngIf="event.isDemo">Evento de demostración</span><span class="event-status">{{ view.status }}</span></div>
+        <div class="badges"><span *ngIf="event.isDemo">Evento</span><span class="event-status">{{ view.status }}</span></div>
         <dl class="event-meta">
           <div><dt>Fecha</dt><dd><time [attr.datetime]="event.startsAt">{{ event.startsAt | date:'dd MMM yyyy':'-0300' }}</time></dd></div>
           <div><dt>Hora de inicio</dt><dd>{{ event.startsAt | date:'HH:mm':'-0300' }} h</dd></div>
           <div *ngIf="event.endsAt"><dt>Finaliza</dt><dd><time [attr.datetime]="event.endsAt">{{ event.endsAt | date:'dd MMM · HH:mm':'-0300' }} h</time></dd></div>
         </dl>
-        <p class="timezone">Hora de Chile · UTC−3 para estas fechas de demostración.</p>
+        <p class="timezone">Hora de Chile · UTC−3 para estas fechas.</p>
       </header>
       <section aria-labelledby="about-event"><h2 id="about-event">Sobre esta noche</h2><p class="description">{{ event.description }}</p></section>
       <section class="tickets" aria-labelledby="tickets-title">
-        <div class="tickets-heading"><h2 id="tickets-title">Entradas</h2><span>Demostración</span></div>
-        <p class="ticket-notice">Compra de demostración. Los pagos y las reservas de entradas todavía no están habilitados</p>
+        <div class="tickets-heading"><h2 id="tickets-title">Entradas</h2><span>Revisión</span></div>
+        <p class="ticket-notice">Selección de entradas. Los pagos y las reservas de entradas todavía no están habilitados</p>
         <ng-container *ngIf="view.selection as selection">
           <p *ngIf="!selection.canSelect" class="selection-warning" role="status">Este evento está en curso o finalizado. No se pueden seleccionar entradas.</p>
           <p *ngIf="selectionError" role="alert">{{ selectionError }}</p>
-          <ul class="ticket-list">
+          <p *ngIf="!selection.types.length" class="ticket-notice">Entradas próximamente.</p><ul class="ticket-list">
             <li *ngFor="let ticket of selection.types" [attr.data-ticket-id]="ticket.id">
               <h3>{{ ticket.name }}</h3><p>{{ ticket.description }}</p>
               <strong class="ticket-price">{{ tickets.formatClp(ticket.priceClp) }} <small>CLP · precio ilustrativo</small></strong>
-              <span class="ticket-availability">{{ !selection.canSelect ? 'Selección cerrada' : ticket.available ? 'Disponible para demostración' : 'No disponible' }} · máximo {{ ticket.maxQuantity }} por tipo</span>
+              <span class="ticket-availability">{{ !selection.canSelect ? 'Selección cerrada' : ticket.available ? 'Disponible para Revisión' : 'No disponible' }} · máximo {{ ticket.maxQuantity }} por tipo</span>
               <div class="ticket-controls">
                 <button type="button" [attr.aria-label]="'Disminuir ' + ticket.name"
                   [disabled]="!selection.canSelect || !ticket.available || !(selection.quantities[ticket.id] > 0)"

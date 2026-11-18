@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import esCl from '@angular/common/locales/es-CL';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +18,7 @@ registerLocaleData(esCl);
 describe('Admin sales presentation',()=>{
  const route=(params={},query={})=>({paramMap:of(convertToParamMap(params)),snapshot:{queryParamMap:convertToParamMap(query)}});
  beforeEach(async()=>{
-  await TestBed.configureTestingModule({imports:[CommonModule,ReactiveFormsModule,RouterTestingModule],declarations:[AdminIconComponent,AdminSalePanelComponent,AdminSalesListComponent,AdminSalesComponent,AdminSaleDetailComponent,AdminSaleStatusComponent,AdminSalesSummaryComponent],providers:[{provide:AdminSalesService,useFactory:()=>new AdminSalesService(()=>new Date('2026-11-14T16:00:00Z'))},{provide:ActivatedRoute,useValue:route()}]}).compileComponents();
+  await TestBed.configureTestingModule({imports:[SharedPresentationModule,CommonModule,ReactiveFormsModule,RouterTestingModule],declarations:[AdminIconComponent,AdminSalePanelComponent,AdminSalesListComponent,AdminSalesComponent,AdminSaleDetailComponent,AdminSaleStatusComponent,AdminSalesSummaryComponent],providers:[{provide:AdminSalesService,useFactory:()=>new AdminSalesService(()=>new Date('2026-11-14T16:00:00Z'))},{provide:ActivatedRoute,useValue:route()}]}).compileComponents();
  });
  it('renders five orders, both financial and operational columns, labels and detail links',()=>{
   spyOn(TestBed.inject(Router),'navigate').and.resolveTo(true);const f=TestBed.createComponent(AdminSalesComponent);f.detectChanges();const root=f.nativeElement as HTMLElement;expect(root.querySelectorAll('tbody tr').length).toBe(5);expect(root.textContent).toContain('$69.000');expect(root.textContent).toContain('$34.500');expect(root.textContent).toContain('Estado de entrega');expect(root.querySelectorAll('.detail-link').length).toBe(5);expect(root.querySelector('button[type=submit]')).toBeNull();

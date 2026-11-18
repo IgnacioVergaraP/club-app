@@ -7,7 +7,7 @@ import { FintocRedirectService } from '../../services/payments/fintoc-redirect.s
 
 @Component({
   selector: 'app-payment-result', standalone: false,
-  template: `<section class="result"><h1>Resultado de Fintoc <span>Sandbox</span></h1>
+  template:`<section class="result"><h1>Resultado de Fintoc <span>Sandbox</span></h1>
     <p *ngIf="cancelled">Volviste desde la opción de cancelación. Consultaremos el estado real del intento.</p>
     <p>El regreso desde Fintoc no confirma un pago. Esta prueba no mueve dinero real ni emite entradas o consumos.</p>
     <p *ngIf="orderId">Pedido: {{ orderId }}</p>
@@ -15,7 +15,7 @@ import { FintocRedirectService } from '../../services/payments/fintoc-redirect.s
     <p *ngIf="status">Estado consultado: {{ status }}</p>
     <div *ngIf="valid"><button type="button" [disabled]="busy" (click)="verify()">Verificar estado</button>
     <button *ngIf="canResume && !verified" type="button" [disabled]="busy" (click)="resume()">Continuar el mismo intento</button></div>
-    <p>Los pedidos de esta demostración se guardan temporalmente en el servidor. Al recargar o volver de Fintoc, el carrito en memoria puede estar vacío.</p>
+    <p>Los pedidos de esta Revisión se guardan temporalmente en el servidor. Al recargar o volver de Fintoc, el carrito en memoria puede estar vacío.</p>
     <a routerLink="/tragos">Volver a Tragos</a></section>`,
   styles: [`.result{max-width:720px;margin:auto;padding:1.25rem;color:var(--void-text);overflow-wrap:anywhere}h1{font-size:1.25rem}h1 span{color:#c69afa}p{font-size:.875rem;line-height:1.6;color:var(--void-text-muted)}button,a{display:inline-flex;align-items:center;min-height:44px;margin:.5rem .5rem .5rem 0;padding:.5rem .75rem;border:1px solid #9862c3;border-radius:.5rem;background:#20112e;color:#e6cffa;text-decoration:none}button:disabled{opacity:.5}button:focus-visible,a:focus-visible{outline:2px solid #c69afa;outline-offset:3px}`]
 })

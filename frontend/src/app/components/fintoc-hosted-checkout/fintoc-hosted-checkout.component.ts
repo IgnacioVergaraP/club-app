@@ -7,7 +7,7 @@ import { FintocRedirectService } from '../../services/payments/fintoc-redirect.s
 
 @Component({
   selector: 'app-fintoc-hosted-checkout', standalone: false,
-  template: `<div class="hosted-checkout"><button type="button" class="hosted-pay-btn" [disabled]="disabled || busy" [attr.aria-busy]="busy" (click)="pay()">{{ busy ? 'Abriendo Fintoc…' : 'Pagar con Fintoc · Sandbox' }}</button>
+  template:`<div class="hosted-checkout"><button type="button" class="hosted-pay-btn" [disabled]="disabled || busy" [attr.aria-busy]="busy" (click)="pay()">{{ busy ? 'Abriendo Fintoc…' : 'Pagar con Fintoc · Sandbox' }}</button>
     <p>Continúa en la página de pago de Fintoc. Prueba sin dinero real; los métodos disponibles se muestran allí.</p>
     <p *ngIf="error" role="alert">{{ error }}</p></div>`,
   styles: [`.hosted-checkout{margin-bottom:1rem}button{width:100%;min-height:48px;background:#7625e6;color:#fff;border:0;border-radius:.5rem;padding:.75rem;font:inherit}button:disabled{opacity:.5}button:focus-visible{outline:2px solid #dfbaff;outline-offset:3px}p{font-size:.75rem;color:#b8afc4;margin:.5rem 0}[role=alert]{color:#ffb4b4}`]

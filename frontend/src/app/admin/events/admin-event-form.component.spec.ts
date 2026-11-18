@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,7 +17,7 @@ describe('AdminEventFormComponent', () => {
   let service: AdminEventsService;
   const valid = {name:'Evento de prueba',description:'Local DEMO',date:'2026-12-04',startsAt:'23:00',endsAt:'05:00',endsNextDay:true,endsOn:'2026-12-05',status:'published' as const};
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports:[CommonModule,ReactiveFormsModule,RouterTestingModule],declarations:[AdminEventProgressComponent,AdminEventFormComponent,AdminEventPreviewComponent,AdminEventTicketsComponent],providers:[AdminEventsService,{provide:ActivatedRoute,useValue:{snapshot:{paramMap:convertToParamMap({})},paramMap:of(convertToParamMap({}))}}]}).compileComponents();
+    await TestBed.configureTestingModule({ imports:[SharedPresentationModule,CommonModule,ReactiveFormsModule,RouterTestingModule],declarations:[AdminEventProgressComponent,AdminEventFormComponent,AdminEventPreviewComponent,AdminEventTicketsComponent],providers:[AdminEventsService,{provide:ActivatedRoute,useValue:{snapshot:{paramMap:convertToParamMap({})},paramMap:of(convertToParamMap({}))}}]}).compileComponents();
     service=TestBed.inject(AdminEventsService);component=TestBed.createComponent(AdminEventFormComponent).componentInstance;
   });
   function fill():void {component.form.patchValue(valid);component.addTicket();component.form.controls.ticketTypes.at(0).patchValue({name:'General',priceClp:12000});}

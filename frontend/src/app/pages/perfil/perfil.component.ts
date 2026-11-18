@@ -44,12 +44,12 @@ export class PerfilComponent {
       this.profiles.updateDetails(this.form.getRawValue());
       this.editing = false;
       this.saveError = '';
-      this.message = 'Cambios DEMO aplicados temporalmente. No se guardaron en una cuenta real.';
+      this.message = 'Cambios  aplicados temporalmente. No se guardaron en una cuenta real.';
     } catch { this.saveError = 'No pudimos aplicar los cambios. Revisa los datos e inténtalo de nuevo.'; }
   }
   preference(key: keyof DemoProfile['preferences'], event: Event): void {
     this.profiles.updatePreference(key, (event.target as HTMLInputElement).checked);
-    this.message = 'Preferencia DEMO actualizada en memoria. No activa notificaciones ni envíos.';
+    this.message = 'Preferencia  actualizada en memoria. No activa notificaciones ni envíos.';
   }
   retry(): void { this.reload$.next(); }
 }

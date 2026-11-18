@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from './shared/shared-presentation.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { PwaStatusComponent } from './pwa/pwa-status.component';
@@ -57,7 +58,7 @@ import { DemoQrComponent } from './components/demo-qr/demo-qr.component';
     PaymentResultComponent,
     DemoQrComponent
   ],
-  imports: [
+  imports: [SharedPresentationModule,
     BrowserModule,
     ServiceWorkerModule.register('ngsw-worker.js',{enabled:environment.production,registrationStrategy:'registerImmediately'}),
     AppRoutingModule,

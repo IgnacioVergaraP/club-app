@@ -11,7 +11,7 @@ export class AdminCommissionsService {
  get config():AdminCommissionConfig{return {...this.state.value};}
  get today():string{return this.sales.today;}
  constructor(private sales:AdminSalesService){}
- apply(config:AdminCommissionConfig):void {if(!validCommissionConfig(config))throw new Error('Revisa los parámetros de simulación.');this.state.next({...config});}
+ apply(config:AdminCommissionConfig):void {if(!validCommissionConfig(config))throw new Error('Revisa los parámetros de revisión.');this.state.next({...config});}
  report(filters:AdminCommissionFilters):Observable<AdminCommissionReport>{
   return combineLatest([this.sales.getSales(),this.config$]).pipe(map(([sales,config])=>{
    const selection=selectSales(sales,{...filters,type:''},this.today);

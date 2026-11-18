@@ -1,0 +1,117 @@
+{
+  "date": "2026-11-17",
+  "browser": "Real Chrome Headless, isolated persistent profile, production build, HTTP disk cache disabled and static origin physically stopped for offline cases",
+  "cases": {
+    "cache": {
+      "entries": 38,
+      "noCommercialResponses": true
+    },
+    "offline": {
+      "allAppTabsClosed": true,
+      "newDocumentBootsOffline": true,
+      "offlinePinCanje": true,
+      "pendingAfterReconnectAndReload": true
+    }
+  },
+  "matrix": [
+    {
+      "screen": "pwa-wallet-online",
+      "width": 320,
+      "scrollWidth": 320,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-wallet-online",
+      "width": 390,
+      "scrollWidth": 390,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-wallet-online",
+      "width": 768,
+      "scrollWidth": 768,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-wallet-online",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-wallet-cold-offline",
+      "width": 320,
+      "scrollWidth": 320,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-wallet-cold-offline",
+      "width": 390,
+      "scrollWidth": 390,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-wallet-cold-offline",
+      "width": 768,
+      "scrollWidth": 768,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-wallet-cold-offline",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "dialog": null
+    },
+    {
+      "screen": "pwa-pin-offline-regression",
+      "width": 320,
+      "scrollWidth": 320,
+      "dialog": {
+        "width": 294,
+        "scrollWidth": 294
+      }
+    },
+    {
+      "screen": "pwa-pin-offline-regression",
+      "width": 390,
+      "scrollWidth": 390,
+      "dialog": {
+        "width": 364,
+        "scrollWidth": 364
+      }
+    },
+    {
+      "screen": "pwa-pin-offline-regression",
+      "width": 768,
+      "scrollWidth": 768,
+      "dialog": {
+        "width": 388,
+        "scrollWidth": 388
+      }
+    },
+    {
+      "screen": "pwa-pin-offline-regression",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "dialog": {
+        "width": 388,
+        "scrollWidth": 388
+      }
+    }
+  ],
+  "screenshots": [
+    "pwa-wallet-online-390.png",
+    "pwa-wallet-online-1280.png",
+    "pwa-wallet-cold-offline-390.png",
+    "pwa-wallet-cold-offline-1280.png",
+    "pwa-pin-offline-regression-390.png",
+    "pwa-pin-offline-regression-1280.png"
+  ],
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "expectedFailures": [],
+  "checks": [],
+  "paid": false,
+  "result": "PASS"
+}

@@ -12,7 +12,7 @@ describe('ProfileService', () => {
     const current=await firstValueFrom(service.profile$);
     expect(current.name).toBe('Sol Demo');expect(current.preferences.communications).toBeTrue();
     expect(current.accountStatus).toBe('DEMO');expect(current.email).toBe('alex.demo@example.com');
-    expect((await firstValueFrom(new ProfileService().profile$)).name).toBe('Alex Demo');
+    expect((await firstValueFrom(new ProfileService().profile$)).name).toBe('Alex');
   });
   it('rechaza nombres vacíos, largos y teléfonos inválidos sin modificar el estado', async () => {
     const service=new ProfileService();const before=await firstValueFrom(service.profile$);

@@ -1,0 +1,31 @@
+CLUB VOID — MATRIZ PREVIA A 4.12 (17-11-2026)
+Inspección previa a modificar código. Todos los vínculos comerciales requieren backend.
+Conexión | Fuente/servicios y entidades actuales | Estado/acción local prevista | Límite/riesgo
+1 Eventos ↔ Noches | AdminEventsService/AdminEvent; EventsService/ClubEvent y mocks distintos | Proyectar cambios publicados por ID en un puente reactivo de presentación | No emitir entradas; borrador/cancelado no aparece como evento público nuevo. Snapshots Wallet no se reescriben.
+2 Tragos ↔ catálogo | AdminDrinksService/AdminDrink; CatalogService/Product; CartSelection usa MOCK_PRODUCTS | Compartir nombre, descripción, foto y disponibilidad visual; productos nuevos solo consulta | Conservar precios del catálogo de compra y cálculo servidor. No trasladar precios administrativos a Fintoc.
+3 Eventos ↔ entradas Wallet | MOCK_WALLET contiene snapshots de evento | Conservar vínculo por ID y datos históricos | No sustituir fechas/derechos emitidos por editar presentación de un evento.
+4 Pedidos/Ventas ↔ Wallet | OrdersService HTTP; AdminSalesService fixtures; WalletService mocks | Preparar contrato de derecho, no generar registros desde pending_payment | Sin prueba de pago, emisión ni Wallet comercial.
+5 Inventario ↔ recetas | AdminInventoryService con capacidad derivada | Conservar fuente y consulta compartida existente | Sin reservas ni descuentos por QR/PIN.
+6 Promociones ↔ catálogo | AdminPromotionsService con ID de producto de AdminDrinks y reloj | Proyección consultable de ofertas preparadas, sin aplicar descuento al carrito | No scheduler/envío, precios backend intactos.
+7 Personal ↔ roles | AdminStaffService/AdminStaff roles admin/supervisor/bar/door | Perfiles locales de revisión derivados de personal activo | No identidad ni permisos verificados.
+8 Barra ↔ Wallet | StaffDrinksScanService/DemoQrUseStateService | Evidencia QR compartida en la misma SPA | No sincronización entre dispositivos, no derecho desde código desconocido.
+9 Puerta ↔ Wallet | StaffTicketsScanService Set local; WalletTicket snapshots | Compartir indicador de ingreso en la SPA | No control real de acceso ni sincronización global.
+10 PIN ↔ QR | DemoRedemptionService + DemoRedemptionStore IndexedDB; indicador QR en memoria | Contrato común de evidencia y bloqueo local. Leer recibos previos sin borrarlos; revalidar tras espera PIN | No transacción global. QR no se persiste; PIN conserva IndexedDB, contador y conflictos. Restauración PIN debe preceder a habilitar canje.
+11 Perfil ↔ sesión | ProfileService BehaviorSubject, perfil mock | Proyección de identidad de revisión y edición local, proveedor Auth separado | Sin cuenta real ni contraseña guardada; no verificación de correo/edad.
+12 Comisiones ↔ Ventas | AdminCommissionsService.report consume AdminSalesService | Conservar cálculos y filtros derivados de esta fuente | No nuevas cifras, facturas o liquidaciones comerciales.
+Decisión: rutas actuales continúan disponibles para revisión; selección de perfil orienta destinos y presentación. No se presenta un guard local como seguridad. El mecanismo explícito de revisión estará en Acceso.
+
+RESULTADO FINAL DE 4.12
+1. AdminEventsService publica proyecciones en PresentationBridgeService; EventsService/Noches/Detalle reaccionan. Nuevas fechas son presentación; no se fabrican tipos comprables ni derechos Wallet.
+2. AdminDrinksService comparte metadatos. CatalogService conserva precios de compra; nuevos productos se consultan sin botón de compra. CartSelection comparte nombre/foto/descripción sin alterar precios/subtotales.
+3. Wallet conserva snapshots históricos; editar un evento no reescribe entradas.
+4. OrdersService y AdminSalesService no emiten Wallet. pending_payment y verified=true no crean derechos.
+5. Inventario conserva cálculos/saldos y recetas; ningún canje reserva o descuenta stock.
+6. Promociones guardadas tienen proyección de consulta en Tragos, sin aplicación de descuentos al carrito o servidor.
+7. SessionService ofrece perfiles de personal activo desde AdminStaffService; no autentica ni otorga permisos reales.
+8. Barra confirma uso en el registro de evidencia local; Wallet bloquea QR/PIN.
+9. Puerta comparte el indicador de entrada utilizada con Wallet; regla de evento/tipo separada.
+10. DemoRedemptionService restaura recibos PIN originales, comparte evidencia y revalida antes de escribir; reserva local durante la escritura. No es una transacción entre dispositivos. IndexedDB y credenciales PIN no cambian.
+11. ProfileService recibe el perfil cliente de SessionService y comparte ediciones locales de nombre/teléfono.
+12. Dashboard y Comisiones derivan cifras desde AdminSalesService. Se eliminaron porcentajes fijos de crecimiento del Dashboard.
+Detalle, pruebas, límites y archivos: CHECKPOINT_4_12_AUDITORIA_FRONTEND.txt y ARCHIVOS_4_12.txt.

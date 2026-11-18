@@ -16,7 +16,7 @@ export class AdminStaffComponent {
   this.form=new FormGroup({search:new FormControl(initial.search,{nonNullable:true}),role:new FormControl(initial.role,{nonNullable:true}),status:new FormControl(initial.status,{nonNullable:true}),order:new FormControl(initial.order,{nonNullable:true})});
   this.view$=this.form.valueChanges.pipe(startWith(initial),tap(()=>this.updateUrl()),switchMap(()=>service.staff$),map(records=>{
    const workers=filterStaff(records,this.form.getRawValue());this.selectionNotice='';
-   if(this.selectedId&&!workers.some(w=>w.id===this.selectedId)){if(!records.some(w=>w.id===this.selectedId))this.selectionNotice='El trabajador solicitado no está disponible en esta DEMO. Una recarga elimina los registros nuevos.';const focusWasInDetail=!!document.activeElement?.closest('app-admin-staff-detail');this.selectedId=null;if(focusWasInDetail)requestAnimationFrame(()=>document.getElementById('staff-search')?.focus());}
+   if(this.selectedId&&!workers.some(w=>w.id===this.selectedId)){if(!records.some(w=>w.id===this.selectedId))this.selectionNotice='El trabajador solicitado no está disponible en esta . Una recarga elimina los registros nuevos.';const focusWasInDetail=!!document.activeElement?.closest('app-admin-staff-detail');this.selectedId=null;if(focusWasInDetail)requestAnimationFrame(()=>document.getElementById('staff-search')?.focus());}
    return {workers,summary:staffSummary(workers),total:records.length,selected:workers.find(w=>w.id===this.selectedId)};
   }));
  }

@@ -7,10 +7,10 @@ export const CLUB_CONFIG: ClubConfiguration = {
   tradeName: 'Club VOID',
   logo: { src: 'assets/admin/void-logo.svg', alt: 'Club VOID' },
   branding: { primary: '#4b1e66', accent: '#c77af7', background: '#080809' },
-  legalName: 'Sociedad Club VOID de Ejemplo (ficticia)',
+  legalName: 'Sociedad Club VOID de Ejemplo (locales)',
   demoTaxId: 'DEMO-VOID (no válido)',
   country: 'CL',
-  address: 'Calle de Ejemplo 100 · dirección ficticia',
+  address: 'Calle de Ejemplo 100 · dirección locales',
   status: 'demo',
   currency: 'CLP',
   settings: { timezone: 'America/Santiago', locale: 'es-CL', salesEnabled: false }

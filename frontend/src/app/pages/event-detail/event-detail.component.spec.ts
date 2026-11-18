@@ -1,3 +1,4 @@
+import { SharedPresentationModule } from '../../shared/shared-presentation.module';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
@@ -21,7 +22,7 @@ describe('EventDetailComponent', () => {
     events.getTicketTypes.and.callFake(id => of(MOCK_TICKET_TYPES.filter(ticket => ticket.eventId === id).map(ticket => ({ ...ticket }))));
     events.getEventById.and.returnValue(of({ ...MOCK_EVENTS[0] }));
     await TestBed.configureTestingModule({
-      imports: [CommonModule, RouterTestingModule],
+      imports: [SharedPresentationModule,CommonModule, RouterTestingModule],
       declarations: [EventDetailComponent],
       providers: [
         { provide: ActivatedRoute, useValue: { paramMap: params } },

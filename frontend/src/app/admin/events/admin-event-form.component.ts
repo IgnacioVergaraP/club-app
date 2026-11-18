@@ -87,7 +87,7 @@ export class AdminEventFormComponent implements OnDestroy {
   go(index:number):void{this.step=Math.max(0,Math.min(3,index));this.furthestStep=Math.max(this.furthestStep,this.step);this.error='';setTimeout(()=>document.getElementById('wizard-step-heading')?.focus());}
   saveDraft():void{if(!this.canSaveDraft){this.form.controls.name.markAsTouched();this.error='Escribe un nombre para identificar y recuperar tu borrador.';return;}this.persist('draft');}
   submit():void{this.publish();}
-  publish():void{this.form.markAllAsTouched();if(!this.canPublish){this.error='Revisa la información, programación y entradas antes de publicar DEMO.';return;}this.persist('published');}
+  publish():void{this.form.markAllAsTouched();if(!this.canPublish){this.error='Revisa la información, programación y entradas antes de publicar .';return;}this.persist('published');}
   private persist(status:AdminEventDraft['status']):void {
     try{this.saving=true;const saved=this.service.save({...this.draft(),status},this.id,this.form.controls.reviewedDate.value);this.id=saved.id;this.form.controls.status.setValue(status);this.savedValue=this.signature();void this.router.navigate(['/admin/eventos',saved.id]).finally(()=>this.saving=false);}
     catch(error){this.saving=false;this.error=(error as Error).message;}

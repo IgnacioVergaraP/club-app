@@ -20,8 +20,8 @@ export class WalletComponent {
   ];
   readonly ticketLabels: Record<WalletTicketStatus, string> = { available: 'Disponible', used: 'Utilizada', expired: 'Vencida' };
   readonly drinkLabels: Record<WalletDrinkStatus, string> = { pending: 'Pendiente de canje', redeemed: 'Canjeado', expired: 'Vencido' };
-  readonly activityLabels = { completed: 'Registro ilustrativo', pending: 'Pendiente demo', expired: 'Vencido demo' };
-  readonly activityTypes = { ticket_added: 'Entrada', drink_added: 'Consumo', ticket_used: 'Uso simulado', drink_redeemed: 'Canje simulado', expired: 'Vencimiento' };
+  readonly activityLabels = { completed: 'Registro ilustrativo', pending: 'Pendiente', expired: 'Vencido' };
+  readonly activityTypes = { ticket_added: 'Entrada', drink_added: 'Consumo', ticket_used: 'Uso local', drink_redeemed: 'Canje local', expired: 'Vencimiento' };
   private readonly section$ = new BehaviorSubject<Section>('tickets');
   private readonly reload$ = new BehaviorSubject<void>(undefined);
   private readonly state$ = this.reload$.pipe(switchMap(() => defer(() => this.wallet.getWallet()).pipe(

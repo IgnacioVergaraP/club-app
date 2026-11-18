@@ -23,7 +23,7 @@ export class AdminStaffFormComponent implements OnDestroy {
  invalid(name:keyof typeof this.form.controls):boolean{const c=this.form.controls[name];return c.invalid&&c.touched;}
  save():void {
   if(this.saving||this.missing)return;this.form.markAllAsTouched();this.error='';this.notice='';
-  if(this.form.invalid){this.error='Revisa los campos marcados antes de guardar el trabajador DEMO.';const field=Object.keys(this.form.controls).find(k=>this.form.get(k)?.invalid);if(field)this.element.nativeElement.querySelector<HTMLInputElement>('[formControlName="'+field+'"]')?.focus();return;}
+  if(this.form.invalid){this.error='Revisa los campos marcados antes de guardar el trabajador .';const field=Object.keys(this.form.controls).find(k=>this.form.get(k)?.invalid);if(field)this.element.nativeElement.querySelector<HTMLInputElement>('[formControlName="'+field+'"]')?.focus();return;}
   const value=this.form.getRawValue(),current=this.id?this.service.get(this.id):undefined;
   const disabling=current?.status==='active'&&value.status==='inactive';
   if(disabling&&!window.confirm(`¿Desactivar a ${current!.name} en esta demostración? No se revoca ningún acceso real.`)){this.notice='Desactivación cancelada. No se guardaron los cambios.';return;}

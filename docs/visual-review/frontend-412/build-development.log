@@ -1,0 +1,26 @@
+
+> frontend@0.0.0 build
+> ng build --configuration development
+
+- Building...
+
+Initial chunk files | Names         |  Raw size
+chunk-2WUOPD6B.js   | -             |   1.42 MB | 
+main.js             | main          | 356.67 kB | 
+styles.css          | styles        | 265.97 kB | 
+polyfills.js        | polyfills     |  88.09 kB | 
+chunk-HM2DRL3B.js   | -             |  21.08 kB | 
+chunk-M7WNL6RF.js   | -             |   5.28 kB | 
+
+                    | Initial total |   2.14 MB
+
+Lazy chunk files    | Names         |  Raw size
+chunk-VOTRNHZF.js   | admin-module  | 846.71 kB | 
+chunk-KIPGC4MG.js   | staff-module  |  44.46 kB | 
+chunk-QZBAYXJ3.js   | auth-module   |  22.18 kB | 
+chunk-ENSZUEB3.js   | -             | 612 bytes | 
+
+Output location: /Users/nacho/Desktop/club-app/frontend/dist/frontend
+
+Application bundle generation complete. [9.506 seconds]
+

@@ -20,10 +20,10 @@ export class AdminCommissionSettingsComponent {
  }
  @HostListener('window:resize') resize():void{this.mobile=!!this.document.defaultView?.matchMedia('(max-width:767px)').matches;}
  apply():void{
-  this.form.markAllAsTouched();if(this.form.invalid){this.message='Revisa los valores; se mantiene la última simulación aplicada.';return;}
+  this.form.markAllAsTouched();if(this.form.invalid){this.message='Revisa los valores; se mantiene la última revisión aplicada.';return;}
   const v=this.form.getRawValue(),prior=this.service.config;
   const config:AdminCommissionConfig={codetecBps:rateToBps(v.codetecRate)!,base:v.base,processorMode:v.processorMode,processorBps:v.processorMode==='percent'?rateToBps(v.processorRate)!:prior.processorBps,processorFixedClp:v.processorMode==='fixed'?v.processorFixed!:prior.processorFixedClp,processingPayer:v.processingPayer,vatMode:v.vatMode};
-  try{this.service.apply(config);this.form.markAsPristine();this.message='Simulación DEMO aplicada. Sin cambios comerciales.';}catch{this.message='Configuración inválida; se mantiene la simulación anterior.';}
+  try{this.service.apply(config);this.form.markAsPristine();this.message='revisión  aplicada. Sin cambios comerciales.';}catch{this.message='Configuración inválida; se mantiene la revisión anterior.';}
  }
  reset():void{const c=DEFAULT_COMMISSION_CONFIG;this.form.reset({codetecRate:c.codetecBps/100,base:c.base,processorMode:c.processorMode,processorRate:c.processorBps/100,processorFixed:c.processorFixedClp,processingPayer:c.processingPayer,vatMode:c.vatMode});this.apply();}
 }
