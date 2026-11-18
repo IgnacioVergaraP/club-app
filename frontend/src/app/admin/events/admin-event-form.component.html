@@ -4,7 +4,7 @@
 <ng-template #wizard><p *ngIf="requiresDateReview" class="notice">Copia  en Borrador. Revisa y actualiza la programación en el paso 2 antes de publicar.</p>
   <app-admin-event-progress [labels]="steps" [step]="step" [furthest]="furthestStep" [completed]="stepCompletion" (stepChange)="navigateStep($event)"/>
   <div class="wizard-columns"><form [formGroup]="form" (ngSubmit)="step<3 ? next() : publish()" novalidate>
-    <section class="step-panel"><p class="eyebrow">PASO {{ step+1 }} DE 4</p><h2 id="wizard-step-heading" tabindex="-1">{{ steps[step] }}</h2>
+    <section class="step-panel" [class.date-step]="step===1"><p class="eyebrow">PASO {{ step+1 }} DE 4</p><h2 id="wizard-step-heading" tabindex="-1">{{ steps[step] }}</h2>
       <div *ngIf="step===0" class="fields">
         <p class="help wide">Empieza por la imagen y los detalles que verán tus asistentes. <span *ngIf="!id">Estado inicial: Borrador.</span><span *ngIf="id">Estado guardado: {{ statusLabel }}. Los cambios se aplican al guardar.</span></p>
         <label class="wide">Imagen destacada<input id="event-image" type="file" accept="image/jpeg,image/png,image/webp" (change)="onImageSelected($event)" aria-describedby="image-help image-error" [attr.aria-busy]="imageLoading"><small id="image-help">Carga una imagen JPG, PNG o WEBP de hasta 5 MB desde tu dispositivo. Se conserva durante esta sesión.</small><span *ngIf="imageLoading" role="status">Cargando imagen…</span><span id="image-error" class="error" *ngIf="imageError" role="alert">{{ imageError }}</span></label>
@@ -12,14 +12,20 @@
         <label class="wide">Descripción<textarea id="event-description" formControlName="description" rows="4" maxlength="1200" placeholder="Cuenta qué hará especial esta noche." [attr.aria-invalid]="invalid(form.controls.description)"></textarea><small>Hasta 1.200 caracteres.</small><span class="error" *ngIf="invalid(form.controls.description)">La descripción no puede superar 1.200 caracteres.</span></label>
       </div>
       <div *ngIf="step===1" class="fields">
-        <p class="help wide">Zona horaria del club: <strong>America/Santiago</strong>. Las fechas se muestran como calendario local, sin desplazar el día a UTC.</p>
-        <label>Fecha de inicio<input id="event-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="date" [attr.aria-invalid]="invalid(form.controls.date)"></label>
-        <label>Hora de inicio<input id="event-start" type="time" formControlName="startsAt" [attr.aria-invalid]="invalid(form.controls.startsAt)"></label>
-        <label>Fecha de término<input id="event-end-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="endsOn" [attr.aria-invalid]="invalid(form.controls.endsOn)"></label>
-        <label>Hora de término<input id="event-end" type="time" formControlName="endsAt" [attr.aria-invalid]="invalid(form.controls.endsAt)"></label>
-        <div class="schedule-summary wide"><strong>{{ schedule }}</strong><span>{{ dateRange }}</span></div>
-        <p class="help wide">Si el término está vacío, proponemos el mismo día o el siguiente según las horas. Cambiar el inicio no sobrescribe un término que ya hayas ingresado. Duración máxima existente: 24 horas.</p>
-        <p class="error wide" *ngIf="!periodValid && (form.controls.date.touched || form.controls.endsOn.touched || form.controls.startsAt.touched || form.controls.endsAt.touched)">Indica fechas válidas y un término posterior al inicio, dentro de 24 horas. Una hora inexistente o ambigua por cambio de horario en Chile debe corregirse.</p>
+        <p class="help wide">Define cuándo empieza y termina tu noche.</p>
+        <fieldset class="schedule-group"><legend>Inicio</legend>
+          <label>Fecha de inicio<input id="event-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="date" [attr.aria-invalid]="invalid(form.controls.date)" aria-describedby="schedule-zone schedule-error"></label>
+          <label>Hora de inicio<input id="event-start" type="time" formControlName="startsAt" [attr.aria-invalid]="invalid(form.controls.startsAt)" aria-describedby="schedule-zone schedule-error"></label>
+        </fieldset>
+        <fieldset class="schedule-group"><legend>Término</legend>
+          <label>Fecha de término<input id="event-end-date" type="date" min="2000-01-01" max="2100-12-31" formControlName="endsOn" [attr.aria-invalid]="invalid(form.controls.endsOn)" aria-describedby="schedule-zone schedule-error"></label>
+          <label>Hora de término<input id="event-end" type="time" formControlName="endsAt" [attr.aria-invalid]="invalid(form.controls.endsAt)" aria-describedby="schedule-zone schedule-error"></label>
+        </fieldset>
+        <div class="schedule-summary notice wide" role="status" aria-live="polite" aria-atomic="true"><strong>{{ schedule }}</strong><span>{{ dateRange }}</span></div>
+        <div class="wide"><p id="schedule-zone" class="help schedule-zone">Zona horaria: America/Santiago · Máximo 24 h</p>
+          <details class="schedule-help help"><summary>Sobre la fecha de término</summary><p>Si está vacía, proponemos el mismo día o el siguiente según las horas. Un término que ya ingresaste se conserva al cambiar el inicio.</p></details>
+        </div>
+        <p id="schedule-error" class="error wide" role="alert" *ngIf="!periodValid && (form.controls.date.touched || form.controls.endsOn.touched || form.controls.startsAt.touched || form.controls.endsAt.touched)">Indica fechas válidas y un término posterior al inicio, dentro de 24 horas. Una hora inexistente o ambigua por cambio de horario en Chile debe corregirse.</p>
         <div class="notice wide" *ngIf="requiresDateReview"><p>Este evento es una copia. Actualiza su programación antes de publicar.</p><label class="check"><input id="event-reviewed-date" type="checkbox" formControlName="reviewedDate">Revisé y actualicé la fecha de inicio de esta copia</label><p class="error" *ngIf="form.controls.reviewedDate.touched && !copyDateValid">Cambia la fecha de inicio y confirma la revisión.</p></div>
       </div>
       <div *ngIf="step===2"><p class="help">Configura tus entradas sin ventas ni reservas reales. Las opciones avanzadas están dentro de cada tipo.</p><app-admin-event-tickets [types]="form.controls.ticketTypes"/><p class="error" *ngIf="form.hasError('duplicateTickets')">Los tipos de entrada deben tener nombres diferentes.</p></div>

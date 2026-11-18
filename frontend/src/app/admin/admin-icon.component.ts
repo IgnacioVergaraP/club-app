@@ -8,6 +8,8 @@ import { Component, Input } from '@angular/core';
 export class AdminIconComponent {
   @Input() name = 'activity';
   readonly paths: Record<string, string> = {
+    copy: 'M9 8h12v14H9zM5 17H3V2h13v3',
+    bolt: 'm13 2-9 12h7l-1 8L21 9h-8l1-7Z',
     eye: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Zm10-3a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z',
     crown: 'm3 6 4 4 5-7 5 7 4-4-2 14H5L3 6Zm2 10h14',
     shield: 'm12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Zm-4 9 3 3 5-6',

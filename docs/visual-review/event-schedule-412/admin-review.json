@@ -1,0 +1,171 @@
+{
+  "date": "2026-11-18",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "width": 320,
+      "overflow": false,
+      "heading": "Fecha y horario",
+      "groups": 2,
+      "helpOpen": false,
+      "summary": "sábado 23:00 → domingo 06:0028 nov 2026 → 29 nov 2026",
+      "fields": [
+        {
+          "id": "event-date",
+          "height": 44,
+          "width": 133.8125,
+          "inside": true
+        },
+        {
+          "id": "event-start",
+          "height": 44,
+          "width": 95.59375,
+          "inside": true
+        },
+        {
+          "id": "event-end-date",
+          "height": 44,
+          "width": 133.8125,
+          "inside": true
+        },
+        {
+          "id": "event-end",
+          "height": 44,
+          "width": 95.59375,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "heading": "Fecha y horario",
+      "groups": 2,
+      "helpOpen": false,
+      "summary": "sábado 23:00 → domingo 06:0028 nov 2026 → 29 nov 2026",
+      "fields": [
+        {
+          "id": "event-date",
+          "height": 44,
+          "width": 174.640625,
+          "inside": true
+        },
+        {
+          "id": "event-start",
+          "height": 44,
+          "width": 124.75,
+          "inside": true
+        },
+        {
+          "id": "event-end-date",
+          "height": 44,
+          "width": 174.640625,
+          "inside": true
+        },
+        {
+          "id": "event-end",
+          "height": 44,
+          "width": 124.75,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "overflow": false,
+      "heading": "Fecha y horario",
+      "groups": 2,
+      "helpOpen": false,
+      "summary": "sábado 23:00 → domingo 06:0028 nov 2026 → 29 nov 2026",
+      "fields": [
+        {
+          "id": "event-date",
+          "height": 44,
+          "width": 274.984375,
+          "inside": true
+        },
+        {
+          "id": "event-start",
+          "height": 44,
+          "width": 196.40625,
+          "inside": true
+        },
+        {
+          "id": "event-end-date",
+          "height": 44,
+          "width": 274.984375,
+          "inside": true
+        },
+        {
+          "id": "event-end",
+          "height": 44,
+          "width": 196.40625,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "overflow": false,
+      "heading": "Fecha y horario",
+      "groups": 2,
+      "helpOpen": false,
+      "summary": "sábado 23:00 → domingo 06:0028 nov 2026 → 29 nov 2026",
+      "fields": [
+        {
+          "id": "event-date",
+          "height": 44,
+          "width": 181.359375,
+          "inside": true
+        },
+        {
+          "id": "event-start",
+          "height": 44,
+          "width": 129.53125,
+          "inside": true
+        },
+        {
+          "id": "event-end-date",
+          "height": 44,
+          "width": 181.359375,
+          "inside": true
+        },
+        {
+          "id": "event-end",
+          "height": 44,
+          "width": 129.53125,
+          "inside": true
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    "schedule-320.png",
+    "schedule-390.png",
+    "schedule-768.png",
+    "schedule-1280.png"
+  ],
+  "keyboard": [
+    "Collapsible help opens with Enter; Back/Continue preserve values; invalid >24h blocks progress"
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    {
+      "dialog": "beforeunload",
+      "accepted": true
+    },
+    {
+      "dialog": "beforeunload",
+      "accepted": true
+    },
+    {
+      "dialog": "beforeunload",
+      "accepted": true
+    }
+  ],
+  "paid": false,
+  "result": "PASS"
+}

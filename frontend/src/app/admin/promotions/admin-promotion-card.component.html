@@ -1,0 +1,23 @@
+<ng-container *ngIf="promotion as p">
+  <article class="promotion-card" [attr.data-promotion]="p.id" [class.selected]="selected" [attr.aria-labelledby]="'promotion-name-'+p.id">
+    <header class="promotion-top">
+      <span class="product-icon"><app-admin-icon name="drink"/></span>
+      <div class="promotion-title"><h2 [id]="'promotion-name-'+p.id">{{p.name}}</h2><p>{{p.productName || 'Producto pendiente'}} · {{p.id|referenceLabel}}</p></div>
+      <span class="promo-status" [attr.data-state]="p.status"><app-admin-icon [name]="p.status==='active'?'bolt':p.status==='cancelled'?'close':p.status==='draft'?'edit':'calendar'"/>{{promotionLabels[p.status]}}</span>
+    </header>
+    <div class="promotion-prices" *ngIf="p.referencePriceClp>0&&p.promoPriceClp>0;else pricePending">
+      <s><span class="visually-hidden">Precio de referencia: </span>{{p.referencePriceClp|currency:'CLP':'symbol-narrow':'1.0-0':'es-CL'}}</s>
+      <strong><span class="visually-hidden">Precio promocional: </span>{{p.promoPriceClp|currency:'CLP':'symbol-narrow':'1.0-0':'es-CL'}}</strong>
+      <span class="discount">{{p.discount|number:'1.0-2':'es-CL'}}%<span class="visually-hidden"> de descuento</span></span>
+    </div>
+    <ng-template #pricePending><p class="promotion-prices pending-price">Precio pendiente</p></ng-template>
+    <p class="promotion-schedule"><app-admin-icon name="calendar"/><span>{{schedule}}</span></p>
+    <div class="card-actions">
+      <button type="button" (click)="view.emit()" [attr.aria-label]="'Ver '+p.name"><app-admin-icon name="eye"/><span>Ver</span></button>
+      <a *ngIf="p.status!=='cancelled'&&p.status!=='finished';else editDisabled" [routerLink]="['/admin/promociones',p.id,'editar']" [attr.aria-label]="'Editar '+p.name"><app-admin-icon name="edit"/><span>Editar</span></a>
+      <ng-template #editDisabled><button type="button" disabled [attr.aria-label]="'No se puede editar '+p.name+' ('+promotionLabels[p.status]+')'"><app-admin-icon name="edit"/><span>Editar</span></button></ng-template>
+      <button type="button" (click)="duplicate.emit()" [attr.aria-label]="'Duplicar '+p.name"><app-admin-icon name="copy"/><span>Duplicar</span></button>
+      <details #more class="promotion-more" *ngIf="p.mode!=='cancelled'" (keydown.escape)="closeMore($event)"><summary [attr.aria-label]="'Más acciones de '+p.name" title="Más acciones"><span aria-hidden="true">⋯</span></summary><div class="more-options"><button type="button" (click)="cancel.emit();more.open=false">Cancelar promoción<span class="visually-hidden"> {{p.name}}</span></button></div></details>
+    </div>
+  </article>
+</ng-container>

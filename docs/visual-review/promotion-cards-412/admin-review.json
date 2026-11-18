@@ -1,0 +1,183 @@
+{
+  "date": "2026-11-18",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "width": 320,
+      "view": "promotions",
+      "overflow": false,
+      "tabs": [
+        "Promociones",
+        "Historial"
+      ],
+      "selected": [
+        "promotion-tab-promotions"
+      ],
+      "metrics": false,
+      "filters": false,
+      "ids": [],
+      "rows": 5,
+      "fab": true
+    },
+    {
+      "width": 320,
+      "view": "history",
+      "overflow": false,
+      "tabs": [
+        "Promociones",
+        "Historial"
+      ],
+      "selected": [
+        "promotion-tab-history"
+      ],
+      "metrics": false,
+      "filters": true,
+      "ids": [
+        "promotion-search",
+        "promotion-filter-type",
+        "promotion-filter-audience",
+        "promotion-period"
+      ],
+      "rows": 0,
+      "fab": false
+    },
+    {
+      "width": 390,
+      "view": "promotions",
+      "overflow": false,
+      "tabs": [
+        "Promociones",
+        "Historial"
+      ],
+      "selected": [
+        "promotion-tab-promotions"
+      ],
+      "metrics": false,
+      "filters": false,
+      "ids": [],
+      "rows": 5,
+      "fab": true
+    },
+    {
+      "width": 390,
+      "view": "history",
+      "overflow": false,
+      "tabs": [
+        "Promociones",
+        "Historial"
+      ],
+      "selected": [
+        "promotion-tab-history"
+      ],
+      "metrics": false,
+      "filters": true,
+      "ids": [
+        "promotion-search",
+        "promotion-filter-type",
+        "promotion-filter-audience",
+        "promotion-period"
+      ],
+      "rows": 0,
+      "fab": false
+    },
+    {
+      "width": 768,
+      "view": "promotions",
+      "overflow": false,
+      "tabs": [
+        "Promociones",
+        "Historial"
+      ],
+      "selected": [
+        "promotion-tab-promotions"
+      ],
+      "metrics": false,
+      "filters": false,
+      "ids": [],
+      "rows": 5,
+      "fab": true
+    },
+    {
+      "width": 768,
+      "view": "history",
+      "overflow": false,
+      "tabs": [
+        "Promociones",
+        "Historial"
+      ],
+      "selected": [
+        "promotion-tab-history"
+      ],
+      "metrics": false,
+      "filters": true,
+      "ids": [
+        "promotion-search",
+        "promotion-filter-type",
+        "promotion-filter-audience",
+        "promotion-period"
+      ],
+      "rows": 0,
+      "fab": false
+    },
+    {
+      "width": 1280,
+      "view": "promotions",
+      "overflow": false,
+      "tabs": [
+        "Promociones",
+        "Historial"
+      ],
+      "selected": [
+        "promotion-tab-promotions"
+      ],
+      "metrics": false,
+      "filters": false,
+      "ids": [],
+      "rows": 5,
+      "fab": true
+    },
+    {
+      "width": 1280,
+      "view": "history",
+      "overflow": false,
+      "tabs": [
+        "Promociones",
+        "Historial"
+      ],
+      "selected": [
+        "promotion-tab-history"
+      ],
+      "metrics": false,
+      "filters": true,
+      "ids": [
+        "promotion-search",
+        "promotion-filter-type",
+        "promotion-filter-audience",
+        "promotion-period"
+      ],
+      "rows": 0,
+      "fab": false
+    }
+  ],
+  "screenshots": [
+    "promotions-320.png",
+    "history-320.png",
+    "promotions-390.png",
+    "history-390.png",
+    "promotions-768.png",
+    "history-768.png",
+    "promotions-1280.png",
+    "history-1280.png"
+  ],
+  "keyboard": [
+    "More actions open natively and close with Escape; card View opens existing detail",
+    "ArrowRight cycles both tabs, focus and single selection correct"
+  ],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [],
+  "paid": false,
+  "result": "PASS"
+}

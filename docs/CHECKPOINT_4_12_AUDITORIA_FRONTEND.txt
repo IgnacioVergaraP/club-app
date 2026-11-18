@@ -208,3 +208,37 @@ Verificación posterior a este ajuste:
 - Pruebas de clasificación por fecha, cruce de medianoche, búsqueda, bajo stock reactivo, agotados y reposición. Se conservan las pruebas de movimientos y recetas.
 Evidencia: docs/visual-review/admin-simplification-412/admin-review.json, review-admin.cjs, capturas PNG y logs de pruebas/build.
 Sin commit, push o despliegue. Pendiente revisión del Product Owner/arquitecto.
+
+
+22. SIMPLIFICACIÓN DE PROMOCIONES — 18-11-2026
+- Retiradas las cuatro tarjetas de conteo y la pestaña Notificaciones del listado administrativo.
+- Solo dos pestañas, Promociones e Historial, con selección y foco independientes.
+- Promociones muestra todos los registros sin controles de filtros; los criterios de Historial no restringen el listado de promociones.
+- Historial conserva sus filtros de búsqueda, tipo, audiencia y período. Personalizado muestra Desde/Hasta y valida el rango. Cambiar de pestaña restablece los criterios.
+- Se conserva la burbuja Nueva promoción y los asistentes/servicios existentes. Retirar la pestaña no elimina avisos vinculados ni sus registros del historial.
+- Verificación: 515/515 pruebas Angular aprobadas; build de producción aprobado con advertencias existentes. Chrome real en 320/390/768/1280 px, ocho combinaciones/capturas, sin scroll horizontal, errores de consola, excepciones o HTTP >=400. Verificados teclado, selección única, rango personalizado y regreso al listado completo.
+- Evidencia: docs/visual-review/promotions-cleanup-412/.
+Sin backend, dependencias, commit, push ni despliegue.
+
+
+23. TARJETAS DE PROMOCIONES SEGÚN REFERENCIA VISUAL — 18-11-2026
+- Reemplazada la tabla de Promociones por tarjetas oscuras con borde morado: icono de trago, nombre, producto/referencia, badge de estado, precio original tachado, precio promocional destacado, porcentaje y horario compacto de Santiago. Los horarios que cruzan de día muestran ambas fechas; borradores instantáneos indican activación pendiente y duración.
+- Acciones visibles Ver, Editar y Duplicar con iconos. Cancelar se conserva dentro del menú de tres puntos con confirmación. Menú nativo details/summary operable con Enter y cierre con Escape. Editar aparece deshabilitado para promociones finalizadas/canceladas.
+- Se conservan las dos pestañas Promociones/Historial, filtros exclusivamente en Historial, ausencia de contadores y burbuja Nueva promoción. La imagen se aplicó como referencia para los registros; no se reintrodujeron sus filtros/buscador, retirados previamente a petición del Product Owner.
+- Componente de presentación nuevo: frontend/src/app/admin/promotions/admin-promotion-card.component.ts/.html/.scss. Ajustes en listado HTML/TS/SCSS, declaración AdminModule, iconos existentes y pruebas promotion.spec.ts. Sin nuevas dependencias ni cambios en precios, servicios transaccionales, Flask o Fintoc.
+- Suite Angular: 518/518 aprobadas. Build producción aprobado; SCSS de tarjeta 3,19 kB, bajo límite de error de 4 kB y sobre advertencia de 2 kB. Sin aumentos de presupuestos.
+- Chrome real en 320, 390, 768 y 1280 px: ocho combinaciones de Promociones/Historial y ocho capturas. Sin scroll horizontal, errores de consola, excepciones, recursos HTTP >=400 ni escrituras HTTP. Acciones caben a 320 px; estados y nombres largos se adaptan. Verificada selección única de pestaña, filtros exclusivos de Historial, menú con teclado y apertura de consulta desde Ver.
+- Nuevas pruebas cubren precios/estados/horarios, acciones Ver/Duplicar sin mutación del original y cancelación confirmada desde menú.
+Evidencia: docs/visual-review/promotion-cards-412/.
+Sin commit, push o despliegue. Pendiente revisión visual del Product Owner.
+
+
+24. FECHA Y HORARIO DEL WIZARD DE EVENTOS — 18-11-2026
+- Ajuste visual exclusivo del paso 2 de 4. Campos nativos de 44 px, ancho limitado a su contenedor y fuente de 16 px; agrupación semántica Inicio/Término con fecha y hora en cada fila. La disposición se adapta a dos columnas de grupos cuando hay ancho suficiente y evita comprimir las horas en tablet.
+- Resumen destacado con borde morado, horario/días y rango de fechas; actualización anunciada de forma discreta con role=status. Zona horaria y máximo de 24 horas en una línea. La explicación detallada del término pasa a ayuda colapsable operable por teclado.
+- Se conservan Paso 2 de 4, Atrás y Continuar. Acciones de igual ancho, espaciadas respecto al contenido. Identidad negra/morada sólida, sin degradados.
+- Archivos de aplicación modificados exclusivamente para este ajuste: frontend/src/app/admin/events/admin-event-form.component.html y admin-event-form.component.scss. Sin cambios TypeScript, validadores, servicios o reglas de negocio.
+- Suite Angular completa: 518/518 aprobadas. Build de producción aprobado, sin aumentar presupuestos. Estilos del formulario al borde del límite de 4 kB; siguen las advertencias ya conocidas.
+- Chrome real en 320/390/768/1280 px: cuatro recorridos y cuatro capturas. Campos dentro de sus grupos, altura de 44 px y cero scroll horizontal. Verificados propuesta automática al día siguiente, conservación de término explícito al cambiar inicio, error para período mayor a 24 horas, resumen en vivo, Continuar y Atrás con valores conservados, ayuda con Enter. Sin errores de consola, excepciones, recursos HTTP >=400 o escrituras HTTP. No sustituye comprobación física en Safari/iOS.
+Evidencia: docs/visual-review/event-schedule-412/.
+Sin nueva subetapa, commit, push ni despliegue.
