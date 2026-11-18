@@ -2,13 +2,6 @@
   <header class="wallet-heading"><div><h1 id="wallet-title">Mi Wallet<span>.</span></h1><p>Entradas, consumos y tus noches en un solo lugar.</p></div></header>
   
 
-  <section *ngIf="!view.loading && !view.error" class="overview" aria-label="Resumen de registros">
-    <div><strong data-metric="tickets">{{ view.overview.ticketCount }}</strong><span>Entradas</span></div>
-    <div><strong data-metric="drinks">{{ view.overview.drinkUnits }}</strong><span>Consumos</span></div>
-    <div class="next-event"><span>Próxima noche asociada</span><strong>{{ view.overview.nextEvent?.name || 'Sin próximas fechas' }}</strong>
-      <time *ngIf="view.overview.nextEvent as event" [attr.datetime]="event.startsAt">{{ event.startsAt | date:'dd MMM · HH:mm':'-0300' }} h · UTC−3</time></div>
-  </section>
-
   <div class="wallet-tabs" role="tablist" aria-label="Secciones de Wallet">
     <button #walletTab *ngFor="let section of sections" type="button" role="tab"
       [id]="'wallet-tab-' + section.id" [attr.aria-selected]="view.section === section.id"

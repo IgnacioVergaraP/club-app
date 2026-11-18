@@ -1,9 +1,8 @@
 import { inject } from '@angular/core';
 import { PresentationBridgeService } from '../../services/presentation-bridge.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CategoryOption, Product, ProductCategory } from '../../models/product.model';
 import { CatalogService } from '../../services/catalog.service';
 import { CartSelectionService } from '../../services/cart-selection.service';
@@ -16,7 +15,6 @@ import { CartSelectionService } from '../../services/cart-selection.service';
 })
 export class TragosComponent implements OnInit, OnDestroy {
   readonly offers$=inject(PresentationBridgeService).offers$;
-  readonly searchControl = new FormControl<string>('', { nonNullable: true });
   readonly selectedCategory$ = new BehaviorSubject<ProductCategory | 'all'>('all');
 
   categories: CategoryOption[] = [];
@@ -36,18 +34,13 @@ export class TragosComponent implements OnInit, OnDestroy {
 
     this.products$ = combineLatest([
       this.catalog.getProducts(),
-      this.searchControl.valueChanges.pipe(startWith('')),
       this.selectedCategory$
     ]).pipe(
-      map(([products, term, category]) => {
-        const normalized = term.trim().toLowerCase();
+      map(([products, category]) => {
         return products.filter((p) => {
           const matchCategory =
             category === 'all' || p.category === category;
-          const matchTerm =
-            normalized.length === 0 ||
-            p.name.toLowerCase().includes(normalized);
-          return matchCategory && matchTerm;
+          return matchCategory;
         });
       })
     );
@@ -73,7 +66,4 @@ export class TragosComponent implements OnInit, OnDestroy {
     return quantities[productId] ?? 0;
   }
 
-  clearSearch(): void {
-    this.searchControl.setValue('');
-  }
 }

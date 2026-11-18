@@ -4,23 +4,6 @@
     <p class="page-subtitle">Elige tus tragos para la noche.</p>
   </header>
 
-  <div class="search-wrapper">
-    <input
-      type="text"
-      class="search-input"
-      placeholder="Buscar por nombre…"
-      [formControl]="searchControl"
-      aria-label="Buscar tragos por nombre" />
-    <button
-      *ngIf="searchControl.value.length > 0"
-      type="button"
-      class="search-clear"
-      aria-label="Limpiar búsqueda"
-      (click)="clearSearch()">
-      ✕
-    </button>
-  </div>
-
   <app-category-filter
     [categories]="categories"
     [selected]="selectedCategory$.value"

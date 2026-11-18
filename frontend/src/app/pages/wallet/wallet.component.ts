@@ -1,7 +1,7 @@
 import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
-import { BehaviorSubject, combineLatest, defer, of, timer } from 'rxjs';
+import { BehaviorSubject, combineLatest, defer, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { WalletData, WalletOverview, WalletTicketStatus, WalletDrinkStatus } from '../../models/wallet.model';
+import { WalletData, WalletTicketStatus, WalletDrinkStatus } from '../../models/wallet.model';
 import { WalletService } from '../../services/wallet.service';
 
 type Section = 'tickets' | 'drinks' | 'history';
@@ -29,8 +29,8 @@ export class WalletComponent {
     startWith<WalletState>({ loading: true, error: false, data: null }),
     catchError(() => of<WalletState>({ loading: false, error: true, data: null }))
   )));
-  readonly view$ = combineLatest([this.state$, this.section$, timer(60000, 60000).pipe(startWith(0))])
-    .pipe(map(([state, section]) => ({ ...state, section, overview: this.overview(state.data) })));
+  readonly view$ = combineLatest([this.state$, this.section$])
+    .pipe(map(([state, section]) => ({ ...state, section })));
 
   constructor(private wallet: WalletService) {}
 
@@ -51,17 +51,4 @@ export class WalletComponent {
     this.tabButtons.get(next)?.nativeElement.focus();
   }
 
-  private overview(data: WalletData | null): WalletOverview {
-    if (!data) { return { ticketCount: 0, drinkUnits: 0, nextEvent: null }; }
-    const events = [
-      ...data.tickets.filter(item => item.status === 'available').map(item => item.event),
-      ...data.drinks.filter(item => item.status === 'pending').map(item => item.event)
-    ].filter(event => Date.parse(event.startsAt) > Date.now())
-      .sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt));
-    return {
-      ticketCount: data.tickets.length,
-      drinkUnits: data.drinks.reduce((total, item) => total + item.quantity, 0),
-      nextEvent: events[0] ?? null
-    };
-  }
 }

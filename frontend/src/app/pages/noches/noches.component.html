@@ -2,21 +2,9 @@
   <header>
     <p class="eyebrow">CLUB VOID / LA PROGRAMACIÓN</p>
     <h1 id="nights-title">Noches<span>.</span></h1>
-    <p class="intro">Encuentra tu próxima fecha o vuelve a las noches anteriores.</p>
+    <p class="intro">Encuentra las noches de hoy y las próximas fechas.</p>
   </header>
   <p class="demo-note">Programación. Eventos locales, sin venta de entradas.</p>
-
-  <section class="filters" aria-label="Filtrar eventos">
-    <div class="periods" role="group" aria-label="Fecha del evento">
-      <button *ngFor="let period of periods" type="button" [attr.aria-pressed]="view.period === period.value"
-              [class.selected]="view.period === period.value" (click)="setPeriod(period.value)">{{ period.label }}</button>
-    </div>
-    <label for="event-category">Categoría</label>
-    <select id="event-category" [value]="view.category" (change)="setCategory($any($event.target).value)">
-      <option value="">Todas las categorías</option>
-      <option *ngFor="let category of view.categories" [value]="category">{{ category }}</option>
-    </select>
-  </section>
 
   <p *ngIf="view.loading" class="state" role="status">Cargando noches…</p>
   <div *ngIf="view.error" class="void-card state" role="alert">
@@ -25,12 +13,8 @@
   </div>
   <ng-container *ngIf="!view.loading && !view.error">
     <p class="count" aria-live="polite">{{ view.cards.length }} {{ view.cards.length === 1 ? 'evento' : 'eventos' }}</p>
-    <div *ngIf="!view.events.length" class="void-card state" role="status">
+    <div *ngIf="!view.cards.length" class="void-card state" role="status">
       <h2>Aún no hay noches programadas.</h2><p>Vuelve pronto para descubrir nuevas fechas.</p>
-    </div>
-    <div *ngIf="view.events.length && !view.cards.length" class="void-card state" role="status">
-      <h2>No hay eventos que coincidan.</h2><p>Prueba con otra fecha o categoría.</p>
-      <button type="button" class="void-btn-primary" (click)="resetFilters()">Restablecer filtros</button>
     </div>
     <div class="event-grid">
       <article class="night-card" *ngFor="let card of view.cards; trackBy: trackEvent">

@@ -35,35 +35,36 @@ describe('NochesComponent', () => {
     return fixture.nativeElement;
   }
 
-  it('muestra tres eventos con fechas, imágenes, rutas por ID y un finalizado', check(() => {
+  it('muestra solo próximas noches sin filtros ni eventos anteriores', check(() => {
     const page = render();
-    expect(page.querySelectorAll('.night-card').length).toBe(3);
-    expect(page.querySelectorAll('.ended').length).toBe(1);
-    expect(page.querySelectorAll('.badge-demo').length).toBe(3);
-    expect(page.querySelector('.details-link')?.getAttribute('href')).toBe('/noches/demo-void-sessions');
+    expect(page.querySelectorAll('.night-card').length).toBe(2);
+    expect(page.querySelectorAll('.ended').length).toBe(0);
+    expect(page.querySelector('.filters')).toBeNull();
+    expect(page.querySelectorAll('.badge-demo').length).toBe(2);
+    expect(page.querySelector('.details-link')?.getAttribute('href')).toBe('/noches/demo-after-hours');
     expect(page.textContent).toContain('23:00');
   }));
 
-  it('filtra próximos, anteriores y todos utilizando el reloj del sistema', check(() => {
-    const page = render();
-    fixture.componentInstance.setPeriod('upcoming'); fixture.detectChanges();
-    expect(page.querySelectorAll('.night-card').length).toBe(2);
-    fixture.componentInstance.setPeriod('past'); fixture.detectChanges();
-    expect(page.querySelectorAll('.night-card').length).toBe(1);
-    expect(page.querySelector('.night-card h2')?.textContent).toBe('VOID Sessions');
-    fixture.componentInstance.setPeriod('all'); fixture.detectChanges();
-    expect(page.querySelectorAll('.night-card').length).toBe(3);
+  it('incluye eventos del mismo día aunque hayan terminado', check(() => {
+    spyOn(Date, 'now').and.returnValue(Date.parse('2026-11-08T21:00:00Z'));
+    events.getEvents.and.returnValue(of([{ ...MOCK_EVENTS[0], startsAt: '2026-11-08T01:00:00-03:00', endsAt: '2026-11-08T05:00:00-03:00' }]));
+    expect(render().querySelectorAll('.night-card').length).toBe(1);
   }));
 
-  it('combina categoría y período, muestra sin coincidencias y restablece', check(() => {
+  it('mantiene una noche en curso iniciada el día anterior', check(() => {
+    spyOn(Date, 'now').and.returnValue(Date.parse('2026-11-08T06:00:00Z'));
+    events.getEvents.and.returnValue(of([{ ...MOCK_EVENTS[0] }]));
+    expect(render().textContent).toContain('En curso');
+  }));
+
+  it('cambia de día según UTC−3 y oculta noches anteriores', check(() => {
+    spyOn(Date, 'now').and.returnValue(Date.parse('2026-11-09T02:59:00Z'));
+    events.getEvents.and.returnValue(of([{ ...MOCK_EVENTS[0], startsAt: '2026-11-08T01:00:00-03:00', endsAt: '2026-11-08T05:00:00-03:00' }]));
     const page = render();
-    fixture.componentInstance.setCategory('Tech house'); fixture.detectChanges();
     expect(page.querySelectorAll('.night-card').length).toBe(1);
-    expect(page.textContent).toContain('After Hours');
-    fixture.componentInstance.setPeriod('past'); fixture.detectChanges();
-    expect(page.textContent).toContain('No hay eventos que coincidan');
-    fixture.componentInstance.resetFilters(); fixture.detectChanges();
-    expect(page.querySelectorAll('.night-card').length).toBe(3);
+    (Date.now as jasmine.Spy).and.returnValue(Date.parse('2026-11-09T03:00:00Z'));
+    tick(30000); fixture.detectChanges();
+    expect(page.querySelectorAll('.night-card').length).toBe(0);
   }));
 
   it('distingue un catálogo vacío de filtros sin coincidencias', check(() => {
@@ -73,12 +74,11 @@ describe('NochesComponent', () => {
 
   it('actualiza el período si el tiempo pasa mientras la pantalla está abierta', check(() => {
     const page = render();
-    fixture.componentInstance.setPeriod('upcoming'); fixture.detectChanges();
     expect(page.querySelectorAll('.night-card').length).toBe(2);
     spyOn(Date, 'now').and.returnValue(Date.parse('2026-11-23T18:00:00Z'));
     tick(30000); fixture.detectChanges();
     expect(page.querySelectorAll('.night-card').length).toBe(0);
-    expect(page.textContent).toContain('No hay eventos que coincidan');
+    expect(page.textContent).toContain('Aún no hay noches programadas');
   }));
 
   it('muestra carga mientras la fuente no responde', check(() => {
@@ -96,6 +96,6 @@ describe('NochesComponent', () => {
     expect(page.textContent).toContain('No pudimos cargar las noches');
     events.getEvents.and.returnValue(of(MOCK_EVENTS.map(event => ({ ...event }))));
     fixture.componentInstance.retry(); fixture.detectChanges();
-    expect(page.querySelectorAll('.night-card').length).toBe(3);
+    expect(page.querySelectorAll('.night-card').length).toBe(2);
   }));
 });

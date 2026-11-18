@@ -45,7 +45,8 @@ describe('InicioComponent', () => {
     expect(page.querySelectorAll('.featured-card').length).toBe(3);
     expect(page.textContent).toContain('Evento');
     expect(page.textContent).toContain('no están a la venta');
-    expect(page.textContent).toContain('Los pagos todavía no están habilitados');
+    expect(page.querySelector('.experience')).toBeNull();
+    expect(page.textContent).not.toContain('Todo empieza en tu celular');
   });
 
   it('navega con Angular Router desde cada acceso rápido', async () => {

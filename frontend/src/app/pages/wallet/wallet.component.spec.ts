@@ -44,26 +44,18 @@ describe('WalletComponent', () => {
     expect(page.querySelectorAll('.activity-card .record-demo').length).toBe(0);
     expect(page.textContent).toContain('no es un comprobante');
   }));
-  it('calcula indicadores con cantidades y busca el próximo evento elegible', check(()=>{
-    data.tickets=data.tickets.slice(1);
-    data.drinks[0].quantity=7;
+  it('presenta las pestañas sin indicadores ni próxima noche asociada', check(()=>{
     const page=render();
-    expect(page.querySelector('[data-metric="tickets"]')?.textContent).toBe('2');
-    expect(page.querySelector('[data-metric="drinks"]')?.textContent).toBe('9');
-    expect(page.querySelector('.next-event strong')?.textContent).toBe(data.drinks[0].event.name);
-  }));
-  it('no ofrece próximos eventos pasados y actualiza el indicador al pasar el tiempo', check(()=>{
-    const page=render();
-    expect(page.textContent).not.toContain('Sin próximas fechas');
-    spyOn(Date, 'now').and.returnValue(Date.parse('2027-01-01T00:00:00Z'));
-    tick(60000);fixture.detectChanges();expect(page.textContent).toContain('Sin próximas fechas');
+    expect(page.querySelector('.overview')).toBeNull();
+    expect(page.querySelector('[data-metric]')).toBeNull();
+    expect(page.textContent).not.toContain('Próxima noche asociada');
+    expect(page.querySelectorAll('[role="tab"]').length).toBe(3);
   }));
   it('muestra cada estado vacío sin inventar registros', check(()=>{
     service.getWallet.and.returnValue(of({tickets:[],drinks:[],activities:[]}));const page=render();
     expect(page.textContent).toContain('Aún no hay entradas');expect(page.querySelector('a')?.getAttribute('href')).toBe('/noches');
     tab('drinks');expect(page.textContent).toContain('Aún no hay consumos');expect(page.querySelector('a')?.getAttribute('href')).toBe('/tragos');
     tab('history');expect(page.textContent).toContain('Aún no hay movimientos');
-    expect(page.querySelector('[data-metric="drinks"]')?.textContent).toBe('0');
   }));
   it('muestra carga mientras espera la respuesta y luego registros', check(()=>{
     const source=new Subject<WalletData>();service.getWallet.and.returnValue(source);const page=render();

@@ -5,7 +5,6 @@ import { ClubEvent } from '../../models/event.model';
 import { EventsService } from '../../services/events.service';
 import { eventStatus, eventStatusLabel } from '../../utils/event-time';
 
-type Period = 'all' | 'upcoming' | 'past';
 interface EventsState {
   loading: boolean;
   error: boolean;
@@ -19,13 +18,6 @@ interface EventsState {
   standalone: false
 })
 export class NochesComponent {
-  readonly periods: { value: Period; label: string }[] = [
-    { value: 'all', label: 'Todos' },
-    { value: 'upcoming', label: 'Próximos' },
-    { value: 'past', label: 'Anteriores' }
-  ];
-  private readonly period$ = new BehaviorSubject<Period>('all');
-  private readonly category$ = new BehaviorSubject<string>('');
   private readonly reload$ = new BehaviorSubject<void>(undefined);
   private readonly state$ = this.reload$.pipe(switchMap(() =>
     defer(() => this.events.getEvents()).pipe(
@@ -34,27 +26,21 @@ export class NochesComponent {
       catchError(() => of<EventsState>({ loading: false, error: true, events: [] }))
     )
   ));
-  readonly view$ = combineLatest([
-    this.state$, this.period$, this.category$, timer(0, 30000)
-  ]).pipe(map(([state, period, category]) => {
+  readonly view$ = combineLatest([this.state$, timer(0, 30000)]).pipe(map(([state]) => {
     const now = Date.now();
+    // Same UTC−3 calendar day used by the client date labels.
+    const today = new Date(now - 3 * 60 * 60 * 1000).toISOString().slice(0, 10);
     const cards = state.events.filter(event => {
-      const status = eventStatus(event, now);
-      return (period === 'all' || (period === 'upcoming' && status === 'upcoming') ||
-        (period === 'past' && status === 'ended')) && (!category || event.category === category);
+      const startsAt = Date.parse(event.startsAt);
+      const day = new Date(startsAt - 3 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      return day >= today || eventStatus(event, now) === 'ongoing';
     }).map(event => ({ event, status: eventStatus(event, now) }));
-    return {
-      ...state, cards, period, category,
-      categories: [...new Set(state.events.map(event => event.category))].sort()
-    };
+    return { ...state, cards };
   }));
   readonly statusLabel = eventStatusLabel;
 
   constructor(private events: EventsService) {}
 
-  setPeriod(period: Period): void { this.period$.next(period); }
-  setCategory(category: string): void { this.category$.next(category); }
-  resetFilters(): void { this.period$.next('all'); this.category$.next(''); }
   retry(): void { this.reload$.next(); }
   trackEvent(_: number, card: { event: ClubEvent }): string { return card.event.id; }
 }
