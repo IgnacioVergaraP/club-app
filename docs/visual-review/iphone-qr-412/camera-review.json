@@ -1,0 +1,82 @@
+{
+  "date": "2026-11-19",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "label": "bar-software-read",
+      "width": 320
+    },
+    {
+      "label": "bar-software-read",
+      "width": 390
+    },
+    {
+      "label": "bar-software-read",
+      "width": 768
+    },
+    {
+      "label": "bar-software-read",
+      "width": 1280
+    },
+    {
+      "label": "bar-used",
+      "width": 320
+    },
+    {
+      "label": "bar-used",
+      "width": 390
+    },
+    {
+      "label": "bar-used",
+      "width": 768
+    },
+    {
+      "label": "bar-used",
+      "width": 1280
+    },
+    {
+      "label": "door-software-read",
+      "width": 320
+    },
+    {
+      "label": "door-software-read",
+      "width": 390
+    },
+    {
+      "label": "door-software-read",
+      "width": 768
+    },
+    {
+      "label": "door-software-read",
+      "width": 1280
+    }
+  ],
+  "screenshots": [
+    "bar-software-read-390.png",
+    "bar-software-read-1280.png",
+    "bar-used-390.png",
+    "bar-used-1280.png",
+    "door-software-read-390.png",
+    "door-software-read-1280.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [],
+  "paid": false,
+  "camera": {
+    "source": "Synthetic camera stream drawn from real local Wallet SVGs; BarcodeDetector removed; real bundled jsQR decoding",
+    "physicalCameraTested": false,
+    "iPhoneTested": false,
+    "requests": 4,
+    "noPermissionOnEntry": true,
+    "noDecoderLoadedBeforeActivation": true,
+    "qrStopsCamera": true,
+    "duplicateQrRejected": true,
+    "walletStateUpdated": true,
+    "manualAvailableAfterDenied": true
+  },
+  "result": "PASS"
+}

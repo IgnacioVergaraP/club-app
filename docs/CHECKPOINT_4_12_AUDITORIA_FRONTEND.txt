@@ -253,3 +253,32 @@ Tras nueva observación del Product Owner se comprobó un defecto a 320 px: etiq
 - Build aprobado; SCSS 3,97 kB sin elevar presupuestos. Suite Angular 518/518 aprobada. Chrome real, cuatro anchos 320/390/768/1280: controles dentro de sus grupos, sin scroll horizontal; capturas inspeccionadas de 320 y 390 muestran los valores completos. Se repitieron propuesta de término, validación de 24 horas, resumen, Atrás/Continuar y ayuda por teclado; cero errores o escrituras HTTP.
 - Evidencia: docs/visual-review/event-schedule-refit-412/. No se comprobó físicamente Safari/iOS.
 Sin despliegue ni avance a otra subetapa.
+
+
+26. CORRECCIÓN DE LECTOR QR PARA IPHONE/PWA — 19-11-2026
+Diagnóstico: el adaptador anterior exigía BarcodeDetector/getSupportedFormats antes de solicitar getUserMedia. Cuando Safari/iOS no expone esa API de detección, el flujo terminaba sin pedir la cámara. No era por sí solo evidencia de permiso denegado. Product Owner autorizó expresamente añadir una dependencia para resolver esta compatibilidad.
+
+Implementación:
+- Añadido jsqr 1.4.0, versión exacta, licencia Apache-2.0, sin dependencias transitivas ni scripts de instalación ejecutados. Package-lock solo añade este paquete; no se actualizan otras dependencias.
+- Nuevo lector local basado en canvas/jsQR: procesa fotogramas con dimensión máxima de 960 px, admite contraste normal/invertido y devuelve el texto QR al flujo ya existente. No sube ni persiste imágenes. Libera el buffer al detenerse.
+- Se conserva el detector nativo cuando soporta qr_code. Sin detector, sin ese formato o ante fallo de la implementación nativa se utiliza el lector local alternativo, sin solicitar un segundo stream de cámara.
+- getUserMedia se invoca directamente desde la activación, antes de importar el decoder o consultar formatos. Cámara trasera preferida, audio:false, video muted/playsinline/autoplay. Sin permiso automático al entrar.
+- La dependencia se carga mediante import dinámico solo si el lector alternativo es necesario. El precache PWA existente puede descargar anticipadamente el archivo, pero el lector no se inicializa al entrar.
+- Se conservan lectura -> inspección -> confirmación explícita y reglas de QR/PIN compartidas. No se cambia canje, backend, Fintoc, pagos o autenticación.
+- Cancelación por usuario, salida, pestaña oculta, permisos tardíos y resultados tardíos conservan protección por generación; streams y lector se liberan. Errores de HTTPS, permisos, cámara ausente/en uso y lectura mantienen la entrada manual y mensajes diferenciados.
+
+Archivos:
+- Nuevos: frontend/src/app/staff/qr-software-detector.ts y qr-software-detector.spec.ts.
+- Modificados: frontend/package.json, package-lock.json, staff/qr-camera.service.ts, qr-camera.component.ts y qr-camera.spec.ts.
+- Documentación y evidencia: este checkpoint y docs/visual-review/iphone-qr-412/.
+
+Pruebas y límites:
+- Suite Angular completa: 527/527 aprobadas, nueve pruebas adicionales. Incluye decodificación real de SVG de entrada/trago con logo, imágenes grandes y vacías; adaptador sin API nativa, fallo nativo, permisos denegados, carga tardía/fallida, disposición y rechazo de respuestas tardías.
+- Build producción aprobado. Inicial 775,14 kB, transferencia estimada 160,22 kB; chunk alternativo 128,20 kB, transferencia estimada 26,30 kB. jsQR genera advertencia CommonJS/no ESM, además de advertencias previas de tamaños/Bootstrap. No se ocultaron advertencias ni elevaron presupuestos. Licencia incluida en 3rdpartylicenses.txt generado.
+- Chrome Headless real con BarcodeDetector ausente y stream sintético creado con canvas.captureStream de los SVG locales reales; no se simuló la respuesta del decoder jsQR. Tragos y entradas leídos, canje/ingreso confirmado explícitamente, doble uso rechazado, Wallet actualizada y denegación de permiso con entrada manual disponible. Tracks terminados tras lectura.
+- Doce combinaciones a 320/390/768/1280 px y seis capturas. Sin scroll horizontal, excepciones, errores de consola, recursos HTTP >=400 ni escrituras HTTP. Sin petición de cámara ni carga dinámica del lector al entrar; verificados tras activación.
+- Manifiesto de producción: hash del nuevo chunk presente y precache existente lo incluye; cero dataGroups. No se cambió ngsw-config.json. Staff sigue sin garantía nueva de arranque frío offline, porque sus rutas no forman parte del fallback existente.
+- NO se probó cámara física ni Safari/iOS instalado. La prueba de vídeo sintético en Chrome no certifica enfoque, luz, permisos ni lifecycle de una PWA de iPhone.
+- Para validar físicamente hace falta desplegar esta versión, actualizar la PWA y probar Activar cámara permitiendo el acceso. No se despliega automáticamente; el sitio remoto sigue dependiendo de la versión que se publique.
+Referencias técnicas consultadas: https://github.com/cozmo/jsQR y https://github.com/mdn/browser-compat-data/blob/main/api/BarcodeDetector.json.
+Sin commit, push, despliegue ni otra subetapa. Pendiente prueba del Product Owner en iPhone.
