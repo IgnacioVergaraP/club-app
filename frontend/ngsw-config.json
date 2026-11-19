@@ -7,6 +7,6 @@
     {"name": "void-local-assets", "installMode": "prefetch", "updateMode": "prefetch", "resources": {"files": ["/assets/events/**", "/assets/drinks/**", "/assets/qr-demo/**", "/assets/admin/void-logo.svg", "/assets/pwa/**", "/assets/**/*.woff", "/assets/**/*.woff2"]}}
   ],
   "dataGroups": [],
-  "navigationUrls": ["/", "/wallet", "/noches", "/noches/**", "/tragos", "/perfil", "!/**/*.*", "!/**/*__*"],
+  "navigationUrls": ["/", "/inicio", "/wallet", "/noches", "/noches/**", "/tragos", "/perfil", "!/**/*.*", "!/**/*__*"],
   "navigationRequestStrategy": "performance"
 }

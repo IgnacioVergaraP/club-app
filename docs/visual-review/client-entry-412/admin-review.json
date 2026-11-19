@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-19",
+  "browser": "Chrome Headless real, isolated profile; local Angular development; no payment session created",
+  "matrix": [
+    {
+      "width": 320,
+      "route": "/tragos"
+    },
+    {
+      "width": 390,
+      "route": "/tragos"
+    },
+    {
+      "width": 768,
+      "route": "/tragos"
+    },
+    {
+      "width": 1280,
+      "route": "/tragos"
+    }
+  ],
+  "screenshots": [
+    "tragos-entry-390.png"
+  ],
+  "keyboard": [],
+  "flows": {},
+  "errors": [],
+  "writes": [],
+  "httpErrors": [],
+  "checks": [
+    "Root / -> /tragos; five tabs; /inicio remains accessible; admin return and client profile -> /tragos; manifest start_url /tragos"
+  ],
+  "paid": false,
+  "result": "PASS"
+}

@@ -26,7 +26,8 @@ const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: '',        component: InicioComponent,  pathMatch: 'full' },
+      { path: '', redirectTo: 'tragos', pathMatch: 'full' },
+      { path: 'inicio', component: InicioComponent },
       { path: 'noches',  component: NochesComponent },
       { path: 'noches/:eventId', component: EventDetailComponent },
       { path: 'entradas/resumen', component: TicketSummaryComponent, canActivate: [ticketSelectionGuard] },

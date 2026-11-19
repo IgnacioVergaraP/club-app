@@ -282,3 +282,13 @@ Pruebas y límites:
 - Para validar físicamente hace falta desplegar esta versión, actualizar la PWA y probar Activar cámara permitiendo el acceso. No se despliega automáticamente; el sitio remoto sigue dependiendo de la versión que se publique.
 Referencias técnicas consultadas: https://github.com/cozmo/jsQR y https://github.com/mdn/browser-compat-data/blob/main/api/BarcodeDetector.json.
 Sin commit, push, despliegue ni otra subetapa. Pendiente prueba del Product Owner en iPhone.
+
+
+27. ENTRADA DEL CLIENTE DIRECTAMENTE A TRAGOS — 19-11-2026
+- La raíz / redirige a /tragos. Seleccionar el perfil Cliente lleva directamente a /tragos; regresar a la aplicación cliente desde administración usa la misma entrada.
+- Inicio se conserva en /inicio y su pestaña/logo apuntan a esa ruta. Permanecen las cinco pestañas, en el orden aprobado.
+- Manifest PWA: start_url pasa de /wallet a /tragos, manteniendo id y scope. Se añade /inicio al fallback de navegación PWA para conservar esa pantalla offline. Los enlaces directos existentes a /wallet y /noches siguen funcionando.
+- Archivos: app-routing.module.ts, auth/session.model.ts, layout/bottom-nav/bottom-nav.component.ts/.html, layout/header/header.component.html, manifest.webmanifest y ngsw-config.json.
+- Suite Angular 527/527 y build producción aprobados. Chrome verificó raíz, pestaña Inicio, cinco pestañas, regreso desde administración y perfil Cliente. Tragos a 320/390/768/1280 px sin scroll horizontal. Sin errores de consola/HTTP o escrituras HTTP durante la prueba. Manifest servido verificado con start_url=/tragos.
+- Evidencia: docs/visual-review/client-entry-412/.
+Sin cambios en pagos/backend ni despliegue. El cambio del arranque en una PWA ya instalada depende de que reciba la nueva versión del manifiesto.

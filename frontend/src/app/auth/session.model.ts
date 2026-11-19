@@ -7,5 +7,5 @@ export interface RegistrationRequest extends LoginRequest {firstName:string;last
 export interface AuthResponse {status:'unavailable';message:string;}
 /** Un proveedor comercial futuro deberá validar identidad y permisos en servidor. */
 export abstract class AuthProvider {abstract signIn(request:LoginRequest):Observable<AuthResponse>;abstract register(request:RegistrationRequest):Observable<AuthResponse>;abstract recover(email:string):Observable<AuthResponse>;}
-export const ROLE_DESTINATIONS:Record<UserRole,string>={client:'/',admin:'/admin',supervisor:'/admin/ventas',bar:'/staff/barra',door:'/staff/puerta'};
+export const ROLE_DESTINATIONS:Record<UserRole,string>={client:'/tragos',admin:'/admin',supervisor:'/admin/ventas',bar:'/staff/barra',door:'/staff/puerta'};
 export const ROLE_LABELS:Record<UserRole,string>={client:'Cliente',admin:'Administrador',supervisor:'Supervisor',bar:'Barra',door:'Puerta'};

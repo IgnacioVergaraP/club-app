@@ -4,7 +4,7 @@
   "short_name": "VOID",
   "description": "Club VOID · Wallet y canje por PIN exclusivamente DEMO.",
   "lang": "es-CL",
-  "start_url": "/wallet",
+  "start_url": "/tragos",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0B0B0F",
